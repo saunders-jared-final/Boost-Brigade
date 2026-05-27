@@ -1,0 +1,12 @@
+﻿# MATLAB
+*.asv
+*.m~
+*.mex*
+
+# Simulink
+slprj/
+*.slxc
+codegen/
+
+# General
+*.tmp
