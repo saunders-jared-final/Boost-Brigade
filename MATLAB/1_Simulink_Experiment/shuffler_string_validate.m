@@ -26,12 +26,20 @@ irrBlk =   [mdl '/Irradiance 3'];      % module-3 irradiance Constant
 vmSig  = {'VM1','VM2','VM3','VM4'};
 ilSig  = {'ILA1','ILB1'; 'ILA2','ILB2'; 'ILA3','ILB3'};
 dutySig= {'dA1','dB1','dA2','dB2','dA3','dB3'};   % optional; skipped if not logged
+pvISig = {'IM1','IM2','IM3','IM4'};               % PV Out_Current (To Workspace)
+I_RATED = 10;                                     % shuffler current rating [A] — match supervisor
+% M3 per-irradiance MPP for the harvest ceiling (refine 200-point from module model)
+pmp3 = @(g) interp1([0 200 500 1000],[0 111 277 555], g);
 
-% [name, irr3, rv1 rv2 rv3]
-tests = { 'uniform-zero  ', 1000, [0  0  0];
-          'decoupling    ', 1000, [0  2  0];
-          'shade-balanced',  500, [0  0  0];
-          'shade-refs    ',  500, [0  2 -2] };
+% [name, irr3, rv1 rv2 rv3, Tstop, mode]  mode: 'track' = vd must hit refs;
+%                                          'protect' = duties must stay off rails
+tests = { 'uniform-zero  ', 1000, [0  0  0], 0.06, 'track';
+          'decoupling    ', 1000, [0  2  0], 0.06, 'track';
+          'shade-balanced',  500, [0  0  0], 0.06, 'track';
+          'shade-refs    ',  500, [0  2 -2], 0.06, 'track';
+          'shade-deep    ',  200, [0  0  0], 0.40, 'protect';
+          'mppt-uniform  ', 1000, [0  0  0], 2.00, 'mppt';
+          'mppt-shade    ',  500, [0  0  0], 2.00, 'mppt' };
 %% --------------------------------------------------------------------
 
 load_system(mdl);
@@ -43,6 +51,7 @@ wpp   = @(ts,t0)    max(ts.Data(ts.Time>=t0)) - min(ts.Data(ts.Time>=t0));
 
 for k = 1:size(tests,1)
     nm = tests{k,1};  irr3 = tests{k,2};  rv = tests{k,3};
+    Tstop = tests{k,4};  mode = tests{k,5};
     set_param(irrBlk,'Value',num2str(irr3));
     for j = 1:3, set_param(refBlk{j},'Value',num2str(rv(j))); end
     out = sim(mdl,'StopTime',num2str(Tstop));
@@ -76,8 +85,30 @@ for k = 1:size(tests,1)
     catch, fprintf('  duties  : (not logged - add To Workspace on dA1..dB3 to check railing)\n');
     end
 
-    ok = all(abs(vd-rv)<0.25) && all(abs(ic)<1) && all(abs(vdDft)<0.05) && all(abs(icDft)<0.5);
-    fprintf('  --> %s\n', ternary(ok,'PASS','CHECK: not settled on refs'));
+    P = nan(1,4);
+    try   % module powers, if PV currents logged
+        for m=1:4, ts=out.(pvISig{m}); P(m)=vm(m)*wmean(ts,t1,Tstop); end
+        Pc = 3*555 + pmp3(irr3);
+        fprintf('  P_mod   = [%7.1f %7.1f %7.1f %7.1f] W   total = %.1f W  (%.1f%% of %d W ceiling)\n', ...
+                P, sum(P), 100*sum(P)/Pc, round(Pc));
+    catch, fprintf('  P_mod   : (not logged - add To Workspace IM1..IM4 on each PV Out_Current)\n');
+    end
+
+    settled = all(abs(vdDft)<0.05) && all(abs(icDft)<0.5);
+    if strcmp(mode,'track')
+        ok = settled && all(abs(vd-rv)<0.25) && all(abs(ic)<1);
+        msg = 'CHECK: not settled on refs';
+    elseif strcmp(mode,'mppt')
+        % pass = settled AND the climber found (and parked at) the top
+        Pc  = 3*555 + pmp3(irr3);
+        ok  = settled && ~any(isnan(P)) && sum(P) > 0.985*Pc;
+        msg = 'CHECK: below 98.5% of ceiling (or IM1..4 not logged)';
+    else  % 'protect': supervisor may hold vd off the manual refs on purpose;
+          % pass = settled, ic regulated, shuffled current INSIDE the rating
+        ok = settled && all(abs(ic)<1) && all(abs(idf)<=I_RATED);
+        msg = sprintf('CHECK: not settled or |i_diff| > %g A rating', I_RATED);
+    end
+    fprintf('  --> %s\n', ternary(ok,'PASS',msg));
 end
 
 function s = ternary(c,a,b), if c, s=a; else, s=b; end, end
