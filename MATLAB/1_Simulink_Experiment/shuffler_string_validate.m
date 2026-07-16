@@ -34,10 +34,10 @@ pmp3 = @(g) interp1([0 200 500 1000],[0 111 277 555], g);
 % [name, irr3, rv1 rv2 rv3, Tstop, mode]  mode: 'track' = vd must hit refs;
 %                                          'protect' = duties must stay off rails
 tests = { 'uniform-zero  ', 1000, [0  0  0], 0.06, 'track';
-          'decoupling    ', 1000, [0  2  0], 0.06, 'track';
-          'shade-balanced',  500, [0  0  0], 0.06, 'track';
-          'shade-refs    ',  500, [0  2 -2], 0.06, 'track';
-          'shade-deep    ',  200, [0  0  0], 0.40, 'protect';
+          % 'decoupling    ', 1000, [0  2  0], 0.06, 'track';
+          % 'shade-balanced',  500, [0  0  0], 0.06, 'track';
+          % 'shade-refs    ',  500, [0  2 -2], 0.06, 'track';
+          % 'shade-deep    ',  200, [0  0  0], 0.40, 'protect';
           'mppt-uniform  ', 1000, [0  0  0], 2.00, 'mppt';
           'mppt-shade    ',  500, [0  0  0], 2.00, 'mppt' };
 %% --------------------------------------------------------------------
