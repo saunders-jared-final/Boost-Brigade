@@ -33,28 +33,38 @@ pmp3 = @(g) interp1([0 200 500 1000],[0 111 277 555], g);
 
 % [name, irr3, rv1 rv2 rv3, Tstop, mode]  mode: 'track' = vd must hit refs;
 %                                          'protect' = duties must stay off rails
+% Dev iteration: run only what you're working on (uncomment rows as needed).
+% Tests 1-5 have passed; re-run the FULL suite once at the very end (and after
+% the Ts=50us / load-swap changes, run uniform-zero once as a cheap regression).
 tests = { 'uniform-zero  ', 1000, [0  0  0], 0.06, 'track';
-          % 'decoupling    ', 1000, [0  2  0], 0.06, 'track';
-          % 'shade-balanced',  500, [0  0  0], 0.06, 'track';
-          % 'shade-refs    ',  500, [0  2 -2], 0.06, 'track';
-          % 'shade-deep    ',  200, [0  0  0], 0.40, 'protect';
-          'mppt-uniform  ', 1000, [0  0  0], 2.00, 'mppt';
-          'mppt-shade    ',  500, [0  0  0], 2.00, 'mppt' };
+        % 'decoupling    ', 1000, [0  2  0], 0.06, 'track';
+        % 'shade-balanced',  500, [0  0  0], 0.06, 'track';
+        % 'shade-refs    ',  500, [0  2 -2], 0.06, 'track';
+        % 'shade-deep    ',  200, [0  0  0], 0.40, 'protect';
+          'mppt-uniform  ', 1000, [0  0  0], 0.60, 'mppt' };
+        % 'mppt-shade    ',  500, [0  0  0], 0.60, 'mppt' };
 %% --------------------------------------------------------------------
 
 load_system(mdl);
+set_param(mdl,'SimulationMode','accelerator');   % compiled sim, works with Fast Restart
 set_param(mdl,'FastRestart','on');
 cleanup = onCleanup(@() set_param(mdl,'FastRestart','off'));
 
 wmean = @(ts,t0,t1) mean(ts.Data(ts.Time>=t0 & ts.Time<t1));
 wpp   = @(ts,t0)    max(ts.Data(ts.Time>=t0)) - min(ts.Data(ts.Time>=t0));
 
-for k = 1:size(tests,1)
+nT = size(tests,1);
+hwb = waitbar(0,'Starting...','Name','shuffler\_string\_validate');
+wbClean = onCleanup(@() delete(hwb(ishandle(hwb))));
+
+for k = 1:nT
     nm = tests{k,1};  irr3 = tests{k,2};  rv = tests{k,3};
     Tstop = tests{k,4};  mode = tests{k,5};
+    waitbar((k-1)/nT, hwb, sprintf('Test %d/%d: %s  (simulating %.2f s...)', k, nT, strtrim(nm), Tstop));
     set_param(irrBlk,'Value',num2str(irr3));
     for j = 1:3, set_param(refBlk{j},'Value',num2str(rv(j))); end
     out = sim(mdl,'StopTime',num2str(Tstop));
+    waitbar(k/nT, hwb, sprintf('Test %d/%d: %s  (done)', k, nT, strtrim(nm)));
 
     t1 = Tstop - Tavg;  t0 = Tstop - 2*Tavg;      % last window / window before
     vm  = zeros(1,4); for m=1:4, ts=out.(vmSig{m}); vm(m)=wmean(ts,t1,Tstop); end
@@ -109,6 +119,45 @@ for k = 1:size(tests,1)
         msg = sprintf('CHECK: not settled or |i_diff| > %g A rating', I_RATED);
     end
     fprintf('  --> %s\n', ternary(ok,'PASS',msg));
+
+    % ---- grouped raw-signal plots for this run ----
+    plot_run(out, strtrim(nm));
+    drawnow;
+
+    if k < nT
+        input('  [Enter] to run the next test... ','s');
+    end
+end
+
+function plot_run(out, nm)
+groups = { {'VM1','VM2','VM3','VM4'},  'Module voltages [V]';
+           {'IM1','IM2','IM3','IM4'},  'Module currents [A]';
+           {'dA1','dB1'},              'Duties — Shuffler 1';
+           {'ILA1','ILB1'},            'Inductor currents S1 [A]';
+           {'dA2','dB2'},              'Duties — Shuffler 2';
+           {'ILA2','ILB2'},            'Inductor currents S2 [A]';
+           {'dA3','dB3'},              'Duties — Shuffler 3';
+           {'ILA3','ILB3'},            'Inductor currents S3 [A]' };
+figure('Name',['validate: ' nm],'NumberTitle','off');
+tl = tiledlayout(4,2,'TileSpacing','compact','Padding','compact');
+title(tl, nm, 'Interpreter','none');
+for g = 1:size(groups,1)
+    nexttile; hold on; grid on;
+    shown = {};
+    for s = 1:numel(groups{g,1})
+        sg = groups{g,1}{s};
+        try
+            ts = out.(sg);
+            plot(ts.Time, ts.Data);
+            shown{end+1} = sg; %#ok<AGROW>
+        catch
+        end
+    end
+    title(groups{g,2});
+    if isempty(shown), text(0.5,0.5,'(not logged)','HorizontalAlignment','center');
+    else, legend(shown,'Location','best'); end
+    if g >= 7, xlabel('t [s]'); end
+end
 end
 
 function s = ternary(c,a,b), if c, s=a; else, s=b; end, end
