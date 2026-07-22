@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//mnt/c/Users/jazsa/Documents/Boost-Brigade/MATLAB/**)",
+      "Bash(git -C /mnt/c/Users/jazsa/Documents/Boost-Brigade rev-parse --show-toplevel)",
+      "Bash(gcc --version)",
+      "Bash(cmake --version)",
+      "Bash(avr-gcc --version)",
+      "Bash(python3 *)"
+    ]
+  }
+}
