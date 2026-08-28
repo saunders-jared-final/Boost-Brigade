@@ -887,6 +887,26 @@
 			(embedded_fonts no)
 		)
 	)
+	(text "Dcoupling cap\n"
+		(exclude_from_sim no)
+		(at 43.942 49.784 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "2361d05d-88f4-47cc-8ce1-c0eaa7a4c529")
+	)
+	(text "Dcoupling cap\n"
+		(exclude_from_sim no)
+		(at 171.196 50.8 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+		)
+		(uuid "c11a9475-5a98-44ed-b1bc-80de408ad428")
+	)
 	(junction
 		(at 120.65 80.01)
 		(diameter 0)
@@ -1761,7 +1781,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "0223a003-f7a9-4d92-add0-1fecc5c61204")
-		(property "Reference" "#PWR01"
+		(property "Reference" "#PWR04"
 			(at 73.66 54.61 0)
 			(hide yes)
 			(show_name no)
@@ -1816,16 +1836,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "4b8a656f-5052-4068-ba94-8da376a423f2")
+			(uuid "6f40aa45-0e14-42a1-8291-16fe0de92c49")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR01")
+					(reference "#PWR04")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR01")
+					(reference "#PWR026")
 					(unit 1)
 				)
 			)
@@ -1843,7 +1863,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "1f15b1e1-f1ad-4636-9816-62dae16cf528")
-		(property "Reference" "C52"
+		(property "Reference" "C12"
 			(at 167.64 55.8862 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -1865,7 +1885,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
 			(at 165.1 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -1887,7 +1907,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "12105C106KAT2A"
 			(at 165.1 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -1899,19 +1919,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "21db49c3-f1f1-420c-8394-42085a1a08b3")
+			(uuid "c77828c9-c14f-49c7-ba9a-cb44a096efa8")
 		)
 		(pin "2"
-			(uuid "216d698c-3890-4fd3-8fd4-80317003c03d")
+			(uuid "9be9b449-3c86-458f-abc0-773d7bfc4a25")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C52")
+					(reference "C12")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C52")
+					(reference "C35")
 					(unit 1)
 				)
 			)
@@ -1927,10 +1947,9 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "269eb71c-4bb5-46e6-a27a-c5ea155997a6")
-		(property "Reference" "U2"
-			(at 97.79 52.07 0)
+		(property "Reference" "U4"
+			(at 98.552 51.816 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -1949,7 +1968,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DVG0010A-MFG"
+		(property "Footprint" "TMCS1126:DVG0010A-MFG"
 			(at 80.01 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -1985,43 +2004,43 @@
 			)
 		)
 		(pin "7"
-			(uuid "c81bc887-10b5-48c7-b89e-b0b4649df61e")
+			(uuid "d3835db6-daea-44f7-ab01-5af683b27960")
 		)
 		(pin "9"
-			(uuid "241a6eb2-01d4-40dc-811c-b15e610910f6")
+			(uuid "8783da11-d632-4915-8a36-2b76dbb962ea")
 		)
 		(pin "6"
-			(uuid "9e67a7e8-b4ac-4659-9f1f-3dfd5dfc9a67")
+			(uuid "a0fbd6e2-64b5-47b5-84da-a89ae9e25b7c")
 		)
 		(pin "4"
-			(uuid "5416d821-091c-49f6-883c-0fad46cd6eda")
+			(uuid "bc4ae7b5-7336-46a0-ab01-9652ee743db1")
 		)
 		(pin "3"
-			(uuid "1a25e62e-31d4-43c5-b7b4-8595512701bd")
+			(uuid "ad54e1f8-3f57-41c6-b1ab-c786934fb9e0")
 		)
 		(pin "2"
-			(uuid "515a9dcc-3297-4e9e-b7a8-484fc2a22e0e")
+			(uuid "aee29b62-ab1d-4095-b3d8-eea92a70aa29")
 		)
 		(pin "5"
-			(uuid "85be9705-a2b8-46ff-9a87-3b2e6b7f00b3")
+			(uuid "aa1ff546-7489-4a22-b20a-0c1fc7e2b00c")
 		)
 		(pin "1"
-			(uuid "e711dc76-240b-4438-9058-1c19d1aa7055")
+			(uuid "f7892dc0-1c42-42ae-9b12-78438cb26b11")
 		)
 		(pin "8"
-			(uuid "75254011-57fc-4e98-8498-082ef5945bb9")
+			(uuid "68fb4bb3-1398-44fa-a8dd-9660540253e7")
 		)
 		(pin "10"
-			(uuid "2592af94-6327-47da-9d87-da5a02543541")
+			(uuid "43c186f7-9e58-4173-b42c-9ec7eb604f38")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "U2")
+					(reference "U4")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "U2")
+					(reference "U8")
 					(unit 1)
 				)
 			)
@@ -2039,7 +2058,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "306f56d1-ae47-469c-a661-931c738551d4")
-		(property "Reference" "#PWR013"
+		(property "Reference" "#PWR07"
 			(at 171.45 101.6 0)
 			(hide yes)
 			(show_name no)
@@ -2094,16 +2113,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "439d1606-863b-46b4-89d8-1277c5895d08")
+			(uuid "985ca41a-9c5e-4134-8710-85fd687d2fcf")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR013")
+					(reference "#PWR07")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR013")
+					(reference "#PWR029")
 					(unit 1)
 				)
 			)
@@ -2121,7 +2140,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "31c56ad0-1f59-495e-82f6-b0e8f70b7499")
-		(property "Reference" "C50"
+		(property "Reference" "C9"
 			(at 40.64 55.8862 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2143,7 +2162,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
 			(at 38.1 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -2165,7 +2184,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "12105C106KAT2A"
 			(at 38.1 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -2177,19 +2196,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "f5d47541-c84d-4169-bb73-38ce9ef675fc")
+			(uuid "4e3f0768-6ac3-4b47-9d45-f697439f66f8")
 		)
 		(pin "2"
-			(uuid "6aaa2303-769a-4c40-99f9-991d5ebe6232")
+			(uuid "ad522e1c-c0e4-4469-9c51-9e0ce22c9974")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C50")
+					(reference "C9")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C50")
+					(reference "C32")
 					(unit 1)
 				)
 			)
@@ -2207,7 +2226,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "46761eef-c56c-4c73-b072-4c9025050ed0")
-		(property "Reference" "R61"
+		(property "Reference" "R10"
 			(at 181.61 71.1199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2229,7 +2248,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 177.292 72.39 90)
 			(hide yes)
 			(show_name no)
@@ -2263,19 +2282,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "ef67160c-169c-4688-bcb9-b859c912c7ed")
+			(uuid "ec306c3b-7f9d-4914-a44e-4959e9882bf7")
 		)
 		(pin "2"
-			(uuid "49f7d340-3619-4be1-81dc-36ab6c7d8178")
+			(uuid "891b2dc4-05bc-4e8f-8e96-31801d33ed21")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "R61")
+					(reference "R10")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "R61")
+					(reference "R33")
 					(unit 1)
 				)
 			)
@@ -2293,7 +2312,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "62466dbe-4d19-432b-9ecc-c23e852f3ef5")
-		(property "Reference" "R63"
+		(property "Reference" "R9"
 			(at 54.61 83.8199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2315,7 +2334,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 50.292 85.09 90)
 			(hide yes)
 			(show_name no)
@@ -2349,19 +2368,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "35102598-21cb-4e40-a737-537ee941c0d1")
+			(uuid "f5f9c033-0daf-46a1-a1a9-7eb35febfdd5")
 		)
 		(pin "2"
-			(uuid "7f1bc677-2581-41c9-a5c8-c37dad3ac7ee")
+			(uuid "c1cfaad0-9d88-4bde-9cb4-3a4396b184d0")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "R63")
+					(reference "R9")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "R63")
+					(reference "R32")
 					(unit 1)
 				)
 			)
@@ -2379,7 +2398,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "7145464f-854c-46ed-aa33-e67e0de3c094")
-		(property "Reference" "C54"
+		(property "Reference" "C10"
 			(at 40.64 83.8262 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2401,7 +2420,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
 			(at 38.1 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -2423,7 +2442,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "12105C106KAT2A"
 			(at 38.1 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -2435,19 +2454,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "5fcbbfec-79da-4835-be40-5f33bd93402a")
+			(uuid "cb7bc6f7-7526-422c-b838-f515e01b73cf")
 		)
 		(pin "2"
-			(uuid "f8f7f54e-bb09-4a37-b0a1-14047e2c8bec")
+			(uuid "446ac6aa-9eb6-456e-ba3c-bacc750a5910")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C54")
+					(reference "C10")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C54")
+					(reference "C33")
 					(unit 1)
 				)
 			)
@@ -2465,7 +2484,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "860ff67c-8043-4c50-9a53-2c2f3715ee66")
-		(property "Reference" "R59"
+		(property "Reference" "R8"
 			(at 54.61 71.1199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2487,7 +2506,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 50.292 72.39 90)
 			(hide yes)
 			(show_name no)
@@ -2521,19 +2540,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "80922b06-f620-40d3-a9e3-df991e083337")
+			(uuid "41bcb0d8-924f-4578-9db5-db4f67ab605e")
 		)
 		(pin "2"
-			(uuid "443e107e-02ec-4b6d-81e5-e4c22ef035fd")
+			(uuid "b413d227-8770-470c-bd31-e8341a304b2b")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "R59")
+					(reference "R8")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "R59")
+					(reference "R31")
 					(unit 1)
 				)
 			)
@@ -2551,7 +2570,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "91be0201-04b7-4d73-ab0b-dbdec4fec322")
-		(property "Reference" "#PWR07"
+		(property "Reference" "#PWR02"
 			(at 44.45 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2606,16 +2625,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "8237c085-9026-47c4-a8bc-ab7c3ffb5ce9")
+			(uuid "29f489f6-0715-4fbe-a1cf-4ceb3d864c32")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR07")
+					(reference "#PWR02")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR07")
+					(reference "#PWR024")
 					(unit 1)
 				)
 			)
@@ -2633,7 +2652,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "93fbf113-9879-48e3-875a-5ff0774d13ed")
-		(property "Reference" "#PWR010"
+		(property "Reference" "#PWR06"
 			(at 171.45 71.12 0)
 			(hide yes)
 			(show_name no)
@@ -2688,16 +2707,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "658def29-04de-41c7-93c7-20368499848f")
+			(uuid "83e82ed8-cb60-4014-adf1-7db8fa6ed9dc")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR010")
+					(reference "#PWR06")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR010")
+					(reference "#PWR028")
 					(unit 1)
 				)
 			)
@@ -2715,7 +2734,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b084675b-cf8d-488d-8ab2-6a6b9ff72ee2")
-		(property "Reference" "#PWR012"
+		(property "Reference" "#PWR03"
 			(at 44.45 101.6 0)
 			(hide yes)
 			(show_name no)
@@ -2770,16 +2789,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "c1b90106-f7c7-45e5-8f1f-410d12500796")
+			(uuid "82d0ea18-ea8a-4c28-b46c-75d58921fac0")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR012")
+					(reference "#PWR03")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR012")
+					(reference "#PWR025")
 					(unit 1)
 				)
 			)
@@ -2797,7 +2816,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b5c7bb86-41be-4fc2-a9de-0e038bd38d74")
-		(property "Reference" "C56"
+		(property "Reference" "C13"
 			(at 167.64 83.8262 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2819,7 +2838,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
 			(at 165.1 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -2841,7 +2860,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "12105C106KAT2A"
 			(at 165.1 85.09 0)
 			(hide yes)
 			(show_name no)
@@ -2853,19 +2872,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "1cce8112-2fc3-47f6-9d8a-af7d24703ada")
+			(uuid "f9f41ae0-e159-4c02-ad2e-7c8e2e467a16")
 		)
 		(pin "2"
-			(uuid "74d77932-36b6-4e01-94a5-06bc1437703b")
+			(uuid "7dc92ca8-e5dd-4f98-adb6-31f2ac031204")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C56")
+					(reference "C13")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C56")
+					(reference "C36")
 					(unit 1)
 				)
 			)
@@ -2883,7 +2902,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "b9cec5fd-4895-4b6e-a8c0-99c75fa0a403")
-		(property "Reference" "U6"
+		(property "Reference" "U5"
 			(at 224.79 52.07 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -2903,7 +2922,7 @@
 				)
 			)
 		)
-		(property "Footprint" "DVG0010A-MFG"
+		(property "Footprint" "TMCS1126:DVG0010A-MFG"
 			(at 207.01 62.23 0)
 			(hide yes)
 			(show_name no)
@@ -2939,43 +2958,43 @@
 			)
 		)
 		(pin "2"
-			(uuid "dbec0962-3023-4daa-a0db-e67df1afff9e")
+			(uuid "7aef9648-4ecd-48cb-a557-63d6ee434c78")
 		)
 		(pin "3"
-			(uuid "64dbd9a2-1a70-4bf8-839f-70afcd5e3f35")
+			(uuid "51342854-c97a-4bd7-b1b3-dad423e91a2a")
 		)
 		(pin "4"
-			(uuid "6bc9c03d-4b72-42c0-bf5b-b09f170305ff")
+			(uuid "2cb9a686-b45b-409d-94d0-8723133d9478")
 		)
 		(pin "6"
-			(uuid "fa7c1d43-b1e4-486e-9072-518d8775295e")
+			(uuid "01fa425c-e2bf-4592-9028-d00c1f948a1b")
 		)
 		(pin "10"
-			(uuid "43c957f2-1776-4a9c-828e-d4e2d073860d")
+			(uuid "93346044-bf26-4ec9-a99b-db1f737d0091")
 		)
 		(pin "1"
-			(uuid "8746ceaa-a477-4f72-a1ea-66c01738738c")
+			(uuid "cde1dcb1-9714-47c3-b39c-8958c2aaadf3")
 		)
 		(pin "5"
-			(uuid "8a31ae7e-43bd-4b33-adcb-93bd3784de5b")
+			(uuid "3b161c74-8240-482b-b7de-170dc05a3029")
 		)
 		(pin "7"
-			(uuid "1f7def1b-701a-4cc3-b7a7-2cb48b691509")
+			(uuid "58bf7aff-2213-4356-bfda-fe011162810d")
 		)
 		(pin "8"
-			(uuid "6931ffd6-bec9-4812-9d50-108109074839")
+			(uuid "46f031f6-b425-4829-9b99-9de687c94252")
 		)
 		(pin "9"
-			(uuid "c3e01485-9b33-401b-bd8e-b5d71f4c8e12")
+			(uuid "feb7a396-7361-45de-abc6-8665027831f3")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "U6")
+					(reference "U5")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "U6")
+					(reference "U9")
 					(unit 1)
 				)
 			)
@@ -2993,7 +3012,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "ba8127ad-7c9c-4020-9c6c-4387e5b3dcdc")
-		(property "Reference" "R65"
+		(property "Reference" "R11"
 			(at 181.61 83.8199 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3015,7 +3034,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Resistor_SMD:R_0805_2012Metric_Pad1.20x1.40mm_HandSolder"
 			(at 177.292 85.09 90)
 			(hide yes)
 			(show_name no)
@@ -3049,19 +3068,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "b56cc4d7-8582-4e57-b4fc-91f507eaacc3")
+			(uuid "b8dc4731-f2a1-4001-aff8-e101b880e036")
 		)
 		(pin "2"
-			(uuid "e3afd7d3-ca53-440f-9ce5-795f174cb102")
+			(uuid "f1515a9a-c5cb-44ab-88a6-115879f2605c")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "R65")
+					(reference "R11")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "R65")
+					(reference "R34")
 					(unit 1)
 				)
 			)
@@ -3079,7 +3098,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "c910d31e-294c-48b6-b4f3-cf1875752bd0")
-		(property "Reference" "#PWR014"
+		(property "Reference" "#PWR05"
 			(at 120.65 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -3134,16 +3153,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "cf00b1f3-1745-443d-8e5f-0b631bf94266")
+			(uuid "bec3a519-232e-414b-8aa4-444cf1ab431c")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR014")
+					(reference "#PWR05")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR015")
+					(reference "#PWR027")
 					(unit 1)
 				)
 			)
@@ -3161,7 +3180,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "cf09afd2-6b3c-4d06-b6d2-0b39c0d313b6")
-		(property "Reference" "C46"
+		(property "Reference" "C11"
 			(at 53.34 55.8862 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3183,7 +3202,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
 			(at 50.8 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -3205,7 +3224,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "KGM32RR71E104MU"
 			(at 50.8 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -3217,19 +3236,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "f6e7b04a-0a87-44e1-9254-0e38db20e5a2")
+			(uuid "e20d92ad-2748-406a-b9b9-3fa3876fbd99")
 		)
 		(pin "2"
-			(uuid "0b03a12f-4f35-42b4-8b9b-655859651088")
+			(uuid "681e765c-8ebd-4895-bf61-7d431e1c4f39")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C46")
+					(reference "C11")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C46")
+					(reference "C34")
 					(unit 1)
 				)
 			)
@@ -3247,7 +3266,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f2312455-d3f2-42a8-a00e-a2e7c334a0e3")
-		(property "Reference" "#PWR03"
+		(property "Reference" "#PWR08"
 			(at 200.66 54.61 0)
 			(hide yes)
 			(show_name no)
@@ -3302,16 +3321,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "1b48ee7d-d85a-4a53-ad91-72d2c099bc11")
+			(uuid "2fc0483b-b3eb-477b-a034-a8e9388571e9")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR03")
+					(reference "#PWR08")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR03")
+					(reference "#PWR030")
 					(unit 1)
 				)
 			)
@@ -3329,7 +3348,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "f52b1210-b206-4b5b-bf51-9891f173dcac")
-		(property "Reference" "C48"
+		(property "Reference" "C14"
 			(at 180.34 55.8862 0)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3351,7 +3370,7 @@
 				(justify left)
 			)
 		)
-		(property "Footprint" ""
+		(property "Footprint" "Capacitor_SMD:C_0805_2012Metric_Pad1.18x1.45mm_HandSolder"
 			(at 177.8 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -3373,7 +3392,7 @@
 				)
 			)
 		)
-		(property "Description" "Unpolarized capacitor, small symbol"
+		(property "Description" "KGM32RR71E104MU"
 			(at 177.8 57.15 0)
 			(hide yes)
 			(show_name no)
@@ -3385,19 +3404,19 @@
 			)
 		)
 		(pin "1"
-			(uuid "ef5d0ee5-6ce6-429e-b848-062bf031af83")
+			(uuid "a424571f-a36d-4dcb-932b-95334ce3b422")
 		)
 		(pin "2"
-			(uuid "5d1c130b-1112-49de-b022-d0c1d694c337")
+			(uuid "14f3ed5f-907f-43cd-aa52-cc08d2146ee0")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "C48")
+					(reference "C14")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "C48")
+					(reference "C37")
 					(unit 1)
 				)
 			)
@@ -3415,7 +3434,7 @@
 		(dnp no)
 		(fields_autoplaced yes)
 		(uuid "fabec6bd-4fc5-4062-ac74-a701507be981")
-		(property "Reference" "#PWR016"
+		(property "Reference" "#PWR09"
 			(at 247.65 91.44 0)
 			(hide yes)
 			(show_name no)
@@ -3470,16 +3489,16 @@
 			)
 		)
 		(pin "1"
-			(uuid "071fe767-3cc3-43f1-81c8-e77b3ab334a1")
+			(uuid "940602bc-dbea-4cf7-9e02-54f9c120a08a")
 		)
 		(instances
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/06e280b5-4359-46dc-84b2-dfe1c0c0d94b"
-					(reference "#PWR016")
+					(reference "#PWR09")
 					(unit 1)
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/b3b56d2b-0ea8-43cb-af31-b9982947f9bc"
-					(reference "#PWR017")
+					(reference "#PWR031")
 					(unit 1)
 				)
 			)

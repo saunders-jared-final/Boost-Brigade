@@ -1,0 +1,31 @@
+EESchema-LIBRARY Version 2.3
+#encoding utf-8
+#SamacSys ECAD Model 750318737
+#/21457759/2142455/2.50/8/3/Transformer
+DEF 750318737 T 0 30 Y Y 1 F N
+F0 "T" 1650 300 50 H V L CNN
+F1 "750318737" 1650 200 50 H V L CNN
+F2 "750318737" 1650 100 50 H I L CNN
+F3 "https://www.we-online.com/components/products/datasheet/750318737.pdf" 1650 0 50 H I L CNN
+F4 "Flyback Converters For For DC/DC Converters SMPS Transformer Isolation 350kHz Surface Mount" 1650 -100 50 H I L CNN "Description"
+F5 "9.65" 1650 -200 50 H I L CNN "Height"
+F6 "Wurth Elektronik" 1650 -300 50 H I L CNN "Manufacturer_Name"
+F7 "750318737" 1650 -400 50 H I L CNN "Manufacturer_Part_Number"
+F8 "" 1650 -500 50 H I L CNN "Mouser Part Number"
+F9 "" 1650 -600 50 H I L CNN "Mouser Price/Stock"
+F10 "" 1650 -700 50 H I L CNN "Arrow Part Number"
+F11 "" 1650 -800 50 H I L CNN "Arrow Price/Stock"
+DRAW
+X PRI- 1 0 0 200 R 50 50 0 0 P
+X NOT_CONNECTED_1 2 0 -100 200 R 50 50 0 0 P
+X NOT_CONNECTED_2 3 0 -200 200 R 50 50 0 0 P
+X PRI+ 4 0 -300 200 R 50 50 0 0 P
+X SEC1_1- 5 1800 -300 200 L 50 50 0 0 P
+X SEC1_2- 6 1800 -200 200 L 50 50 0 0 P
+X SEC1_1+ 7 1800 -100 200 L 50 50 0 0 P
+X SEC1_2+ 8 1800 0 200 L 50 50 0 0 P
+P 5 0 1 6 200 100 1600 100 1600 -400 200 -400 200 100 N
+ENDDRAW
+ENDDEF
+#
+#End Library
