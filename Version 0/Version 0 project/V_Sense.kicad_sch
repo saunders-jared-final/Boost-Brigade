@@ -1375,12 +1375,20 @@
 		(uuid "3324a1c5-b19e-432f-bfa9-e9347d9849d7")
 	)
 	(no_connect
+		(at 144.78 48.26)
+		(uuid "355ebcc9-b48f-4b84-a704-6c3c88ada7b1")
+	)
+	(no_connect
 		(at 120.65 50.8)
 		(uuid "5839beaf-58b3-412c-9d84-437fff86e51f")
 	)
 	(no_connect
 		(at 120.65 153.67)
 		(uuid "60e1d617-6262-4ddb-8fb3-24d81f6f37dc")
+	)
+	(no_connect
+		(at 144.78 45.72)
+		(uuid "a393588c-39c2-4f53-89f9-7a7ed8bc58fd")
 	)
 	(no_connect
 		(at 165.1 48.26)

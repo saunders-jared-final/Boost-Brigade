@@ -2117,9 +2117,9 @@
 		)
 		(uuid "1f3705df-5b6e-448e-a235-4c9b1b1c80df")
 	)
-	(text "True 3v3 LDO\n"
+	(text "3v3 LDO\n"
 		(exclude_from_sim no)
-		(at 87.122 86.868 0)
+		(at 94.234 122.682 0)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -2128,7 +2128,7 @@
 		(uuid "9951273f-4a43-4423-9c6a-3d5dee807a99")
 	)
 	(junction
-		(at 97.79 97.79)
+		(at 104.14 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "18461557-fdd2-4535-b326-90a05b661314")
@@ -2164,7 +2164,7 @@
 		(uuid "405b5f16-7640-4d8f-9d1a-1e21f2712bd3")
 	)
 	(junction
-		(at 109.22 97.79)
+		(at 115.57 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "55f46a62-8dfc-478b-9afc-4b470c5c4f07")
@@ -2218,7 +2218,7 @@
 		(uuid "a45da5b7-4f5c-4116-a43f-229d206c4300")
 	)
 	(junction
-		(at 87.63 107.95)
+		(at 93.98 144.78)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "bd1fc6e2-b04c-4bd6-b23c-164f4fb1823f")
@@ -2230,7 +2230,7 @@
 		(uuid "e093382c-62e8-4dab-ae6f-bdf0a5bce26b")
 	)
 	(junction
-		(at 67.31 97.79)
+		(at 73.66 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "e94e4673-1311-423e-8239-9419ded31313")
@@ -2248,7 +2248,7 @@
 		(uuid "f1fccb4a-a68c-4059-9307-810b8e632ac1")
 	)
 	(junction
-		(at 77.47 97.79)
+		(at 83.82 134.62)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "f227cdff-bb4a-47be-afa6-0f5c2e5f0509")
@@ -2357,7 +2357,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 105.41) (xy 67.31 107.95)
+			(xy 73.66 142.24) (xy 73.66 144.78)
 		)
 		(stroke
 			(width 0)
@@ -2387,7 +2387,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 100.33) (xy 109.22 97.79)
+			(xy 115.57 137.16) (xy 115.57 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2397,7 +2397,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 97.79) (xy 77.47 97.79)
+			(xy 73.66 134.62) (xy 83.82 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2427,7 +2427,7 @@
 	)
 	(wire
 		(pts
-			(xy 59.69 97.79) (xy 67.31 97.79)
+			(xy 66.04 134.62) (xy 73.66 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2577,7 +2577,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 97.79) (xy 109.22 97.79)
+			(xy 104.14 134.62) (xy 115.57 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2687,7 +2687,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 97.79) (xy 120.65 97.79)
+			(xy 115.57 134.62) (xy 127 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2767,7 +2767,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 97.79) (xy 67.31 100.33)
+			(xy 73.66 134.62) (xy 73.66 137.16)
 		)
 		(stroke
 			(width 0)
@@ -2807,7 +2807,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 107.95) (xy 87.63 107.95)
+			(xy 115.57 144.78) (xy 93.98 144.78)
 		)
 		(stroke
 			(width 0)
@@ -2857,7 +2857,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 107.95) (xy 87.63 107.95)
+			(xy 73.66 144.78) (xy 93.98 144.78)
 		)
 		(stroke
 			(width 0)
@@ -2877,7 +2877,7 @@
 	)
 	(wire
 		(pts
-			(xy 97.79 97.79) (xy 97.79 102.87)
+			(xy 104.14 134.62) (xy 104.14 139.7)
 		)
 		(stroke
 			(width 0)
@@ -2967,7 +2967,7 @@
 	)
 	(wire
 		(pts
-			(xy 77.47 102.87) (xy 77.47 97.79)
+			(xy 83.82 139.7) (xy 83.82 134.62)
 		)
 		(stroke
 			(width 0)
@@ -2977,7 +2977,7 @@
 	)
 	(wire
 		(pts
-			(xy 87.63 107.95) (xy 87.63 110.49)
+			(xy 93.98 144.78) (xy 93.98 147.32)
 		)
 		(stroke
 			(width 0)
@@ -2987,7 +2987,7 @@
 	)
 	(wire
 		(pts
-			(xy 109.22 105.41) (xy 109.22 107.95)
+			(xy 115.57 142.24) (xy 115.57 144.78)
 		)
 		(stroke
 			(width 0)
@@ -3016,7 +3016,7 @@
 		(uuid "69233438-dacd-4910-91cd-26ae6e8f4d8b")
 	)
 	(label "Vreg_Output"
-		(at 59.69 97.79 180)
+		(at 66.04 134.62 180)
 		(effects
 			(font
 				(size 1.27 1.27)
@@ -3255,7 +3255,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 109.22 102.87 0)
+		(at 115.57 139.7 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3266,7 +3266,7 @@
 		(fields_autoplaced yes)
 		(uuid "1b9f74ee-92b2-40d4-b4a8-649df8723d22")
 		(property "Reference" "C29"
-			(at 111.76 101.6062 0)
+			(at 118.11 138.4362 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3277,7 +3277,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 111.76 104.1462 0)
+			(at 118.11 140.9762 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3288,7 +3288,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
-			(at 109.22 102.87 0)
+			(at 115.57 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3299,7 +3299,7 @@
 			)
 		)
 		(property "Datasheet" "12105C106KAT2A"
-			(at 109.22 102.87 0)
+			(at 115.57 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3310,7 +3310,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor, small symbol"
-			(at 109.22 102.87 0)
+			(at 115.57 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3416,7 +3416,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 87.63 110.49 0)
+		(at 93.98 147.32 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3427,7 +3427,7 @@
 		(fields_autoplaced yes)
 		(uuid "408c349d-75ad-42bc-96cd-25c23fac9bd8")
 		(property "Reference" "#PWR022"
-			(at 87.63 116.84 0)
+			(at 93.98 153.67 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3438,7 +3438,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 87.63 115.57 0)
+			(at 93.98 152.4 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3448,7 +3448,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 87.63 110.49 0)
+			(at 93.98 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3459,7 +3459,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 87.63 110.49 0)
+			(at 93.98 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3470,7 +3470,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 87.63 110.49 0)
+			(at 93.98 147.32 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4002,7 +4002,7 @@
 	)
 	(symbol
 		(lib_id "power:+3V3")
-		(at 120.65 97.79 0)
+		(at 127 134.62 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4013,7 +4013,7 @@
 		(fields_autoplaced yes)
 		(uuid "72b369c2-9f45-46ac-b5cb-8036e46f32bb")
 		(property "Reference" "#PWR023"
-			(at 120.65 101.6 0)
+			(at 127 138.43 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4024,7 +4024,7 @@
 			)
 		)
 		(property "Value" "+3V3"
-			(at 120.65 92.71 0)
+			(at 127 129.54 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4034,7 +4034,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 120.65 97.79 0)
+			(at 127 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4045,7 +4045,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 120.65 97.79 0)
+			(at 127 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4056,7 +4056,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"+3V3\""
-			(at 120.65 97.79 0)
+			(at 127 134.62 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4738,7 +4738,7 @@
 	)
 	(symbol
 		(lib_id "Regulator_Linear:TPS7A45xxKTT")
-		(at 87.63 100.33 0)
+		(at 93.98 137.16 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4749,7 +4749,7 @@
 		(fields_autoplaced yes)
 		(uuid "c637583d-6393-40ad-9700-82a471584f04")
 		(property "Reference" "U6"
-			(at 87.63 90.17 0)
+			(at 93.98 127 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4759,7 +4759,7 @@
 			)
 		)
 		(property "Value" "TPS7A4533"
-			(at 87.63 92.71 0)
+			(at 93.98 129.54 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4769,7 +4769,7 @@
 			)
 		)
 		(property "Footprint" "Package_TO_SOT_SMD:TO-263-5_TabPin3"
-			(at 87.63 100.33 0)
+			(at 93.98 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4780,7 +4780,7 @@
 			)
 		)
 		(property "Datasheet" "https://www.ti.com/lit/ds/symlink/tps7a45.pdf"
-			(at 87.63 100.33 0)
+			(at 93.98 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4791,7 +4791,7 @@
 			)
 		)
 		(property "Description" "Low-Noise Fast-Transient-Response 1.5A LDO Regulator, Fixed Output, Vin = 20V max, eN = 35 μVrms, TO-263-5 (D2PAK)"
-			(at 87.63 100.33 0)
+			(at 93.98 137.16 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4907,7 +4907,7 @@
 	)
 	(symbol
 		(lib_id "Device:C_Small")
-		(at 67.31 102.87 0)
+		(at 73.66 139.7 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4918,7 +4918,7 @@
 		(fields_autoplaced yes)
 		(uuid "fd65bc64-b116-483e-ac0d-e91e304c0da3")
 		(property "Reference" "C28"
-			(at 69.85 101.6062 0)
+			(at 76.2 138.4362 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4929,7 +4929,7 @@
 			)
 		)
 		(property "Value" "10uF"
-			(at 69.85 104.1462 0)
+			(at 76.2 140.9762 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4940,7 +4940,7 @@
 			)
 		)
 		(property "Footprint" "Capacitor_SMD:C_1210_3225Metric_Pad1.33x2.70mm_HandSolder"
-			(at 67.31 102.87 0)
+			(at 73.66 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4951,7 +4951,7 @@
 			)
 		)
 		(property "Datasheet" "12105C106KAT2A"
-			(at 67.31 102.87 0)
+			(at 73.66 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4962,7 +4962,7 @@
 			)
 		)
 		(property "Description" "Unpolarized capacitor, small symbol"
-			(at 67.31 102.87 0)
+			(at 73.66 139.7 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)

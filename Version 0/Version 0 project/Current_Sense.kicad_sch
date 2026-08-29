@@ -1714,17 +1714,6 @@
 		)
 		(uuid "0174c481-42f9-4613-9f93-771e57802ee2")
 	)
-	(hierarchical_label "L_Aph1"
-		(shape input)
-		(at 71.12 72.39 180)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify right)
-		)
-		(uuid "1d24d2f0-015c-4a7a-b67a-a49b5e329923")
-	)
 	(hierarchical_label "I_Sense_Out_Aph"
 		(shape output)
 		(at 130.81 62.23 0)
@@ -1747,6 +1736,17 @@
 		)
 		(uuid "3f310dda-99c5-4554-870c-c391bf26cd61")
 	)
+	(hierarchical_label "L_Aph1"
+		(shape input)
+		(at 71.12 74.93 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "9b572112-a133-4f26-8259-1e98aac72b18")
+	)
 	(hierarchical_label "I_Sense_Out_Bph"
 		(shape output)
 		(at 257.81 62.23 0)
@@ -1760,14 +1760,14 @@
 	)
 	(hierarchical_label "L_Aph2"
 		(shape input)
-		(at 71.12 74.93 180)
+		(at 71.12 72.39 180)
 		(effects
 			(font
 				(size 1.27 1.27)
 			)
 			(justify right)
 		)
-		(uuid "e9e0f6ad-e79c-4d9e-81e2-2dcb3107c34d")
+		(uuid "e5086ecb-ceb9-48d1-b543-45406f4ef856")
 	)
 	(symbol
 		(lib_id "power:+3V3")
