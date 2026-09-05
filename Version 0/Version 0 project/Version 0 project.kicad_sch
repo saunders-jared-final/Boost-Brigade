@@ -419,6 +419,105 @@
 			)
 			(embedded_fonts no)
 		)
+		(symbol "Mechanical:MountingHole"
+			(pin_names
+				(offset 1.016)
+			)
+			(exclude_from_sim no)
+			(in_bom no)
+			(on_board yes)
+			(in_pos_files yes)
+			(duplicate_pin_numbers_are_jumpers no)
+			(property "Reference" "H"
+				(at 0 5.08 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Value" "MountingHole"
+				(at 0 3.175 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Footprint" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Datasheet" ""
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "Description" "Mounting Hole without connection"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_keywords" "mounting hole"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(property "ki_fp_filters" "MountingHole*"
+				(at 0 0 0)
+				(show_name no)
+				(do_not_autoplace no)
+				(hide yes)
+				(effects
+					(font
+						(size 1.27 1.27)
+					)
+				)
+			)
+			(symbol "MountingHole_0_1"
+				(circle
+					(center 0 0)
+					(radius 1.27)
+					(stroke
+						(width 1.27)
+						(type default)
+					)
+					(fill
+						(type none)
+					)
+				)
+			)
+			(embedded_fonts no)
+		)
 		(symbol "NUCLEO-G474RE:NUCLEO-G474RE"
 			(pin_names
 				(offset 1.016)
@@ -2185,22 +2284,28 @@
 		(uuid "698af7d9-91e1-492d-9160-57cbfe04bdba")
 	)
 	(junction
+		(at 177.8 156.21)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "317047b8-cc86-4621-9b21-3a4cda833be6")
+	)
+	(junction
 		(at 91.44 198.12)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "3aea8477-b21b-4416-9ee6-23d575cde6a7")
 	)
 	(junction
-		(at 91.44 247.65)
-		(diameter 0)
-		(color 0 0 0 0)
-		(uuid "404b261f-e2b9-4232-9602-173d596c4392")
-	)
-	(junction
 		(at 91.44 227.33)
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "4b969445-9de3-418f-b7ec-3828f7eeba91")
+	)
+	(junction
+		(at 177.8 247.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "5b88ca09-2666-4940-8bde-66dc26b78919")
 	)
 	(junction
 		(at 91.44 162.56)
@@ -2219,6 +2324,12 @@
 		(diameter 0)
 		(color 0 0 0 0)
 		(uuid "c04a9182-7e48-4068-b3cc-6af14e5cbad3")
+	)
+	(junction
+		(at 91.44 247.65)
+		(diameter 0)
+		(color 0 0 0 0)
+		(uuid "d196f265-ea09-4b3b-bc7b-1715d9e763d1")
 	)
 	(junction
 		(at 91.44 191.77)
@@ -2442,7 +2553,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 247.65) (xy 91.44 257.81)
+			(xy 196.85 247.65) (xy 196.85 254)
 		)
 		(stroke
 			(width 0)
@@ -2532,6 +2643,16 @@
 	)
 	(wire
 		(pts
+			(xy 177.8 208.28) (xy 177.8 247.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "23956e81-8b85-42bb-ac35-9088bf5eb2f8")
+	)
+	(wire
+		(pts
 			(xy 384.81 218.44) (xy 379.73 218.44)
 		)
 		(stroke
@@ -2562,7 +2683,7 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 154.94) (xy 110.49 154.94)
+			(xy 91.44 156.21) (xy 177.8 156.21)
 		)
 		(stroke
 			(width 0)
@@ -2579,6 +2700,16 @@
 			(type default)
 		)
 		(uuid "277bf5b3-755c-4ff0-91e7-9debc7a506c6")
+	)
+	(wire
+		(pts
+			(xy 196.85 247.65) (xy 177.8 247.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "2bbf081c-0e99-412c-b0e7-29d5c58c1c7a")
 	)
 	(wire
 		(pts
@@ -2679,6 +2810,16 @@
 			(type default)
 		)
 		(uuid "58e014d2-49af-4684-83a0-1964995fcdb1")
+	)
+	(wire
+		(pts
+			(xy 177.8 156.21) (xy 190.5 156.21)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "5ccb4a33-9bb2-4307-ad7d-bbfc2a1e6e4f")
 	)
 	(wire
 		(pts
@@ -2902,7 +3043,17 @@
 	)
 	(wire
 		(pts
-			(xy 91.44 154.94) (xy 91.44 162.56)
+			(xy 177.8 247.65) (xy 91.44 247.65)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "ba39e69d-1a49-423b-8c6f-148e9bae4a1a")
+	)
+	(wire
+		(pts
+			(xy 91.44 156.21) (xy 91.44 162.56)
 		)
 		(stroke
 			(width 0)
@@ -2999,6 +3150,16 @@
 			(type default)
 		)
 		(uuid "dacc5541-573c-4c95-bd0b-4b238ca97318")
+	)
+	(wire
+		(pts
+			(xy 177.8 156.21) (xy 177.8 195.58)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "e4a02ea7-4320-4928-b9f8-ede3f2b70140")
 	)
 	(wire
 		(pts
@@ -3574,7 +3735,7 @@
 	)
 	(global_label "String output"
 		(shape input)
-		(at 110.49 154.94 0)
+		(at 190.5 156.21 0)
 		(fields_autoplaced yes)
 		(effects
 			(font
@@ -3584,7 +3745,7 @@
 		)
 		(uuid "f51c2e4b-c9c6-451e-8841-c28e0973bb83")
 		(property "Intersheetrefs" "${INTERSHEET_REFS}"
-			(at 126.1144 154.94 0)
+			(at 206.1244 156.21 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3598,7 +3759,7 @@
 	)
 	(symbol
 		(lib_id "power:GND")
-		(at 91.44 257.81 0)
+		(at 196.85 254 0)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -3609,7 +3770,7 @@
 		(fields_autoplaced yes)
 		(uuid "00f35409-160c-4e3b-b05b-821a0350fc69")
 		(property "Reference" "#PWR01"
-			(at 91.44 264.16 0)
+			(at 196.85 260.35 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3620,7 +3781,7 @@
 			)
 		)
 		(property "Value" "GND"
-			(at 91.44 262.89 0)
+			(at 196.85 259.08 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -3630,7 +3791,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 91.44 257.81 0)
+			(at 196.85 254 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3641,7 +3802,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 91.44 257.81 0)
+			(at 196.85 254 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3652,7 +3813,7 @@
 			)
 		)
 		(property "Description" "Power symbol creates a global label with name \"GND\" , ground"
-			(at 91.44 257.81 0)
+			(at 196.85 254 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -3752,6 +3913,82 @@
 			(project "Version 0 project"
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
 					(reference "XT60_2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 40.64 129.54 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "2a3e0b3a-6120-4a93-a144-967859e0a7b8")
+		(property "Reference" "H3"
+			(at 43.18 128.2699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 43.18 130.8099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad_Via"
+			(at 40.64 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40.64 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 40.64 129.54 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Version 0 project"
+				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
+					(reference "H3")
 					(unit 1)
 				)
 			)
@@ -4206,6 +4443,234 @@
 		)
 	)
 	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 40.64 135.89 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "4e0548fc-0e9e-4eb9-b867-ccef3444c9c4")
+		(property "Reference" "H4"
+			(at 43.18 134.6199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 43.18 137.1599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad_Via"
+			(at 40.64 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40.64 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 40.64 135.89 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Version 0 project"
+				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
+					(reference "H4")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 40.64 123.19 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "607ad805-d076-4aac-bf25-56e1e2afa922")
+		(property "Reference" "H2"
+			(at 43.18 121.9199 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 43.18 124.4599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad_Via"
+			(at 40.64 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40.64 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 40.64 123.19 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Version 0 project"
+				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
+					(reference "H2")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_id "Mechanical:MountingHole")
+		(at 40.64 116.84 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom no)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "92aaf1cc-d005-4503-bd53-7803e03d1940")
+		(property "Reference" "H1"
+			(at 43.18 115.5699 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "MountingHole"
+			(at 43.18 118.1099 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "MountingHole:MountingHole_3.5mm_Pad_Via"
+			(at 40.64 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 40.64 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Mounting Hole without connection"
+			(at 40.64 116.84 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(instances
+			(project "Version 0 project"
+				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
+					(reference "H1")
+					(unit 1)
+				)
+			)
+		)
+	)
+	(symbol
 		(lib_id "NUCLEO-G474RE:NUCLEO-G474RE")
 		(at 356.87 210.82 0)
 		(unit 2)
@@ -4649,6 +5114,89 @@
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
 					(reference "U1")
 					(unit 2)
+				)
+			)
+		)
+	)
+	(symbol
+		(lib_name "Conn_01x02_1")
+		(lib_id "Connector_Generic:Conn_01x02")
+		(at 177.8 200.66 0)
+		(unit 1)
+		(body_style 1)
+		(exclude_from_sim no)
+		(in_bom yes)
+		(on_board yes)
+		(in_pos_files yes)
+		(dnp no)
+		(fields_autoplaced yes)
+		(uuid "d5fe8da0-ddcd-46ba-aaa2-c5596ae343fb")
+		(property "Reference" "XT60_4"
+			(at 180.34 200.6599 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Value" "PV Connector 4"
+			(at 180.34 203.1999 0)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
+			)
+		)
+		(property "Footprint" "Connector_AMASS:AMASS_XT60PW-F_1x02_P7.20mm_Horizontal"
+			(at 177.8 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Datasheet" ""
+			(at 177.8 200.66 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(property "Description" "Generic connector, single row, 01x02, script generated (kicad-library-utils/schlib/autogen/connector/)"
+			(at 180.34 189.23 0)
+			(hide yes)
+			(show_name no)
+			(do_not_autoplace no)
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+			)
+		)
+		(pin "1"
+			(uuid "4aecbdd4-03b9-4912-9b3d-ae04ce4311b4")
+		)
+		(pin "2"
+			(uuid "a05dbb1c-9322-40d0-87ec-aa09153a3ba1")
+		)
+		(instances
+			(project "Version 0 project"
+				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8"
+					(reference "XT60_4")
+					(unit 1)
 				)
 			)
 		)
