@@ -1063,7 +1063,7 @@
       "method": 0,
       "sort_order": 0
     },
-    "bom_export_filename": "${PROJECTNAME}.csv",
+    "bom_export_filename": "Shuffler.csv",
     "bom_fmt_presets": [],
     "bom_fmt_settings": {
       "field_delimiter": ",",
@@ -1137,12 +1137,144 @@
           "label": "Datasheet",
           "name": "Datasheet",
           "show": true
+        },
+        {
+          "group_by": false,
+          "label": "MANUFACTURER",
+          "name": "MANUFACTURER",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MAXIMUM_PACKAGE_HEIGHT",
+          "name": "MAXIMUM_PACKAGE_HEIGHT",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MF",
+          "name": "MF",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "MP",
+          "name": "MP",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer",
+          "name": "Manufacturer",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Manufacturer Order Number",
+          "name": "Manufacturer Order Number",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "PARTREV",
+          "name": "PARTREV",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Package",
+          "name": "Package",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "PackageReference",
+          "name": "PackageReference",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Price",
+          "name": "Price",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Purchase-URL",
+          "name": "Purchase-URL",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "STANDARD",
+          "name": "STANDARD",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Device",
+          "name": "Sim.Device",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Sim.Pins",
+          "name": "Sim.Pins",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "SnapEDA_Link",
+          "name": "SnapEDA_Link",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Vin (V)",
+          "name": "Vin (V)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Vout (V)",
+          "name": "Vout (V)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Iout (A)",
+          "name": "Iout (A)",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Description",
+          "name": "Description",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Check_prices",
+          "name": "Check_prices",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "#",
+          "name": "${ITEM_NUMBER}",
+          "show": false
+        },
+        {
+          "group_by": false,
+          "label": "Availability",
+          "name": "Availability",
+          "show": false
         }
       ],
       "filter_string": "",
       "group_symbols": true,
       "include_excluded_from_bom": true,
-      "name": "Default Editing",
+      "name": "",
       "sort_asc": true,
       "sort_field": "Reference"
     },
@@ -1195,7 +1327,7 @@
         "uuid": "fda5f807-f7e7-4849-a340-166d7fbf31b8"
       }
     ],
-    "used_designators": "U1-46,XT60_1-19,U3A_T2-4,D1-57,T1-11,#PWR1-228,C1-202,Q1-40,U43_B2-4,J1-6,R1-188,U4A_B1-10,U4A_T1-10,U4B_B1-10,U4B_T1-10,SW1-14,L1-10,C_SNB1-6,R_SNB1-6,D_Clamp1-6,H1-4",
+    "used_designators": "U1-46,XT60_1-19,U3A_T2-4,D1-57,T1-11,#PWR1-228,C1-202,Q1-40,U43_B2-4,J1-6,R1-188,U4A_B1-10,U4A_T1-10,U4B_B1-10,U4B_T1-10,SW1-14,L1-10,C_SNB1-6,R_SNB1-6,D_Clamp1-6,H1-4,S1",
     "variants": []
   },
   "sheets": [

@@ -1286,6 +1286,16 @@
 	)
 	(wire
 		(pts
+			(xy 36.83 99.06) (xy 40.64 99.06)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "869e88a6-7b4a-41ee-ba2d-d41b5f876253")
+	)
+	(wire
+		(pts
 			(xy 154.94 73.66) (xy 160.02 73.66)
 		)
 		(stroke
@@ -1934,6 +1944,17 @@
 			(justify right)
 		)
 		(uuid "196a97cb-2ad9-4b17-9c46-629bbb12d1b1")
+	)
+	(hierarchical_label "LDO 3v3"
+		(shape output)
+		(at 36.83 99.06 180)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify right)
+		)
+		(uuid "3ad37882-9cb8-42e9-8d18-643c023bce37")
 	)
 	(hierarchical_label "Output"
 		(shape input)
@@ -2961,6 +2982,16 @@
 					(size 1.27 1.27)
 				)
 				(justify right)
+			)
+		)
+		(pin "LDO 3v3" output
+			(at 40.64 99.06 180)
+			(uuid "ac2950e7-52c1-4b14-8a04-e0bae105f411")
+			(effects
+				(font
+					(size 1.27 1.27)
+				)
+				(justify left)
 			)
 		)
 		(instances
