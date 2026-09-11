@@ -1814,7 +1814,7 @@
 		)
 		(uuid "9b2f691b-5642-47dd-86ce-0baa117aadff")
 	)
-	(label "L_Bph2"
+	(label "M_T_Bph_S"
 		(at 250.19 53.34 0)
 		(effects
 			(font
@@ -1834,7 +1834,7 @@
 		)
 		(uuid "b0ca3a08-9ae4-40c5-bf3b-23708fa0227c")
 	)
-	(label "L_Aph2"
+	(label "M_T_Aph_S"
 		(at 201.93 52.07 180)
 		(effects
 			(font

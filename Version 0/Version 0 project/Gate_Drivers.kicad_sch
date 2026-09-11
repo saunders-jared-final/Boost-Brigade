@@ -3177,7 +3177,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "2bb1a7c2-cfc8-4c07-b4e7-b18a5eafb9da")
 		(property "Reference" "#PWR014"
 			(at 54.61 119.38 0)
@@ -3190,14 +3189,15 @@
 				)
 			)
 		)
-		(property "Value" "3v3"
-			(at 54.61 110.49 0)
+		(property "Value" "+3V3"
+			(at 54.61 112.014 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -4063,7 +4063,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6815fcfc-08fa-4d22-b5ee-086c1987744d")
 		(property "Reference" "#PWR019"
 			(at 190.5 55.88 0)
@@ -4076,14 +4075,15 @@
 				)
 			)
 		)
-		(property "Value" "3v3"
-			(at 190.5 46.99 0)
+		(property "Value" "+3V3"
+			(at 190.5 47.752 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -4251,7 +4251,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "6f2a5edb-b9c6-442c-a708-bd241a83e177")
 		(property "Reference" "#PWR013"
 			(at 53.34 55.88 0)
@@ -4264,14 +4263,15 @@
 				)
 			)
 		)
-		(property "Value" "3v3"
-			(at 53.34 46.99 0)
+		(property "Value" "+3V3"
+			(at 53.34 48.26 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""
@@ -4695,7 +4695,6 @@
 		(on_board yes)
 		(in_pos_files yes)
 		(dnp no)
-		(fields_autoplaced yes)
 		(uuid "8d9bec3b-2552-4e14-ba41-f849f0a93eee")
 		(property "Reference" "#PWR020"
 			(at 191.77 119.38 0)
@@ -4708,14 +4707,15 @@
 				)
 			)
 		)
-		(property "Value" "3v3"
-			(at 191.77 110.49 0)
+		(property "Value" "+3V3"
+			(at 192.024 111.252 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
 				(font
 					(size 1.27 1.27)
 				)
+				(justify left)
 			)
 		)
 		(property "Footprint" ""

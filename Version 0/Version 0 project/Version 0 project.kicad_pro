@@ -60,7 +60,7 @@
           "hatch_smoothing_level": 0,
           "hatch_smoothing_value": 0.1,
           "hatch_thickness": 1.0,
-          "min_clearance": 0.2,
+          "min_clearance": 0.0,
           "min_island_area": 10.0,
           "min_thickness": 0.25,
           "pad_connection": 1,
@@ -948,11 +948,39 @@
         "pcb_color": "rgba(0, 0, 0, 0.000)",
         "priority": 2147483647,
         "schematic_color": "rgba(0, 0, 0, 0.000)",
-        "track_width": 0.2,
+        "track_width": 0.4,
         "tuning_profile": "",
         "via_diameter": 0.6,
         "via_drill": 0.3,
         "wire_width": 6
+      },
+      {
+        "name": "AnalogSense",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 1,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "tuning_profile": ""
+      },
+      {
+        "name": "GateDrive",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 2,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "tuning_profile": ""
+      },
+      {
+        "name": "Power",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 3,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "tuning_profile": ""
+      },
+      {
+        "name": "SPI",
+        "pcb_color": "rgba(0, 0, 0, 0.000)",
+        "priority": 0,
+        "schematic_color": "rgba(0, 0, 0, 0.000)",
+        "tuning_profile": ""
       }
     ],
     "meta": {
@@ -960,7 +988,60 @@
     },
     "net_colors": null,
     "netclass_assignments": null,
-    "netclass_patterns": []
+    "netclass_patterns": [
+      {
+        "netclass": "Power",
+        "pattern": "PV1+"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "PV2+"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "PV3+"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*M_T_*_S"
+      },
+      {
+        "netclass": "Power",
+        "pattern": "*L_?ph2"
+      },
+      {
+        "netclass": "AnalogSense",
+        "pattern": "/IL?_?"
+      },
+      {
+        "netclass": "AnalogSense",
+        "pattern": "*VOC*"
+      },
+      {
+        "netclass": "AnalogSense",
+        "pattern": "*VREF*"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "*_G"
+      },
+      {
+        "netclass": "GateDrive",
+        "pattern": "Net-(U4?_??-OUT?)"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "/SPI*"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "/CS?"
+      },
+      {
+        "netclass": "SPI",
+        "pattern": "Net-(U10-*)"
+      }
+    ]
   },
   "pcbnew": {
     "last_paths": {
