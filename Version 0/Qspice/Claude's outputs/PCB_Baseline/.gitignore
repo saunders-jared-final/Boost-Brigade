@@ -1,0 +1,5 @@
+stages/*.qraw
+stages/*_quxcheck.*
+results/*.sim.txt
+results/_run_*.log
+__pycache__/

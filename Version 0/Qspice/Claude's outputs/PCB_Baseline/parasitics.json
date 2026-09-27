@@ -1,0 +1,921 @@
+{
+ "source": "..\\..\\Version 0 project\\Version 0 project.kicad_pcb",
+ "copper_um": 35.0,
+ "sheet_mOhm_per_sq": 0.4914,
+ "kL": 0.5,
+ "components": {
+  "C130_ESR_mOhm": 28.0,
+  "C130_ESL_nH": 15.0,
+  "C100n_ESR_mOhm": 20.0,
+  "C100n_ESL_nH": 0.8,
+  "C10u_ESR_mOhm": 5.0,
+  "C10u_ESL_nH": 1.0,
+  "TO252_Ld_nH": 1.5,
+  "TO252_Ls_nH": 3.0,
+  "TMCS_R_mOhm": 0.7,
+  "TMCS_L_nH": 0.5,
+  "XT60_R_mOhm": 0.5,
+  "cable_R_mOhm_per_m": 4.3,
+  "cable_L_nH_per_m": 500.0,
+  "cable_len_m": 1.5,
+  "Cpv_nF": 10.0
+ },
+ "lumps": {
+  "T1": {
+   "from": "PV1+",
+   "share": 1.0,
+   "R_mOhm": 0.518,
+   "L_nH": 2.4
+  },
+  "M1": {
+   "from": "PV2+",
+   "share": 0.5,
+   "R_mOhm": 0.149,
+   "L_nH": 0.29
+  },
+  "B1": {
+   "from": "PV3+",
+   "share": 0.5,
+   "R_mOhm": 0.11,
+   "L_nH": 0.23
+  },
+  "T2": {
+   "from": "PV2+",
+   "share": 0.5,
+   "R_mOhm": 0.149,
+   "L_nH": 0.29
+  },
+  "M2": {
+   "from": "PV3+",
+   "share": 0.5,
+   "R_mOhm": 0.11,
+   "L_nH": 0.23
+  },
+  "B2": {
+   "from": "GND",
+   "share": 0.5,
+   "R_mOhm": 0.022,
+   "L_nH": 0.02
+  },
+  "SWA1": {
+   "from": "/Shuffle Converter 1/M_T_Aph_S",
+   "share": 1.0,
+   "R_mOhm": 0.795,
+   "L_nH": 1.58
+  },
+  "SWB1": {
+   "from": "/Shuffle Converter 1/M_T_Bph_S",
+   "share": 1.0,
+   "R_mOhm": 1.563,
+   "L_nH": 5.58
+  },
+  "SWA2": {
+   "from": "/Shuffle Converter 2/M_T_Aph_S",
+   "share": 1.0,
+   "R_mOhm": 1.872,
+   "L_nH": 2.52
+  },
+  "SWB2": {
+   "from": "/Shuffle Converter 2/M_T_Bph_S",
+   "share": 1.0,
+   "R_mOhm": 1.132,
+   "L_nH": 1.04
+  },
+  "LA1": {
+   "from": "/Shuffle Converter 1/L_Aph2",
+   "share": 1.0,
+   "R_mOhm": 1.352,
+   "L_nH": 2.68
+  },
+  "LB1": {
+   "from": "/Shuffle Converter 1/L_Bph2",
+   "share": 1.0,
+   "R_mOhm": 0.992,
+   "L_nH": 2.32
+  },
+  "LA2": {
+   "from": "/Shuffle Converter 2/L_Aph2",
+   "R_mOhm": 1.0,
+   "L_nH": 2.0,
+   "note": "net not found on PCB, default used"
+  },
+  "LB2": {
+   "from": "/Shuffle Converter 2/L_Bph2",
+   "R_mOhm": 1.0,
+   "L_nH": 2.0,
+   "note": "net not found on PCB, default used"
+  },
+  "gTA1": {
+   "from": "/Shuffle Converter 1/M_T_Aph_G",
+   "share": 1.0,
+   "R_mOhm": 5.606,
+   "L_nH": 1.19
+  },
+  "gBA1": {
+   "from": "/Shuffle Converter 1/M_B_Aph_G",
+   "share": 1.0,
+   "R_mOhm": 10.848,
+   "L_nH": 1.41
+  },
+  "gTB1": {
+   "from": "/Shuffle Converter 1/M_T_Bph_G",
+   "share": 1.0,
+   "R_mOhm": 3.61,
+   "L_nH": 1.04
+  },
+  "gBB1": {
+   "from": "/Shuffle Converter 1/M_B_Bph_G",
+   "share": 1.0,
+   "R_mOhm": 5.335,
+   "L_nH": 1.25
+  },
+  "gTA2": {
+   "from": "/Shuffle Converter 2/M_T_Aph_G",
+   "share": 1.0,
+   "R_mOhm": 3.013,
+   "L_nH": 0.91
+  },
+  "gBA2": {
+   "from": "/Shuffle Converter 2/M_B_Aph_G",
+   "share": 1.0,
+   "R_mOhm": 4.852,
+   "L_nH": 1.25
+  },
+  "gTB2": {
+   "from": "/Shuffle Converter 2/M_T_Bph_G",
+   "share": 1.0,
+   "R_mOhm": 3.394,
+   "L_nH": 0.95
+  },
+  "gBB2": {
+   "from": "/Shuffle Converter 2/M_B_Bph_G",
+   "share": 1.0,
+   "R_mOhm": 4.442,
+   "L_nH": 1.1
+  }
+ },
+ "nets": {
+  "/Shuffle Converter 1/M_T_Bph_S": {
+   "segments": 9,
+   "len_mm": 30.688,
+   "R_trace_mOhm": 37.702,
+   "L_trace_nH": 24.141,
+   "layers": {
+    "F.Cu": 9
+   },
+   "vias": 6,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 192.8,
+     "bbox_mm": [
+      23.4,
+      14.8
+     ],
+     "R_mOhm": 1.396,
+     "L_nH": 10.82
+    }
+   ],
+   "R_zone_mOhm": 1.396,
+   "L_zone_nH": 10.82,
+   "R_via_mOhm": 0.16666666666666666,
+   "L_via_nH": 0.16666666666666666,
+   "path": "zone",
+   "R_est_mOhm": 1.563,
+   "L_est_nH": 5.58
+  },
+  "/Shuffle Converter 2/M_T_Bph_S": {
+   "segments": 10,
+   "len_mm": 32.485,
+   "R_trace_mOhm": 39.91,
+   "L_trace_nH": 25.285,
+   "layers": {
+    "F.Cu": 10
+   },
+   "vias": 6,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 6.0,
+     "bbox_mm": [
+      5.0,
+      1.2
+     ],
+     "R_mOhm": 2.063,
+     "L_nH": 2.67
+    },
+    {
+     "layer": "In3.Cu",
+     "area_mm2": 27.4,
+     "bbox_mm": [
+      2.7,
+      10.1
+     ],
+     "R_mOhm": 1.813,
+     "L_nH": 5.12
+    }
+   ],
+   "R_zone_mOhm": 0.965,
+   "L_zone_nH": 1.755,
+   "R_via_mOhm": 0.16666666666666666,
+   "L_via_nH": 0.16666666666666666,
+   "path": "zone",
+   "R_est_mOhm": 1.132,
+   "L_est_nH": 1.04
+  },
+  "GND": {
+   "segments": 66,
+   "len_mm": 64.563,
+   "R_trace_mOhm": 106.383,
+   "L_trace_nH": 33.114,
+   "layers": {
+    "F.Cu": 66
+   },
+   "vias": 258,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.9,
+     "bbox_mm": [
+      4.1,
+      1.2
+     ],
+     "R_mOhm": 1.684,
+     "L_nH": 2.02
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 3.7,
+     "bbox_mm": [
+      1.9,
+      2.0
+     ],
+     "R_mOhm": 0.506,
+     "L_nH": 0.56
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 22.7,
+     "bbox_mm": [
+      3.7,
+      6.5
+     ],
+     "R_mOhm": 0.916,
+     "L_nH": 2.51
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 19.3,
+     "bbox_mm": [
+      3.7,
+      5.3
+     ],
+     "R_mOhm": 0.714,
+     "L_nH": 1.82
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 17.1,
+     "bbox_mm": [
+      4.3,
+      4.0
+     ],
+     "R_mOhm": 0.526,
+     "L_nH": 1.25
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 15.5,
+     "bbox_mm": [
+      4.2,
+      5.5
+     ],
+     "R_mOhm": 0.948,
+     "L_nH": 2.14
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 12.9,
+     "bbox_mm": [
+      5.5,
+      2.3
+     ],
+     "R_mOhm": 1.158,
+     "L_nH": 2.36
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 24.4,
+     "bbox_mm": [
+      3.8,
+      9.8
+     ],
+     "R_mOhm": 1.912,
+     "L_nH": 5.06
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.1,
+     "bbox_mm": [
+      1.9,
+      2.2
+     ],
+     "R_mOhm": 0.565,
+     "L_nH": 0.66
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 44.3,
+     "bbox_mm": [
+      5.1,
+      10.2
+     ],
+     "R_mOhm": 1.166,
+     "L_nH": 4.39
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 22.3,
+     "bbox_mm": [
+      4.5,
+      8.7
+     ],
+     "R_mOhm": 1.646,
+     "L_nH": 4.25
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 5.5,
+     "bbox_mm": [
+      1.9,
+      2.9
+     ],
+     "R_mOhm": 0.752,
+     "L_nH": 1.01
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.9,
+     "bbox_mm": [
+      4.1,
+      1.2
+     ],
+     "R_mOhm": 1.684,
+     "L_nH": 2.02
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.9,
+     "bbox_mm": [
+      4.1,
+      1.2
+     ],
+     "R_mOhm": 1.684,
+     "L_nH": 2.02
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 15.8,
+     "bbox_mm": [
+      2.2,
+      7.4
+     ],
+     "R_mOhm": 1.687,
+     "L_nH": 3.65
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 3.7,
+     "bbox_mm": [
+      1.9,
+      2.0
+     ],
+     "R_mOhm": 0.506,
+     "L_nH": 0.56
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.5,
+     "bbox_mm": [
+      3.8,
+      1.2
+     ],
+     "R_mOhm": 1.584,
+     "L_nH": 1.84
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 3.7,
+     "bbox_mm": [
+      1.9,
+      1.9
+     ],
+     "R_mOhm": 0.506,
+     "L_nH": 0.56
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 13.7,
+     "bbox_mm": [
+      5.5,
+      2.5
+     ],
+     "R_mOhm": 1.098,
+     "L_nH": 2.3
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 25.8,
+     "bbox_mm": [
+      5.8,
+      6.6
+     ],
+     "R_mOhm": 0.83,
+     "L_nH": 2.43
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 201.7,
+     "bbox_mm": [
+      28.4,
+      12.0
+     ],
+     "R_mOhm": 1.965,
+     "L_nH": 14.94
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 37.8,
+     "bbox_mm": [
+      5.2,
+      10.6
+     ],
+     "R_mOhm": 1.455,
+     "L_nH": 4.96
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 15.3,
+     "bbox_mm": [
+      6.4,
+      2.4
+     ],
+     "R_mOhm": 1.312,
+     "L_nH": 2.87
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 4.7,
+     "bbox_mm": [
+      3.9,
+      1.2
+     ],
+     "R_mOhm": 1.602,
+     "L_nH": 1.89
+    }
+   ],
+   "R_zone_mOhm": 0.04,
+   "L_zone_nH": 0.065,
+   "R_via_mOhm": 0.003875968992248062,
+   "L_via_nH": 0.003875968992248062,
+   "path": "zone",
+   "R_est_mOhm": 0.044,
+   "L_est_nH": 0.04
+  },
+  "PV3+": {
+   "segments": 53,
+   "len_mm": 170.282,
+   "R_trace_mOhm": 205.076,
+   "L_trace_nH": 115.834,
+   "layers": {
+    "F.Cu": 50,
+    "B.Cu": 3
+   },
+   "vias": 60,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 12.5,
+     "bbox_mm": [
+      5.1,
+      2.5
+     ],
+     "R_mOhm": 1.024,
+     "L_nH": 2.06
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 739.1,
+     "bbox_mm": [
+      17.8,
+      69.6
+     ],
+     "R_mOhm": 3.221,
+     "L_nH": 43.21
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 28.4,
+     "bbox_mm": [
+      5.9,
+      6.4
+     ],
+     "R_mOhm": 0.709,
+     "L_nH": 2.19
+    },
+    {
+     "layer": "In1.Cu",
+     "area_mm2": 312.7,
+     "bbox_mm": [
+      15.8,
+      25.3
+     ],
+     "R_mOhm": 1.003,
+     "L_nH": 10.18
+    },
+    {
+     "layer": "In1.Cu",
+     "area_mm2": 4268.7,
+     "bbox_mm": [
+      84.6,
+      78.9
+     ],
+     "R_mOhm": 0.824,
+     "L_nH": 31.19
+    }
+   ],
+   "R_zone_mOhm": 0.204,
+   "L_zone_nH": 0.913,
+   "R_via_mOhm": 0.016666666666666666,
+   "L_via_nH": 0.016666666666666666,
+   "path": "zone",
+   "R_est_mOhm": 0.22,
+   "L_est_nH": 0.47
+  },
+  "/Shuffle Converter 2/M_T_Bph_G": {
+   "segments": 3,
+   "len_mm": 4.385,
+   "R_trace_mOhm": 3.394,
+   "L_trace_nH": 1.893,
+   "layers": {
+    "F.Cu": 3
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 3.394,
+   "L_est_nH": 0.95
+  },
+  "/Shuffle Converter 2/M_B_Aph_G": {
+   "segments": 5,
+   "len_mm": 5.016,
+   "R_trace_mOhm": 4.852,
+   "L_trace_nH": 2.498,
+   "layers": {
+    "F.Cu": 5
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 4.852,
+   "L_est_nH": 1.25
+  },
+  "/Shuffle Converter 2/M_T_Aph_S": {
+   "segments": 9,
+   "len_mm": 45.557,
+   "R_trace_mOhm": 60.488,
+   "L_trace_nH": 36.955,
+   "layers": {
+    "F.Cu": 9
+   },
+   "vias": 6,
+   "zones": [
+    {
+     "layer": "In3.Cu",
+     "area_mm2": 25.7,
+     "bbox_mm": [
+      2.7,
+      9.5
+     ],
+     "R_mOhm": 1.705,
+     "L_nH": 4.71
+    }
+   ],
+   "R_zone_mOhm": 1.705,
+   "L_zone_nH": 4.71,
+   "R_via_mOhm": 0.16666666666666666,
+   "L_via_nH": 0.16666666666666666,
+   "path": "zone",
+   "R_est_mOhm": 1.872,
+   "L_est_nH": 2.52
+  },
+  "/Shuffle Converter 1/M_B_Bph_G": {
+   "segments": 4,
+   "len_mm": 5.51,
+   "R_trace_mOhm": 5.335,
+   "L_trace_nH": 2.508,
+   "layers": {
+    "F.Cu": 4
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 5.335,
+   "L_est_nH": 1.25
+  },
+  "/Shuffle Converter 1/M_T_Aph_S": {
+   "segments": 10,
+   "len_mm": 36.247,
+   "R_trace_mOhm": 44.016,
+   "L_trace_nH": 30.93,
+   "layers": {
+    "F.Cu": 10
+   },
+   "vias": 6,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 151.2,
+     "bbox_mm": [
+      17.5,
+      9.3
+     ],
+     "R_mOhm": 0.995,
+     "L_nH": 7.02
+    },
+    {
+     "layer": "In3.Cu",
+     "area_mm2": 25.7,
+     "bbox_mm": [
+      2.7,
+      9.4
+     ],
+     "R_mOhm": 1.705,
+     "L_nH": 4.71
+    }
+   ],
+   "R_zone_mOhm": 0.628,
+   "L_zone_nH": 2.819,
+   "R_via_mOhm": 0.16666666666666666,
+   "L_via_nH": 0.16666666666666666,
+   "path": "zone",
+   "R_est_mOhm": 0.795,
+   "L_est_nH": 1.58
+  },
+  "/Shuffle Converter 1/M_T_Bph_G": {
+   "segments": 3,
+   "len_mm": 4.665,
+   "R_trace_mOhm": 3.61,
+   "L_trace_nH": 2.076,
+   "layers": {
+    "F.Cu": 3
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 3.61,
+   "L_est_nH": 1.04
+  },
+  "PV2+": {
+   "segments": 12,
+   "len_mm": 61.858,
+   "R_trace_mOhm": 119.675,
+   "L_trace_nH": 57.793,
+   "layers": {
+    "F.Cu": 8,
+    "In3.Cu": 4
+   },
+   "vias": 45,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 78.3,
+     "bbox_mm": [
+      10.5,
+      12.7
+     ],
+     "R_mOhm": 1.006,
+     "L_nH": 5.1
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 81.2,
+     "bbox_mm": [
+      11.0,
+      12.7
+     ],
+     "R_mOhm": 0.977,
+     "L_nH": 5.05
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 29.3,
+     "bbox_mm": [
+      4.8,
+      6.1
+     ],
+     "R_mOhm": 0.625,
+     "L_nH": 1.96
+    }
+   ],
+   "R_zone_mOhm": 0.276,
+   "L_zone_nH": 1.106,
+   "R_via_mOhm": 0.022727272727272728,
+   "L_via_nH": 0.022727272727272728,
+   "path": "zone",
+   "R_est_mOhm": 0.299,
+   "L_est_nH": 0.58
+  },
+  "PV1+": {
+   "segments": 7,
+   "len_mm": 41.321,
+   "R_trace_mOhm": 90.353,
+   "L_trace_nH": 42.472,
+   "layers": {
+    "F.Cu": 7
+   },
+   "vias": 26,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 270.5,
+     "bbox_mm": [
+      15.0,
+      39.2
+     ],
+     "R_mOhm": 2.799,
+     "L_nH": 23.29
+    },
+    {
+     "layer": "F.Cu",
+     "area_mm2": 103.9,
+     "bbox_mm": [
+      11.0,
+      16.8
+     ],
+     "R_mOhm": 1.332,
+     "L_nH": 7.61
+    },
+    {
+     "layer": "B.Cu",
+     "area_mm2": 2066.0,
+     "bbox_mm": [
+      65.5,
+      39.9
+     ],
+     "R_mOhm": 1.022,
+     "L_nH": 26.64
+    }
+   ],
+   "R_zone_mOhm": 0.479,
+   "L_zone_nH": 4.72,
+   "R_via_mOhm": 0.038461538461538464,
+   "L_via_nH": 0.038461538461538464,
+   "path": "zone",
+   "R_est_mOhm": 0.518,
+   "L_est_nH": 2.4
+  },
+  "/Shuffle Converter 1/M_T_Aph_G": {
+   "segments": 4,
+   "len_mm": 4.563,
+   "R_trace_mOhm": 5.606,
+   "L_trace_nH": 2.379,
+   "layers": {
+    "F.Cu": 4
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 5.606,
+   "L_est_nH": 1.19
+  },
+  "/Shuffle Converter 2/M_T_Aph_G": {
+   "segments": 2,
+   "len_mm": 3.893,
+   "R_trace_mOhm": 3.013,
+   "L_trace_nH": 1.82,
+   "layers": {
+    "F.Cu": 2
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 3.013,
+   "L_est_nH": 0.91
+  },
+  "/Shuffle Converter 2/M_B_Bph_G": {
+   "segments": 5,
+   "len_mm": 5.432,
+   "R_trace_mOhm": 4.442,
+   "L_trace_nH": 2.19,
+   "layers": {
+    "F.Cu": 5
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 4.442,
+   "L_est_nH": 1.1
+  },
+  "/Shuffle Converter 1/M_B_Aph_G": {
+   "segments": 3,
+   "len_mm": 4.415,
+   "R_trace_mOhm": 10.848,
+   "L_trace_nH": 2.823,
+   "layers": {
+    "F.Cu": 3
+   },
+   "vias": 0,
+   "zones": [],
+   "R_zone_mOhm": 0.0,
+   "L_zone_nH": 0.0,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "tracks (series sum, pessimistic)",
+   "R_est_mOhm": 10.848,
+   "L_est_nH": 1.41
+  },
+  "/Shuffle Converter 1/L_Bph2": {
+   "segments": 0,
+   "len_mm": 0.0,
+   "R_trace_mOhm": 0.0,
+   "L_trace_nH": 0.0,
+   "layers": {},
+   "vias": 0,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 66.7,
+     "bbox_mm": [
+      11.6,
+      5.8
+     ],
+     "R_mOhm": 0.992,
+     "L_nH": 4.64
+    }
+   ],
+   "R_zone_mOhm": 0.992,
+   "L_zone_nH": 4.64,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "zone",
+   "R_est_mOhm": 0.992,
+   "L_est_nH": 2.32
+  },
+  "/Shuffle Converter 1/L_Aph2": {
+   "segments": 0,
+   "len_mm": 0.0,
+   "R_trace_mOhm": 0.0,
+   "L_trace_nH": 0.0,
+   "layers": {},
+   "vias": 0,
+   "zones": [
+    {
+     "layer": "F.Cu",
+     "area_mm2": 50.2,
+     "bbox_mm": [
+      11.8,
+      6.5
+     ],
+     "R_mOhm": 1.352,
+     "L_nH": 5.36
+    }
+   ],
+   "R_zone_mOhm": 1.352,
+   "L_zone_nH": 5.36,
+   "R_via_mOhm": 0.0,
+   "L_via_nH": 0.0,
+   "path": "zone",
+   "R_est_mOhm": 1.352,
+   "L_est_nH": 2.68
+  }
+ }
+}
