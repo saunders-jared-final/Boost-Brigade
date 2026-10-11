@@ -42,6 +42,12 @@ Optional (objective 1 extras, switchable with a Manual Switch / variant)
 - [ ] Sensor noise at the measured scales: INA239 bus voltage 3.125 mV LSB + ~2 mV rms, hall 12-bit on 3.3 V (0.8 mV LSB → 8 mA at 100 mV/A, 32 mA at 25 mV/A) + ~20 mA rms; sample-and-hold VM at 1 kHz (INA conversion) and IL at 10 kHz.
 - [ ] A comb / moving-average on IL over one PWM period (10 µs) in the switching variant only.
 
+Sign convention (do not change): the controller's `IL` vector is `{ILA, ILB}` per shuffler with
+**ILA positive into the midpoint and ILB positive out of it** — that is how the validated
+identification was done (`ILA+ILB` = circulating current nulled by the controller, `ILA−ILB` = shuffled
+current rated by the supervisor). The PCB's reversed B-phase sensors deliver exactly this sign; the
+Recon block and the firmware both assume it.
+
 ## 2. Workflow (Monday)
 
 ```matlab

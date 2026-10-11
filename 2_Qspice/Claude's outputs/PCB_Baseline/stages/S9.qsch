@@ -1052,7 +1052,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTA1"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) < V(DA1)-0.02, 3.3, 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) < V(DA1C)-0.02, 3.3, 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1069,7 +1069,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBA1"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) > V(DA1), if(V(RAMPA) < 0.98, 3.3, 0), 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) > V(DA1C), if(V(RAMPA) < 0.98, 3.3, 0), 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1086,7 +1086,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTB1"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) < V(DB1)-0.02, 3.3, 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) < V(DB1C)-0.02, 3.3, 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1103,7 +1103,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBB1"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) > V(DB1), if(V(RAMPB) < 0.98, 3.3, 0), 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) > V(DB1C), if(V(RAMPB) < 0.98, 3.3, 0), 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1634,7 +1634,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTA2"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) < V(DA2)-0.02, 3.3, 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) < V(DA2C)-0.02, 3.3, 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1651,7 +1651,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBA2"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) > V(DA2), if(V(RAMPA) < 0.98, 3.3, 0), 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPA) > V(DA2C), if(V(RAMPA) < 0.98, 3.3, 0), 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1668,7 +1668,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTB2"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) < V(DB2)-0.02, 3.3, 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) < V(DB2C)-0.02, 3.3, 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1685,7 +1685,7 @@
       «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
       «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
       «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBB2"»
-      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) > V(DB2), if(V(RAMPB) < 0.98, 3.3, 0), 0)"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) > V(DB2C), if(V(RAMPB) < 0.98, 3.3, 0), 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
@@ -1843,6 +1843,74 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
+  «component (8000,-15200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BdDA1"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(CTRL_EN)>0.5, V(DA1), 0.5+table(RUN, 1,0, 2,DU/2, 3,0, 4,DU/2, 5,0))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (8500,-15200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BdDB1"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(CTRL_EN)>0.5, V(DB1), 0.5+table(RUN, 1,0, 2,DU/2, 3,0, 4,-DU/2, 5,0))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (9000,-15200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BdDA2"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(CTRL_EN)>0.5, V(DA2), 0.5+table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,DU/2))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (9500,-15200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BdDB2"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(CTRL_EN)>0.5, V(DB2), 0.5+table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,-DU/2))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
   «component (14000,-13400) 0 0
     «symbol shuffler_ctrl_dll
       «type: Ø(.DLL)»
@@ -1880,39 +1948,45 @@
   «text (-9000,1800) 1.5 7 1 0x1000000 -1 -1 "ï»¿Shuffler PCB baseline - S9 - CLOSED LOOP: 150 W panels, drivers (S5 circuit), 100 kHz PWM, firmware control stack as a C-block DLL"Â»
   «text (-9000,1500) 1 7 1 0x1000000 -1 -1 "ï»¿Generated by gen_shuffler.py; node names match the netlist. GND = string bottom = SPICE node 0."Â»
   «text (-9000,-13400) 1.5 7 1 0x1000000 -1 -1 "ï»¿S9 - CLOSED LOOP: 150 W panels, drivers (S5 circuit), 100 kHz PWM, firmware control stack as a C-block DLL"Â»
-  «text (-9000,-14000) 1 7 0 0x1000000 -1 -1 "ï»¿.param Rmpp=6.682 Icc=8 CASE=2 LOADSEL=1 VSTEP=1"Â»
+  «text (-9000,-14000) 1 7 0 0x1000000 -1 -1 "ï»¿.param Rmpp=6.682 Icc=6.5 CASE=2 LOADSEL=1 VSTEP=1 DU=0 RUN=1"Â»
   «text (-9000,-14150) 1 7 0 0x1000000 -1 -1 "ï»¿.tran 0 6m 0 250n"Â»
-  «text (-9000,-14300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd1 AVG V(PV1P,PV2P) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-14450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd2 AVG V(PV2P,PV3P) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-14600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-14750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-14900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf1 AVG I(VsA1)-I(VsB1) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf2 AVG I(VsA2)-I(VsB2) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da1 AVG V(DA1) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db1 AVG V(DB1) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da2 AVG V(DA2) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db2 AVG V(DB2) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pout AVG V(PV1P)*I(Bload) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-15950) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pref AVG V(R1P)*I(Bref) FROM 0.002 TO 0.0029"Â»
-  «text (-9000,-16100) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd1s AVG V(PV1P,PV2P) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-16250) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd2s AVG V(PV2P,PV3P) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-16400) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1s AVG I(VsA1)+I(VsB1) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-16550) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2s AVG I(VsA2)+I(VsB2) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-16700) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf1s AVG I(VsA1)-I(VsB1) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-16850) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf2s AVG I(VsA2)-I(VsB2) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17000) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da1s AVG V(DA1) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17150) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db1s AVG V(DB1) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da2s AVG V(DA2) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db2s AVG V(DB2) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pouts AVG V(PV1P)*I(Bload) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran prefs AVG V(R1P)*I(Bref) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-17900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran betamax MAX V(BETA)"Â»
-  «text (-9000,-18050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran stressmax MAX V(STRESS)"Â»
-  «text (-9000,-18200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran im1r AVG V(IM1R) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-18350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran im2r AVG V(IM2R) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-18500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i1 AVG I(Vi1) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-18650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i2 AVG I(Vi2) FROM 0.0045 TO 0.006"Â»
-  «text (-9000,-18800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i3 AVG I(Vi3) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-14300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-14450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd2 AVG V(PV2P,PV3P)-V(PV3P) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-14600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm1 AVG V(PV1P,PV2P) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-14750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm2 AVG V(PV2P,PV3P) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-14900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm3 AVG V(PV3P) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf1 AVG I(VsA1)-I(VsB1) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf2 AVG I(VsA2)-I(VsB2) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da1 AVG V(DA1) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db1 AVG V(DB1) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-15950) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da2 AVG V(DA2) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-16100) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db2 AVG V(DB2) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-16250) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pout AVG V(PV1P)*I(Bload) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-16400) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pref AVG V(R1P)*I(Bref) FROM 0.002 TO 0.0029"Â»
+  «text (-9000,-16550) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd1s AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-16700) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vd2s AVG V(PV2P,PV3P)-V(PV3P) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-16850) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm1s AVG V(PV1P,PV2P) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17000) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm2s AVG V(PV2P,PV3P) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17150) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm3s AVG V(PV3P) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1s AVG I(VsA1)+I(VsB1) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2s AVG I(VsA2)+I(VsB2) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf1s AVG I(VsA1)-I(VsB1) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran idf2s AVG I(VsA2)-I(VsB2) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-17900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da1s AVG V(DA1) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db1s AVG V(DB1) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran da2s AVG V(DA2) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran db2s AVG V(DB2) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran pouts AVG V(PV1P)*I(Bload) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran prefs AVG V(R1P)*I(Bref) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-18800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran betamax MAX V(BETA)"Â»
+  «text (-9000,-18950) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran stressmax MAX V(STRESS)"Â»
+  «text (-9000,-19100) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran im1r AVG V(IM1R) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-19250) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran im2r AVG V(IM2R) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-19400) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i1 AVG I(Vi1) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-19550) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i2 AVG I(Vi2) FROM 0.0045 TO 0.006"Â»
+  «text (-9000,-19700) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i3 AVG I(Vi3) FROM 0.0045 TO 0.006"Â»
   «net (-600,-1500) 1 11 0 "E1"»
   «net (-600,-4300) 1 11 0 "E2"»
   «net (-600,-7100) 1 11 0 "E3"»
@@ -2059,6 +2133,14 @@
   «net (11700,-12400) 1 13 0 "GND"»
   «net (12200,-11600) 1 14 0 "VREF2"»
   «net (12200,-12400) 1 13 0 "GND"»
+  «net (8000,-14800) 1 14 0 "DA1C"»
+  «net (8000,-15600) 1 13 0 "GND"»
+  «net (8500,-14800) 1 14 0 "DB1C"»
+  «net (8500,-15600) 1 13 0 "GND"»
+  «net (9000,-14800) 1 14 0 "DA2C"»
+  «net (9000,-15600) 1 13 0 "GND"»
+  «net (9500,-14800) 1 14 0 "DB2C"»
+  «net (9500,-15600) 1 13 0 "GND"»
   «net (12800,-12500) 1 11 0 "PV1P"»
   «net (12800,-12700) 1 11 0 "PV2P"»
   «net (12800,-12900) 1 11 0 "PV3P"»
@@ -2406,6 +2488,14 @@
   «wire (11700,-12200) (11700,-12400) "GND"»
   «wire (12200,-11800) (12200,-11600) "VREF2"»
   «wire (12200,-12200) (12200,-12400) "GND"»
+  «wire (8000,-15000) (8000,-14800) "DA1C"»
+  «wire (8000,-15400) (8000,-15600) "GND"»
+  «wire (8500,-15000) (8500,-14800) "DB1C"»
+  «wire (8500,-15400) (8500,-15600) "GND"»
+  «wire (9000,-15000) (9000,-14800) "DA2C"»
+  «wire (9000,-15400) (9000,-15600) "GND"»
+  «wire (9500,-15000) (9500,-14800) "DB2C"»
+  «wire (9500,-15400) (9500,-15600) "GND"»
   «wire (13200,-12500) (12800,-12500) "PV1P"»
   «wire (13200,-12700) (12800,-12700) "PV2P"»
   «wire (13200,-12900) (12800,-12900) "PV3P"»

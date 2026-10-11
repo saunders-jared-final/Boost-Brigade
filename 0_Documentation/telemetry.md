@@ -18,7 +18,7 @@ T,<ms>,<state>,<fault>,<VM1>,<VM2>,<VM3>,<ILA1>,<ILB1>,<ILA2>,<ILB2>,<dA1>,<dB1>
 | `state` | enum | `BOOT, SELFTEST, IDLE, SOFTSTART, RUN_OL, RUN_CL, RUN_OL1, RUN_CL1, RUN_OL2, RUN_CL2, STOP, FAULT` (string) |
 | `fault` | hex | fault bitmask, `0` when none: 0x01 OC latch, 0x02 OC hardware (COMP), 0x04 E-stop, 0x08 bus OV, 0x10 bus UV, 0x20 sensor zero-cal, 0x40 INA bus blocked / absent, 0x80 over-temperature (Pi-reported), 0x100 watchdog reset |
 | `VM1..VM3` | V | module voltages (VM3 = U12, VM2 = U11−U12, VM1 = U10−(U11−U12)); `nan` when not readable |
-| `ILA1,ILB1,ILA2,ILB2` | A | phase inductor currents, positive INTO the converter midpoint |
+| `ILA1,ILB1,ILA2,ILB2` | A | phase inductor currents in the control-stack convention: A positive INTO the converter midpoint, B positive OUT of it (ILA+ILB = circulating, ILA−ILB = shuffled) |
 | `dA1..dB2` | – | applied duties |
 | `rv1,rv2` | V | supervisor relaxation references |
 | `beta`, `stress` | – | supervisor governor gain and stress index |

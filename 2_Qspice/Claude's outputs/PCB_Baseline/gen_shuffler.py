@@ -54,7 +54,7 @@ PANEL150 = ("avoc=%.6g bvoc=%.6g aisc=%.6g bisc=0 avm=%.6g bvm=%.6g aim=%.6g bim
     0.00116836 * 18.28 / 38.4460, 37.2775900991 * 18.28 / 38.4460,
     0.0141475710 * 8.207 / 14.1558, 0.0082493126 * 8.207 / 14.1558))
 PV_SUB = "pvmi_aiko"          # module subcircuit used by pv_string(); S9 switches to pvmi_150w
-ICC_150 = 8.0                 # S9 bench load: constant current near Imp of the 150 W string
+ICC_150 = 6.5                 # S9 load: current sink below what the shaded string can carry (module 2 at 600 W/m2: Isc 5.2 A + shuffling)
 
 FSW = 200e3
 TSW = 1 / FSW
@@ -600,7 +600,7 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
                 # DLL between control ticks) against a sawtooth RAMP{leg} (leg B shifted half a period); the
                 # 200 ns dead time is cut from both edges exactly as the HRTIM dead-time generator does
                 dead = TDEAD / TSW_CTRL
-                ramp, dnet = f"RAMP{leg}", f"D{leg}{s}"
+                ramp, dnet = f"RAMP{leg}", f"D{leg}{s}C"
                 if pos == "T":
                     expr = f"V=if(V({ramp}) < V({dnet})-{dead:g}, {VLOGIC}, 0)"
                 else:
@@ -641,8 +641,8 @@ def ctrl_sym():
 
 def ctrl_block(c, x0, y0, vstep=1.0, t_en=1e-3, t_step=8e-3):
     """Closed-loop control around the two converters (stage S9):
-    hall-sensor voltages from the inductor sense sources (A phases 100 mV/A, B phases 25 mV/A reversed,
-    as mounted), the controller DLL (samples/quantises like the firmware, 10 kHz tick, module currents
+    hall-sensor voltages from the inductor sense sources (A phases 100 mV/A into the midpoint, B phases
+    25 mV/A reversed as mounted = positive OUT of the midpoint, which is the control stack's convention), the controller DLL (samples/quantises like the firmware, 10 kHz tick, module currents
     reconstructed), sawtooth ramps for the HRTIM-style PWM comparators in converter(), enable and
     Vref test inputs."""
     # hall sensor outputs (the TMCS1126 output stage, 1.65 V + S*I)
@@ -664,6 +664,16 @@ def ctrl_block(c, x0, y0, vstep=1.0, t_en=1e-3, t_step=8e-3):
     c.stub(p.pin["+"], "VREF1", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
     p = c.V("Vref2", "VREF2", "GND", "0", x0 + 4200, y0)
     c.stub(p.pin["+"], "VREF2", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    # commanded duties: the DLL output while enabled, else 0.5 + the identification offsets
+    # (RUN 1 baseline, 2 u_comm_1, 3 u_comm_2, 4 u_diff_1, 5 u_diff_2; DU = modal step)
+    offs = {"DA1": "table(RUN, 1,0, 2,DU/2, 3,0, 4,DU/2, 5,0)",
+            "DB1": "table(RUN, 1,0, 2,DU/2, 3,0, 4,-DU/2, 5,0)",
+            "DA2": "table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,DU/2)",
+            "DB2": "table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,-DU/2)"}
+    for i, (dn, off) in enumerate(offs.items()):
+        p = c.B(f"Bd{dn}", dn + "C", "GND", f"V=if(V(CTRL_EN)>0.5, V({dn}), 0.5+{off})", x0 + 500 * i, y0 - 3200)
+        c.stub(p.pin["+"], dn + "C", "up", 200)
+        c.stub(p.pin["-"], "GND", "down", 200)
     # the controller
     sym = ctrl_sym()
     p = c.DLL("Xc", sym, CTRL_INS, CTRL_OUTS, "0", "shuffler_ctrl_dll", x0 + 6000, y0 - 1400)
@@ -679,8 +689,11 @@ def ctrl_block(c, x0, y0, vstep=1.0, t_en=1e-3, t_step=8e-3):
 def ctrl_measurements(c, t0, t1, t2, t3):
     """Settled means before (t0..t1) and after (t2..t3) the Vref step, supervisor extrema, harvest."""
     for tag, a, b in (("", t0, t1), ("s", t2, t3)):
-        c.measure(f".meas tran vd1{tag} AVG V(PV1P,PV2P) FROM {a:g} TO {b:g}")
-        c.measure(f".meas tran vd2{tag} AVG V(PV2P,PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vd1{tag} AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vd2{tag} AVG V(PV2P,PV3P)-V(PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vm1{tag} AVG V(PV1P,PV2P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vm2{tag} AVG V(PV2P,PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vm3{tag} AVG V(PV3P) FROM {a:g} TO {b:g}")
         c.measure(f".meas tran ish1{tag} AVG I(VsA1)+I(VsB1) FROM {a:g} TO {b:g}")
         c.measure(f".meas tran ish2{tag} AVG I(VsA2)+I(VsB2) FROM {a:g} TO {b:g}")
         c.measure(f".meas tran idf1{tag} AVG I(VsA1)-I(VsB1) FROM {a:g} TO {b:g}")
@@ -799,11 +812,12 @@ def build(stage):
         "S8": "S8 - snubber / HF decoupling design sweep (placeholder positions populated)",
         "S8b": "S8b - HF decoupling sweep (snubber fixed at 470 pF / 4.7 R)",
         "S9": "S9 - CLOSED LOOP: 150 W panels, drivers (S5 circuit), 100 kHz PWM, firmware control stack as a C-block DLL",
+        "S9i": "S9i - IDENTIFICATION of the S9 plant: open loop, baseline + 4 modal duty steps (RUN 1..5) -> G -> M (qspice_ident.py)",
     }
     order = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
     global PV_SUB
-    PV_SUB = "pvmi_150w" if stage == "S9" else "pvmi_aiko"
-    if stage == "S9":
+    PV_SUB = "pvmi_150w" if stage in ("S9", "S9i") else "pvmi_aiko"
+    if stage in ("S9", "S9i"):
         stage_flags = dict(cpv=True, bulk=True, conv=[1, 2], drive="driver", paras=False, snub=False, full_meas=False)
         idx = order.index("S5")
     else:
@@ -817,7 +831,7 @@ def build(stage):
     if idx >= 6: S["full_meas"] = True
     if stage_flags:
         S.update(stage_flags)
-    ctrl = stage == "S9"
+    ctrl = stage in ("S9", "S9i")
 
     c = Circuit(stage, titles[stage])
     # ---- geometry anchors
@@ -835,14 +849,19 @@ def build(stage):
         T, M, B = conv_nets[k]
         converter(c, k, Xs + 8000, Ys - 4600 * (k - 1), T, M, B, S["drive"], S["paras"], S["snub"], ctrl=ctrl)
     if ctrl:
-        ctrl_block(c, Xs + 8000, Ys - 12000, t_en=0.5e-3, t_step=3e-3)
+        ctrl_block(c, Xs + 8000, Ys - 12000, t_en=(0.5e-3 if stage == "S9" else 1.0), t_step=3e-3)
     # ---- simulation control
     if stage == "S9":
         # one case (CASE: 1 uniform, 2 = module 2 at 600, 3 = module 3 at 400 W/m2), constant-current load
-        # near Imp of the 150 W string, 6 ms: open loop 0-0.5 ms, closed loop from 0.5 ms, Vref1 step at 3 ms
+        # current-sink load (the resistor B-source stalls the solver at t=0 with this PV model; a sink above the
+        # shaded string's capability collapses the string - keep Icc below it), 6 ms: open loop 0-0.5 ms, closed loop from 0.5 ms, Vref1 step at 3 ms
         # (no savepowers, 250 ns max step: the .qraw stays near 1 GB for the 6 ms run)
-        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=1")
+        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=1 DU=0 RUN=1")
         c.directive(".tran 0 6m 0 250n")
+    elif stage == "S9i":
+        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=0 DU=0.04 RUN=1")
+        c.directive(".step param RUN list 1 2 3 4 5")
+        c.directive(".tran 0 4m 2.5m 250n")
     elif stage in ("S1", "S2"):
         base_directives(c, 2e-3, 1.9e-3, 1e-6)
     elif stage in ("S3", "S4", "S5"):
@@ -862,7 +881,18 @@ def build(stage):
         c.directive(".param Csn=470p Rsn=4.7")
         c.directive(".step param Chf list 1p 100n 470n 1u")
     # ---- measurements
-    if ctrl:
+    if stage == "S9i":
+        # settled plant outputs in the control stack's conventions: y = [VM1-VM2, VM2-VM3, ic1, ic2],
+        # ic = ILA + ILB with ILB positive OUT of the midpoint = I(VsA) - I(VsB).
+        # Saved data starts at 2.5 ms and is time-rebased to 0: the window 0.5..1.5 ms = 3..4 ms of the run.
+        c.measure(".meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran y3 AVG I(VsA1)-I(VsB1) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran y4 AVG I(VsA2)-I(VsB2) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.5m TO 1.5m")
+        c.measure(".meas tran pout AVG V(PV1P)*I(Bload) FROM 0.5m TO 1.5m")
+    elif ctrl:
         ctrl_measurements(c, 2e-3, 2.9e-3, 4.5e-3, 6e-3)
     else:
         string_measurements(c, refstring=True, modules=True)

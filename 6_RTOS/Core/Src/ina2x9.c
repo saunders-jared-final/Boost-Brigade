@@ -8,14 +8,16 @@
   * and scaled accordingly.
   *
   * SPI mode 1, MSB first. First byte = (address << 2) | R/W (1 = read),
-  * followed by 16 or 24 data bits. Nothing is written to the devices: the
-  * power-on configuration (continuous bus/shunt/temperature conversion) is
-  * what this test needs. On this PCB the shunt inputs are tied to GND, so
-  * only VBUS and DIETEMP carry information.
+  * followed by 16 or 24 data bits. The only write is ADC_CONFIG: continuous
+  * conversion with an 84 us bus-voltage conversion time (the 1052 us power-on
+  * default is ~1 ms of measurement lag, which the 150 Hz voltage loop cannot
+  * afford: QSPICE S9 rings with it). On this PCB the shunt inputs are tied
+  * to GND, so only VBUS and DIETEMP carry information.
   */
 #include "ina2x9.h"
 #include "spi.h"
 
+#define REG_ADC_CONFIG      0x01
 #define REG_VBUS            0x05
 #define REG_DIETEMP         0x06
 #define REG_MANUFACTURER_ID 0x3E
@@ -62,6 +64,20 @@ static uint8_t ReadReg(uint8_t index, uint8_t reg, uint8_t nbytes, uint32_t *val
   return 1;
 }
 
+/* ADC_CONFIG: MODE = continuous bus+shunt+temp (0xF), VBUSCT = VSHCT = VTCT = 84 us (1), AVG = 1 (0) */
+#define ADC_CONFIG_VALUE    0xF248U
+
+static uint8_t WriteReg(uint8_t index, uint8_t reg, uint16_t value)
+{
+  uint8_t tx[3] = { (uint8_t)(reg << 2), (uint8_t)(value >> 8), (uint8_t)value };
+  uint8_t rx[3] = { 0 };
+  HAL_StatusTypeDef st;
+  HAL_GPIO_WritePin(s_cs_port[index], s_cs_pin[index], GPIO_PIN_RESET);
+  st = HAL_SPI_TransmitReceive(&hspi3, tx, rx, 3U, SPI_TIMEOUT_MS);
+  HAL_GPIO_WritePin(s_cs_port[index], s_cs_pin[index], GPIO_PIN_SET);
+  return (st == HAL_OK) ? 1U : 0U;
+}
+
 static void Probe(uint8_t index)
 {
   INA_Dev *d = &s_dev[index];
@@ -84,6 +100,10 @@ static void Probe(uint8_t index)
     case DIE_ID_INA239: d->kind = INA_239;     break;
     case DIE_ID_INA229: d->kind = INA_229;     break;
     default:            d->kind = INA_UNKNOWN; break;
+  }
+  if (d->kind == INA_239 || d->kind == INA_229)
+  {
+    (void)WriteReg(index, REG_ADC_CONFIG, ADC_CONFIG_VALUE);   /* fast bus conversion, see header */
   }
 }
 

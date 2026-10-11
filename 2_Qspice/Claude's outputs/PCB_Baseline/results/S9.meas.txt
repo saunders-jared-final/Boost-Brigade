@@ -1,0 +1,74 @@
+.meas tran vd1 avg v(pv1p,pv2p)-v(pv2p,pv3p) from 0.002 to 0.0029:
+     0.00198957
+.meas tran vd2 avg v(pv2p,pv3p)-v(pv3p) from 0.002 to 0.0029:
+     -0.00884824
+.meas tran vm1 avg v(pv1p,pv2p) from 0.002 to 0.0029:
+        19.3139
+.meas tran vm2 avg v(pv2p,pv3p) from 0.002 to 0.0029:
+        19.3119
+.meas tran vm3 avg v(pv3p) from 0.002 to 0.0029:
+        19.3208
+.meas tran ish1 avg i(vsa1)+i(vsb1) from 0.002 to 0.0029:
+        2.18704
+.meas tran ish2 avg i(vsa2)+i(vsb2) from 0.002 to 0.0029:
+       -2.18698
+.meas tran idf1 avg i(vsa1)-i(vsb1) from 0.002 to 0.0029:
+      0.0281009
+.meas tran idf2 avg i(vsa2)-i(vsb2) from 0.002 to 0.0029:
+      0.0128283
+.meas tran da1 avg v(da1) from 0.002 to 0.0029:
+        0.50059
+.meas tran db1 avg v(db1) from 0.002 to 0.0029:
+       0.500731
+.meas tran da2 avg v(da2) from 0.002 to 0.0029:
+       0.499136
+.meas tran db2 avg v(db2) from 0.002 to 0.0029:
+       0.499302
+.meas tran pout avg v(pv1p)*i(bload) from 0.002 to 0.0029:
+        376.653
+.meas tran pref avg v(r1p)*i(bref) from 0.002 to 0.0029:
+        261.584
+.meas tran vd1s avg v(pv1p,pv2p)-v(pv2p,pv3p) from 0.0045 to 0.006:
+       0.960212
+.meas tran vd2s avg v(pv2p,pv3p)-v(pv3p) from 0.0045 to 0.006:
+     0.00305286
+.meas tran vm1s avg v(pv1p,pv2p) from 0.0045 to 0.006:
+        19.8863
+.meas tran vm2s avg v(pv2p,pv3p) from 0.0045 to 0.006:
+        18.9261
+.meas tran vm3s avg v(pv3p) from 0.0045 to 0.006:
+         18.923
+.meas tran ish1s avg i(vsa1)+i(vsb1) from 0.0045 to 0.006:
+        1.10958
+.meas tran ish2s avg i(vsa2)+i(vsb2) from 0.0045 to 0.006:
+       -2.74658
+.meas tran idf1s avg i(vsa1)-i(vsb1) from 0.0045 to 0.006:
+     -0.00845734
+.meas tran idf2s avg i(vsa2)-i(vsb2) from 0.0045 to 0.006:
+     0.00531124
+.meas tran da1s avg v(da1) from 0.0045 to 0.006:
+       0.487895
+.meas tran db1s avg v(db1) from 0.0045 to 0.006:
+       0.487892
+.meas tran da2s avg v(da2) from 0.0045 to 0.006:
+       0.498817
+.meas tran db2s avg v(db2) from 0.0045 to 0.006:
+        0.49879
+.meas tran pouts avg v(pv1p)*i(bload) from 0.0045 to 0.006:
+         375.28
+.meas tran prefs avg v(r1p)*i(bref) from 0.0045 to 0.006:
+        261.584
+.meas tran betamax max v(beta):
+              0 (at Time=0)
+.meas tran stressmax max v(stress):
+       0.241538 (at Time=0.0056)
+.meas tran im1r avg v(im1r) from 0.0045 to 0.006:
+      -0.807687
+.meas tran im2r avg v(im2r) from 0.0045 to 0.006:
+       -3.30403
+.meas tran i1 avg i(vi1) from 0.0045 to 0.006:
+        7.06102
+.meas tran i2 avg i(vi2) from 0.0045 to 0.006:
+        4.59132
+.meas tran i3 avg i(vi3) from 0.0045 to 0.006:
+        7.88901

@@ -5,7 +5,8 @@
 //
 // Pins (order = data[] index), all doubles:
 //   in  0..2  PV1P PV2P PV3P     string node voltages (the INA239 bus inputs: U12 = PV3P, U11 = PV2P, U10 = PV1P-PV3P)
-//   in  3..6  HSA1 HSB1 HSA2 HSB2 hall sensor output voltages (1.65 V + S*I; A: 100 mV/A, B: -25 mV/A as mounted)
+//   in  3..6  HSA1 HSB1 HSA2 HSB2 hall sensor output voltages (1.65 V + S*I; A: 100 mV/A into the midpoint,
+//                                 B: 25 mV/A OUT of the midpoint as mounted = the control stack convention)
 //   in  7     CTRL_EN             0 = open loop at 0.5 duty (controller held in reset), 1 = closed loop
 //   in  8..9  VREF1 VREF2         manual voltage-difference references [V]
 //   out 10..13 DA1 DB1 DA2 DB2    duties 0..1 (held between control ticks)
@@ -14,8 +15,12 @@
 //   out 18..19 IM1R IM2R          reconstructed module currents relative to module 3
 //
 // Sampling: the control tick is CTRL_TS (params.h, 100 us); the solver is forced to land on every
-// tick by Trunc(). Module voltages are sampled and held at the INA239 rate (1 ms) with 3.125 mV
-// quantisation; hall voltages are quantised to the 12-bit / 3.3 V ADC at every tick. A one-level
+// tick by Trunc(). Like the firmware ADC (4x oversampling across one PWM period) the hall inputs
+// are AVERAGED over the tick interval (trapezoidal integration of every solver point), then
+// quantised to the 12-bit / 3.3 V ADC; a point sample at the tick instant would alias the
+// (large) phase ripple into a bias, since the tick is phase-locked to the PWM. Module voltages
+// are sampled at the INA239 poll rate (1 kHz) as the average over the last control-tick interval
+// (the 84 us conversion the firmware configures) and quantised to 3.125 mV. A one-level
 // state history lets a rejected solver step (time going backwards by one tick) be replayed.
 #include <malloc.h>
 #include <math.h>
@@ -42,7 +47,7 @@ int __stdcall DllMain(void *module, unsigned int reason, void *reserved) { retur
 #define ADC_FS      3.3
 #define ADC_CODES   4095.0
 #define HALL_ZERO   1.65
-static const double HALL_S[4] = {100.0, -25.0, 100.0, -25.0};   /* mV/A, control sign convention */
+static const double HALL_S[4] = {100.0, 25.0, 100.0, 25.0};   /* mV/A; the B sources already carry the reversed (out-of-midpoint) orientation */
 
 struct sCTRL
 {
@@ -52,6 +57,12 @@ struct sCTRL
    int have_prev;
    long kvm;
    double vm[3];
+   /* running averages: inputs integrated between solver calls */
+   double t_last, in_last[7];
+   double acc_hs[4], t0_hs;      /* hall voltages over the current tick interval */
+   double acc_pv[3], t0_pv;      /* string node voltages over the current INA interval */
+   double hs_avg[4], pv_avg[3];
+   int have_last;
 };
 
 static double quant(double v, double lsb) { return floor(v / lsb + 0.5) * lsb; }
@@ -81,20 +92,29 @@ extern "C" __declspec(dllexport) void shuffler_ctrl_dll(struct sCTRL **opaque, d
       (*opaque)->kvm = -1;
    }
    struct sCTRL *inst = *opaque;
-   const double pv1 = data[0].d, pv2 = data[1].d, pv3 = data[2].d;
-   const double hs[4] = {data[3].d, data[4].d, data[5].d, data[6].d};
+   const double in_now[7] = {data[0].d, data[1].d, data[2].d, data[3].d, data[4].d, data[5].d, data[6].d};
    const double en = data[7].d, vref1 = data[8].d, vref2 = data[9].d;
+   int n;
 
-   /* INA239 sample-and-hold at 1 kHz (bus voltages, quantised), VM as the firmware forms them */
-   long kvm = (long)floor(t / INA_TS + 1e-9);
-   if (kvm != inst->kvm)
+   /* trapezoidal running integrals of the measured inputs (reset on a solver rollback) */
+   if (!inst->have_last || t < inst->t_last)
    {
-      double u12 = quant(pv3, INA_LSB), u11 = quant(pv2, INA_LSB), u10 = quant(pv1 - pv3, INA_LSB);
-      inst->vm[2] = u12;
-      inst->vm[1] = u11 - u12;
-      inst->vm[0] = u10 - inst->vm[1];
-      inst->kvm = kvm;
+      for (n = 0; n < 7; n++) inst->in_last[n] = in_now[n];
+      inst->t_last = t;
+      inst->have_last = 1;
+      if (t < inst->t0_hs) { inst->t0_hs = t; for (n = 0; n < 4; n++) inst->acc_hs[n] = 0; }
+      if (t < inst->t0_pv) { inst->t0_pv = t; for (n = 0; n < 3; n++) inst->acc_pv[n] = 0; }
    }
+   else if (t > inst->t_last)
+   {
+      double dt = t - inst->t_last;
+      for (n = 0; n < 3; n++) inst->acc_pv[n] += 0.5 * (inst->in_last[n] + in_now[n]) * dt;
+      for (n = 0; n < 4; n++) inst->acc_hs[n] += 0.5 * (inst->in_last[3 + n] + in_now[3 + n]) * dt;
+      for (n = 0; n < 7; n++) inst->in_last[n] = in_now[n];
+      inst->t_last = t;
+   }
+
+   long kvm = (long)floor(t / INA_TS + 1e-9);
 
    long k = (long)floor(t / CTRL_TS + 1e-9);
    if (k < inst->k)
@@ -106,6 +126,26 @@ extern "C" __declspec(dllexport) void shuffler_ctrl_dll(struct sCTRL **opaque, d
          inst->have_prev = 0;
       }
       inst->k = k;
+   }
+   if (k > inst->k)
+   {  /* new tick: inputs = averages over the elapsed tick interval (hall: the firmware's period
+       * average; bus voltages: the 84 us INA239 conversion, read at the 1 kHz poll) */
+      double span = t - inst->t0_hs;
+      for (n = 0; n < 4; n++) inst->hs_avg[n] = (span > 1e-12) ? inst->acc_hs[n] / span : in_now[3 + n];
+      for (n = 0; n < 4; n++) inst->acc_hs[n] = 0;
+      inst->t0_hs = t;
+      span = t - inst->t0_pv;
+      for (n = 0; n < 3; n++) inst->pv_avg[n] = (span > 1e-12) ? inst->acc_pv[n] / span : in_now[n];
+      for (n = 0; n < 3; n++) inst->acc_pv[n] = 0;
+      inst->t0_pv = t;
+      if (kvm != inst->kvm)
+      {  /* INA239 poll: latest conversion, 3.125 mV LSB, VM as the firmware forms them */
+         double u12 = quant(inst->pv_avg[2], INA_LSB), u11 = quant(inst->pv_avg[1], INA_LSB), u10 = quant(inst->pv_avg[0] - inst->pv_avg[2], INA_LSB);
+         inst->vm[2] = u12;
+         inst->vm[1] = u11 - u12;
+         inst->vm[0] = u10 - inst->vm[1];
+         inst->kvm = kvm;
+      }
    }
    while (k > inst->k)
    {
@@ -119,8 +159,8 @@ extern "C" __declspec(dllexport) void shuffler_ctrl_dll(struct sCTRL **opaque, d
       {
          stack_in_t in;
          memset(&in, 0, sizeof in);
-         for (int n = 0; n < 3; n++) in.VM[n] = (float)inst->vm[n];
-         for (int n = 0; n < 4; n++) in.IL[n] = hall_amps(hs[n], HALL_S[n]);
+         for (n = 0; n < 3; n++) in.VM[n] = (float)inst->vm[n];
+         for (n = 0; n < 4; n++) in.IL[n] = hall_amps(inst->hs_avg[n], HALL_S[n]);
          in.Vstr = in.VM[0] + in.VM[1] + in.VM[2];
          in.Istr = 0.0f;
          in.Vref[0] = (float)vref1;
@@ -137,7 +177,7 @@ extern "C" __declspec(dllexport) void shuffler_ctrl_dll(struct sCTRL **opaque, d
       inst->k++;
    }
 
-   for (int n = 0; n < 4; n++) data[10 + n].d = inst->out.d[n];
+   for (n = 0; n < 4; n++) data[10 + n].d = inst->out.d[n];
    data[14].d = inst->out.rv[0];
    data[15].d = inst->out.rv[1];
    data[16].d = inst->out.beta;

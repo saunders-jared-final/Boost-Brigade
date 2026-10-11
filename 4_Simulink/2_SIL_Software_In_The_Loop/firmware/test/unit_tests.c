@@ -757,14 +757,15 @@ static void test_recon_identities(void)
     }
     recon_module_currents(IL, d, IM);
     CHECK(IM[NM - 1] == 0.0f);
-    /* shuffler 1 only, d = 0.5 both legs, ic1 = 4 A into node 2: it takes 2 A
-     * from node 1 (module 1 above) and 2 A from node 3; so I1 - I2 = -2 A... */
+    /* shuffler 1 only, d = 0.5 both legs, 4 A into node 2 (A phase 3 A in,
+     * B phase 1 A in = ILB -1 in the model convention): it takes 2 A from
+     * node 1 (module 1 above) and 2 A from node 3; so I1 - I2 = +4 A total */
     for (i = 0; i < NL; i++) {
         IL[i] = 0.0f;
         d[i] = 0.5f;
     }
     IL[0] = 3.0f;
-    IL[1] = 1.0f;
+    IL[1] = -1.0f;
     recon_module_currents(IL, d, IM);
     /* I_2 = I_3 + ic_2(0) - ibot_1 = -2 ; I_1 = I_2 + ic_1 - itop_2(0) = -2 + 4 = 2 */
     CHECK_NEAR(IM[1], -2.0, 1e-6);
@@ -781,9 +782,9 @@ static void test_recon_explicit_3mod(void)
         float IL[NL], d[NL], IM[NM];
         double il[NL], dd[NL], itop[NS], ibot[NS], I[NM], Istr = 7.0 + 0.1 * n;
         for (i = 0; i < NL; i++) {
-            il[i] = 6.0 * sin(0.37 * n + 1.1 * i);
+            il[i] = 6.0 * sin(0.37 * n + 1.1 * i);   /* physical, into the midpoint */
             dd[i] = 0.05 + 0.9 * (0.5 + 0.5 * sin(0.21 * n + 0.7 * i));
-            IL[i] = (float)il[i];
+            IL[i] = (float)((i % 2) ? -il[i] : il[i]);  /* model convention: B phases negated */
             d[i] = (float)dd[i];
         }
         for (i = 0; i < NS; i++) {

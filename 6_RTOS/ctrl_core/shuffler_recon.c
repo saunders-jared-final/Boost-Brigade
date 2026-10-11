@@ -13,7 +13,7 @@ void recon_module_currents(const float IL[N_LEG], const float d[N_LEG], float IM
 
     for (k = 0u; k < (uint8_t)N_SHUF; k++) {
         float ia = IL[2u * k];
-        float ib = IL[2u * k + 1u];
+        float ib = -IL[2u * k + 1u];   /* model convention: ILB positive out of the midpoint */
         itop[k] = d[2u * k] * ia + d[2u * k + 1u] * ib;
         ic[k] = ia + ib;
         ibot[k] = ic[k] - itop[k];

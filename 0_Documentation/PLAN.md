@@ -107,3 +107,25 @@ Report + presentation: Simulink/SIL/QSPICE/hardware comparison of the same cases
 - **FreeRTOS time-box** Monday; fallback superloop with the same ISR control and safety.
 - **Simulink `.slx` edits are GUI work** I cannot do from here; I supply scripts, parameters and a step-by-step checklist.
 - **Nucleo GND pads have no net on the PCB**: confirm the bodge used for the power test.
+
+
+---
+
+## Status log
+
+**Sun 11 Oct (Day 0, done):** repo restructured and SIL branch merged; control core generalised to
+3 modules at 10 kHz with module-current reconstruction (host tests green); 3-module Simulink scripts
+and model-edit checklist; telemetry contract; firmware for both converters (HRTIM 4 legs, 10 kHz
+control ISR running the C core, state machine, telemetry, E-stop, IWDG) building; Pi stack
+(InfluxDB + Grafana + bridge + tools); **QSPICE closed loop done ahead of plan**: stage S9i identified
+the Version 0 plant (`2_Qspice/ctrl_dll/README.md`), stage S9 closes the loop on the switching model
+with the firmware control stack in a DLL and tracks a 1 V reference step cleanly.
+
+Findings that change Monday's work:
+1. **Sign of `u_diff → i_comm` is positive on the PCB/QSPICE wiring, negative in the 4-module Simulink
+   identification.** The 3-module Simulink ident must be compared with `results/S9i.meas.json`; if
+   its sign differs, the Simulink model's leg/ILB convention is flipped relative to the hardware and
+   the QSPICE M is the one to flash.
+2. INA239 conversion time: firmware now sets 84 µs (default 1 ms rang the voltage loop).
+3. Control-stack IL convention: ILA into the midpoint, ILB out (raw PCB sensor signs). Bench-verify
+   with the open-loop 0.52/0.48 probe before closed loop.

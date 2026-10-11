@@ -10,9 +10,12 @@
   * before the next 100 us tick reads it.
   *
   * VOUT = VREF (1.65 V) + S * I. The zero-current offset is measured at
-  * start-up, before any switching. The B-phase sensors are mounted the other
-  * way round on the PCB, so their gain is negative to give every channel the
-  * same sign convention (positive into the midpoint).
+  * start-up, before any switching. Sign convention = the control stack's
+  * (Simulink identification): ILA positive INTO the converter midpoint, ILB
+  * positive OUT of it (ILA+ILB = circulating current, ILA-ILB = shuffled
+  * current). The B-phase sensors are mounted the other way round on the PCB,
+  * so their RAW output already has that sign: both gains are positive. Verify
+  * on the bench with a DC current (C,CAL,...).
   *
   * Over-current: |I| above SENSE_OC_LIMIT_A (or an ADC code at a rail) for
   * SENSE_OC_TICKS consecutive ticks disables every HRTIM output from the ISR
@@ -41,9 +44,9 @@ typedef struct
 static Sense_Cfg s_cfg[SENSE_COUNT] =
 {
   [SENSE_ILA_1] = { ADC1, LL_ADC_INJ_RANK_1,  100.0f, "ILA_1" },
-  [SENSE_ILB_1] = { ADC2, LL_ADC_INJ_RANK_1,  -25.0f, "ILB_1" },
+  [SENSE_ILB_1] = { ADC2, LL_ADC_INJ_RANK_1,   25.0f, "ILB_1" },
   [SENSE_ILA_2] = { ADC1, LL_ADC_INJ_RANK_2,  100.0f, "ILA_2" },
-  [SENSE_ILB_2] = { ADC2, LL_ADC_INJ_RANK_2,  -25.0f, "ILB_2" },
+  [SENSE_ILB_2] = { ADC2, LL_ADC_INJ_RANK_2,   25.0f, "ILB_2" },
 };
 
 static volatile uint16_t s_raw[SENSE_COUNT];

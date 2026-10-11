@@ -8,9 +8,17 @@
  *
  *   shuffler k (1-based) spans modules k, k+1: top terminal at node k,
  *   midpoint at node k+1, bottom terminal at node k+2 (node 1 = PV1+ ...
- *   node N+1 = string negative). Per leg with duty d and inductor current iL
- *   (positive INTO the midpoint): the top rail supplies d*iL, the bottom rail
- *   (1-d)*iL, and ic = iLA + iLB leaves the converter into the midpoint.
+ *   node N+1 = string negative). Per leg with duty d and physical inductor
+ *   current i (positive INTO the midpoint): the top rail supplies d*i, the
+ *   bottom rail (1-d)*i, and the midpoint receives iA + iB.
+ *
+ *   SIGN CONVENTION of the control stack (from the Simulink identification):
+ *   IL = {ILA, ILB, ...} with ILA positive INTO the midpoint and ILB positive
+ *   OUT of it, so that ILA + ILB is the circulating (phase-to-phase) current
+ *   the controller nulls and ILA - ILB is the shuffled (midpoint) current the
+ *   supervisor rates. Hence here iA = ILA, iB = -ILB. On the PCB the B-phase
+ *   hall sensors are mounted the other way round, i.e. their raw output IS
+ *   this convention.
  *
  *   KCL at node j (2..N), module current I_j positive in the generating
  *   direction (from node j+1 up to node j):

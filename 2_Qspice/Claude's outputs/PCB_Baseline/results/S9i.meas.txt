@@ -1,0 +1,42 @@
+.meas tran y1 avg v(pv1p,pv2p) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran y2 avg v(pv2p,pv3p) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran y3 avg i(vsa1)-i(vsb1) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran y4 avg i(vsa2)-i(vsb2) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran ish1 avg i(vsa1)+i(vsb1) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran ish2 avg i(vsa2)+i(vsb2) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)
+.meas tran pout avg v(pv1p)*i(bload) from 3m to 4m:
+   0 (       nan,       nan)
+   1 (       nan,       nan)
+   2 (       nan,       nan)
+   3 (       nan,       nan)
+   4 (       nan,       nan)

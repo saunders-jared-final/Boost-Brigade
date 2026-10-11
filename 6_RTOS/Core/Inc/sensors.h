@@ -18,13 +18,14 @@ extern "C" {
 #include "main.h"
 
 /* Channel order = control-core IL order {ILA1, ILB1, ILA2, ILB2}. Sign
- * convention: positive INTO the converter midpoint (toward the string node). */
+ * convention of the control stack: A phases positive INTO the converter
+ * midpoint, B phases positive OUT of it (see sensors.c). */
 typedef enum
 {
   SENSE_ILA_1 = 0,   /* Shuffler 1, A phase, PA0 / ADC1_IN1  (TMCS1126B4, 100 mV/A) */
-  SENSE_ILB_1,       /* Shuffler 1, B phase, PA4 / ADC2_IN17 (TMCS1126B1,  25 mV/A, reversed) */
+  SENSE_ILB_1,       /* Shuffler 1, B phase, PA4 / ADC2_IN17 (TMCS1126B1,  25 mV/A, mounted reversed = model sign) */
   SENSE_ILA_2,       /* Shuffler 2, A phase, PA1 / ADC1_IN2  (TMCS1126B4, 100 mV/A) */
-  SENSE_ILB_2,       /* Shuffler 2, B phase, PC1 / ADC2_IN7  (TMCS1126B1,  25 mV/A, reversed) */
+  SENSE_ILB_2,       /* Shuffler 2, B phase, PC1 / ADC2_IN7  (TMCS1126B1,  25 mV/A, mounted reversed = model sign) */
   SENSE_COUNT
 } Sense_Channel;
 

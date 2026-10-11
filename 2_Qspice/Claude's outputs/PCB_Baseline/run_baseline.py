@@ -62,6 +62,7 @@ PLOTS = {
            ("fet_power", ["P(mta1)", "P(mba1)", "P(mtb1)", "P(mbb1)"], SW)],
     "S8": [("switch_node", ["V(swa1)-V(b1)"], SW)],
     "S8b": [("switch_node", ["V(swa1)-V(b1)"], SW)],
+    "S9i": [("module_voltages", ["V(pv1p)-V(pv2p)", "V(pv2p)-V(pv3p)"]), ("currents", ["I(vsa1)-I(vsb1)", "I(vsa2)-I(vsb2)"])],
     "S9": [("module_voltages", ["V(pv1p)-V(pv2p)", "V(pv2p)-V(pv3p)", "V(pv3p)"]),
            ("duties", ["V(da1)", "V(db1)", "V(da2)", "V(db2)"]),
            ("shuffled_currents", ["I(vsa1)+I(vsb1)", "I(vsa2)+I(vsb2)"]),
@@ -99,7 +100,7 @@ def read_qraw(path):
 def split_steps(names, cols):
     """Split point-major data into steps using the stored step parameters (or time resets)."""
     n = len(cols[0])
-    params = [k for k, nm in enumerate(names) if nm.upper() in ("CASE", "LOADSEL", "CSN", "RSN", "CHF")]
+    params = [k for k, nm in enumerate(names) if nm.upper() in ("CASE", "LOADSEL", "CSN", "RSN", "CHF", "RUN")]
     if params:
         key = lambda i: tuple(round(cols[k][i], 12) for k in params)
     else:
