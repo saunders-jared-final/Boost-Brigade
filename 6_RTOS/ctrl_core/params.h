@@ -60,9 +60,9 @@
 #define MPPT_TS          0.00100000005f /* [s] MPPT period */
 #define MPPT_TP          0.0199999996f /* [s] perturb / averaging window */
 #define MPPT_N           20 /* window length = round(TP/Ts) [ticks] */
-#define MPPT_IREF0       12.0f /* [A] initial string current reference */
-#define MPPT_IMIN        5.0f /* [A] Iref clamp low */
-#define MPPT_IMAX        14.5f /* [A] Iref clamp high */
+#define MPPT_IREF0       8.0f /* [A] initial string current reference */
+#define MPPT_IMIN        2.0f /* [A] Iref clamp low */
+#define MPPT_IMAX        8.5f /* [A] Iref clamp high */
 #define MPPT_DB          1.0f /* [W] power deadband */
 #define MPPT_KA          0.00999999978f /* [A/W] adaptive step gain */
 #define MPPT_SMIN        0.0500000007f /* [A] step clamp low */

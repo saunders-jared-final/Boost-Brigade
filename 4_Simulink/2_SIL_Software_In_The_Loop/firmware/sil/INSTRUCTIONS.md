@@ -34,7 +34,7 @@ specification** table and verify scope/size per the tables below (C Caller
 usually infers them from the prototypes in `sil_wrappers.h`; fix by hand if
 not).
 
-The three MATLAB Function blocks (paths read out of the .slx archive, so
+The MATLAB Function blocks (paths read out of the 4-module .slx archive; the carpark model has 3 modules / 2 shufflers, so
 verify they still match your current save):
 
 | Block to replace | Sample time | Notes |
@@ -48,31 +48,35 @@ The original blocks carry **explicit** sample times (`SystemSampleTime` 50e-6
 direct connection with no rate-transition delay, which is exactly the
 same-tick sampling the port assumes (`STACK_SUP_DUTY_SAME_TICK=1`).
 
-### 2a. Inner controller → `sil_ctrl_step`
+### 2a. Inner controller → `sil_ctrl_step` (array ports, N from params.h)
 
 | C argument | Scope | Size | Connects to |
 |---|---|---|---|
-| `VM` | Input | 4 | module-voltage vector (same signal the MATLAB block used) |
-| `IL` | Input | 6 | inductor-current vector, order {ILA1, ILB1, ILA2, ILB2, ILA3, ILB3} |
-| `rv` | Input | 3 | output of the Vref1..3 + delayed-rv sum |
-| `dA1 dB1 dA2 dB2 dA3 dB3` | Output | 1 each | the six duty lines to the shufflers + telemetry + supervisor |
-
-Wiring (from the .slx): VM and IL arrive as vectors from the subsystem's Bus
-Selector; rv arrives as a 3-vector on the `Vref` inport (the Mux of the three
-delay+Vref sums inside the Supervisor subsystem). No Mux changes needed.
+| `VM` | Input | N_MOD | module-voltage vector |
+| `IL` | Input | N_LEG | inductor-current vector, order {ILA1, ILB1, ILA2, ILB2, ...} |
+| `rv` | Input | N_SHUF | output of the Vref + delayed-rv sums (Mux) |
+| `d` | Output | N_LEG | duties {dA1, dB1, dA2, dB2, ...} → Demux to the shufflers, telemetry, supervisor |
 
 ### 2b. Supervisor → `sil_supervisor_step`
 
 | C argument | Scope | Size | Connects to |
 |---|---|---|---|
-| `VM` | Input | 4 | module-voltage vector (unused by the algorithm — reference quirk — but wire it anyway) |
-| `IM` | Input | 4 | module-current vector |
-| `IL` | Input | 6 | inductor-current vector, same order as above |
-| `dA1..dB3` | Input | 1 each | the six duties from the controller |
+| `VM` | Input | N_MOD | module-voltage vector (unused by the algorithm — wire it anyway) |
+| `IM` | Input | N_MOD | module currents: on the carpark model the **`sil_recon_step` output**, not the plant's true currents |
+| `IL` | Input | N_LEG | inductor-current vector |
+| `d` | Input | N_LEG | the duties from the controller (Mux) |
 | `en` | Input | 1 | `Supervisor/Enable` constant |
-| `rv1 rv2 rv3` | Output | 1 each | into the three 1 ms Unit Delays (unchanged) |
+| `rv` | Output | N_SHUF | → Demux → the 1 ms Unit Delays (unchanged) |
 | `beta` | Output | 1 | to the MPPT beta input (same-tick, no delay) |
 | `stress` | Output | 1 | telemetry |
+
+### 2b'. Module-current reconstruction → `sil_recon_step` (stateless)
+
+| C argument | Scope | Size | Connects to |
+|---|---|---|---|
+| `IL` | Input | N_LEG | inductor-current vector |
+| `d` | Input | N_LEG | applied duties |
+| `IM` | Output | N_MOD | relative module currents (module N = 0) → Supervisor `IM`, and To Workspace `IMr1..` |
 
 ### 2c. MPPT → `sil_mppt_step`
 

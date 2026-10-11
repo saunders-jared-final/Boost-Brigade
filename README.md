@@ -1,58 +1,60 @@
-# solar-shuffler-kicad
+# Boost Brigade — solar power shuffler (S-PPC) string
 
-Updated: 11/10/2026
-Where we are ...
-- A printed circuit board has been ordered, assembled and power tested using power supplies on a power resistors represent panels and load.
-- A control system was designed based off a state space model of the interleaved buck-boost. The latest design is in simulink. This design is based on 4 AIKO solar panels and a battery load (or current sink).
-- The sensors on the board are...
-    Voltage sensor (possibly could be power meter as well) (ina239)
-    Current sensor (TMCS1126B4AQDVGRQ1)
-- The main actuators / switch on the board
-    Gate Driver (1ED3140MU12F)
-    MOSFET (STD45N10F7)
-- It has been noted the pcb needs fixing to enable the ina239 that was hidden behind the isolator, however, ignore that for now.
-- A qspice model has been tweaked to better reflect the parasitics seen from the pcb.
-- An enclosure has been constructed for the pcb to house it and and a few extra components. Including a raspberry pi 4b for data logging, connection to the internet and handling some bonus features. The bonus features include and ir receiver for powering on / off the system, swapping through the preet states / behaviours (ie. open loop mode, closed loop mode, open single shuffler, closed single shuffler posisbly cycling through preset gains). The rgb led and lcd display are there to indicate what state the system is in or if it is erroring out / safe to touch. The temperature sensor is taped to the bottom of the heatsink.
+Adaptive control of serial partial-power converters ("power shufflers") for
+MPPT under partial shading. QUT EGH490 capstone: control stream (this repo's
+firmware/control/simulation) + hardware stream (Version 0 PCB).
 
-Core Objectives (Where we want to go)...
-1. (Could skip to step 2 if redundant). Tweak the simulink model to better reflect the experiment. Possibly add Gauss noise, comb filtering and/or kalman filtering.
-2. Integrate the control system with the power electronics system in qpsice. Apply the algorithms from the simulink to the qspice, approximate the signals (ina239 spi, gate driver pwm, hall effect sensor adc). 
-3. Create an InfluxDB database and Grafana Dashboard to log and visualise signals from the raspberry pi and nucleo. Note the raspberry pi is connected to a nucleo via uart over the usb port. In the end I would like all the data streams / states / flags I can but the easiest one for initial setup would be the temperature sensor.
-4. Construct a FreeRTOS embedded safety-critical program to run on the nucleo. I am imagining a state machine / scheduler. Divide up everything into tasks with priorities. There will need to be some though around the initialisaion / power up mode and power down to do this in a safe way. Like soft switch starts for if we want to push the system. I am thinking tasks like send read voltage, read current, send telemetry, drive gate , estop, current over protection. There is some basic 50% open loop code here to be built upon or referenced.
-5. Run the experiment in real life and fix as we go.
-6. Write a report and perform a presentation. Once we get results or the board explodes. 
+**Current goal (due Fri 16 Oct 2026): carpark experiment** — 3 × 150 W panels,
+2 shufflers on the Version 0 board, EcoFlow DELTA 2 Max as the string MPPT
+load, closed-loop module equalisation on the Nucleo-G474RE, telemetry on
+Grafana via the Raspberry Pi pod. Day-by-day plan: `0_Documentation/PLAN.md`.
 
-Possibly a bit of house keeping is order. Ideally I would see the following top level folder structure ...
-- 0_Documentation
-- 1_Datasheets
-- 2_Qspice
-- 3_Analytical
-- 4_Simulink
-- 5_Kicad
-- 6_RTOS
+## Layout
 
----------------------------------------------
+| Folder | What |
+|---|---|
+| `0_Documentation/` | proposals, progress reports, UI pod wiring, **`telemetry.md`** (Nucleo↔Pi contract), plan, experiment checklist |
+| `1_Datasheets/` | INA239, TMCS1126, 1ED3140, EcoFlow, LM5180 calculator |
+| `2_Qspice/` | switching-level models; `Claude's outputs/PCB_Baseline/` is the scripted baseline (`gen_shuffler.py` → stages S1–S8b, `run_baseline.py`); closed-loop C-block stage S9 to come |
+| `3_Analytical/` | notebooks + design log (`shuffler_notebooks/DESIGN_LOG.md`) and the early MATLAB control-design lineage |
+| `4_Simulink/` | test ladder: `1_MIL` (4-mod validated model), `2_SIL` (C Caller model + **host build/tests of the C core**), **`3_Carpark_3mod`** (3-module scripts + model-edit checklist) |
+| `5_Kicad/` | `Version 0 project/` (schematic, PCB, gerbers) + `libs/` (all part libraries; project-relative lib tables) |
+| `6_RTOS/` | STM32G474 firmware (CubeMX + CMake) and **`ctrl_core/`**, the single copy of the control-stack C shared by SIL, QSPICE and firmware; `ctrl_core/params/` holds the JSON gain file and generators |
+| `7_Pi/` | Raspberry Pi pod: InfluxDB + Grafana compose, serial bridge, IR/LCD/LED service, bench tools |
 
-Solar Panel Reference...
-https://www.google.com/search?q=150W+Hard+Frame+Solar+Panel+datasheet&oq=150W+Hard+Frame+Solar+Panel+datasheet&gs_lcrp=EgRlZGdlKgYIABBFGDkyBggAEEUYOdIBCDMxNjdqMGo3qAIBsAIB&sourceid=chrome&source=chrome.ob&ie=UTF-8
+## Gain flow (one source, three harnesses)
 
+```
+Simulink ident (4_Simulink/3_Carpark_3mod/shuffler_string_ident.m)
+   └─> 6_RTOS/ctrl_core/params/shuffler_params.json   (M, Ts, thresholds)
+         └─> gen_params.py / export_params.m  ->  6_RTOS/ctrl_core/params.h
+               ├─> SIL: C Caller blocks + golden replay + unit tests (4_Simulink/2_SIL.../firmware)
+               ├─> QSPICE: shuffler_ctrl.dll C-block, stage S9 (2_Qspice)
+               └─> firmware: 10 kHz control ISR on the Nucleo (6_RTOS)
+```
 
-Electrical Specifications (22V Model)
+Hardware facts that shape the control configuration (verified in `5_Kicad`):
+- 3 panels / 2 converters; HRTIM pins PA8-11 (S1 A/B high/low) and PB12-15 (S2); hall sensors PA0 ILA_1, PA4 ILB_1, PA1 ILA_2, PC1 ILB_2; INA239 ×3 on SPI3 (CS PA7, PB6, PC7).
+- The INA239s read bus voltage only (shunt inputs shorted): module currents are **reconstructed** from the inductor currents and duties (`ctrl_core/shuffler_recon.c`); the string current is an unobservable common offset that the supervisor's deficit term cancels. String-level MPPT is the EcoFlow's job (`en_mppt = 0` in firmware).
+- U10 (panel-1 voltage) sits behind a mis-wired ISO7762: rework required for closed loop on converter 1.
+- 1ED3140 drivers have no fault pins and add no dead time; dead time (200 ns, HRTIM) and over-current trips are firmware.
 
-• Rated Maximum Power (Pm): 150W
-• Power Tolerance: ±3%
-• Voltage at Pmax (Vmp): 18.28V
-• Current at Pmax (Imp): 8.207A
-• Open-Circuit Voltage (Voc): 22.407V
-• Short-Circuit Current (Isc): 8.721A
-• Normal Operating Cell Temp (NOCT): 45 ± 2°C
-• Maximum System Voltage: 1000VDC
-• Maximum Series Fuse Rating: 15A
-• Operating Temperature: -40°C to +85°C
+## Quick starts
 
-Mechanical Specifications
+Host tests of the control core (WSL):
+```sh
+cd 4_Simulink/2_SIL_Software_In_The_Loop/firmware && cmake -B build && cmake --build build && ctest --test-dir build --output-on-failure
+```
+Regenerate gains after an identification: `python3 6_RTOS/ctrl_core/params/gen_params.py`
+(or `export_params` in MATLAB). Preset `params/mil4_params.json` reproduces the validated 4-module constants.
 
-• Dimensions: 1160 x 670 x 30 mm
-• Weight: 9.32 kg
-• Frame: Anodized aluminium alloy
-• Protection Rating: IP67 waterproof
+Firmware build (Windows ST bundle, callable from WSL; paths in `6_RTOS/.vscode/tasks.json`):
+```sh
+cd 6_RTOS && cmake.exe --preset Debug && cmake.exe --build --preset Debug
+STM32_Programmer_CLI.exe -c port=SWD -w build/Debug/Shuffler_1_Open_Loop.elf -rst
+```
+
+## Panel reference (150 W hard-frame, 22 V model)
+
+Pm 150 W ±3 %, Vmp 18.28 V, Imp 8.207 A, Voc 22.407 V, Isc 8.721 A, NOCT 45 ±2 °C,
+max series fuse 15 A, 1160 × 670 × 30 mm, 9.32 kg, IP67.

@@ -296,7 +296,7 @@ typedef struct {
 static void refmppt_init(refmppt_t *s)
 {
     memset(s, 0, sizeof *s);
-    s->iref = 12.0;
+    s->iref = (double)MPPT_IREF0;
     s->dirn = 1.0;
     s->boot = 1;
 }
@@ -304,7 +304,7 @@ static void refmppt_init(refmppt_t *s)
 static void refmppt_step(refmppt_t *s, double Vstr, double Istr, double beta, double en,
                          double *Iref, double *Pav, double *state)
 {
-    const double IREF0 = 12.0, IMIN = 5.0, IMAX = 14.5;
+    const double IREF0 = (double)MPPT_IREF0, IMIN = (double)MPPT_IMIN, IMAX = (double)MPPT_IMAX;
     const double DB = 1.0, KA = 0.01, SMIN = 0.05, SMAX = 1.0, S0 = 0.25, BTOL = 1e-3;
     const int N = MPPT_N;
 
@@ -382,9 +382,9 @@ static void refstack_init(refstack_t *s)
     refctrl_init(&s->ctrl);
     refsup_init(&s->sup);
     refmppt_init(&s->mppt);
-    s->iref_dly = 12.0;
-    s->iref_out = 12.0;
-    s->iref_raw = 12.0;
+    s->iref_dly = (double)MPPT_IREF0;
+    s->iref_out = (double)MPPT_IREF0;
+    s->iref_raw = (double)MPPT_IREF0;
 }
 
 typedef struct {
@@ -814,20 +814,20 @@ static void test_mppt_boot_window_and_deadband(void)
     mppt_init(&s);
     for (i = 0; i < MPPT_N - 1; i++) {
         mppt_step(&in, &s, &out);
-        CHECK(out.Iref == 12.0f);
+        CHECK(out.Iref == MPPT_IREF0);
         CHECK(out.Pav == 0.0f);
         CHECK(out.state == 0.0f);
     }
     mppt_step(&in, &s, &out); /* window 1 boundary: boot perturb */
-    CHECK(out.Iref == 12.25f);
+    CHECK(out.Iref == (MPPT_IREF0 + MPPT_S0));
     CHECK(out.Pav == 500.0f);
     CHECK(out.state == 1.0f);
     for (i = 0; i < MPPT_N - 1; i++) {
         mppt_step(&in, &s, &out);
-        CHECK(out.Iref == 12.25f);
+        CHECK(out.Iref == (MPPT_IREF0 + MPPT_S0));
     }
     mppt_step(&in, &s, &out); /* window 2: dP = 0, deadband */
-    CHECK(out.Iref == 12.25f);
+    CHECK(out.Iref == (MPPT_IREF0 + MPPT_S0));
     CHECK(out.state == 2.0f);
     CHECK(out.Pav == 500.0f);
 }
@@ -906,21 +906,21 @@ static void test_mppt_en0_reset(void)
     for (i = 0; i < MPPT_N + 10; i++) {
         mppt_step(&in, &s, &out);
     }
-    CHECK(out.Iref == 12.25f);
+    CHECK(out.Iref == (MPPT_IREF0 + MPPT_S0));
     in.en = 0.0f;
     in.Vstr = 90.0f;
     mppt_step(&in, &s, &out);
-    CHECK(out.Iref == 12.0f);
+    CHECK(out.Iref == MPPT_IREF0);
     CHECK(out.Pav == 90.0f * 5.0f);
     CHECK(out.state == 0.0f);
     in.en = 1.0f;
     in.Vstr = 100.0f;
     for (i = 0; i < MPPT_N - 1; i++) {
         mppt_step(&in, &s, &out);
-        CHECK(out.Iref == 12.0f);
+        CHECK(out.Iref == MPPT_IREF0);
     }
     mppt_step(&in, &s, &out);
-    CHECK(out.Iref == 12.25f);
+    CHECK(out.Iref == (MPPT_IREF0 + MPPT_S0));
     CHECK(out.state == 1.0f);
 }
 
@@ -940,20 +940,20 @@ static void test_mppt_iref_clamps(void)
             mppt_step(&in, &s, &out);
         }
     }
-    CHECK(out.Iref == 14.5f);
+    CHECK(out.Iref == MPPT_IMAX);
     in.Istr = 25.0f;
     for (i = 0; i < MPPT_N; i++) {
         mppt_step(&in, &s, &out);
     }
     CHECK(s.dirn == -1.0f);
-    CHECK(out.Iref == 13.5f);
+    CHECK(out.Iref == (MPPT_IMAX - MPPT_SMAX));
     for (w = 0; w < 12; w++) {
         in.Istr = 26.0f + 1.0f * (float)w;
         for (i = 0; i < MPPT_N; i++) {
             mppt_step(&in, &s, &out);
         }
     }
-    CHECK(out.Iref == 5.0f);
+    CHECK(out.Iref == MPPT_IMIN);
 }
 
 static void test_stack_delays_and_decimation(void)
@@ -969,7 +969,7 @@ static void test_stack_delays_and_decimation(void)
     memset(&in, 0, sizeof in);
     for (i = 0; i < NM; i++) {
         in.VM[i] = 38.0f;
-        in.IM[i] = 12.0f; /* equal modules: supervisor rv stays 0 */
+        in.IM[i] = MPPT_IREF0; /* equal modules: supervisor rv stays 0 */
     }
     in.Vstr = 38.0f * (float)NM;
     in.Istr = 11.0f;
@@ -996,8 +996,8 @@ static void test_stack_delays_and_decimation(void)
         for (i = 0; i < NL; i++) {
             CHECK(out.d[i] == co.d[i]);
         }
-        CHECK(out.Iref_dly == ((tick < T_DLY) ? 12.0f : 12.25f));
-        CHECK(out.Iref == ((tick < T_BOOT) ? 12.0f : 12.25f));
+        CHECK(out.Iref_dly == ((tick < T_DLY) ? MPPT_IREF0 : (MPPT_IREF0 + MPPT_S0)));
+        CHECK(out.Iref == ((tick < T_BOOT) ? MPPT_IREF0 : (MPPT_IREF0 + MPPT_S0)));
         if (tick >= T_BOOT && tick < T_DLY) {
             CHECK(out.mppt_state == 1.0f);
         }
@@ -1030,7 +1030,7 @@ static void test_stack_en_reaches_modules(void)
         for (i = 0; i < NS; i++) {
             CHECK(out.rv[i] == 0.0f);
         }
-        CHECK(out.Iref == 12.0f);
+        CHECK(out.Iref == MPPT_IREF0);
         CHECK(out.mppt_state == 0.0f);
     }
 }
