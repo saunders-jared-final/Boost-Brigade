@@ -1,0 +1,233 @@
+{
+ "title": "Shuffler pod",
+ "uid": "shuffler",
+ "schemaVersion": 39,
+ "refresh": "1s",
+ "time": {
+  "from": "now-5m",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "DS",
+    "type": "datasource",
+    "query": "influxdb",
+    "current": {
+     "text": "InfluxDB",
+     "value": "InfluxDB"
+    }
+   }
+  ]
+ },
+ "panels": [
+  {
+   "type": "timeseries",
+   "title": "Heatsink / INA die temperature",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "celsius"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"heatsink_c\" or r[\"_field\"] == \"T1\" or r[\"_field\"] == \"T2\" or r[\"_field\"] == \"T3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "title": "State",
+   "gridPos": {
+    "x": 12,
+    "y": 0,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": ""
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"state_code\" or r[\"_field\"] == \"fault\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Module voltages",
+   "gridPos": {
+    "x": 0,
+    "y": 8,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "volt"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"VM1\" or r[\"_field\"] == \"VM2\" or r[\"_field\"] == \"VM3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Inductor currents",
+   "gridPos": {
+    "x": 12,
+    "y": 8,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "amp"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"ILA1\" or r[\"_field\"] == \"ILB1\" or r[\"_field\"] == \"ILA2\" or r[\"_field\"] == \"ILB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Duties",
+   "gridPos": {
+    "x": 0,
+    "y": 16,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"dA1\" or r[\"_field\"] == \"dB1\" or r[\"_field\"] == \"dA2\" or r[\"_field\"] == \"dB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Supervisor",
+   "gridPos": {
+    "x": 12,
+    "y": 16,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": ""
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"rv1\" or r[\"_field\"] == \"rv2\" or r[\"_field\"] == \"beta\" or r[\"_field\"] == \"stress\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Reconstructed module currents (rel. to module 3)",
+   "gridPos": {
+    "x": 0,
+    "y": 24,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "amp"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"IM1r\" or r[\"_field\"] == \"IM2r\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "String voltage",
+   "gridPos": {
+    "x": 12,
+    "y": 24,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "volt"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"Vstr\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  }
+ ]
+}

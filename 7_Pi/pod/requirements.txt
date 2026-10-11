@@ -1,0 +1,5 @@
+pyserial>=3.5
+influxdb-client>=1.40
+evdev>=1.6
+gpiozero>=2.0
+smbus2>=0.4

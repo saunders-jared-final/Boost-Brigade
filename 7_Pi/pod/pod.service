@@ -1,0 +1,14 @@
+[Unit]
+Description=Shuffler pod (Nucleo telemetry bridge, UI)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+User=pi
+WorkingDirectory=/home/pi/Boost-Brigade/7_Pi/pod
+ExecStart=/usr/bin/python3 /home/pi/Boost-Brigade/7_Pi/pod/pod.py --port /dev/ttyACM0
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

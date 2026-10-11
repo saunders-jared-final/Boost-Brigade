@@ -1,0 +1,33 @@
+# Raspberry Pi 4B pod: InfluxDB 2 + Grafana. `docker compose up -d` in this folder.
+# Data lives in ./data (gitignored). First login: Grafana admin/shuffler, Influx admin/shuffler123.
+services:
+  influxdb:
+    image: influxdb:2.7
+    container_name: influxdb
+    restart: unless-stopped
+    ports: ["8086:8086"]
+    environment:
+      DOCKER_INFLUXDB_INIT_MODE: setup
+      DOCKER_INFLUXDB_INIT_USERNAME: admin
+      DOCKER_INFLUXDB_INIT_PASSWORD: shuffler123
+      DOCKER_INFLUXDB_INIT_ORG: boost
+      DOCKER_INFLUXDB_INIT_BUCKET: shuffler
+      DOCKER_INFLUXDB_INIT_RETENTION: 0
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: shuffler-pod-token
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb2
+  grafana:
+    image: grafana/grafana-oss:11.2.0
+    container_name: grafana
+    restart: unless-stopped
+    ports: ["3000:3000"]
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: shuffler
+      GF_AUTH_ANONYMOUS_ENABLED: "true"
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
+    volumes:
+      - ./data/grafana:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on: [influxdb]
