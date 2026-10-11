@@ -22,7 +22,9 @@
 #include "stm32g4xx_it.h"
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-#include "sensors.h"
+#include "app.h"
+#include "comms.h"
+#include "shuffler_hw.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -193,7 +195,7 @@ void SysTick_Handler(void)
   /* USER CODE END SysTick_IRQn 0 */
   HAL_IncTick();
   /* USER CODE BEGIN SysTick_IRQn 1 */
-  Sensors_Tick1ms();
+  app_tick_1ms();
 
   /* USER CODE END SysTick_IRQn 1 */
 }
@@ -220,5 +222,25 @@ void EXTI15_10_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+/* HRTIM master repetition = control tick (10 kHz). */
+void HRTIM1_Master_IRQHandler(void)
+{
+  hw_master_irq();
+}
 
+/* LPUART1 (ST-LINK VCP): command bytes from the Pi. */
+void LPUART1_IRQHandler(void)
+{
+  HAL_UART_IRQHandler(&hcom_uart[COM1]);
+}
+
+/* PC0 E-stop button (falling edge). */
+void EXTI0_IRQHandler(void)
+{
+  if (EXTI->PR1 & EXTI_PR1_PIF0)
+  {
+    EXTI->PR1 = EXTI_PR1_PIF0;
+    app_estop_isr();
+  }
+}
 /* USER CODE END 1 */

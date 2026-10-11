@@ -47,16 +47,28 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
     Core/Src/sensors.c
     Core/Src/ina2x9.c
+    App/shuffler_hw.c
+    App/app.c
+    App/comms.c
+    # shared control core (also used by the SIL build and the QSPICE DLL)
+    ctrl_core/shuffler_ctrl.c
+    ctrl_core/shuffler_supervisor.c
+    ctrl_core/shuffler_mppt.c
+    ctrl_core/shuffler_recon.c
+    ctrl_core/stack.c
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
+    App
+    ctrl_core
 )
 
 # Add project symbols (macros)
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
+    STACK_RECON_IM=1      # hardware: module currents reconstructed from IL + duties
 )
 
 # Remove wrong libob.a library dependency when using cpp files
