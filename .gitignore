@@ -41,3 +41,13 @@ fp-info-cache
 
 # Local project settings
 *.kicad_prl
+
+# MATLAB
+*.asv
+*.m~
+*.mex*
+
+# Simulink
+slprj/
+*.slxc
+codegen/
