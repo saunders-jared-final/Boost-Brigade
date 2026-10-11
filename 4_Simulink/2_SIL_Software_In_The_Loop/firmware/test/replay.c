@@ -5,11 +5,11 @@
  *   replay <golden_inputs.csv> <golden_expected.csv>
  *   replay --selftest [outdir]
  *
- * Golden mode feeds the recorded per-50us-tick inputs through stack_step()
+ * Golden mode feeds the recorded per-CTRL_TS-tick inputs through stack_step()
  * and compares every output tick against the MIL expectation. Acceptance
  * gates (from the SIL task spec):
- *   duties dA1..dB3          max abs error < 1e-3
- *   rv1..rv3, beta, Iref     max abs error < 1e-2
+ *   duties dA1..               max abs error < 1e-3
+ *   rv1.., beta, Iref        max abs error < 1e-2
  *   MPPT state code          exact match
  *   stress, Pav              report-only (printed, never gated)
  * A per-channel max-error report is always printed; exit is nonzero on any
@@ -17,10 +17,10 @@
  *
  * CSV format (produced by firmware/matlab/export_golden.m): first line is a
  * header of comma-separated column names; columns are matched BY NAME, order
- * free. Inputs: t (optional), VM1..VM4, IM1..IM4, ILA1,ILB1,ILA2,ILB2,ILA3,
- * ILB3, V_String, I_String, Vref1..Vref3, en_sup, en_mppt. Expected: t
- * (optional), dA1,dB1,dA2,dB2,dA3,dB3, rv1..rv3, beta, Iref, state, and
- * optionally stress, Pav.
+ * free. Inputs: t (optional), VM1..VMn, IM1..IMn, ILA1,ILB1,..., V_String,
+ * I_String, Vref1..Vref(n-1), en_sup, en_mppt. Expected: t (optional),
+ * dA1,dB1,..., rv1..rv(n-1), beta, Iref, state, and optionally stress, Pav
+ * (n = N_MOD from params.h).
  *
  * --selftest generates a deterministic synthetic run, writes both CSVs, then
  * replays them expecting bit-exact agreement (validates the harness plumbing
@@ -174,32 +174,50 @@ typedef struct {
     long nnan; /* NaN-error count (NaN on either or both sides; always a FAIL) */
 } chan_t;
 
-enum {
-    CH_DA1, CH_DB1, CH_DA2, CH_DB2, CH_DA3, CH_DB3,
-    CH_RV1, CH_RV2, CH_RV3, CH_BETA, CH_IREF, CH_STATE,
-    CH_STRESS, CH_PAV, CH_COUNT
-};
+/* channel layout: duties [0,N_LEG), rv [N_LEG, N_LEG+N_SHUF), beta, Iref, state, stress, Pav */
+#define CH_RV0 N_LEG
+#define CH_BETA (N_LEG + N_SHUF)
+#define CH_IREF (CH_BETA + 1)
+#define CH_STATE (CH_BETA + 2)
+#define CH_STRESS (CH_BETA + 3)
+#define CH_PAV (CH_BETA + 4)
+#define CH_COUNT (CH_BETA + 5)
+
+static char g_chan_names[CH_COUNT][16];
 
 static void chan_setup(chan_t *ch)
 {
-    static const struct {
-        const char *name;
-        double tol;
-        int exact;
-        int required;
-    } def[CH_COUNT] = {
-        {"dA1", 1e-3, 0, 1},   {"dB1", 1e-3, 0, 1},    {"dA2", 1e-3, 0, 1},
-        {"dB2", 1e-3, 0, 1},   {"dA3", 1e-3, 0, 1},    {"dB3", 1e-3, 0, 1},
-        {"rv1", 1e-2, 0, 1},   {"rv2", 1e-2, 0, 1},    {"rv3", 1e-2, 0, 1},
-        {"beta", 1e-2, 0, 1},  {"Iref", 1e-2, 0, 1},   {"state", 0.0, 1, 1},
-        {"stress", -1.0, 0, 0}, {"Pav", -1.0, 0, 0},
-    };
     int i;
     for (i = 0; i < CH_COUNT; i++) {
-        ch[i].name = def[i].name;
-        ch[i].tol = def[i].tol;
-        ch[i].exact = def[i].exact;
-        ch[i].required = def[i].required;
+        double tol = 1e-2;
+        int exact = 0, required = 1;
+        if (i < N_LEG) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "d%c%d", (i % 2 == 0) ? 'A' : 'B',
+                     i / 2 + 1);
+            tol = 1e-3;
+        } else if (i < CH_BETA) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "rv%d", i - CH_RV0 + 1);
+        } else if (i == CH_BETA) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "beta");
+        } else if (i == CH_IREF) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "Iref");
+        } else if (i == CH_STATE) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "state");
+            tol = 0.0;
+            exact = 1;
+        } else if (i == CH_STRESS) {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "stress");
+            tol = -1.0;
+            required = 0;
+        } else {
+            snprintf(g_chan_names[i], sizeof g_chan_names[i], "Pav");
+            tol = -1.0;
+            required = 0;
+        }
+        ch[i].name = g_chan_names[i];
+        ch[i].tol = tol;
+        ch[i].exact = exact;
+        ch[i].required = required;
         ch[i].col = -1;
         ch[i].maxerr = 0.0;
         ch[i].maxerr_tick = -1;
@@ -211,16 +229,13 @@ static void chan_setup(chan_t *ch)
 
 static float chan_actual(const stack_out_t *o, int ch)
 {
+    if (ch < N_LEG) {
+        return o->d[ch];
+    }
+    if (ch < CH_BETA) {
+        return o->rv[ch - CH_RV0];
+    }
     switch (ch) {
-    case CH_DA1: return o->d[0];
-    case CH_DB1: return o->d[1];
-    case CH_DA2: return o->d[2];
-    case CH_DB2: return o->d[3];
-    case CH_DA3: return o->d[4];
-    case CH_DB3: return o->d[5];
-    case CH_RV1: return o->rv[0];
-    case CH_RV2: return o->rv[1];
-    case CH_RV3: return o->rv[2];
     case CH_BETA: return o->beta;
     case CH_IREF: return o->Iref;
     case CH_STATE: return o->mppt_state;
@@ -232,33 +247,54 @@ static float chan_actual(const stack_out_t *o, int ch)
 
 /* -------------------------------------------------------------- replay --- */
 
-static const char *IN_NAMES[] = {"VM1",  "VM2",  "VM3",  "VM4",  "IM1",      "IM2",
-                                 "IM3",  "IM4",  "ILA1", "ILB1", "ILA2",     "ILB2",
-                                 "ILA3", "ILB3", "V_String", "I_String", "Vref1", "Vref2",
-                                 "Vref3", "en_sup", "en_mppt"};
-#define IN_COUNT 21
+/* input columns: VM1..VMn, IM1..IMn, ILA1,ILB1,..., V_String, I_String, Vref1.., en_sup, en_mppt */
+#define IN_COUNT (2 * N_MOD + N_LEG + 2 + N_SHUF + 2)
+static char g_in_names[IN_COUNT][16];
+static const char *IN_NAMES[IN_COUNT];
+
+static void in_names_setup(void)
+{
+    int k, i = 0;
+    for (k = 0; k < N_MOD; k++) {
+        snprintf(g_in_names[i++], 16, "VM%d", k + 1);
+    }
+    for (k = 0; k < N_MOD; k++) {
+        snprintf(g_in_names[i++], 16, "IM%d", k + 1);
+    }
+    for (k = 0; k < N_LEG; k++) {
+        snprintf(g_in_names[i++], 16, "IL%c%d", (k % 2 == 0) ? 'A' : 'B', k / 2 + 1);
+    }
+    snprintf(g_in_names[i++], 16, "V_String");
+    snprintf(g_in_names[i++], 16, "I_String");
+    for (k = 0; k < N_SHUF; k++) {
+        snprintf(g_in_names[i++], 16, "Vref%d", k + 1);
+    }
+    snprintf(g_in_names[i++], 16, "en_sup");
+    snprintf(g_in_names[i++], 16, "en_mppt");
+    for (k = 0; k < IN_COUNT; k++) {
+        IN_NAMES[k] = g_in_names[k];
+    }
+}
 
 static void in_from_row(const csv_t *c, const int *cols, stack_in_t *in)
 {
-    int k;
-    float v[IN_COUNT];
-    for (k = 0; k < IN_COUNT; k++) {
-        v[k] = c->vals[cols[k]];
+    int k, i = 0;
+    for (k = 0; k < N_MOD; k++) {
+        in->VM[k] = c->vals[cols[i++]];
     }
-    for (k = 0; k < 4; k++) {
-        in->VM[k] = v[0 + k];
-        in->IM[k] = v[4 + k];
+    for (k = 0; k < N_MOD; k++) {
+        in->IM[k] = c->vals[cols[i++]];
     }
-    for (k = 0; k < 6; k++) {
-        in->IL[k] = v[8 + k];
+    for (k = 0; k < N_LEG; k++) {
+        in->IL[k] = c->vals[cols[i++]];
     }
-    in->Vstr = v[14];
-    in->Istr = v[15];
-    for (k = 0; k < 3; k++) {
-        in->Vref[k] = v[16 + k];
+    in->Vstr = c->vals[cols[i++]];
+    in->Istr = c->vals[cols[i++]];
+    for (k = 0; k < N_SHUF; k++) {
+        in->Vref[k] = c->vals[cols[i++]];
     }
-    in->en_sup = v[19];
-    in->en_mppt = v[20];
+    in->en_sup = c->vals[cols[i++]];
+    in->en_mppt = c->vals[cols[i++]];
 }
 
 static int run_replay(const char *in_path, const char *exp_path, double tol_scale)
@@ -270,6 +306,7 @@ static int run_replay(const char *in_path, const char *exp_path, double tol_scal
     long tick = 0;
     int k, fail = 0;
 
+    in_names_setup();
     if (csv_open(&cin, in_path) != 0) {
         return 2;
     }
@@ -350,7 +387,8 @@ static int run_replay(const char *in_path, const char *exp_path, double tol_scal
     csv_close(&cin);
     csv_close(&cexp);
 
-    printf("replayed %ld ticks (%.4f s at 50 us)\n", tick, (double)tick * 50e-6);
+    printf("replayed %ld ticks (%.4f s at %g us)\n", tick, (double)tick * (double)CTRL_TS,
+           (double)CTRL_TS * 1e6);
     printf("%-8s %-13s %-10s %-12s %s\n", "channel", "max|err|", "at tick", "tolerance",
            "verdict");
     for (k = 0; k < CH_COUNT; k++) {
@@ -396,29 +434,28 @@ static int run_replay(const char *in_path, const char *exp_path, double tol_scal
 static void selftest_inputs(long tick, stack_in_t *in)
 {
     /* deterministic, physically-plausible synthetic profile (no rand/time) */
-    float t = (float)tick * 50e-6f;
-    float g1 = 1.0f + 0.02f * sinf(6.2831853f * 1.3f * t);
-    float g2 = 0.95f + 0.03f * sinf(6.2831853f * 0.7f * t + 1.0f);
+    float t = (float)tick * CTRL_TS;
     float g3 = (t > 0.25f) ? 0.55f : 0.90f; /* shade step to exercise the governor */
-    float g4 = 1.0f;
     int k;
-    in->VM[0] = 38.7f * g1;
-    in->VM[1] = 38.7f * g2;
-    in->VM[2] = 38.7f * g3;
-    in->VM[3] = 38.7f * g4;
-    in->IM[0] = 14.0f * g1;
-    in->IM[1] = 13.5f * g2;
-    in->IM[2] = 13.0f * g3;
-    in->IM[3] = 14.2f * g4;
-    for (k = 0; k < 6; k++) {
+    in->Vstr = 0.0f;
+    for (k = 0; k < N_MOD; k++) {
+        float g = 1.0f - 0.02f * (float)k + 0.02f * sinf(6.2831853f * (1.3f - 0.3f * (float)k) * t);
+        if (k == 2 % N_MOD) {
+            g = g3;
+        }
+        in->VM[k] = 38.7f * g;
+        in->IM[k] = (14.0f - 0.3f * (float)k) * g;
+        in->Vstr += in->VM[k];
+    }
+    for (k = 0; k < N_LEG; k++) {
         in->IL[k] = 3.0f * sinf(6.2831853f * 2.0f * t + 0.5f * (float)k) +
                     ((k % 2 == 0) ? 8.0f : -8.0f) * (1.0f - g3);
     }
-    in->Vstr = in->VM[0] + in->VM[1] + in->VM[2] + in->VM[3];
     in->Istr = 11.0f + 0.5f * sinf(6.2831853f * 0.9f * t);
+    for (k = 0; k < N_SHUF; k++) {
+        in->Vref[k] = 0.0f;
+    }
     in->Vref[0] = (t > 0.35f) ? 0.8f : 0.0f; /* manual rv offset step */
-    in->Vref[1] = 0.0f;
-    in->Vref[2] = 0.0f;
     in->en_sup = (t > 0.10f && t < 0.14f) ? 0.0f : 1.0f; /* reset windows */
     in->en_mppt = (t > 0.18f && t < 0.20f) ? 0.0f : 1.0f;
 }
@@ -429,7 +466,7 @@ static int run_selftest(const char *dir)
     FILE *fi, *fe;
     stack_state_t st;
     long tick;
-    const long NTICK = 10000; /* 0.5 s */
+    const long NTICK = (long)(0.5 / (double)CTRL_TS); /* 0.5 s */
     int rc, k;
 
     snprintf(in_path, sizeof in_path, "%s/selftest_inputs.csv", dir);
@@ -440,12 +477,20 @@ static int run_selftest(const char *dir)
         fprintf(stderr, "error: cannot write selftest CSVs in '%s'\n", dir);
         return 2;
     }
+    in_names_setup();
     fprintf(fi, "t");
     for (k = 0; k < IN_COUNT; k++) {
         fprintf(fi, ",%s", IN_NAMES[k]);
     }
     fprintf(fi, "\n");
-    fprintf(fe, "t,dA1,dB1,dA2,dB2,dA3,dB3,rv1,rv2,rv3,beta,stress,Iref,Pav,state\n");
+    fprintf(fe, "t");
+    for (k = 0; k < N_LEG; k++) {
+        fprintf(fe, ",d%c%d", (k % 2 == 0) ? 'A' : 'B', k / 2 + 1);
+    }
+    for (k = 0; k < N_SHUF; k++) {
+        fprintf(fe, ",rv%d", k + 1);
+    }
+    fprintf(fe, ",beta,stress,Iref,Pav,state\n");
 
     stack_init(&st);
     for (tick = 0; tick < NTICK; tick++) {
@@ -453,24 +498,29 @@ static int run_selftest(const char *dir)
         stack_out_t o;
         selftest_inputs(tick, &in);
         stack_step(&in, &st, &o);
-        fprintf(fi, "%.9g", (double)tick * 50e-6);
-        fprintf(fi, ",%.9g,%.9g,%.9g,%.9g", (double)in.VM[0], (double)in.VM[1], (double)in.VM[2],
-                (double)in.VM[3]);
-        fprintf(fi, ",%.9g,%.9g,%.9g,%.9g", (double)in.IM[0], (double)in.IM[1], (double)in.IM[2],
-                (double)in.IM[3]);
-        for (k = 0; k < 6; k++) {
+        fprintf(fi, "%.9g", (double)tick * (double)CTRL_TS);
+        for (k = 0; k < N_MOD; k++) {
+            fprintf(fi, ",%.9g", (double)in.VM[k]);
+        }
+        for (k = 0; k < N_MOD; k++) {
+            fprintf(fi, ",%.9g", (double)in.IM[k]);
+        }
+        for (k = 0; k < N_LEG; k++) {
             fprintf(fi, ",%.9g", (double)in.IL[k]);
         }
         fprintf(fi, ",%.9g,%.9g", (double)in.Vstr, (double)in.Istr);
-        fprintf(fi, ",%.9g,%.9g,%.9g", (double)in.Vref[0], (double)in.Vref[1],
-                (double)in.Vref[2]);
+        for (k = 0; k < N_SHUF; k++) {
+            fprintf(fi, ",%.9g", (double)in.Vref[k]);
+        }
         fprintf(fi, ",%.9g,%.9g\n", (double)in.en_sup, (double)in.en_mppt);
 
-        fprintf(fe, "%.9g", (double)tick * 50e-6);
-        for (k = 0; k < 6; k++) {
+        fprintf(fe, "%.9g", (double)tick * (double)CTRL_TS);
+        for (k = 0; k < N_LEG; k++) {
             fprintf(fe, ",%.9g", (double)o.d[k]);
         }
-        fprintf(fe, ",%.9g,%.9g,%.9g", (double)o.rv[0], (double)o.rv[1], (double)o.rv[2]);
+        for (k = 0; k < N_SHUF; k++) {
+            fprintf(fe, ",%.9g", (double)o.rv[k]);
+        }
         fprintf(fe, ",%.9g,%.9g,%.9g,%.9g,%.9g\n", (double)o.beta, (double)o.stress,
                 (double)o.Iref, (double)o.Pav, (double)o.mppt_state);
     }

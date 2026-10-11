@@ -20,7 +20,7 @@ fi
 TMPDIR="${TMPDIR:-/tmp}/shuf_avr_check.$$"
 mkdir -p "$TMPDIR"
 trap 'rm -rf "$TMPDIR"' EXIT
-CORE=../../../6_RTOS/core
+CORE=../../../6_RTOS/ctrl_core
 for f in $CORE/shuffler_ctrl.c $CORE/shuffler_supervisor.c $CORE/shuffler_mppt.c $CORE/shuffler_recon.c \
          $CORE/stack.c sil/sil_wrappers.c; do
     echo "avr-gcc $DBLFLAG -c $f"

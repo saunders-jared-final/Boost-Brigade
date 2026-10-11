@@ -1,0 +1,102 @@
+/*
+ * shuffler_ctrl.c - inner MIMO duty controller (CTRL_TS tick)
+ *
+ * Port of shuffler_string_ctrl.m. Structure and operation order follow the
+ * MATLAB reference line by line; only the matrix-vector products are spelled
+ * out as loops. Channel layout of y/e/u: [0, N_SHUF) voltage differences,
+ * [N_SHUF, N_Y) common-mode shuffler currents.
+ */
+#include "shuffler_ctrl.h"
+
+MAT_CONST ctrl_M[N_Y][N_Y] = CTRL_M_INIT;
+MAT_CONST ctrl_Mp[N_Y][N_Y] = CTRL_MP_INIT;
+MAT_CONST ctrl_Minv[N_Y][N_Y] = CTRL_MINV_INIT;
+
+/* MATLAB min(max(x, lo), hi): NaN maps to lo */
+static float clamp_f(float x, float lo, float hi)
+{
+    float y = (x > lo) ? x : lo;
+    return (y < hi) ? y : hi;
+}
+
+void ctrl_init(ctrl_state_t *state)
+{
+    uint8_t i;
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        state->xi[i] = (ctrl_accum_t)0;
+        state->y_f[i] = 0.0f;
+    }
+}
+
+void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
+{
+    float y[N_Y];
+    float e[N_Y];
+    float u_act[N_Y];
+    ctrl_accum_t xi_try[N_Y];
+    ctrl_accum_t mpe[N_Y];
+    ctrl_accum_t u[N_Y];
+    uint8_t i;
+    uint8_t j;
+
+    /* y = [VM1-VM2, ..., VM(n-1)-VMn, ic1, ..., ic(n-1)], ic = per-shuffler A+B sum */
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
+        y[i] = in->VM[i] - in->VM[i + 1u];
+        y[(uint8_t)N_SHUF + i] = in->IL[2u * i] + in->IL[2u * i + 1u];
+    }
+
+    /* y_f = y_f + a*(y - y_f) */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        state->y_f[i] = state->y_f[i] + CTRL_A * (y[i] - state->y_f[i]);
+    }
+
+    /* e = r - y_f, r = [rv, 0] */
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
+        e[i] = in->rv[i] - state->y_f[i];
+        e[(uint8_t)N_SHUF + i] = 0.0f - state->y_f[(uint8_t)N_SHUF + i];
+    }
+
+    /* xi_try = xi + Ts*e */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        xi_try[i] = state->xi[i] + (ctrl_accum_t)CTRL_TS * (ctrl_accum_t)e[i];
+    }
+
+    /* mpe = Mp*e (reused in the anti-windup recompute) */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        ctrl_accum_t acc = (ctrl_accum_t)0;
+        for (j = 0u; j < (uint8_t)N_Y; j++) {
+            acc += (ctrl_accum_t)MAT_RD(ctrl_Mp, i, j) * (ctrl_accum_t)e[j];
+        }
+        mpe[i] = acc;
+    }
+
+    /* u = Mp*e + M*xi_try: products rounded separately then added, like MATLAB */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        ctrl_accum_t acc = (ctrl_accum_t)0;
+        for (j = 0u; j < (uint8_t)N_Y; j++) {
+            acc += (ctrl_accum_t)MAT_RD(ctrl_M, i, j) * xi_try[j];
+        }
+        u[i] = mpe[i] + acc;
+    }
+
+    /* duty mapping + clamp, then actually-applied u for the anti-windup path */
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
+        float uc = (float)u[i];
+        float ud = (float)u[(uint8_t)N_SHUF + i];
+        float dA = clamp_f(0.5f + 0.5f * (uc + ud), CTRL_DMIN, CTRL_DMAX);
+        float dB = clamp_f(0.5f + 0.5f * (uc - ud), CTRL_DMIN, CTRL_DMAX);
+        out->d[2u * i] = dA;
+        out->d[2u * i + 1u] = dB;
+        u_act[i] = (dA + dB) - 1.0f;
+        u_act[(uint8_t)N_SHUF + i] = dA - dB;
+    }
+
+    /* anti-windup: xi = Minv*(u_act - Mp*e), recomputed EVERY step (reference quirk) */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        ctrl_accum_t acc = (ctrl_accum_t)0;
+        for (j = 0u; j < (uint8_t)N_Y; j++) {
+            acc += (ctrl_accum_t)MAT_RD(ctrl_Minv, i, j) * ((ctrl_accum_t)u_act[j] - mpe[j]);
+        }
+        state->xi[i] = acc;
+    }
+}

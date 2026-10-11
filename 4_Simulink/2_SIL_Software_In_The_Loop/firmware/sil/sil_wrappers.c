@@ -1,9 +1,5 @@
 /*
  * sil_wrappers.c - flat entry points for Simulink C Caller blocks (SIL)
- *
- * Single-instance state in file statics; auto-initializes on the first step
- * after load or after sil_reset(), so seeding-from-first-inputs matches the
- * MATLAB persistent-empty semantics.
  */
 #include "sil_wrappers.h"
 
@@ -11,6 +7,7 @@
 
 #include "shuffler_ctrl.h"
 #include "shuffler_mppt.h"
+#include "shuffler_recon.h"
 #include "shuffler_supervisor.h"
 
 static ctrl_state_t g_ctrl;
@@ -20,8 +17,8 @@ static uint8_t g_ctrl_ready = 0u;
 static uint8_t g_sup_ready = 0u;
 static uint8_t g_mppt_ready = 0u;
 
-void sil_ctrl_step(const float VM[4], const float IL[6], const float rv[3], float *dA1,
-                   float *dB1, float *dA2, float *dB2, float *dA3, float *dB3)
+void sil_ctrl_step(const float VM[N_MOD], const float IL[N_LEG], const float rv[N_SHUF],
+                   float d[N_LEG])
 {
     ctrl_in_t in;
     ctrl_out_t out;
@@ -31,27 +28,24 @@ void sil_ctrl_step(const float VM[4], const float IL[6], const float rv[3], floa
         ctrl_init(&g_ctrl);
         g_ctrl_ready = 1u;
     }
-    for (i = 0u; i < 4u; i++) {
+    for (i = 0u; i < (uint8_t)N_MOD; i++) {
         in.VM[i] = VM[i];
     }
-    for (i = 0u; i < 6u; i++) {
+    for (i = 0u; i < (uint8_t)N_LEG; i++) {
         in.IL[i] = IL[i];
     }
-    for (i = 0u; i < 3u; i++) {
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
         in.rv[i] = rv[i];
     }
     ctrl_step(&in, &g_ctrl, &out);
-    *dA1 = out.d[0];
-    *dB1 = out.d[1];
-    *dA2 = out.d[2];
-    *dB2 = out.d[3];
-    *dA3 = out.d[4];
-    *dB3 = out.d[5];
+    for (i = 0u; i < (uint8_t)N_LEG; i++) {
+        d[i] = out.d[i];
+    }
 }
 
-void sil_supervisor_step(const float VM[4], const float IM[4], const float IL[6], float dA1,
-                         float dB1, float dA2, float dB2, float dA3, float dB3, float en,
-                         float *rv1, float *rv2, float *rv3, float *beta, float *stress)
+void sil_supervisor_step(const float VM[N_MOD], const float IM[N_MOD], const float IL[N_LEG],
+                         const float d[N_LEG], float en, float rv[N_SHUF], float *beta,
+                         float *stress)
 {
     sup_in_t in;
     sup_out_t out;
@@ -61,26 +55,26 @@ void sil_supervisor_step(const float VM[4], const float IM[4], const float IL[6]
         sup_init(&g_sup);
         g_sup_ready = 1u;
     }
-    for (i = 0u; i < 4u; i++) {
+    for (i = 0u; i < (uint8_t)N_MOD; i++) {
         in.VM[i] = VM[i];
         in.IM[i] = IM[i];
     }
-    for (i = 0u; i < 6u; i++) {
+    for (i = 0u; i < (uint8_t)N_LEG; i++) {
         in.IL[i] = IL[i];
+        in.d[i] = d[i];
     }
-    in.d[0] = dA1;
-    in.d[1] = dB1;
-    in.d[2] = dA2;
-    in.d[3] = dB2;
-    in.d[4] = dA3;
-    in.d[5] = dB3;
     in.en = en;
     sup_step(&in, &g_sup, &out);
-    *rv1 = out.rv[0];
-    *rv2 = out.rv[1];
-    *rv3 = out.rv[2];
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
+        rv[i] = out.rv[i];
+    }
     *beta = out.beta;
     *stress = out.stress;
+}
+
+void sil_recon_step(const float IL[N_LEG], const float d[N_LEG], float IM[N_MOD])
+{
+    recon_module_currents(IL, d, IM);
 }
 
 void sil_mppt_step(float Vstr, float Istr, float beta, float en, float *Iref, float *Pav,

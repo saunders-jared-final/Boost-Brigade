@@ -17,8 +17,8 @@ Model Settings (Ctrl+E) → **Simulation Target**:
 | Field | Value (paths relative to the model's folder, i.e. `2_SIL_Software_In_The_Loop/`) |
 |---|---|
 | Include headers | `#include "sil_wrappers.h"` |
-| Include directories | `firmware/sil`  and  `../../6_RTOS/core` (one per line; the core is shared with the firmware) |
-| Source files | `firmware/sil/sil_wrappers.c`  `../../6_RTOS/core/shuffler_ctrl.c`  `../../6_RTOS/core/shuffler_supervisor.c`  `../../6_RTOS/core/shuffler_mppt.c`  `../../6_RTOS/core/shuffler_recon.c` (one per line; do NOT add `stack.c` — its scheduling must stay in the model for SIL) |
+| Include directories | `firmware/sil`  and  `../../6_RTOS/ctrl_core` (one per line; the core is shared with the firmware) |
+| Source files | `firmware/sil/sil_wrappers.c`  `../../6_RTOS/ctrl_core/shuffler_ctrl.c`  `../../6_RTOS/ctrl_core/shuffler_supervisor.c`  `../../6_RTOS/ctrl_core/shuffler_mppt.c`  `../../6_RTOS/ctrl_core/shuffler_recon.c` (one per line; do NOT add `stack.c` — its scheduling must stay in the model for SIL) |
 | Deterministic functions (Advanced parameters) | leave at default **None** — the wrappers hold static state; marking them deterministic would let Simulink cache/reorder calls and corrupt it |
 
 **TODO**: if MATLAB refuses relative paths on your setup, use

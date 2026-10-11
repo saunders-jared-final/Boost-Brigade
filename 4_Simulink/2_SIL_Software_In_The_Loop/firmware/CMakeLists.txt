@@ -29,9 +29,9 @@ if(CMAKE_C_COMPILER_ID MATCHES "GNU|Clang")
   endif()
 endif()
 
-# The control core lives in ONE place - 6_RTOS/core - and is shared by the
+# The control core lives in ONE place - 6_RTOS/ctrl_core - and is shared by the
 # SIL build (here), the QSPICE C-block DLL and the STM32 firmware.
-set(SHUF_CORE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../6_RTOS/core)
+set(SHUF_CORE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../../6_RTOS/ctrl_core)
 add_library(shuffler_core STATIC
   ${SHUF_CORE_DIR}/shuffler_ctrl.c
   ${SHUF_CORE_DIR}/shuffler_supervisor.c
@@ -43,6 +43,18 @@ target_compile_options(shuffler_core PRIVATE ${SHUF_C_FLAGS})
 if(SHUF_ACCUM_DOUBLE)
   target_compile_definitions(shuffler_core PUBLIC SHUF_ACCUM_DOUBLE)
 endif()
+
+# Hardware configuration of the stack (reconstructed module currents): compiled
+# here only to prove it builds warning-free; the firmware links its own copy.
+add_library(shuffler_core_hw STATIC
+  ${SHUF_CORE_DIR}/shuffler_ctrl.c
+  ${SHUF_CORE_DIR}/shuffler_supervisor.c
+  ${SHUF_CORE_DIR}/shuffler_mppt.c
+  ${SHUF_CORE_DIR}/shuffler_recon.c
+  ${SHUF_CORE_DIR}/stack.c)
+target_include_directories(shuffler_core_hw PUBLIC ${SHUF_CORE_DIR})
+target_compile_options(shuffler_core_hw PRIVATE ${SHUF_C_FLAGS})
+target_compile_definitions(shuffler_core_hw PUBLIC STACK_RECON_IM=1)
 
 # Compiled here only to prove the Simulink-facing wrappers build warning-free.
 add_library(shuffler_sil_wrappers STATIC sil/sil_wrappers.c)
