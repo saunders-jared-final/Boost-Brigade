@@ -61,3 +61,9 @@ codegen/
 *.qraw
 # Pi stack runtime data
 7_Pi/**/data/
+# QSPICE run products
+*.qraw
+2_Qspice/**/*.log
+2_Qspice/ctrl_dll/*.obj
+2_Qspice/ctrl_dll/*.map
+2_Qspice/ctrl_dll/*.def

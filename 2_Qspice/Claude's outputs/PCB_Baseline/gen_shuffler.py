@@ -29,7 +29,7 @@ import subprocess
 import sys
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
-from qsch_writer import (Schematic, sym_R, sym_C, sym_L, sym_V, sym_B, sym_D, sym_NMOS, sym_box)
+from qsch_writer import (Schematic, sym_R, sym_C, sym_L, sym_V, sym_B, sym_D, sym_NMOS, sym_box, p_rect, SymbolDef)
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 LIB = "shuffler_models.lib"
@@ -46,8 +46,21 @@ ICC = 10.0                                       # constant-current bench load, 
 # (Isc_full + Isc_shaded)/2 = 11.9 A that one equalising converter can hold with the middle module at
 # 600 W/m2: at 12 A the single-converter stage (S3) has no steady state and the inductor current runs away.
 
+# 150 W hard-frame panel (README datasheet: Voc 22.407 V, Isc 8.721 A, Vmp 18.28 V, Imp 8.207 A at 1000 W/m2):
+# the Aiko irradiance fit scaled to the 150 W STC points, same irradiance dependence shape
+PANEL150 = ("avoc=%.6g bvoc=%.6g aisc=%.6g bisc=0 avm=%.6g bvm=%.6g aim=%.6g bim=%.6g Rs=1m Rsh=1meg" % (
+    0.004013 * 22.407 / 46.5496, 42.5365990991 * 22.407 / 46.5496,
+    0.0148652612 * 8.721 / 14.8653,
+    0.00116836 * 18.28 / 38.4460, 37.2775900991 * 18.28 / 38.4460,
+    0.0141475710 * 8.207 / 14.1558, 0.0082493126 * 8.207 / 14.1558))
+PV_SUB = "pvmi_aiko"          # module subcircuit used by pv_string(); S9 switches to pvmi_150w
+ICC_150 = 8.0                 # S9 bench load: constant current near Imp of the 150 W string
+
 FSW = 200e3
 TSW = 1 / FSW
+FSW_CTRL = 100e3              # S9: PWM as flashed on the Nucleo (HW_PWM_HZ)
+TSW_CTRL = 1 / FSW_CTRL
+VLOGIC = 3.3
 TDEAD = 200e-9
 VDRV = 12.0
 IRRADIANCE_CASES = {1: (1000, 1000, 1000), 2: (1000, 600, 1000), 3: (1000, 1000, 400)}
@@ -147,6 +160,11 @@ Rs S A {{Rs}}
 .subckt pvmi_aiko A K E
 X1 A K E pvmi {AIKO}
 .ends pvmi_aiko
+*
+* ---- 150 W hard-frame panel (carpark string), same Karmalkar-Haneefa model, STC points scaled from the Aiko fit ----
+.subckt pvmi_150w A K E
+X1 A K E pvmi {PANEL150}
+.ends pvmi_150w
 *
 * ---- one lumped bypass diode per module (junction box has three, this is enough for the string) ----
 .model dbypass D(Is=2u N=1.05 Rs=8m Cjo=500p Vj=0.5 m=0.4)
@@ -253,6 +271,15 @@ class Circuit:
         self.el(" ".join([ref] + nodes + [subname] + ([params] if params else [])))
         return p
 
+    def DLL(self, ref, sym, ins, outs, gnd, dll, x, y, params="Rout=1 Cout=1p"):
+        """QSPICE C-block (Ø(.DLL) symbol). Netlist form as QUX writes it:
+        Ø´ref «in´d ...» «out´d ...» «ref»  dllname params"""
+        p = self.sch.add(sym, x, y, ref, dll, extra=tuple(params.split()), rot=0)
+        ins_s = " ".join(n + "\u00b4d" for n in ins)
+        outs_s = " ".join(n + "\u00b4d" for n in outs)
+        self.el(f"\u00d8\u00b4{ref} \u00ab{ins_s}\u00bb \u00ab{outs_s}\u00bb \u00ab{gnd}\u00bb  {dll} {params}")
+        return p
+
     # --- schematic helpers ------------------------------------------------------------
     def wire(self, pts, net):
         self.sch.wire(pts, net)
@@ -328,7 +355,7 @@ def pv_string(c, x0, y0, prefix, nets, load_ref, with_cpv, with_cables, sense_pr
             y_top_rail, y_bot_rail = yt, yt - 2800
         # sense source: "+" at the module side (rot 4 puts + at the bottom) -> I(Vi) = module current
         c.V(f"Vi{sense_prefix}{k+1}", a_node, top_term, "0", x0, yt - 800, rot=4)
-        c.X(f"Xpv{sense_prefix}{k+1}", PV_SYM, [a_node, bot_term, e_node], "pvmi_aiko", x0, yt - 1500)
+        c.X(f"Xpv{sense_prefix}{k+1}", PV_SYM, [a_node, bot_term, e_node], PV_SUB, x0, yt - 1500)
         c.stub((x0 - 300, yt - 1500), e_node, "left", 300)
         # bypass diode (K at top) and module capacitance between the module terminals
         c.D(f"Dbp{sense_prefix}{k+1}", bot_term, top_term, "dbypass", x0 + 600, yt - 1300)
@@ -384,7 +411,7 @@ def bulk_caps(c, x0, y0, with_esl):
             c.stub((x, y - 200), nb, "down", 300)
 
 
-def converter(c, k, X0, Y0, T, M, B, drive, paras, snub):
+def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
     """One two-phase converter.  T/M/B: board nets for Input_T / Output(midpoint) / Input_B.
     drive: 'ideal' (pulse sources) or 'driver' (1ED3140 + bootstrap + Vreg)."""
     s = str(k)
@@ -568,7 +595,19 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub):
         # PWM sources (NUCLEO timer outputs, 3.3 V logic, dead time from the PWM)
         for i, (pos, leg) in enumerate((("T", "A"), ("B", "A"), ("T", "B"), ("B", "B"))):
             inp, _ = pwm_nets(pos, leg, k)
-            p = c.V(f"Vp{pos}{leg}{s}", inp, "GND", pulse_expr(pos, leg, k, logic=True), xv + 400 * i, Y0 - 3200)
+            if ctrl:
+                # closed loop (S9): HRTIM-style comparator of the controller duty D{leg}{k} (0..1, held by the
+                # DLL between control ticks) against a sawtooth RAMP{leg} (leg B shifted half a period); the
+                # 200 ns dead time is cut from both edges exactly as the HRTIM dead-time generator does
+                dead = TDEAD / TSW_CTRL
+                ramp, dnet = f"RAMP{leg}", f"D{leg}{s}"
+                if pos == "T":
+                    expr = f"V=if(V({ramp}) < V({dnet})-{dead:g}, {VLOGIC}, 0)"
+                else:
+                    expr = f"V=if(V({ramp}) > V({dnet}), if(V({ramp}) < {1 - dead:g}, {VLOGIC}, 0), 0)"
+                p = c.B(f"Bp{pos}{leg}{s}", inp, "GND", expr, xv + 400 * i, Y0 - 3200)
+            else:
+                p = c.V(f"Vp{pos}{leg}{s}", inp, "GND", pulse_expr(pos, leg, k, logic=True), xv + 400 * i, Y0 - 3200)
             c.stub(p.pin["+"], inp, "up", 200)
             c.stub(p.pin["-"], "GND", "down", 200)
     # HF decoupling placeholders (S8): 3 x Chf per leg between the FET rails (C91..C96 positions)
@@ -579,6 +618,84 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub):
             c.stub(p.pin["1"], Tn, "up", 200)
             c.Lel(f"Lhf{leg}{s}", hn, Bn, f"{comp('C100n_ESL_nH', 0.8)/3:g}n", xh, Y0 - 1200)
             c.stub((xh, Y0 - 1400), Bn, "down", 200)
+
+
+CTRL_INS = ["PV1P", "PV2P", "PV3P", "HSA1", "HSB1", "HSA2", "HSB2", "CTRL_EN", "VREF1", "VREF2"]
+CTRL_OUTS = ["DA1", "DB1", "DA2", "DB2", "RV1", "RV2", "BETA", "STRESS", "IM1R", "IM2R"]
+
+
+def ctrl_sym():
+    """Ø(.DLL) symbol for shuffler_ctrl_dll.dll: inputs left, outputs right, reference at the bottom."""
+    w, h = 1600, 2200
+    prims = [p_rect(-w // 2, h // 2, w // 2, -h // 2, "box")]
+    pins = []
+    for i, n in enumerate(CTRL_INS):
+        pins.append((n, -w // 2, h // 2 - 200 - 200 * i, 60, -40, 13, 145))
+    for i, n in enumerate(CTRL_OUTS):
+        pins.append((n, w // 2, h // 2 - 200 - 200 * i, -60, -40, 14, 146))
+    pins.append(("GND", 0, -h // 2, 0, 60, 11, 147))
+    return SymbolDef("shuffler_ctrl_dll", "\u00d8(.DLL)", "control stack C-block (6_RTOS/ctrl_core via 2_Qspice/ctrl_dll)",
+                     prims, pins, libfile=None, ref_pos=(0, h // 2 + 150), val_pos=(0, 0), extra_pos=(0, -h // 2 - 150),
+                     text_just=0)
+
+
+def ctrl_block(c, x0, y0, vstep=1.0, t_en=1e-3, t_step=8e-3):
+    """Closed-loop control around the two converters (stage S9):
+    hall-sensor voltages from the inductor sense sources (A phases 100 mV/A, B phases 25 mV/A reversed,
+    as mounted), the controller DLL (samples/quantises like the firmware, 10 kHz tick, module currents
+    reconstructed), sawtooth ramps for the HRTIM-style PWM comparators in converter(), enable and
+    Vref test inputs."""
+    # hall sensor outputs (the TMCS1126 output stage, 1.65 V + S*I)
+    for k, (leg, S) in enumerate(((("A", 0.1), ("B", -0.025)) * 2)):
+        conv = 1 + k // 2
+        p = c.B(f"Bhs{leg}{conv}", f"HS{leg}{conv}", "GND", f"V=1.65+{S:g}*I(Vs{leg}{conv})", x0 + 500 * k, y0)
+        c.stub(p.pin["+"], f"HS{leg}{conv}", "up", 200)
+        c.stub(p.pin["-"], "GND", "down", 200)
+    # PWM ramps, leg B half a period behind
+    tsw, tr = TSW_CTRL, TSW_CTRL - 2e-9
+    p = c.V("Vrampa", "RAMPA", "GND", f"PULSE(0 1 0 {tr:.4g} 1n 1n {tsw:g})", x0 + 2200, y0)
+    c.stub(p.pin["+"], "RAMPA", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vrampb", "RAMPB", "GND", f"PULSE(0 1 {tsw / 2:g} {tr:.4g} 1n 1n {tsw:g})", x0 + 2700, y0)
+    c.stub(p.pin["+"], "RAMPB", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    # enable (open loop at 0.5 duty until t_en) and the Vref step test
+    p = c.V("Ven", "CTRL_EN", "GND", f"PWL(0 0 {t_en:g} 0 {t_en + 1e-6:g} 1)", x0 + 3200, y0)
+    c.stub(p.pin["+"], "CTRL_EN", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vref1", "VREF1", "GND", f"PWL(0 0 {t_step:g} 0 {t_step + 1e-6:g} {{VSTEP}})", x0 + 3700, y0)
+    c.stub(p.pin["+"], "VREF1", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vref2", "VREF2", "GND", "0", x0 + 4200, y0)
+    c.stub(p.pin["+"], "VREF2", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    # the controller
+    sym = ctrl_sym()
+    p = c.DLL("Xc", sym, CTRL_INS, CTRL_OUTS, "0", "shuffler_ctrl_dll", x0 + 6000, y0 - 1400)
+    for n in CTRL_INS:
+        c.stub(p.pin[n], n, "left", 400)
+    for n in CTRL_OUTS:
+        c.stub(p.pin[n], n, "right", 400)
+    c.stub(p.pin["GND"], "GND", "down", 200)
+    c.sch.comment(x0, y0 + 900, "S9 closed loop: shuffler_ctrl_dll.dll = the firmware control stack (6_RTOS/ctrl_core) "
+                               "with the firmware's sensor quantisation; duties -> HRTIM-style PWM comparators in the converters.")
+
+
+def ctrl_measurements(c, t0, t1, t2, t3):
+    """Settled means before (t0..t1) and after (t2..t3) the Vref step, supervisor extrema, harvest."""
+    for tag, a, b in (("", t0, t1), ("s", t2, t3)):
+        c.measure(f".meas tran vd1{tag} AVG V(PV1P,PV2P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vd2{tag} AVG V(PV2P,PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran ish1{tag} AVG I(VsA1)+I(VsB1) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran ish2{tag} AVG I(VsA2)+I(VsB2) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran idf1{tag} AVG I(VsA1)-I(VsB1) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran idf2{tag} AVG I(VsA2)-I(VsB2) FROM {a:g} TO {b:g}")
+        for d in ("DA1", "DB1", "DA2", "DB2"):
+            c.measure(f".meas tran {d.lower()}{tag} AVG V({d}) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran pout{tag} AVG V(PV1P)*I(Bload) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran pref{tag} AVG V(R1P)*I(Bref) FROM {a:g} TO {b:g}")
+    c.measure(".meas tran betamax MAX V(BETA)")
+    c.measure(".meas tran stressmax MAX V(STRESS)")
+    c.measure(".meas tran im1r AVG V(IM1R) FROM %g TO %g" % (t2, t3))
+    c.measure(".meas tran im2r AVG V(IM2R) FROM %g TO %g" % (t2, t3))
+    c.measure(".meas tran i1 AVG I(Vi1) FROM %g TO %g" % (t2, t3))
+    c.measure(".meas tran i2 AVG I(Vi2) FROM %g TO %g" % (t2, t3))
+    c.measure(".meas tran i3 AVG I(Vi3) FROM %g TO %g" % (t2, t3))
 
 
 def pwm_nets(pos, leg, k):
@@ -681,15 +798,26 @@ def build(stage):
         "S7": "S7 - full baseline measurement set (same circuit as S6)",
         "S8": "S8 - snubber / HF decoupling design sweep (placeholder positions populated)",
         "S8b": "S8b - HF decoupling sweep (snubber fixed at 470 pF / 4.7 R)",
+        "S9": "S9 - CLOSED LOOP: 150 W panels, drivers (S5 circuit), 100 kHz PWM, firmware control stack as a C-block DLL",
     }
     order = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
-    idx = order.index(stage)
+    global PV_SUB
+    PV_SUB = "pvmi_150w" if stage == "S9" else "pvmi_aiko"
+    if stage == "S9":
+        stage_flags = dict(cpv=True, bulk=True, conv=[1, 2], drive="driver", paras=False, snub=False, full_meas=False)
+        idx = order.index("S5")
+    else:
+        stage_flags = None
+        idx = order.index(stage)
     if idx >= 1: S["cpv"] = S["bulk"] = True
     if idx >= 2: S["conv"] = [1]; S["drive"] = "ideal"
     if idx >= 3: S["conv"] = [1, 2]
     if idx >= 4: S["drive"] = "driver"
     if idx >= 5: S["paras"] = True; S["snub"] = True   # placeholder footprints present (1 pF = not fitted)
     if idx >= 6: S["full_meas"] = True
+    if stage_flags:
+        S.update(stage_flags)
+    ctrl = stage == "S9"
 
     c = Circuit(stage, titles[stage])
     # ---- geometry anchors
@@ -705,9 +833,17 @@ def build(stage):
     conv_nets = {1: ("PV1P", "PV2P", "PV3P"), 2: ("PV2P", "PV3P", "GND")}
     for k in S["conv"]:
         T, M, B = conv_nets[k]
-        converter(c, k, Xs + 8000, Ys - 4600 * (k - 1), T, M, B, S["drive"], S["paras"], S["snub"])
+        converter(c, k, Xs + 8000, Ys - 4600 * (k - 1), T, M, B, S["drive"], S["paras"], S["snub"], ctrl=ctrl)
+    if ctrl:
+        ctrl_block(c, Xs + 8000, Ys - 12000, t_en=0.5e-3, t_step=3e-3)
     # ---- simulation control
-    if stage in ("S1", "S2"):
+    if stage == "S9":
+        # one case (CASE: 1 uniform, 2 = module 2 at 600, 3 = module 3 at 400 W/m2), constant-current load
+        # near Imp of the 150 W string, 6 ms: open loop 0-0.5 ms, closed loop from 0.5 ms, Vref1 step at 3 ms
+        # (no savepowers, 250 ns max step: the .qraw stays near 1 GB for the 6 ms run)
+        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=1")
+        c.directive(".tran 0 6m 0 250n")
+    elif stage in ("S1", "S2"):
         base_directives(c, 2e-3, 1.9e-3, 1e-6)
     elif stage in ("S3", "S4", "S5"):
         base_directives(c, 2.5e-3, 2.4e-3, 20e-9)
@@ -726,10 +862,14 @@ def build(stage):
         c.directive(".param Csn=470p Rsn=4.7")
         c.directive(".step param Chf list 1p 100n 470n 1u")
     # ---- measurements
-    string_measurements(c, refstring=True, modules=True)
+    if ctrl:
+        ctrl_measurements(c, 2e-3, 2.9e-3, 4.5e-3, 6e-3)
+    else:
+        string_measurements(c, refstring=True, modules=True)
     for k in S["conv"]:
         Bn = ("PV3P" if k == 1 else "GND") if not S["paras"] else f"B{k}"
-        converter_measurements(c, k, S["drive"], S["paras"], Bn)
+        if not ctrl:
+            converter_measurements(c, k, S["drive"], S["paras"], Bn)
     if S["snub"]:
         for k in S["conv"]:
             s = str(k)

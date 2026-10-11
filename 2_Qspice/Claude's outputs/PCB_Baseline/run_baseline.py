@@ -25,10 +25,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 STAGES = os.path.join(HERE, "stages")
 RESULTS = os.path.join(HERE, "results")
 QSPICE_DIR = r"C:\Program Files\QSPICE"
-SIM_TIMEOUT = 1800     # s per stage (all steps)
+SIM_TIMEOUT = 7200     # s per stage (all steps; S9 is a 12 ms switching run)
 REPORT_CIR = os.path.abspath(os.path.join(HERE, "..", "Shuffler_PCB_Baseline.cir"))   # the single-sheet file
 USAGE = """usage: python run_baseline.py [STAGE ...] [--plots-only] [--remeasure]
-  STAGE   S1 .. S8b (files in stages/), or REPORT for ../Shuffler_PCB_Baseline.cir; none = every stage
+  STAGE   S1 .. S8b, S9 (files in stages/), or REPORT for ../Shuffler_PCB_Baseline.cir; none = every stage
   --plots-only   redraw the SVG plots from existing .qraw files, no simulation
   --remeasure    re-evaluate the .meas lines from existing .qraw files, no simulation
 """
@@ -62,6 +62,12 @@ PLOTS = {
            ("fet_power", ["P(mta1)", "P(mba1)", "P(mtb1)", "P(mbb1)"], SW)],
     "S8": [("switch_node", ["V(swa1)-V(b1)"], SW)],
     "S8b": [("switch_node", ["V(swa1)-V(b1)"], SW)],
+    "S9": [("module_voltages", ["V(pv1p)-V(pv2p)", "V(pv2p)-V(pv3p)", "V(pv3p)"]),
+           ("duties", ["V(da1)", "V(db1)", "V(da2)", "V(db2)"]),
+           ("shuffled_currents", ["I(vsa1)+I(vsb1)", "I(vsa2)+I(vsb2)"]),
+           ("supervisor", ["V(beta)", "V(stress)", "V(rv1)"]),
+           ("module_currents", ["I(vi1)", "I(vi2)", "I(vi3)", "V(im1r)", "V(im2r)"]),
+           ("inductor_currents", ["I(vsa1)", "I(vsb1)", "I(vsa2)", "I(vsb2)"], 30e-6)],
 }
 
 

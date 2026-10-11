@@ -40,8 +40,9 @@ def p_triangle(x1, y1, x2, y2, x3, y3):
 def p_text(x, y, s, just=7, flag=0, size=1):
     return f"{LT}text ({x},{y}) {size} {just} {flag} 0x1000000 -1 -1 \"{s}\"{GT}"
 
-def p_pin(x, y, name, dx=0, dy=0, just=0):
-    return f"{LT}pin ({x},{y}) ({dx},{dy}) 1 {just} 0 0x0 -1 \"{name}\"{GT}"
+def p_pin(x, y, name, dx=0, dy=0, just=0, kind=0):
+    """kind: 0 = ordinary pin; for Ø(.DLL) blocks 145 = double input, 146 = double output, 147 = reference."""
+    return f"{LT}pin ({x},{y}) ({dx},{dy}) 1 {just} {kind} 0x0 -1 \"{name}\"{GT}"
 
 
 # --------------------------------------------------------------------------- symbols
@@ -118,7 +119,8 @@ class SymbolDef:
         for pin in self.pins:
             n, x, y = pin[:3]
             dx, dy, just = (pin[3], pin[4], pin[5]) if len(pin) > 3 else (0, 0, 0)
-            out.append("  " + p_pin(x, y, n, dx, dy, just))
+            kind = pin[6] if len(pin) > 6 else 0
+            out.append("  " + p_pin(x, y, n, dx, dy, just, kind))
         out.append(GT)
         return out
 

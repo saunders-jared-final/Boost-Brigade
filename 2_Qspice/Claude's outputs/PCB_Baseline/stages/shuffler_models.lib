@@ -53,6 +53,11 @@ Rs S A {Rs}
 X1 A K E pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=0 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
 .ends pvmi_aiko
 *
+* ---- 150 W hard-frame panel (carpark string), same Karmalkar-Haneefa model, STC points scaled from the Aiko fit ----
+.subckt pvmi_150w A K E
+X1 A K E pvmi avoc=0.00193169 bvoc=20.4753 aisc=0.00872098 bisc=0 avm=0.000555523 bvm=17.7245 aim=0.00820223 bim=0.00478264 Rs=1m Rsh=1meg
+.ends pvmi_150w
+*
 * ---- one lumped bypass diode per module (junction box has three, this is enough for the string) ----
 .model dbypass D(Is=2u N=1.05 Rs=8m Cjo=500p Vj=0.5 m=0.4)
 *
