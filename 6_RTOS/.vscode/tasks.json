@@ -1,0 +1,62 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "STM32: Build (Debug)",
+            "type": "shell",
+            "command": "${env:LOCALAPPDATA}\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": [
+                "--build",
+                "--preset",
+                "Debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "${env:LOCALAPPDATA}\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;${env:LOCALAPPDATA}\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "dependsOn": "STM32: Configure (Debug)",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [
+                "$gcc"
+            ]
+        },
+        {
+            "label": "STM32: Configure (Debug)",
+            "type": "shell",
+            "command": "${env:LOCALAPPDATA}\\stm32cube\\bundles\\cmake\\4.3.1+st.1\\bin\\cmake.exe",
+            "args": [
+                "--preset",
+                "Debug"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}",
+                "env": {
+                    "PATH": "${env:LOCALAPPDATA}\\stm32cube\\bundles\\gnu-tools-for-stm32\\14.3.1+st.2\\bin;${env:LOCALAPPDATA}\\stm32cube\\bundles\\ninja\\1.13.2+st.1\\bin;${env:PATH}"
+                }
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "STM32: Flash (no debug)",
+            "type": "shell",
+            "command": "${env:LOCALAPPDATA}\\stm32cube\\bundles\\programmer\\2.23.0\\bin\\STM32_Programmer_CLI.exe",
+            "args": [
+                "-c",
+                "port=SWD",
+                "-w",
+                "${workspaceFolder}\\build\\Debug\\Shuffler_1_Open_Loop.elf",
+                "-rst"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "dependsOn": "STM32: Build (Debug)",
+            "problemMatcher": []
+        }
+    ]
+}

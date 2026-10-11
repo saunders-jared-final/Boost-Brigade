@@ -1,0 +1,10 @@
+(sym_lib_table
+	(version 7)
+	(lib (name "MagIC_Wurth_WPME-FDSM") (type "KiCad") (uri "${KIPRJMOD}/../libs/KiCad_WPME-FDSM (rev26d)/symbols/MagIC_Wurth_WPME-FDSM.kicad_sym") (options "") (descr ""))
+	(lib (name "NUCLEO-G474RE") (type "KiCad") (uri "${KIPRJMOD}/../libs/NUCLEO-G474RE/NUCLEO-G474RE.kicad_sym") (options "") (descr ""))
+	(lib (name "STL115N10F7AG") (type "KiCad") (uri "${KIPRJMOD}/../libs/STL115N10F7AG/STL115N10F7AG.kicad_sym") (options "") (descr ""))
+	(lib (name "SP3T Switch") (type "KiCad") (uri "${KIPRJMOD}/../libs/SP3T Switch/SLW-237661-6A-N-D.kicad_sym") (options "") (descr ""))
+	(lib (name "Transformer 750318737") (type "KiCad") (uri "${KIPRJMOD}/../libs/Transformer/750318737.kicad_sym") (options "") (descr ""))
+	(lib (name "LM5180") (type "KiCad") (uri "${KIPRJMOD}/../libs/LM5180/LM5180QNGUTQ1/LM5180QNGUTQ1.kicad_sym") (options "") (descr ""))
+	(lib (name "Hall effect IC") (type "KiCad") (uri "${KIPRJMOD}/../libs/Hall effect IC/KiCADv6/2026-08-15_08-10-51.kicad_sym") (options "") (descr ""))
+)

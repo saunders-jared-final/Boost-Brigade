@@ -1,0 +1,90 @@
+/* ---- 1. Time base: identical for both legs ---------------------- */
+HRTIM_TimeBaseCfgTypeDef tb = {0};
+tb.Period            = 54400;        // 5.44 GHz / 100 kHz
+tb.RepetitionCounter = 0;
+tb.PrescalerRatio    = HRTIM_PRESCALERRATIO_MUL32;   // 184 ps steps
+tb.Mode              = HRTIM_MODE_CONTINUOUS;
+HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &tb);
+HAL_HRTIM_TimeBaseConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &tb);
+
+/* ---- 2. Timer unit: the key line is DeadTimeInsertion ----------- */
+HRTIM_TimerCfgTypeDef tim = {0};
+tim.DMARequests           = HRTIM_TIM_DMA_NONE;
+tim.HalfModeEnable        = HRTIM_HALFMODE_DISABLED;
+tim.StartOnSync           = HRTIM_SYNCSTART_DISABLED;
+tim.ResetOnSync           = HRTIM_SYNCRESET_DISABLED;
+tim.DACSynchro            = HRTIM_DACSYNC_NONE;
+tim.PreloadEnable         = HRTIM_PRELOAD_ENABLED;
+tim.UpdateGating          = HRTIM_UPDATEGATING_INDEPENDENT;
+tim.BurstMode             = HRTIM_TIMERBURSTMODE_MAINTAINCLOCK;
+tim.RepetitionUpdate      = HRTIM_UPDATEONREPETITION_DISABLED;
+tim.PushPull              = HRTIM_TIMPUSHPULLMODE_DISABLED;
+tim.FaultEnable           = HRTIM_TIMFAULTENABLE_NONE;
+tim.FaultLock             = HRTIM_TIMFAULTLOCK_READWRITE;
+tim.DeadTimeInsertion     = HRTIM_TIMDEADTIMEINSERTION_ENABLED;
+tim.DelayedProtectionMode = HRTIM_TIMER_A_B_C_DELAYEDPROTECTION_DISABLED;
+tim.UpdateTrigger         = HRTIM_TIMUPDATETRIGGER_NONE;
+tim.ResetTrigger          = HRTIM_TIMRESETTRIGGER_NONE;
+tim.ResetUpdate           = HRTIM_TIMUPDATEONRESET_DISABLED;
+HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &tim);
+HAL_HRTIM_WaveformTimerConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &tim);
+
+/* ---- 3. Duty: 50 % on both legs -------------------------------- */
+HRTIM_CompareCfgTypeDef cmp = {0};
+cmp.CompareValue = 27200;                    // PER / 2
+HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
+                                HRTIM_COMPAREUNIT_1, &cmp);
+HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B,
+                                HRTIM_COMPAREUNIT_1, &cmp);
+
+/* ---- 4. Dead time: 272 x 0.735 ns = 200 ns, both edges ---------- */
+HRTIM_DeadTimeCfgTypeDef dt = {0};
+dt.Prescaler       = HRTIM_TIMDEADTIME_PRESCALERRATIO_DIV8;  // = DTPRSC 000, see §04
+dt.RisingValue     = 272;
+dt.RisingSign      = HRTIM_TIMDEADTIME_RISINGSIGN_POSITIVE;
+dt.RisingLock      = HRTIM_TIMDEADTIME_RISINGLOCK_WRITE;
+dt.RisingSignLock  = HRTIM_TIMDEADTIME_RISINGSIGNLOCK_WRITE;
+dt.FallingValue    = 272;
+dt.FallingSign     = HRTIM_TIMDEADTIME_FALLINGSIGN_POSITIVE;
+dt.FallingLock     = HRTIM_TIMDEADTIME_FALLINGLOCK_WRITE;
+dt.FallingSignLock = HRTIM_TIMDEADTIME_FALLINGSIGNLOCK_WRITE;
+HAL_HRTIM_DeadTimeConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A, &dt);
+HAL_HRTIM_DeadTimeConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B, &dt);
+
+/* ---- 5. Outputs. Only output 1 of each leg is defined;          */
+/*        TA2 / TB2 are produced by the dead-time generator.       */
+HRTIM_OutputCfgTypeDef out = {0};
+out.Polarity              = HRTIM_OUTPUTPOLARITY_HIGH;   // 1ED3140 IN+ is active high
+out.IdleMode              = HRTIM_OUTPUTIDLEMODE_NONE;
+out.IdleLevel             = HRTIM_OUTPUTIDLELEVEL_INACTIVE;  // park low
+out.FaultLevel            = HRTIM_OUTPUTFAULTLEVEL_NONE;
+out.ChopperModeEnable     = HRTIM_OUTPUTCHOPPERMODE_DISABLED;
+out.BurstModeEntryDelayed = HRTIM_OUTPUTBURSTMODEENTRY_REGULAR;
+
+Look Here Claude!
+
+// Leg A: high at the period roll-over, low at 50 %
+out.SetSource   = HRTIM_OUTPUTSET_TIMPER;
+out.ResetSource = HRTIM_OUTPUTRESET_TIMCMP1;
+HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
+                               HRTIM_OUTPUT_TA1, &out);
+
+// Leg B: the mirror image -> 180 deg at exactly 50 % duty
+out.SetSource   = HRTIM_OUTPUTSET_TIMCMP1;
+out.ResetSource = HRTIM_OUTPUTRESET_TIMPER;
+HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B,
+                               HRTIM_OUTPUT_TB1, &out);
+
+// TA2 / TB2: set/reset sources are ignored while dead time is on,
+// but configure them so their polarity and idle level are defined.
+HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_A,
+                               HRTIM_OUTPUT_TA2, &out);
+HAL_HRTIM_WaveformOutputConfig(&hhrtim1, HRTIM_TIMERINDEX_TIMER_B,
+                               HRTIM_OUTPUT_TB2, &out);
+
+/* ---- 6. Go. Both counters enabled in one register write, so     */
+/*        the legs start on the same clock edge and stay locked.    */
+HAL_HRTIM_WaveformOutputStart(&hhrtim1, HRTIM_OUTPUT_TA1 | HRTIM_OUTPUT_TA2 |
+                                        HRTIM_OUTPUT_TB1 | HRTIM_OUTPUT_TB2);
+HAL_HRTIM_WaveformCountStart(&hhrtim1, HRTIM_TIMERID_TIMER_A |
+                                       HRTIM_TIMERID_TIMER_B);

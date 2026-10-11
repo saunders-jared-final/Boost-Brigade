@@ -51,3 +51,13 @@ fp-info-cache
 slprj/
 *.slxc
 codegen/
+# Firmware (6_RTOS) build trees and CubeMX scratch
+6_RTOS/build*/
+6_RTOS/mx.scratch
+6_RTOS/.settings/
+# Host SIL build trees
+4_Simulink/**/build*/
+# QSPICE raw waveform dumps
+*.qraw
+# Pi stack runtime data
+7_Pi/**/data/

@@ -1,0 +1,52 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "stlinkgdbtarget",
+            "request": "launch",
+            "name": "STM32: Debug (halt at main)",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "STM32: Build (Debug)",
+            "program": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf",
+            "imagesAndSymbols": [
+                {
+                    "imageFileName": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf",
+                    "symbolFileName": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf"
+                }
+            ],
+            "runEntry": "main",
+            "serverInterface": "SWD",
+            "serverInterfaceFrequency": "Auto",
+            "serverReset": "Connect under reset",
+            "serverVerify": true,
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": "4"
+            },
+            "openGdbConsole": true
+        },
+        {
+            "type": "stlinkgdbtarget",
+            "request": "launch",
+            "name": "STM32: Flash & Free-Run (for scope)",
+            "cwd": "${workspaceFolder}",
+            "preLaunchTask": "STM32: Build (Debug)",
+            "program": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf",
+            "imagesAndSymbols": [
+                {
+                    "imageFileName": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf",
+                    "symbolFileName": "${workspaceFolder}/build/Debug/Shuffler_1_Open_Loop.elf"
+                }
+            ],
+            "runEntry": "",
+            "serverInterface": "SWD",
+            "serverInterfaceFrequency": "Auto",
+            "serverReset": "Connect under reset",
+            "serverVerify": true,
+            "liveWatch": {
+                "enabled": true,
+                "samplesPerSecond": "4"
+            }
+        }
+    ]
+}
