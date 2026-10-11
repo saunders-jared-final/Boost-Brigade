@@ -1,0 +1,285 @@
+.meas tran vstr avg v(pv1p):
+   1    103.951
+   2    103.918
+   3    103.914
+   4    103.896
+.meas tran istr avg i(bload):
+   1    12.7579
+   2    12.7538
+   3    12.7533
+   4     12.751
+.meas tran pout avg v(pv1p)*i(bload):
+   1    1326.28
+   2    1325.39
+   3    1325.26
+   4    1324.78
+.meas tran pref avg v(r1p)*i(bref):
+   1    903.065
+   2    903.065
+   3    903.065
+   4    903.065
+.meas tran v1 avg v(pv1p,pv2p):
+   1    35.1244
+   2    35.1028
+   3    35.1031
+   4    35.0976
+.meas tran i1 avg i(vi1):
+   1    14.6801
+   2    14.6814
+   3     14.682
+   4    14.6825
+.meas tran p1 avg v(pv1p,pv2p)*i(vi1):
+   1     515.63
+   2    515.358
+   3    515.381
+   4    515.321
+.meas tran v2 avg v(pv2p,pv3p):
+   1    33.7306
+   2    33.7327
+   3    33.7313
+   4    33.7252
+.meas tran i2 avg i(vi2):
+   1    8.86631
+   2    8.86539
+   3    8.86635
+   4    8.86658
+.meas tran p2 avg v(pv2p,pv3p)*i(vi2):
+   1    299.066
+   2    299.053
+   3    299.073
+   4    299.027
+.meas tran v3 avg v(pv3p):
+   1    35.0962
+   2    35.0822
+   3    35.0795
+   4    35.0728
+.meas tran i3 avg i(vi3):
+   1    14.6825
+   2    14.6832
+   3    14.6839
+   4    14.6846
+.meas tran p3 avg v(pv3p)*i(vi3):
+   1    515.298
+   2    515.119
+   3    515.104
+   4    515.029
+.meas tran vr1 avg v(r1p,r2p):
+   1     43.081
+   2     43.081
+   3     43.081
+   4     43.081
+.meas tran ir1 avg i(vir1):
+   1    10.5277
+   2    10.5277
+   3    10.5277
+   4    10.5277
+.meas tran vr2 avg v(r2p,r3p):
+   1  -0.382157
+   2  -0.382157
+   3  -0.382157
+   4  -0.382157
+.meas tran ir2 avg i(vir2):
+   1    8.91916
+   2    8.91916
+   3    8.91916
+   4    8.91916
+.meas tran vr3 avg v(r3p):
+   1     43.081
+   2     43.081
+   3     43.081
+   4     43.081
+.meas tran ir3 avg i(vir3):
+   1    10.5277
+   2    10.5277
+   3    10.5277
+   4    10.5277
+.meas tran ila1 avg i(vsa1):
+   1    1.93935
+   2    1.94194
+   3    1.94191
+   4    1.94386
+.meas tran ilb1 avg i(vsb1):
+   1    1.93562
+   2    1.93715
+   3     1.9387
+   4    1.94067
+.meas tran ilapp1 pp i(vsa1):
+   1     6.7835
+   2    6.77635
+   3     6.7783
+   4    6.77832
+.meas tran ish1 avg i(vsa1)+i(vsb1):
+   1    3.87496
+   2    3.87908
+   3    3.88061
+   4    3.88453
+.meas tran vswamax1 max v(swa1,b1):
+   1    71.0953
+   2     70.951
+   3    70.1116
+   4    69.9449
+.meas tran vswamin1 min v(swa1,b1):
+   1     -2.867
+   2   -3.22631
+   3   -3.22722
+   4   -3.23192
+.meas tran vswbmax1 max v(swb1,b1):
+   1    71.0958
+   2    70.9531
+   3    70.1089
+   4    69.9433
+.meas tran pmta1 avg p(mta1):
+   1   0.119966
+   2    0.11517
+   3   0.115302
+   4   0.115322
+.meas tran pmba1 avg p(mba1):
+   1   0.182613
+   2   0.182887
+   3   0.182974
+   4   0.183191
+.meas tran pmtb1 avg p(mtb1):
+   1   0.119552
+   2   0.114801
+   3   0.114909
+   4   0.114977
+.meas tran pmbb1 avg p(mbb1):
+   1   0.182214
+   2   0.182266
+   3   0.182543
+   4   0.182612
+.meas tran pconv1 avg p(mta1)+p(mba1)+p(mtb1)+p(mbb1):
+   1   0.604344
+   2   0.595125
+   3   0.595728
+   4   0.596103
+.meas tran vgta1 max v(gta1,swa1):
+   1    11.7647
+   2    11.7658
+   3    11.7661
+   4    11.7662
+.meas tran vgtamin1 min v(gta1,swa1):
+   1  -0.686814
+   2  -0.705737
+   3  -0.708311
+   4  -0.707334
+.meas tran vboota1 min v(boota1,swa1):
+   1    11.7622
+   2    11.7633
+   3    11.7636
+   4    11.7637
+.meas tran tdead1 trig v(gba1,b1)=6 fall=1 targ v(gta1,swa1)=6 rise=2:
+   1 2.03617e-07
+   2 2.02681e-07
+   3  2.025e-07
+   4 2.02368e-07
+.meas tran ila2 avg i(vsa2):
+   1   -1.93555
+   2   -1.93697
+   3   -1.93793
+   4   -1.93894
+.meas tran ilb2 avg i(vsb2):
+   1   -1.93733
+   2   -1.93983
+   3    -1.9392
+   4   -1.94017
+.meas tran ilapp2 pp i(vsa2):
+   1    6.76373
+   2    6.75774
+   3     6.7581
+   4    6.75656
+.meas tran ish2 avg i(vsa2)+i(vsb2):
+   1   -3.87288
+   2    -3.8768
+   3   -3.87713
+   4    -3.8791
+.meas tran vswamax2 max v(swa2,b2):
+   1     76.635
+   2    72.2344
+   3    72.2783
+   4    72.2054
+.meas tran vswamin2 min v(swa2,b2):
+   1   -1.30367
+   2   -1.14934
+   3   -1.15288
+   4    -1.1513
+.meas tran vswbmax2 max v(swb2,b2):
+   1     76.644
+   2     72.238
+   3    72.2805
+   4    72.2039
+.meas tran pmta2 avg p(mta2):
+   1   0.185877
+   2    0.18602
+   3   0.186251
+   4   0.186285
+.meas tran pmba2 avg p(mba2):
+   1   0.117041
+   2    0.11294
+   3   0.112992
+   4   0.112971
+.meas tran pmtb2 avg p(mtb2):
+   1    0.18605
+   2   0.186411
+   3   0.186446
+   4   0.186648
+.meas tran pmbb2 avg p(mbb2):
+   1   0.117293
+   2   0.113148
+   3   0.113202
+   4   0.113137
+.meas tran pconv2 avg p(mta2)+p(mba2)+p(mtb2)+p(mbb2):
+   1   0.606261
+   2   0.598518
+   3   0.598891
+   4   0.599041
+.meas tran vgta2 max v(gta2,swa2):
+   1    11.6559
+   2     11.656
+   3    11.6561
+   4     11.656
+.meas tran vgtamin2 min v(gta2,swa2):
+   1    -1.9716
+   2   -2.12148
+   3   -2.12387
+   4   -2.12378
+.meas tran vboota2 min v(boota2,swa2):
+   1    11.6541
+   2    11.6543
+   3    11.6543
+   4    11.6542
+.meas tran tdead2 trig v(gba2,b2)=6 fall=1 targ v(gta2,swa2)=6 rise=2:
+   1 2.04851e-07
+   2 2.03751e-07
+   3 2.03566e-07
+   4 2.03438e-07
+.meas tran psnta1 avg p(rsnta1):
+   1   0.055366
+   2  0.0505228
+   3  0.0506132
+   4  0.0505434
+.meas tran psnba1 avg p(rsnba1):
+   1  0.0510405
+   2  0.0506107
+   3  0.0506203
+   4  0.0505373
+.meas tran phfa1 avg p(chfa1):
+   1 6.36954e-10
+   2 0.00659585
+   3 0.00689766
+   4  0.0105773
+.meas tran psnta2 avg p(rsnta2):
+   1  0.0509988
+   2  0.0507287
+   3  0.0507249
+   4  0.0506432
+.meas tran psnba2 avg p(rsnba2):
+   1  0.0548934
+   2  0.0506505
+   3  0.0507232
+   4  0.0506538
+.meas tran phfa2 avg p(chfa2):
+   1 5.31985e-10
+   2 0.00519256
+   3 0.00620781
+   4 0.00903862

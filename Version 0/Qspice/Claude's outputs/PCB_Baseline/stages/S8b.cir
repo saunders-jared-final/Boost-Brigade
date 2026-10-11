@@ -1,0 +1,242 @@
+* S8b - HF decoupling sweep (snubber fixed at 470 pF / 4.7 R)
+.lib shuffler_models.lib
+Xcab1p m1p PV1P trace R=6.95m L=750n RP=50
+Xcab1n m1n PV2P trace R=6.95m L=750n RP=50
+Vi1 a1 m1p 0
+Xpv1 a1 m1n E1 pvmi_aiko
+Dbp1 m1n m1p dbypass
+Cpv1 m1p m1n 10n RSER=0.1
+Xcab2p m2p PV2P trace R=6.95m L=750n RP=50
+Xcab2n m2n PV3P trace R=6.95m L=750n RP=50
+Vi2 a2 m2p 0
+Xpv2 a2 m2n E2 pvmi_aiko
+Dbp2 m2n m2p dbypass
+Cpv2 m2p m2n 10n RSER=0.1
+Xcab3p m3p PV3P trace R=6.95m L=750n RP=50
+Xcab3n m3n 0 trace R=6.95m L=750n RP=50
+Vi3 a3 m3p 0
+Xpv3 a3 m3n E3 pvmi_aiko
+Dbp3 m3n m3p dbypass
+Cpv3 m3p m3n 10n RSER=0.1
+Bload PV1P 0 I=if(LOADSEL<0.5, V(PV1P)/Rmpp, Icc*min(1, time/200u))
+Vir1 ra1 R1P 0
+Xpvr1 ra1 R2P E1 pvmi_aiko
+Dbpr1 R2P R1P dbypass
+Cpvr1 R1P R2P 10n RSER=0.1
+Vir2 ra2 R2P 0
+Xpvr2 ra2 R3P E2 pvmi_aiko
+Dbpr2 R3P R2P dbypass
+Cpvr2 R2P R3P 10n RSER=0.1
+Vir3 ra3 R3P 0
+Xpvr3 ra3 0 E3 pvmi_aiko
+Dbpr3 0 R3P dbypass
+Cpvr3 R3P 0 10n RSER=0.1
+Bref R1P 0 I=if(LOADSEL<0.5, V(R1P)/Rmpp, Icc*min(1, time/200u))
+BE1 E1 0 V=table(CASE, 1,1000, 2,1000, 3,1000)
+BE2 E2 0 V=table(CASE, 1,1000, 2,600, 3,1000)
+BE3 E3 0 V=table(CASE, 1,1000, 2,1000, 3,400)
+C1 PV1P c1n 130u RSER=28m
+Lc1 c1n PV2P 15n RPAR=5
+C2 PV2P c2n 130u RSER=28m
+Lc2 c2n PV3P 15n RPAR=5
+C3 PV2P c3n 130u RSER=28m
+Lc3 c3n PV3P 15n RPAR=5
+C4 PV3P c4n 130u RSER=28m
+Lc4 c4n 0 15n RPAR=5
+XtT1 PV1P T1 trace R=0.518m L=2.4n
+XtB1 PV3P B1 trace R=0.11m L=0.23n
+LdTA1 T1 dTA1 1.5n RPAR=5
+LsTA1 sTA1 SWA1 3n RPAR=5
+LdBA1 SWA1 dBA1 1.5n RPAR=5
+LsBA1 sBA1 B1 3n RPAR=5
+MTA1 dTA1 gTA1 sTA1 sTA1 STD45N10F7
+MBA1 dBA1 gBA1 sBA1 sBA1 STD45N10F7
+XtgTA1 giTA1 gTA1 trace R=5.61m L=1.19n
+RonTA1 ohTA1 giTA1 10
+RoffTA1 olTA1 giTA1 4.7
+XdTA1 PWM_AH1 PWM_AL1 BOOTA1 SWA1 ohTA1 olTA1 1ED3140
+XtgBA1 giBA1 gBA1 trace R=10.8m L=1.41n
+RonBA1 ohBA1 giBA1 10
+RoffBA1 olBA1 giBA1 4.7
+XdBA1 PWM_AL1 PWM_AH1 VREG1 B1 ohBA1 olBA1 1ED3140
+RsnTA1 T1 snTA1 {Rsn}
+CsnTA1 snTA1 SWA1 {Csn}
+RsnBA1 SWA1 snBA1 {Rsn}
+CsnBA1 snBA1 B1 {Csn}
+LdTB1 T1 dTB1 1.5n RPAR=5
+LsTB1 sTB1 SWB1 3n RPAR=5
+LdBB1 SWB1 dBB1 1.5n RPAR=5
+LsBB1 sBB1 B1 3n RPAR=5
+MTB1 dTB1 gTB1 sTB1 sTB1 STD45N10F7
+MBB1 dBB1 gBB1 sBB1 sBB1 STD45N10F7
+XtgTB1 giTB1 gTB1 trace R=3.61m L=1.04n
+RonTB1 ohTB1 giTB1 10
+RoffTB1 olTB1 giTB1 4.7
+XdTB1 PWM_BH1 PWM_BL1 BOOTB1 SWB1 ohTB1 olTB1 1ED3140
+XtgBB1 giBB1 gBB1 trace R=5.33m L=1.25n
+RonBB1 ohBB1 giBB1 10
+RoffBB1 olBB1 giBB1 4.7
+XdBB1 PWM_BL1 PWM_BH1 VREG1 B1 ohBB1 olBB1 1ED3140
+RsnTB1 T1 snTB1 {Rsn}
+CsnTB1 snTB1 SWB1 {Csn}
+RsnBB1 SWB1 snBB1 {Rsn}
+CsnBB1 snBB1 B1 {Csn}
+XtSWA1 SWA1 SWAL1 trace R=0.795m L=1.58n
+XtSWB1 SWBL1 SWB1 trace R=1.56m L=5.58n
+XL1 LA2_1 LB2_1 SWBL1 SWAL1 ERUC23-4R1K
+VsA1 LA2_1 LA2s_1 0
+XtLA1 LA2s_1 LA2t_1 trace R=1.35m L=2.68n
+XsA1 LA2t_1 M1 TMCS1126 RSH=0.7m LSH=0.5n
+VsB1 LB2_1 LB2s_1 0
+XtLB1 LB2s_1 LB2t_1 trace R=0.992m L=2.32n
+XsB1 LB2t_1 M1 TMCS1126 RSH=0.7m LSH=0.5n
+XtM1 M1 PV2P trace R=0.149m L=0.29n
+Vreg1 VREG1 B1 12
+CvL1 VREG1 B1 100n RSER=20m
+Cv2L1 VREG1 B1 10u RSER=5m
+DbA1 bsaA1 BOOTA1 VSSA210
+RbA1 bsaA1 VREG1 10
+CbA1 BOOTA1 SWA1 100n RSER=20m
+Cb2A1 BOOTA1 SWA1 10u RSER=5m
+DbB1 bsaB1 BOOTB1 VSSA210
+RbB1 bsaB1 VREG1 10
+CbB1 BOOTB1 SWB1 100n RSER=20m
+Cb2B1 BOOTB1 SWB1 10u RSER=5m
+VpTA1 PWM_AH1 0 PULSE(0 3.3 0.000e+00 5n 5n 2.300e-06 5.000e-06)
+VpBA1 PWM_AL1 0 PULSE(0 3.3 2.500e-06 5n 5n 2.300e-06 5.000e-06)
+VpTB1 PWM_BH1 0 PULSE(0 3.3 2.500e-06 5n 5n 2.300e-06 5.000e-06)
+VpBB1 PWM_BL1 0 PULSE(0 3.3 5.000e-06 5n 5n 2.300e-06 5.000e-06)
+ChfA1 T1 hfA1 {3*Chf} RSER=6.66667m
+LhfA1 hfA1 B1 0.266667n
+ChfB1 T1 hfB1 {3*Chf} RSER=6.66667m
+LhfB1 hfB1 B1 0.266667n
+XtT2 PV2P T2 trace R=0.149m L=0.29n
+XtB2 0 B2 trace R=0.022m L=0.02n
+LdTA2 T2 dTA2 1.5n RPAR=5
+LsTA2 sTA2 SWA2 3n RPAR=5
+LdBA2 SWA2 dBA2 1.5n RPAR=5
+LsBA2 sBA2 B2 3n RPAR=5
+MTA2 dTA2 gTA2 sTA2 sTA2 STD45N10F7
+MBA2 dBA2 gBA2 sBA2 sBA2 STD45N10F7
+XtgTA2 giTA2 gTA2 trace R=3.01m L=0.91n
+RonTA2 ohTA2 giTA2 10
+RoffTA2 olTA2 giTA2 4.7
+XdTA2 PWM_AH2 PWM_AL2 BOOTA2 SWA2 ohTA2 olTA2 1ED3140
+XtgBA2 giBA2 gBA2 trace R=4.85m L=1.25n
+RonBA2 ohBA2 giBA2 10
+RoffBA2 olBA2 giBA2 4.7
+XdBA2 PWM_AL2 PWM_AH2 VREG2 B2 ohBA2 olBA2 1ED3140
+RsnTA2 T2 snTA2 {Rsn}
+CsnTA2 snTA2 SWA2 {Csn}
+RsnBA2 SWA2 snBA2 {Rsn}
+CsnBA2 snBA2 B2 {Csn}
+LdTB2 T2 dTB2 1.5n RPAR=5
+LsTB2 sTB2 SWB2 3n RPAR=5
+LdBB2 SWB2 dBB2 1.5n RPAR=5
+LsBB2 sBB2 B2 3n RPAR=5
+MTB2 dTB2 gTB2 sTB2 sTB2 STD45N10F7
+MBB2 dBB2 gBB2 sBB2 sBB2 STD45N10F7
+XtgTB2 giTB2 gTB2 trace R=3.39m L=0.95n
+RonTB2 ohTB2 giTB2 10
+RoffTB2 olTB2 giTB2 4.7
+XdTB2 PWM_BH2 PWM_BL2 BOOTB2 SWB2 ohTB2 olTB2 1ED3140
+XtgBB2 giBB2 gBB2 trace R=4.44m L=1.1n
+RonBB2 ohBB2 giBB2 10
+RoffBB2 olBB2 giBB2 4.7
+XdBB2 PWM_BL2 PWM_BH2 VREG2 B2 ohBB2 olBB2 1ED3140
+RsnTB2 T2 snTB2 {Rsn}
+CsnTB2 snTB2 SWB2 {Csn}
+RsnBB2 SWB2 snBB2 {Rsn}
+CsnBB2 snBB2 B2 {Csn}
+XtSWA2 SWA2 SWAL2 trace R=1.87m L=2.52n
+XtSWB2 SWBL2 SWB2 trace R=1.13m L=1.04n
+XL2 LA2_2 LB2_2 SWBL2 SWAL2 ERUC23-4R1K
+VsA2 LA2_2 LA2s_2 0
+XtLA2 LA2s_2 LA2t_2 trace R=1m L=2n
+XsA2 LA2t_2 M2 TMCS1126 RSH=0.7m LSH=0.5n
+VsB2 LB2_2 LB2s_2 0
+XtLB2 LB2s_2 LB2t_2 trace R=1m L=2n
+XsB2 LB2t_2 M2 TMCS1126 RSH=0.7m LSH=0.5n
+XtM2 M2 PV3P trace R=0.11m L=0.23n
+Vreg2 VREG2 B2 12
+CvL2 VREG2 B2 100n RSER=20m
+Cv2L2 VREG2 B2 10u RSER=5m
+DbA2 bsaA2 BOOTA2 VSSA210
+RbA2 bsaA2 VREG2 10
+CbA2 BOOTA2 SWA2 100n RSER=20m
+Cb2A2 BOOTA2 SWA2 10u RSER=5m
+DbB2 bsaB2 BOOTB2 VSSA210
+RbB2 bsaB2 VREG2 10
+CbB2 BOOTB2 SWB2 100n RSER=20m
+Cb2B2 BOOTB2 SWB2 10u RSER=5m
+VpTA2 PWM_AH2 0 PULSE(0 3.3 0.000e+00 5n 5n 2.300e-06 5.000e-06)
+VpBA2 PWM_AL2 0 PULSE(0 3.3 2.500e-06 5n 5n 2.300e-06 5.000e-06)
+VpTB2 PWM_BH2 0 PULSE(0 3.3 2.500e-06 5n 5n 2.300e-06 5.000e-06)
+VpBB2 PWM_BL2 0 PULSE(0 3.3 5.000e-06 5n 5n 2.300e-06 5.000e-06)
+ChfA2 T2 hfA2 {3*Chf} RSER=6.66667m
+LhfA2 hfA2 B2 0.266667n
+ChfB2 T2 hfB2 {3*Chf} RSER=6.66667m
+LhfB2 hfB2 B2 0.266667n
+.param Rmpp=8.148 Icc=10 CASE=2 LOADSEL=0
+.option savepowers
+.tran 0 0.0025 0.00245 5e-09
+.param Csn=470p Rsn=4.7
+.step param Chf list 1p 100n 470n 1u
+.meas tran vstr AVG V(PV1P)
+.meas tran istr AVG I(Bload)
+.meas tran pout AVG V(PV1P)*I(Bload)
+.meas tran pref AVG V(R1P)*I(Bref)
+.meas tran v1 AVG V(PV1P,PV2P)
+.meas tran i1 AVG I(Vi1)
+.meas tran p1 AVG V(PV1P,PV2P)*I(Vi1)
+.meas tran v2 AVG V(PV2P,PV3P)
+.meas tran i2 AVG I(Vi2)
+.meas tran p2 AVG V(PV2P,PV3P)*I(Vi2)
+.meas tran v3 AVG V(PV3P)
+.meas tran i3 AVG I(Vi3)
+.meas tran p3 AVG V(PV3P)*I(Vi3)
+.meas tran vr1 AVG V(R1P,R2P)
+.meas tran ir1 AVG I(Vir1)
+.meas tran vr2 AVG V(R2P,R3P)
+.meas tran ir2 AVG I(Vir2)
+.meas tran vr3 AVG V(R3P)
+.meas tran ir3 AVG I(Vir3)
+.meas tran ila1 AVG I(VsA1)
+.meas tran ilb1 AVG I(VsB1)
+.meas tran ilapp1 PP I(VsA1)
+.meas tran ish1 AVG I(VsA1)+I(VsB1)
+.meas tran vswamax1 MAX V(SWA1,B1)
+.meas tran vswamin1 MIN V(SWA1,B1)
+.meas tran vswbmax1 MAX V(SWB1,B1)
+.meas tran pmta1 AVG P(MTA1)
+.meas tran pmba1 AVG P(MBA1)
+.meas tran pmtb1 AVG P(MTB1)
+.meas tran pmbb1 AVG P(MBB1)
+.meas tran pconv1 AVG P(MTA1)+P(MBA1)+P(MTB1)+P(MBB1)
+.meas tran vgta1 MAX V(gTA1,SWA1)
+.meas tran vgtamin1 MIN V(gTA1,SWA1)
+.meas tran vboota1 MIN V(BOOTA1,SWA1)
+.meas tran tdead1 TRIG V(gBA1,B1)=6 FALL=1 TARG V(gTA1,SWA1)=6 RISE=2
+.meas tran ila2 AVG I(VsA2)
+.meas tran ilb2 AVG I(VsB2)
+.meas tran ilapp2 PP I(VsA2)
+.meas tran ish2 AVG I(VsA2)+I(VsB2)
+.meas tran vswamax2 MAX V(SWA2,B2)
+.meas tran vswamin2 MIN V(SWA2,B2)
+.meas tran vswbmax2 MAX V(SWB2,B2)
+.meas tran pmta2 AVG P(MTA2)
+.meas tran pmba2 AVG P(MBA2)
+.meas tran pmtb2 AVG P(MTB2)
+.meas tran pmbb2 AVG P(MBB2)
+.meas tran pconv2 AVG P(MTA2)+P(MBA2)+P(MTB2)+P(MBB2)
+.meas tran vgta2 MAX V(gTA2,SWA2)
+.meas tran vgtamin2 MIN V(gTA2,SWA2)
+.meas tran vboota2 MIN V(BOOTA2,SWA2)
+.meas tran tdead2 TRIG V(gBA2,B2)=6 FALL=1 TARG V(gTA2,SWA2)=6 RISE=2
+.meas tran psnta1 AVG P(RsnTA1)
+.meas tran psnba1 AVG P(RsnBA1)
+.meas tran phfa1 AVG P(ChfA1)
+.meas tran psnta2 AVG P(RsnTA2)
+.meas tran psnba2 AVG P(RsnBA2)
+.meas tran phfa2 AVG P(ChfA2)
+.end

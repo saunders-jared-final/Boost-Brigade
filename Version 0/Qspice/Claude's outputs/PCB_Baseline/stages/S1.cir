@@ -1,0 +1,53 @@
+* S1 - PV string (3 x Aiko, Karmalkar-Haneefa) + bench loads; reference (unshuffled) string
+.lib shuffler_models.lib
+Vi1 a1 PV1P 0
+Xpv1 a1 PV2P E1 pvmi_aiko
+Dbp1 PV2P PV1P dbypass
+Vi2 a2 PV2P 0
+Xpv2 a2 PV3P E2 pvmi_aiko
+Dbp2 PV3P PV2P dbypass
+Vi3 a3 PV3P 0
+Xpv3 a3 0 E3 pvmi_aiko
+Dbp3 0 PV3P dbypass
+Bload PV1P 0 I=if(LOADSEL<0.5, V(PV1P)/Rmpp, Icc*min(1, time/200u))
+Vir1 ra1 R1P 0
+Xpvr1 ra1 R2P E1 pvmi_aiko
+Dbpr1 R2P R1P dbypass
+Cpvr1 R1P R2P 10n RSER=0.1
+Vir2 ra2 R2P 0
+Xpvr2 ra2 R3P E2 pvmi_aiko
+Dbpr2 R3P R2P dbypass
+Cpvr2 R2P R3P 10n RSER=0.1
+Vir3 ra3 R3P 0
+Xpvr3 ra3 0 E3 pvmi_aiko
+Dbpr3 0 R3P dbypass
+Cpvr3 R3P 0 10n RSER=0.1
+Bref R1P 0 I=if(LOADSEL<0.5, V(R1P)/Rmpp, Icc*min(1, time/200u))
+BE1 E1 0 V=table(CASE, 1,1000, 2,1000, 3,1000)
+BE2 E2 0 V=table(CASE, 1,1000, 2,600, 3,1000)
+BE3 E3 0 V=table(CASE, 1,1000, 2,1000, 3,400)
+.param Rmpp=8.148 Icc=10 CASE=1 LOADSEL=0
+.option savepowers
+.tran 0 0.002 0.0019 1e-06
+.step param CASE list 1 2 3
+.step param LOADSEL list 0 1
+.meas tran vstr AVG V(PV1P)
+.meas tran istr AVG I(Bload)
+.meas tran pout AVG V(PV1P)*I(Bload)
+.meas tran pref AVG V(R1P)*I(Bref)
+.meas tran v1 AVG V(PV1P,PV2P)
+.meas tran i1 AVG I(Vi1)
+.meas tran p1 AVG V(PV1P,PV2P)*I(Vi1)
+.meas tran v2 AVG V(PV2P,PV3P)
+.meas tran i2 AVG I(Vi2)
+.meas tran p2 AVG V(PV2P,PV3P)*I(Vi2)
+.meas tran v3 AVG V(PV3P)
+.meas tran i3 AVG I(Vi3)
+.meas tran p3 AVG V(PV3P)*I(Vi3)
+.meas tran vr1 AVG V(R1P,R2P)
+.meas tran ir1 AVG I(Vir1)
+.meas tran vr2 AVG V(R2P,R3P)
+.meas tran ir2 AVG I(Vir2)
+.meas tran vr3 AVG V(R3P)
+.meas tran ir3 AVG I(Vir3)
+.end
