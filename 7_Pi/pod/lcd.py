@@ -6,6 +6,11 @@ from smbus2 import SMBus
 LCD_WIDTH = 16
 EN, RW, RS, BL = 0x04, 0x02, 0x01, 0x08
 
+# custom glyphs in CGRAM slots 0/1, written into strings as these characters
+BOX_OFF, BOX_ON = "\x00", "\x01"
+_GLYPHS = {0: (0x1F, 0x11, 0x11, 0x11, 0x11, 0x11, 0x1F, 0x00),   # empty checkbox
+           1: (0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x1F, 0x00)}   # filled checkbox
+
 
 class Lcd:
     def __init__(self, bus=1, addr=None):
@@ -23,6 +28,10 @@ class Lcd:
         for cmd in (0x33, 0x32, 0x06, 0x0C, 0x28, 0x01):
             self._cmd(cmd)
         time.sleep(0.005)
+        for slot, rows in _GLYPHS.items():
+            self._cmd(0x40 | (slot << 3))
+            for r in rows:
+                self._write(r, RS)
 
     def _pulse(self, data):
         self.bus.write_byte(self.addr, data | EN | BL)

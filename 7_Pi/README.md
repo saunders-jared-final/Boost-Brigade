@@ -8,7 +8,8 @@ docker-compose.yml        InfluxDB 2.7 (:8086) + Grafana 11 (:3000, anonymous vi
 pod/pod.py                serial bridge (Nucleo T/S/F frames -> Influx), DS18B20 heatsink probe,
                           IR remote -> commands, LCD + RGB status; pod.service for systemd
 pod/telemetry_parser.py   the frame parser (field order from 0_Documentation/telemetry.md)
-tools/nucleo_cli.py       interactive console for the bench (type C,... commands)
+tools/podctl.py           send C,... commands through the running pod (it owns the serial port): over SSH
+tools/nucleo_cli.py       interactive console straight on the serial port (only with the pod stopped)
 tools/ident.py            bench identification cross-check -> G, M (optionally into shuffler_params.json)
 tools/plots.py            Influx window -> CSV + PNG plots for the report
 ```
@@ -38,7 +39,14 @@ The Pi flashes over the Nucleo's own ST-LINK (USB, SWD) with OpenOCD; the same c
 ~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh other.bin    # any other image
 ```
 It stops `pod` during the flash and restarts it after. New firmware: `stage_firmware.sh` on the dev machine, sync, flash.
-Open-loop test cases (`C,TEST,0..3`) can be typed with `python3 tools/nucleo_cli.py --port /dev/ttyACM0`.
+Open-loop test cases (`C,TEST,0..3`) over SSH while the pod runs:
+```sh
+python3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,TEST,0          # IC init check, prints the # INIT lines
+python3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,TEST,1 C,EN,1   # bottom shuffler (S2) open loop, start
+python3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,EN,0            # stop
+python3 ~/Boost-Brigade/7_Pi/tools/podctl.py                   # interactive
+```
+The pod runs `C,TEST,0` by itself whenever the Nucleo link comes up (`--no-init` turns that off).
 
 First milestone: `heatsink_c` on the dashboard within a minute of boot (no Nucleo needed).
 Then plug the Nucleo (ST-LINK VCP = `/dev/ttyACM0`): `T` frames at 50 Hz appear as `telemetry` fields.
@@ -47,5 +55,10 @@ IR: run `sudo ir-keytable -t` once, press the remote's buttons, map the key name
 (pod.py). Defaults: POWER = disable, PLAY = enable, STOP = E-stop, OK = clear fault, 1–6 = modes,
 LEFT/RIGHT = cycle modes.
 
-LED: blue = idle and string < 10 V (safe to touch), amber = idle but live, green = switching,
+LCD: after an init check, `INIT PASS` or `INIT FAIL<n> S2 OK|NO` (S2 OK = everything the bottom shuffler
+needs passed: SPI bus, U11/U12, ILA_2/ILB_2, E-stop, no fault) over checkboxes `SPI INA HAL ES` for those
+items. Once a mode is selected: the mode (`S2 BOTTOM OL`, `IDLE`, ... + fault code), alternating every 3 s
+between checkboxes `S1 S2 SW FL` (top / bottom shuffler selected, switching, fault) and VM2/VM3.
+
+LED: blue = idle and every readable module < 10 V (safe to touch), amber = idle but live or voltages unreadable, green = switching,
 red = fault, magenta = no Nucleo link. The pod sends `C,ESTOP` itself if the heatsink passes 80 °C.

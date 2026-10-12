@@ -29,7 +29,7 @@ typedef enum { MODE_IDLE = 0, MODE_OL, MODE_CL, MODE_OL1, MODE_CL1, MODE_OL2, MO
 #define FLT_WDG_RESET  0x100U
 #define FLT_SOFT_ESTOP 0x200U
 
-#define APP_SOFTSTART_MS   50U     /* outputs on at 0.5 duty before the mode takes over */
+#define APP_SOFTSTART_MS   150U    /* duty ramp from the pre-bias d0 = Vbot/(Vtop+Vbot) to the mode's duty */
 #define APP_VM_OV_V        30.0f   /* per-module over-voltage envelope */
 #define APP_VM_UV_V        3.0f    /* per-module under-voltage while running */
 #define APP_TEMP_MAX_C     85.0f   /* INA die / Pi-reported heatsink limit */

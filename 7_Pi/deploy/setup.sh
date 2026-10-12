@@ -46,6 +46,9 @@ sudo systemctl enable --now pod
 
 echo "== InfluxDB + Grafana"
 cd "$PI_DIR"
+# Grafana runs as uid 472; a bind-mount dir docker creates is root-owned and Grafana restart-loops on it
+mkdir -p data/grafana data/influxdb
+sudo chown -R 472:0 data/grafana
 sudo $COMPOSE up -d
 
 cat <<MSG

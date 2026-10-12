@@ -53,8 +53,11 @@ every `T` frame carry `PARAMS_VERSION`.
 
 ## Modes and safety
 
-`C,MODE,<OL|CL|OL1|CL1|OL2|CL2>` then `C,EN,1` → SOFTSTART (50 ms at 0.5 duty,
-outputs on) → RUN. `*1` = converter 1 (legs 0–1), `*2` = converter 2 (legs 2–3).
+`C,MODE,<OL|CL|OL1|CL1|OL2|CL2>` then `C,EN,1` → SOFTSTART → RUN. Soft start: while idle every
+shuffler's legs are held at the pre-bias d0 = Vbot/(Vtop+Vbot) (0.5 if a module voltage is unknown), the
+outputs switch on at a quarter PWM period (centred first pulse), then the duties ramp linearly to the
+mode's duty (OL duties, 0.5 for CL) over 150 ms; RUN starts when the ramp ends. Without this a 1 V module
+mismatch rails the hall sensors at enable. `*1` = converter 1 (legs 0–1), `*2` = converter 2 (legs 2–3).
 `CL` modes need the module voltages of the legs involved (U10 for converter 1).
 In single-converter closed-loop modes the controller is blinded to the inactive
 shuffler (its channels read zero error).
@@ -76,7 +79,7 @@ Terminal on the ST-LINK VCP (921600 8N1, send `\n`); the `T` stream is just nois
 | `C,TEST,2` | top shuffler only (S1, legs 0–1, `OL1`) |
 | `C,TEST,3` | both shufflers (`OL`) |
 
-1–3 only select the mode; `C,EN,1` (or B1) starts SOFTSTART → RUN at 0.5 duty, `C,DUTY,<leg>,<d>` / `C,DUTYS,...` set duties, `C,EN,0` stops. Unselected legs stay off.
+1–3 only select the mode; `C,EN,1` (or B1) starts SOFTSTART (150 ms ramp) → RUN at 0.5 duty, `C,DUTY,<leg>,<d>` / `C,DUTYS,...` set duties, `C,EN,0` stops. Unselected legs stay off.
 
 ## Bring-up order (bench, PSUs + resistors)
 

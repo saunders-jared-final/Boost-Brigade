@@ -67,3 +67,7 @@ only (S1, legs 0–1), `*2` converter 2 only (S2, legs 2–3).
 
 `pod` adds `heatsink_c` (DS18B20 on GPIO4) and writes everything to InfluxDB
 bucket `shuffler`, measurement `telemetry`, tags `source=nucleo|pi`, `mode`.
+Also: measurement `pod` (1 Hz: `mode`, `view`, `s1_active`, `s2_active`, `switching`, `fault_active`,
+`link_ok`) and measurement `init` (one point per `# INIT RESULT`: one 0/1 field per `# INIT` item,
+`result_pass`, `fails`, `s2_ready`). Commands from other Pi tools go through the pod's control socket
+127.0.0.1:5017 (`7_Pi/tools/podctl.py`); the pod sends them one byte every 2 ms.

@@ -43,6 +43,11 @@ float hw_get_duty(uint8_t leg);
 
 /* Enable exactly the legs in mask (bit per leg), all others disabled. */
 void hw_legs_enable(uint8_t mask);
+
+/* Same, but the legs in mask switch on at the next quarter PWM period (master CMP1, in the master IRQ):
+ * centred first pulse, no start-up offset in the circulating current. Legs outside mask go off now.
+ * hw_outputs_off() cancels a pending enable. */
+void hw_legs_enable_sync(uint8_t mask);
 uint8_t hw_legs_enabled(void);
 
 /* Everything off, any context, no HAL: outputs disabled, gate pins driven low. */

@@ -26,6 +26,16 @@ static const uint32_t s_out2[HW_N_LEG] = {HRTIM_OUTPUT_TA2, HRTIM_OUTPUT_TB2, HR
 
 static float s_duty[HW_N_LEG] = {0.5f, 0.5f, 0.5f, 0.5f};
 static uint8_t s_enabled = 0U;
+static volatile uint8_t s_pending_en = 0U;   /* legs to switch on at the next quarter period (hw_legs_enable_sync) */
+static uint8_t s_en_tries = 0U;
+
+/* Synchronised enable window: master CMP1 at PER/4 (middle of the A legs' high pulse at d ~ 0.5, B legs
+ * low). Switching on there centres the circulating-current ripple on zero; a full-width first pulse
+ * would leave it offset by half the ripple (~2x the steady peak right after enable). A late service
+ * (the control tick shares this IRQ) waits for the next period instead of enabling at a random phase. */
+#define HW_EN_CMP     (HW_HRTIM_PER / 4U)
+#define HW_EN_WINDOW  (HW_HRTIM_PER / 8U)    /* 1.25 us of IRQ latency still lands within phase 0.25..0.375 */
+#define HW_EN_TRIES   16U                   /* then enable anyway: never leave SOFTSTART ramping into dead outputs */
 
 #define S1_GATE_PINS (S1_A_H_Pin | S1_A_L_Pin | S1_B_H_Pin | S1_B_L_Pin)
 #define S2_GATE_PINS (S2_A_H_Pin | S2_A_L_Pin | S2_B_H_Pin | S2_B_L_Pin)
@@ -100,6 +110,8 @@ void hw_init(void)
   HRTIM_CompareCfgTypeDef mcmp = {0};
   mcmp.CompareValue = HW_HRTIM_PER / 2U;
   if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_MASTER, HRTIM_COMPAREUNIT_2, &mcmp) != HAL_OK) Error_Handler();
+  mcmp.CompareValue = HW_EN_CMP;
+  if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, HRTIM_TIMERINDEX_MASTER, HRTIM_COMPAREUNIT_1, &mcmp) != HAL_OK) Error_Handler();
 
   /* ---- the four leg timers ---- */
   for (leg = 0U; leg < HW_N_LEG; leg++)
@@ -210,9 +222,30 @@ void hw_legs_enable(uint8_t mask)
     if (mask & (1U << leg)) en |= s_outputs[leg]; else dis |= s_outputs[leg];
   }
   __disable_irq();
+  s_pending_en = 0U;                       /* supersedes a pending hw_legs_enable_sync() */
+  HRTIM1->sMasterRegs.MDIER &= ~HRTIM_MDIER_MCMP1IE;
   if (dis) HRTIM1->sCommonRegs.ODISR = dis;
   if (en)  HRTIM1->sCommonRegs.OENR = en;
   s_enabled = mask;
+  __enable_irq();
+}
+
+void hw_legs_enable_sync(uint8_t mask)
+{
+  uint32_t dis = 0U;
+  uint8_t leg;
+  mask &= HW_LEGS_ALL;
+  for (leg = 0U; leg < HW_N_LEG; leg++)
+  {
+    if (!(mask & (1U << leg))) dis |= s_outputs[leg];
+  }
+  __disable_irq();
+  if (dis) HRTIM1->sCommonRegs.ODISR = dis;
+  s_enabled &= mask;
+  s_pending_en = mask;
+  s_en_tries = 0U;
+  HRTIM1->sMasterRegs.MICR = HRTIM_MICR_MCMP1;
+  if (mask) HRTIM1->sMasterRegs.MDIER |= HRTIM_MDIER_MCMP1IE;
   __enable_irq();
 }
 
@@ -223,8 +256,10 @@ uint8_t hw_legs_enabled(void)
 
 void hw_outputs_off(void)
 {
+  s_pending_en = 0U;                       /* cancels a synchronised enable still waiting for its window */
   if (__HAL_RCC_HRTIM1_IS_CLK_ENABLED())
   {
+    HRTIM1->sMasterRegs.MDIER &= ~HRTIM_MDIER_MCMP1IE;
     HRTIM1->sCommonRegs.ODISR = HRTIM_ALL_OUTPUTS;
   }
   s_enabled = 0U;
@@ -241,5 +276,27 @@ void hw_master_irq(void)
   {
     HRTIM1->sMasterRegs.MICR = HRTIM_MICR_MREP;
     hw_ctrl_tick_callback();
+  }
+  if ((HRTIM1->sMasterRegs.MDIER & HRTIM_MDIER_MCMP1IE) && (HRTIM1->sMasterRegs.MISR & HRTIM_MISR_MCMP1))
+  {
+    HRTIM1->sMasterRegs.MICR = HRTIM_MICR_MCMP1;
+    /* atomic against hw_outputs_off() from a higher-priority trip (E-stop EXTI) */
+    __disable_irq();
+    uint32_t cnt = HRTIM1->sMasterRegs.MCNTR;
+    uint8_t mask = s_pending_en;
+    if (mask && ((cnt >= HW_EN_CMP && cnt < HW_EN_CMP + HW_EN_WINDOW) || ++s_en_tries >= HW_EN_TRIES))
+    {
+      uint32_t en = 0U;
+      uint8_t leg;
+      for (leg = 0U; leg < HW_N_LEG; leg++)
+      {
+        if (mask & (1U << leg)) en |= s_outputs[leg];
+      }
+      HRTIM1->sCommonRegs.OENR = en;
+      s_enabled = mask;
+      s_pending_en = 0U;
+    }
+    if (!s_pending_en) HRTIM1->sMasterRegs.MDIER &= ~HRTIM_MDIER_MCMP1IE;
+    __enable_irq();
   }
 }

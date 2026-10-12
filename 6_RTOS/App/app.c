@@ -43,6 +43,9 @@ static int s_test_case = -1;
 static stack_state_t s_stack;
 static stack_out_t   s_stack_out;
 static float s_d_applied[N_LEG] = {0.5f, 0.5f, 0.5f, 0.5f};
+static float s_ss_d0[N_LEG];                      /* duties at the start of the soft-start ramp */
+static uint32_t s_ss_n = 0U;                      /* control ticks into the ramp */
+static volatile uint8_t s_ss_done = 0U;           /* ramp finished: SOFTSTART may hand over to RUN */
 static float s_il[N_LEG];
 static float s_imr[N_MOD];
 
@@ -164,6 +167,20 @@ void app_init(void)
 }
 
 /* ------------------------------------------------------------ control --- */
+#define SS_TICKS ((APP_SOFTSTART_MS * HW_PWM_HZ) / (HW_CTRL_DIV * 1000U))
+#define SS_VSPAN_MIN_V 2.0f
+
+/* Pre-bias for shuffler k (legs 2k, 2k+1; top module k, bottom module k+1): the duty at which a leg's
+ * average voltage equals the midpoint, d0 = Vbot / (Vtop + Vbot), so turning the outputs on applies no
+ * net voltage across the inductors. Starting at 0.5 instead forces Vtop = Vbot in one LC pulse
+ * (a 1 V mismatch rails the hall sensors). 0.5 when either module voltage is unknown. */
+static float prebias_duty(uint8_t k)
+{
+  float vt = s_vm_isr[k], vb = s_vm_isr[k + 1U];
+  if (isnan(vt) || isnan(vb) || (vt + vb) < SS_VSPAN_MIN_V) return 0.5f;
+  return vb / (vt + vb);
+}
+
 /* 10 kHz, from the HRTIM master repetition interrupt */
 void app_ctrl_isr(void)
 {
@@ -184,9 +201,26 @@ void app_ctrl_isr(void)
   /* module voltages: latest task snapshot (written at 1 kHz) */
   for (i = 0; i < N_MOD; i++) s_vm_isr[i] = (float)s_vm[i];
 
+  if (st != ST_SOFTSTART) s_ss_n = 0U;
+
   if (st == ST_SOFTSTART)
   {
-    for (i = 0; i < N_LEG; i++) s_d_applied[i] = 0.5f;
+    /* linear ramp from the pre-bias held in IDLE (already the active HRTIM compare when the outputs
+     * came on) to the mode's duty: the OL duties, or 0.5 where the closed loop takes over */
+    float frac;
+    if (s_ss_n == 0U)
+    {
+      for (i = 0; i < N_LEG; i++) s_ss_d0[i] = s_d_applied[i];
+      s_ss_done = 0U;
+    }
+    frac = (s_ss_n >= SS_TICKS) ? 1.0f : (float)s_ss_n / (float)SS_TICKS;
+    for (i = 0; i < N_LEG; i++)
+    {
+      float target = mode_closed(md) ? 0.5f : s_ol_duty[i];
+      s_d_applied[i] = s_ss_d0[i] + (target - s_ss_d0[i]) * frac;
+    }
+    if (s_ss_n < SS_TICKS) s_ss_n++;
+    else s_ss_done = 1U;
     stack_init(&s_stack);               /* closed loop starts fresh when RUN begins */
   }
   else if (st == ST_RUN && mode_closed(md))
@@ -213,11 +247,14 @@ void app_ctrl_isr(void)
   }
   else
   {
-    for (i = 0; i < N_LEG; i++) s_d_applied[i] = 0.5f;
+    /* outputs off (IDLE / STOP / FAULT): hold every leg at its shuffler's pre-bias, so the compare
+     * that is active when SOFTSTART switches the outputs on is already d0 */
+    for (i = 0; i < N_LEG; i++) s_d_applied[i] = prebias_duty((uint8_t)(i / 2));
   }
   for (i = 0; i < N_LEG; i++)
   {
-    if (!(legs & (1U << i))) s_d_applied[i] = 0.5f;   /* inactive legs parked (outputs are off anyway) */
+    if (st != ST_IDLE && st != ST_STOP && st != ST_FAULT && !(legs & (1U << i)))
+      s_d_applied[i] = 0.5f;                          /* inactive legs parked (outputs are off anyway) */
     hw_set_duty((uint8_t)i, s_d_applied[i]);
   }
 }
@@ -288,22 +325,22 @@ void app_task_safety(void)
     case ST_IDLE:
       if (s_cmd_enable && s_mode != MODE_IDLE)
       {
-        for (i = 0; i < N_LEG; i++) hw_set_duty((uint8_t)i, 0.5f);
+        /* duties are not touched here: the control ISR holds the pre-bias d0 while idle */
+        s_ss_done = 0U;
         hw_pins_to_hrtim();
-        hw_legs_enable(mode_legs(s_mode));
+        hw_legs_enable_sync(mode_legs(s_mode));   /* outputs on at the next quarter period */
         set_state(ST_SOFTSTART);
       }
       break;
     case ST_SOFTSTART:
       if (!s_cmd_enable) { set_state(ST_STOP); break; }
-      if ((s_ms - s_state_since_ms) >= APP_SOFTSTART_MS) set_state(ST_RUN);
+      if (s_ss_done) set_state(ST_RUN);
       break;
     case ST_RUN:
       if (!s_cmd_enable || s_mode == MODE_IDLE) set_state(ST_STOP);
       break;
     case ST_STOP:
-      hw_legs_enable(0U);
-      for (i = 0; i < N_LEG; i++) hw_set_duty((uint8_t)i, 0.5f);
+      hw_legs_enable(0U);               /* the control ISR goes back to holding the pre-bias */
       s_cmd_enable = 0U;
       set_state(ST_IDLE);
       break;
