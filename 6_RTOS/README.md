@@ -65,6 +65,19 @@ off until re-enabled): over-current latch (ISR), E-stop button (EXTI, priority 0
 closed-loop mode, implausible zero calibration or isolator conflict at boot.
 IWDG 2 s, kicked by the safety task; a watchdog reset is reported as fault 0x100.
 
+## Open-loop test cases (no Pi needed)
+
+Terminal on the ST-LINK VCP (921600 8N1, send `\n`); the `T` stream is just noise to ignore.
+
+| Command | Does |
+|---|---|
+| `C,TEST,0` | IC init check, gates off: SPI3 bus, INA239 ×3 (re-probe, config read-back, VBUS, die temp), TMCS1126 ×4 (zero-cal, rest reading), E-stop, fault word. Prints `# INIT ...` lines + `# INIT RESULT`; answer `A,TEST,OK/ERR`. Refused while switching. |
+| `C,TEST,1` | bottom shuffler only (S2, legs 2–3, `OL2`) |
+| `C,TEST,2` | top shuffler only (S1, legs 0–1, `OL1`) |
+| `C,TEST,3` | both shufflers (`OL`) |
+
+1–3 only select the mode; `C,EN,1` (or B1) starts SOFTSTART → RUN at 0.5 duty, `C,DUTY,<leg>,<d>` / `C,DUTYS,...` set duties, `C,EN,0` stops. Unselected legs stay off.
+
 ## Bring-up order (bench, PSUs + resistors)
 
 1. Flash, open the VCP at 921600: banner, `S` lines, `T` frames at 50 Hz.

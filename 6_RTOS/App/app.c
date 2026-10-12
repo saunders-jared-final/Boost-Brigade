@@ -8,6 +8,7 @@
 #include "app.h"
 
 #include <math.h>
+#include <stdio.h>
 #include <string.h>
 
 #include "comms.h"
@@ -37,6 +38,7 @@ static float s_vm_isr[N_MOD];
 static float s_ol_duty[N_LEG] = {0.5f, 0.5f, 0.5f, 0.5f};
 static float s_vref[N_SHUF];
 static uint8_t s_sup_en = 1U;
+static int s_test_case = -1;
 
 static stack_state_t s_stack;
 static stack_out_t   s_stack_out;
@@ -345,6 +347,80 @@ void app_poll(void)
   app_task_cmd();
 }
 
+/* ----------------------------------------------------- IC init check --- */
+#define INIT_HALL_IDLE_MAX_A 1.0f     /* idle (gates off) reading above this = bad offset / sensor */
+
+static void init_line(const char *name, bool ok, const char *detail)
+{
+  char b[96];
+  snprintf(b, sizeof b, "INIT %-9s %s  %s", name, ok ? "PASS" : "FAIL", detail);
+  comms_note(b);
+}
+
+/* Main loop only, switching stopped. Re-probes the INAs, re-reads their config, checks halls at rest. */
+static bool init_check(void)
+{
+  char d[80];
+  int fails = 0, i;
+
+  comms_note("INIT check start (gates off)");
+  INA_Reinit();
+  app_task_sense_v();
+
+  if (INA_BusBlocked())
+  {
+    init_line("SPI3 bus", false, "held by U13 isolator (reversed channels), INA read-out disabled");
+    fails++;
+  }
+  else
+  {
+    init_line("SPI3 bus", true, "free");
+  }
+
+  for (i = 0; i < INA_COUNT; i++)
+  {
+    const INA_Dev *dev = INA_Get((uint8_t)i);
+    char nm[12], vs[16];
+    bool ok = (dev->kind == INA_239 || dev->kind == INA_229) && INA_ConfigOk((uint8_t)i);
+    snprintf(nm, sizeof nm, "INA CS%d", i + 1);
+    if (ok)
+    {
+      snprintf(d, sizeof d, "%s mfr 0x%04X dev 0x%04X cfg ok, vbus %s V, die %d C", INA_KindName(dev->kind),
+               (unsigned)dev->mfr_id, (unsigned)dev->dev_id, comms_fmt(vs, (float)dev->vbus_mV * 1e-3f), (int)dev->temp_C);
+    }
+    else
+    {
+      snprintf(d, sizeof d, "%s (mfr 0x%04X dev 0x%04X)%s", INA_KindName(dev->kind), (unsigned)dev->mfr_id,
+               (unsigned)dev->dev_id, (i == 2) ? " [CS3 = U10, needs the ISO7762 rework]" : "");
+    }
+    init_line(nm, ok, d);
+    if (!ok) fails++;
+  }
+
+  for (i = 0; i < SENSE_COUNT; i++)
+  {
+    float a = Sensors_Current_A((Sense_Channel)i);
+    char vs[16];
+    bool ok = Sensors_ZeroOk((Sense_Channel)i) && fabsf(a) < INIT_HALL_IDLE_MAX_A;
+    snprintf(d, sizeof d, "zero-cal %s, reads %s A at rest, gain %d mV/A", Sensors_ZeroOk((Sense_Channel)i) ? "ok" : "IMPLAUSIBLE",
+             comms_fmt(vs, a), (int)Sensors_Cal_mVperA((Sense_Channel)i));
+    init_line(Sensors_Name((Sense_Channel)i), ok, d);
+    if (!ok) fails++;
+  }
+
+  init_line("E-stop", !estop_pressed(), estop_pressed() ? "pressed (PC0 low)" : "released");
+  if (estop_pressed()) fails++;
+
+  snprintf(d, sizeof d, "state %s, faults 0x%lx", app_state_name(s_state), (unsigned long)s_faults);
+  init_line("firmware", s_faults == 0U, d);
+  if (s_faults != 0U) fails++;
+
+  comms_note("INIT note: 1ED3140 gate drivers and ISO7762 have no read-back; check gate waveforms on the scope");
+  snprintf(d, sizeof d, "INIT RESULT: %s (%d failing)", fails ? "FAIL" : "PASS", fails);
+  comms_note(d);
+  return fails == 0;
+}
+
 /* ------------------------------------------------------------ requests --- */
 bool app_req_mode(app_mode_t m, const char **why)
 {
@@ -359,6 +435,34 @@ bool app_req_mode(app_mode_t m, const char **why)
   }
   s_mode = m;
   if (m == MODE_IDLE) s_cmd_enable = 0U;
+  return true;
+}
+
+int app_test_case(void) { return s_test_case; }
+
+bool app_req_test(int n, const char **why)
+{
+  app_mode_t m;
+  if (n == 0)
+  {
+    if (s_state == ST_SOFTSTART || s_state == ST_RUN) { *why = "stop first (C,EN,0)"; return false; }
+    s_test_case = 0;
+    if (s_mode != MODE_IDLE) { s_mode = MODE_IDLE; s_cmd_enable = 0U; }
+    if (!init_check()) { *why = "init check failed, see # INIT lines"; return false; }
+    return true;
+  }
+  switch (n)
+  {
+    case 1: m = MODE_OL2; break;     /* bottom shuffler = converter 2 (legs 2,3; modules 2-3) */
+    case 2: m = MODE_OL1; break;     /* top shuffler    = converter 1 (legs 0,1; modules 1-2) */
+    case 3: m = MODE_OL;  break;
+    default: *why = "test case 0..3"; return false;
+  }
+  if (!app_req_mode(m, why)) return false;
+  s_test_case = n;
+  comms_note(n == 1 ? "TEST 1: bottom shuffler (S2) open loop selected, send C,EN,1 to start"
+           : n == 2 ? "TEST 2: top shuffler (S1) open loop selected, send C,EN,1 to start"
+                    : "TEST 3: both shufflers open loop selected, send C,EN,1 to start");
   return true;
 }
 

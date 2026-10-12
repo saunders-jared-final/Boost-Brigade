@@ -39,9 +39,18 @@ static char *fmt_f(char *buf, float x)
   return buf;
 }
 
+char *comms_fmt(char *buf, float x) { return fmt_f(buf, x); }
+
 static void tx(const char *s)
 {
   (void)HAL_UART_Transmit(&hcom_uart[COM1], (const uint8_t *)s, (uint16_t)strlen(s), 100);
+}
+
+void comms_note(const char *line)
+{
+  tx("# ");
+  tx(line);
+  tx("\r\n");
 }
 
 void comms_init(void)
@@ -183,6 +192,11 @@ static void handle_line(char *line)
     app_mode_t m = MODE_COUNT;
     for (int k = 0; k < MODE_COUNT; k++) if (strcmp(f[2], app_mode_name((app_mode_t)k)) == 0) m = (app_mode_t)k;
     answer(cmd, m != MODE_COUNT && app_req_mode(m, &why), why ? why : (m == MODE_COUNT ? "unknown mode" : NULL));
+  }
+  else if (strcmp(cmd, "TEST") == 0 && n >= 3)
+  {
+    /* C,TEST,<0..3>: 0 = IC init check, 1 = bottom shuffler (S2), 2 = top shuffler (S1), 3 = both */
+    answer(cmd, app_req_test(atoi(f[2]), &why), why);
   }
   else if (strcmp(cmd, "EN") == 0 && n >= 3)
   {

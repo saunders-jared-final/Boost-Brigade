@@ -66,6 +66,14 @@ void app_task_cmd(void);               /* as fast as the loop: parse received li
 
 /* requests from the command parser (return false + reason when refused) */
 bool app_req_mode(app_mode_t m, const char **why);
+/* Open-loop bench test cases (the Pi is not needed):
+ *   0 = IC initialisation check (INA239 x3, hall sensors x4, E-stop, bus), no switching
+ *   1 = bottom shuffler only (S2, legs 2-3)  -> MODE_OL2
+ *   2 = top shuffler only    (S1, legs 0-1)  -> MODE_OL1
+ *   3 = both shufflers                       -> MODE_OL
+ * 1..3 only select the mode; switching starts with app_req_enable(true) (C,EN,1 or B1). */
+bool app_req_test(int n, const char **why);
+int  app_test_case(void);              /* last selected case, -1 = none */
 bool app_req_enable(bool on, const char **why);
 bool app_req_duty(uint8_t leg, float d, const char **why);
 bool app_req_vref(const float *rv, const char **why);

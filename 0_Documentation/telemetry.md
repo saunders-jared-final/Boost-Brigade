@@ -45,6 +45,8 @@ F,<ms>,<code>,<channel>,<value>,<raw>
 
 ```
 C,MODE,<IDLE|OL|CL|OL1|CL1|OL2|CL2>     request a run mode (goes through SOFTSTART)
+C,TEST,<0..3>                            bench test case: 0 = IC init check (no switching, prints `# INIT` lines, ERR if any IC fails),
+                                         1 = bottom shuffler S2 (OL2), 2 = top shuffler S1 (OL1), 3 = both (OL); 1..3 select only, then C,EN,1
 C,EN,<0|1>                               enable / disable switching (1 = SOFTSTART into the requested mode)
 C,DUTY,<leg 0..3>,<d 0.05..0.95>         open-loop duty for one leg (OL modes only)
 C,DUTYS,<dA1>,<dB1>,<dA2>,<dB2>          all four duties at once (OL modes only)

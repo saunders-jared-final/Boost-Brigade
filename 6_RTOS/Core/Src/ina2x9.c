@@ -200,6 +200,24 @@ void INA_Poll(void)
   }
 }
 
+void INA_Reinit(void)
+{
+  for (uint8_t i = 0; i < INA_COUNT; i++)
+  {
+    s_dev[i] = (INA_Dev){ 0 };
+    s_probed[i] = 0;
+  }
+  INA_Init();
+  INA_Poll();
+}
+
+uint8_t INA_ConfigOk(uint8_t index)
+{
+  uint32_t v = 0;
+  if (s_bus_blocked || (s_dev[index].kind != INA_239 && s_dev[index].kind != INA_229)) return 0;
+  return (ReadReg(index, REG_ADC_CONFIG, 2, &v) && v == ADC_CONFIG_VALUE) ? 1U : 0U;
+}
+
 const INA_Dev *INA_Get(uint8_t index)
 {
   return &s_dev[index];

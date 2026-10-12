@@ -36,6 +36,8 @@ void           INA_Init(void);          /* call once before INA_Poll(): checks t
 uint8_t        INA_BusBlocked(void);    /* 1: another driver holds the bus, read-out disabled */
 void           INA_Poll(void);          /* probe absent devices (1 Hz), read the rest */
 const INA_Dev *INA_Get(uint8_t index);
+void           INA_Reinit(void);        /* forget all devices, re-check the bus, re-probe + reconfigure now (outputs off, main loop only) */
+uint8_t        INA_ConfigOk(uint8_t index); /* 1: ADC_CONFIG reads back the value written at probe */
 const char    *INA_KindName(INA_Kind kind);
 
 #ifdef __cplusplus

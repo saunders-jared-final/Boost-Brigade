@@ -16,6 +16,8 @@ void comms_banner(void);
 void comms_send_telemetry(void);   /* T line */
 void comms_send_status(void);      /* S line */
 void comms_send_fault(void);       /* F line */
+char *comms_fmt(char *buf, float x); /* buf >= 16 bytes; printf-nano has no %f */
+void comms_note(const char *line); /* '# ...' comment line (ignored by the Pi bridge), CRLF added */
 void comms_poll_rx(void);          /* parse complete command lines, answer with A lines */
 void comms_rx_irq_byte(uint8_t b); /* from the UART RX interrupt */
 

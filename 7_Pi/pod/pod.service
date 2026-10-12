@@ -4,9 +4,9 @@ After=network-online.target docker.service
 Wants=network-online.target
 
 [Service]
-User=pi
-WorkingDirectory=/home/pi/Boost-Brigade/7_Pi/pod
-ExecStart=/usr/bin/python3 /home/pi/Boost-Brigade/7_Pi/pod/pod.py --port /dev/ttyACM0
+User=@USER@
+WorkingDirectory=@PI_DIR@/pod
+ExecStart=@PI_DIR@/.venv/bin/python @PI_DIR@/pod/pod.py --port /dev/ttyACM0
 Restart=always
 RestartSec=2
 

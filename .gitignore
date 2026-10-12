@@ -67,3 +67,6 @@ codegen/
 2_Qspice/ctrl_dll/*.obj
 2_Qspice/ctrl_dll/*.map
 2_Qspice/ctrl_dll/*.def
+
+# Pi python venv
+7_Pi/.venv/

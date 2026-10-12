@@ -13,16 +13,33 @@ tools/ident.py            bench identification cross-check -> G, M (optionally i
 tools/plots.py            Influx window -> CSV + PNG plots for the report
 ```
 
-## Setup (Raspberry Pi OS 64-bit)
+## Deploy to a fresh Pi (Raspberry Pi OS 64-bit)
+
+Only `7_Pi/` goes on the Pi (code + the staged Nucleo firmware, ~100 kB).
 
 ```sh
-sudo apt install -y docker.io docker-compose-plugin python3-pip ir-keytable
-sudo usermod -aG docker,dialout,input,gpio,i2c pi
-pip3 install -r pod/requirements.txt
-# /boot/firmware/config.txt: dtoverlay=gpio-ir,gpio_pin=17   dtoverlay=w1-gpio,gpiopin=4   dtparam=i2c_arm=on
-cd 7_Pi && docker compose up -d           # Grafana at http://<pi>:3000 (admin / shuffler)
-python3 pod/pod.py --port /dev/ttyACM0 -v # first run by hand; then: sudo cp pod/pod.service /etc/systemd/system && sudo systemctl enable --now pod
+# from the dev machine (WSL), no git needed on the Pi:
+bash 7_Pi/deploy/stage_firmware.sh                 # optional: rebuild 6_RTOS and refresh 7_Pi/firmware/shuffler.bin
+bash 7_Pi/deploy/sync.sh <user>@<pi-address>       # rsync 7_Pi -> ~/Boost-Brigade/7_Pi on the Pi
+# or on the Pi: git clone --filter=blob:none --sparse <repo-url> Boost-Brigade && cd Boost-Brigade && git sparse-checkout set 7_Pi
+
+# then on the Pi:
+bash ~/Boost-Brigade/7_Pi/deploy/setup.sh          # apt deps, docker, venv, OpenOCD + udev, overlays, pod service, Influx+Grafana
 ```
+Log out/in once (new groups) and reboot if the overlays were just added. Grafana `http://<pi>:3000`
+(admin / shuffler), logs `journalctl -u pod -f`. Without a Nucleo or sensors the pod still runs.
+
+## Reflashing the Nucleo from the Pi
+
+The Pi flashes over the Nucleo's own ST-LINK (USB, SWD) with OpenOCD; the same cable carries the telemetry.
+```sh
+~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh --probe      # does the target answer? (no write)
+~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh              # flash firmware/shuffler.bin (version in firmware/VERSION.txt)
+~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh other.bin    # any other image
+```
+It stops `pod` during the flash and restarts it after. New firmware: `stage_firmware.sh` on the dev machine, sync, flash.
+Open-loop test cases (`C,TEST,0..3`) can be typed with `python3 tools/nucleo_cli.py --port /dev/ttyACM0`.
+
 First milestone: `heatsink_c` on the dashboard within a minute of boot (no Nucleo needed).
 Then plug the Nucleo (ST-LINK VCP = `/dev/ttyACM0`): `T` frames at 50 Hz appear as `telemetry` fields.
 

@@ -76,12 +76,13 @@ class Nucleo:
     """Serial link; frames go to on_frame, commands are queued and answered."""
 
     def __init__(self, port: str, baud: int, on_frame):
-        self.ser = serial.Serial(port, baud, timeout=0.2)
+        self.port, self.baud = port, baud
+        self.ser = None  # opened (and re-opened) by _rx so the pod runs without a Nucleo
         self.on_frame = on_frame
         self.tx = queue.Queue()
         self.last_state = "?"
         self.last_fault = 0
-        self.alive = time.time()
+        self.alive = 0.0
         threading.Thread(target=self._rx, daemon=True).start()
         threading.Thread(target=self._txloop, daemon=True).start()
 
@@ -91,13 +92,35 @@ class Nucleo:
     def _txloop(self):
         while True:
             cmd = self.tx.get()
-            self.ser.write((cmd.strip() + "\n").encode())
-            log.info("-> %s", cmd)
+            if self.ser is None:
+                log.warning("-> %s dropped: no Nucleo link", cmd)
+                continue
+            try:
+                self.ser.write((cmd.strip() + "\n").encode())
+                log.info("-> %s", cmd)
+            except (serial.SerialException, OSError) as e:
+                log.warning("-> %s failed: %s", cmd, e)
+
+    def _open(self):
+        while self.ser is None:
+            try:
+                self.ser = serial.Serial(self.port, self.baud, timeout=0.2)
+                log.info("serial: %s open", self.port)
+            except (serial.SerialException, OSError) as e:
+                log.debug("serial: %s not available (%s)", self.port, e)
+                time.sleep(2.0)
 
     def _rx(self):
         buf = b""
+        self._open()
         while True:
-            chunk = self.ser.read(256)
+            try:
+                chunk = self.ser.read(256)
+            except (serial.SerialException, OSError) as e:
+                log.warning("serial: %s lost (%s), reconnecting", self.port, e)
+                self.ser, buf = None, b""
+                self._open()
+                continue
             if not chunk:
                 continue
             buf += chunk
