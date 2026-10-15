@@ -50,6 +50,7 @@ target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     App/shuffler_hw.c
     App/app.c
     App/comms.c
+    App/params_rt.c
     # shared control core (also used by the SIL build and the QSPICE DLL)
     ctrl_core/shuffler_ctrl.c
     ctrl_core/shuffler_supervisor.c
@@ -69,6 +70,7 @@ target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
 target_compile_definitions(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined symbols
     STACK_RECON_IM=1      # hardware: module currents reconstructed from IL + duties
+    CTRL_RUNTIME_GAINS=1  # firmware only: gains in RAM, changed via C,SET / C,APPLY (App/params_rt.c)
 )
 
 # Remove wrong libob.a library dependency when using cpp files

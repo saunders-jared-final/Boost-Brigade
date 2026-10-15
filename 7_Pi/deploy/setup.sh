@@ -33,16 +33,27 @@ SUBSYSTEM=="usb", ATTRS{idVendor}=="0483", ATTRS{idProduct}=="374[8-9a-f]|375[0-
 RULE
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
+echo "== Rigol DL3021 e-load udev rule (USB-TMC without sudo)"
+sudo tee /etc/udev/rules.d/50-rigol-usbtmc.rules >/dev/null <<'RULE'
+SUBSYSTEM=="usbmisc", KERNEL=="usbtmc[0-9]*", MODE="0666"
+SUBSYSTEM=="usb", ATTRS{idVendor}=="1ab1", MODE="0666"
+RULE
+sudo udevadm control --reload-rules && sudo udevadm trigger
+sudo modprobe usbtmc 2>/dev/null || echo "   (no usbtmc kernel module: eload.py falls back to pyvisa-py)"
+
 echo "== boot overlays (I2C LCD, DS18B20, IR receiver)"
 CFG=/boot/firmware/config.txt; [ -f "$CFG" ] || CFG=/boot/config.txt
 for l in "dtparam=i2c_arm=on" "dtoverlay=w1-gpio,gpiopin=4" "dtoverlay=gpio-ir,gpio_pin=17"; do
   grep -qxF "$l" "$CFG" || echo "$l" | sudo tee -a "$CFG" >/dev/null
 done
 
-echo "== pod service (user $U, $PI_DIR)"
-sed -e "s|@USER@|$U|g" -e "s|@PI_DIR@|$PI_DIR|g" "$PI_DIR/pod/pod.service" | sudo tee /etc/systemd/system/pod.service >/dev/null
+echo "== pod + eload + params_web services (user $U, $PI_DIR)"
+for svc in pod eload params_web; do
+  sed -e "s|@USER@|$U|g" -e "s|@PI_DIR@|$PI_DIR|g" "$PI_DIR/pod/$svc.service" | sudo tee /etc/systemd/system/$svc.service >/dev/null
+done
 sudo systemctl daemon-reload
-sudo systemctl enable --now pod
+sudo systemctl enable --now pod eload params_web
+sudo systemctl restart pod eload params_web   # pick up new code on a re-run
 
 echo "== InfluxDB + Grafana"
 cd "$PI_DIR"
@@ -55,6 +66,7 @@ cat <<MSG
 
 Done. Log out and back in once (new groups), and reboot if the overlays were just added.
   Grafana  http://$(hostname -I | awk '{print $1}'):3000   (admin / shuffler, anonymous viewer on)
-  Logs     journalctl -u pod -f
+  Params   http://$(hostname -I | awk '{print $1}'):8080   (run-time parameters, pod/params.yaml)
+  Logs     journalctl -u pod -f      (e-load: journalctl -u eload -f)
   Flash    $PI_DIR/tools/flash_nucleo.sh
 MSG

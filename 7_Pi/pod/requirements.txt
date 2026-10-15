@@ -3,3 +3,6 @@ influxdb-client>=1.40
 evdev>=1.6
 gpiozero>=2.0
 smbus2>=0.4
+pyvisa>=1.13
+pyvisa-py>=0.7
+pyusb>=1.2

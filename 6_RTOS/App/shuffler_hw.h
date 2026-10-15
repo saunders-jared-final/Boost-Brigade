@@ -13,6 +13,12 @@
  * CMP1 (preloaded, applied on the next reset: glitch free).
  * The master repetition interrupt (every HW_CTRL_DIV periods) is the control
  * tick: hw_ctrl_tick_callback() is called from it at HW_PWM_HZ / HW_CTRL_DIV.
+ *
+ * Hall sampling: HRTIM ADC trigger 1 fires four times per PWM period, evenly
+ * spaced at PER/8 + k*PER/4 (timer A CMP3/CMP4 and timer B CMP3/CMP4; A resets
+ * on the master period, B on master CMP2 = PER/2). The samples sit a quarter
+ * period from the switching edges at d ~ 0.5, and averaging four equally spaced
+ * samples per period nulls the ripple at fsw, 2fsw and 3fsw (see sensors.c).
  */
 #ifndef SHUFFLER_HW_H
 #define SHUFFLER_HW_H
@@ -20,9 +26,10 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-#define HW_PWM_HZ        100000U
-#define HW_HRTIM_PER     54400U          /* 5.44 GHz / 100 kHz (prescaler MUL32 on 170 MHz) */
-#define HW_CTRL_DIV      10U             /* control tick = 10 kHz */
+#define HW_PWM_HZ        200000U
+#define HW_HRTIM_PER     27200U          /* 5.44 GHz / 200 kHz (prescaler MUL32 on 170 MHz) */
+#define HW_CTRL_DIV      20U             /* control tick = 200 kHz / 20 = 10 kHz */
+#define HW_ADC_TRIG_PER_PERIOD 4U        /* hall ADC triggers per PWM period (sensors.c) */
 #define HW_DEADTIME_NS   200U
 #define HW_N_LEG         4U
 #define HW_LEGS_S1       0x03U

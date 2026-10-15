@@ -6,6 +6,17 @@
  */
 #include "shuffler_supervisor.h"
 
+#ifdef CTRL_RUNTIME_GAINS
+sup_rt_t sup_rt = {SUP_I_RATED, SUP_S_HI, SUP_S_LO};
+#define SUP_I_RATED_NOW sup_rt.i_rated
+#define SUP_S_HI_NOW    sup_rt.s_hi
+#define SUP_S_LO_NOW    sup_rt.s_lo
+#else
+#define SUP_I_RATED_NOW SUP_I_RATED
+#define SUP_S_HI_NOW    SUP_S_HI
+#define SUP_S_LO_NOW    SUP_S_LO
+#endif
+
 #include <math.h>
 
 /* MATLAB min(max(x, lo), hi) */
@@ -99,15 +110,15 @@ void sup_step(const sup_in_t *in, sup_state_t *state, sup_out_t *out)
         float t = fabsf(in->d[i] - 0.5f);
         sdu = (t > sdu) ? t : sdu;
     }
-    sid = sid / SUP_I_RATED;
+    sid = sid / SUP_I_RATED_NOW;
     sdu = sdu / 0.45f;
     stress = (sid > sdu) ? sid : sdu;
 
     /* beta integrator with hysteresis hold band [S_LO, S_HI] */
-    if (stress > SUP_S_HI) {
-        state->b = state->b + SUP_TS3 * SUP_KB * (stress - SUP_S_HI);
-    } else if (stress < SUP_S_LO) {
-        state->b = state->b - SUP_TS3 * SUP_KREL * (SUP_S_LO - stress);
+    if (stress > SUP_S_HI_NOW) {
+        state->b = state->b + SUP_TS3 * SUP_KB * (stress - SUP_S_HI_NOW);
+    } else if (stress < SUP_S_LO_NOW) {
+        state->b = state->b - SUP_TS3 * SUP_KREL * (SUP_S_LO_NOW - stress);
     }
     state->b = clamp_f(state->b, 0.0f, SUP_BMAX);
 

@@ -1,0 +1,14 @@
+[Unit]
+Description=Rigol DL3021 e-load -> InfluxDB (measurement eload)
+After=network-online.target docker.service
+Wants=network-online.target
+
+[Service]
+User=@USER@
+WorkingDirectory=@PI_DIR@/pod
+ExecStart=@PI_DIR@/.venv/bin/python @PI_DIR@/pod/eload.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

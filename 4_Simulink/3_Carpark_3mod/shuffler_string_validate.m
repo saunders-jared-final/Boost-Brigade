@@ -22,7 +22,11 @@ tests = { 'uniform-zero  ', 1000, zeros(1,NS),          0.06, 'track';
           'shade-deep    ',  200, zeros(1,NS),          0.50, 'protect';
           'mppt-uniform  ', 1000, zeros(1,NS),          0.60, 'mppt';
           'mppt-shade    ',  500, zeros(1,NS),          0.60, 'mppt' };
-% Comment the two mppt rows out when the model has no controllable current-sink load.
+% The mppt rows need the controllable current-sink load (LOAD = 'CC'); with the
+% DL3021 in CV (default) the string voltage is pinned and they are skipped.
+if ~strcmp(P.load.type, 'CC')
+    tests = tests(~strcmp(tests(:,5), 'mppt'), :);
+end
 
 figdir = fullfile(pwd,'figs');
 if ~exist(figdir,'dir'), mkdir(figdir); end
@@ -129,6 +133,9 @@ try
     vs = out.(P.sig.vstr);  is = out.(P.sig.istr);
     n  = min(numel(vs.Data), numel(is.Data));
     tp = vs.Time(1:n);  Pstr = vs.Data(1:n).*is.Data(1:n);
+    if max(abs(Pstr(tp > 0.5*tp(end)))) > P.load.Pmax
+        fprintf(2, '  WARNING: string power above the DL3021 %g W limit in the second half of %s\n', P.load.Pmax, nm);
+    end
 catch, tp = []; Pstr = [];
 end
 lbl = @(pre) arrayfun(@(j) sprintf('%s_{%d}', pre, j), 1:P.NS, 'UniformOutput', false);

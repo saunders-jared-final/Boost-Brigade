@@ -54,6 +54,30 @@ typedef struct {
     float d[N_LEG]; /* duty cycles {dA1, dB1, dA2, dB2, ...}, clamped to [DMIN, DMAX] */
 } ctrl_out_t;
 
+#ifdef CTRL_RUNTIME_GAINS
+/*
+ * Firmware-only: the gain set lives in RAM so it can be changed at run time
+ * (6_RTOS/App/params_rt.c). Initialised from params.h, so a build that never
+ * writes it computes exactly what the const build computes. Writers swap the
+ * whole set between two ctrl_step() calls and then call ctrl_rebase().
+ */
+typedef struct {
+    float M[N_Y][N_Y];
+    float Mp[N_Y][N_Y];
+    float Minv[N_Y][N_Y];
+    float a;     /* measurement LPF coefficient (CTRL_A) */
+    float dmin;  /* duty clamp (CTRL_DMIN / CTRL_DMAX) */
+    float dmax;
+} ctrl_gains_t;
+
+extern ctrl_gains_t ctrl_gains;
+
+/* Bumpless re-initialisation after a gain swap: integrator state set so that,
+ * at zero error, the controller reproduces the duties d currently applied
+ * (xi = Minv * u_act, the anti-windup relation with e = 0). */
+void ctrl_rebase(ctrl_state_t *state, const float d[N_LEG]);
+#endif
+
 /* Zero the controller state (equivalent to the MATLAB persistent-empty init). */
 void ctrl_init(ctrl_state_t *state);
 

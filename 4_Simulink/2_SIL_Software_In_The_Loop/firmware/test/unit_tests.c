@@ -153,7 +153,7 @@ static double refclamp(double x, double lo, double hi)
 static void refctrl_step(refctrl_t *s, const double VM[NM], const double IL[NL],
                          const double rv[NS], double d[NL])
 {
-    const double Ts = (double)CTRL_TS, DMIN = 0.05, DMAX = 0.95;
+    const double Ts = (double)CTRL_TS, DMIN = (double)CTRL_DMIN, DMAX = (double)CTRL_DMAX;
     const double a = 2.0 * REF_PI * 2000.0 * Ts / (1.0 + 2.0 * REF_PI * 2000.0 * Ts);
     double y[NY], e[NY], xi_try[NY], mpe[NY], u[NY], u_act[NY];
     int i, j;

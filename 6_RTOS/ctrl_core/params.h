@@ -9,7 +9,7 @@
 #ifndef SHUFFLER_PARAMS_H
 #define SHUFFLER_PARAMS_H
 
-#define PARAMS_VERSION "sps-params-2.20261011-1634-3mod-qspice"
+#define PARAMS_VERSION "sps-params-2.20261015-1754-3mod-simulink-bench"
 
 /* ---------------- string topology ---------------- */
 #define N_MOD            3 /* PV modules in the string */
@@ -19,30 +19,33 @@
 
 /* ---------------- inner controller (100 us tick) ---------------- */
 #define CTRL_TS          9.99999975e-05f /* [s] controller period */
-#define CTRL_DMIN        0.0500000007f /* duty clamp low */
-#define CTRL_DMAX        0.949999988f /* duty clamp high */
+#define CTRL_DMIN        0.0799999982f /* duty clamp low */
+#define CTRL_DMAX        0.920000017f /* duty clamp high */
 #define CTRL_A           0.556862712f /* meas LPF coeff: 2*pi*fc*Ts/(1+2*pi*fc*Ts), fc = 2000 Hz */
+#define CTRL_FC_LPF      2000.0f /* [Hz] meas LPF corner (run-time recompute of CTRL_A) */
+#define CTRL_KP_RATIO_V  0.000157999995f /* [s] P/I ratio, voltage channels */
+#define CTRL_KP_RATIO_I  0.000108f /* [s] P/I ratio, current channels */
 
 /* plant decoupling matrix M = inv(G)*diag(kI) (row-major 4x4) */
 #define CTRL_M_INIT { \
-    { -25.2252007f, -0.538333654f, 1.94721746f, 0.248092175f }, \
-    { -0.273199707f, -24.9973354f, -0.470586866f, -2.09162211f }, \
-    { 0.068913728f, -0.0175995082f, 9.99925613f, 1.17990243f }, \
-    { -0.0300471094f, 0.101212643f, 1.86678028f, 11.8737736f } }
+    { -20.4772491f, 0.00979380496f, -0.0457160585f, 0.0914977714f }, \
+    { -0.00834408868f, -19.9025612f, -0.0889698267f, 0.0445128791f }, \
+    { -3.83262292e-17f, 1.83305679e-20f, 3.38956594f, 6.50679419e-18f }, \
+    { -3.82746627e-17f, 1.83059028e-20f, -8.54492953e-20f, 3.38500524f } }
 
 /* Mp = M * diag(Kp_ratio), Kp_ratio = [0.000158 x2, 0.000108 x2] */
 #define CTRL_MP_INIT { \
-    { -0.00398558192f, -8.5056723e-05f, 0.000210299477f, 2.67939558e-05f }, \
-    { -4.31655535e-05f, -0.00394957885f, -5.08233788e-05f, -0.000225895186f }, \
-    { 1.08883687e-05f, -2.7807223e-06f, 0.00107991963f, 0.000127429463f }, \
-    { -4.7474432e-06f, 1.5991598e-05f, 0.000201612274f, 0.00128236751f } }
+    { -0.00323540554f, 1.54742111e-06f, -4.93733432e-06f, 9.88175907e-06f }, \
+    { -1.31836612e-06f, -0.00314460462f, -9.60874149e-06f, 4.80739118e-06f }, \
+    { -6.0555441e-21f, 2.89622965e-24f, 0.000366073131f, 7.02733804e-22f }, \
+    { -6.04739669e-21f, 2.89233267e-24f, -9.22852401e-24f, 0.000365580578f } }
 
 /* Minv = inv(M), double-precision inverse rounded to float32 */
 #define CTRL_MINV_INIT { \
-    { -0.039631255f, 0.000848903263f, 0.00771826925f, 0.000210630955f }, \
-    { 0.000440188101f, -0.0400416069f, -0.000663930783f, -0.00699674292f }, \
-    { 0.000291595119f, -0.000119064411f, 0.101839393f, -0.0101468954f }, \
-    { -0.000149885062f, 0.000362184044f, -0.0159858763f, 0.0858746842f } }
+    { -0.0488346741f, -2.403094e-05f, -0.000659278128f, 0.00132033275f }, \
+    { 2.04737898e-05f, -0.0502447821f, -0.00131855626f, 0.000660166377f }, \
+    { -5.5217961e-19f, 0.0f, 0.295023024f, -5.5217961e-19f }, \
+    { -5.5217961e-19f, 0.0f, 1.04910046e-36f, 0.295420527f } }
 
 /* ---------------- supervisor / feasibility governor ---------------- */
 #define SUP_TS3          0.00100000005f /* [s] supervisor period */

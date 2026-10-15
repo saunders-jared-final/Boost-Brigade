@@ -7,7 +7,14 @@ drive a model `carpark_shuffler_sim.slx` that you create from
 → SIL C Callers / QSPICE DLL / firmware**, so the thing validated here is the
 thing deployed.
 
-## 1. Model edits (GUI, once) — checklist
+> **15 Oct 2026: superseded build guide.** The current, step-by-step build is design-book ch.2
+> (https://claude.ai/artifact/3xRHSPd3caiFrwquswjzFE): start from the **MIL** model, `SETUP = 'BENCH' | 'PV80'`,
+> `LOAD = 'CV' | 'CC'`, NGE103 / KAUSSP80 sources, DL3021 load, the new `Sensing` block (`sense_model.m`),
+> Gain −1 on ILA/ILB in each shuffler, gains read from `shuffler_params.json` via the `CTRL` parameter.
+> Run order: `bench_ratio_check` → `shuffler_string_ident` → `gen_params.py` + ctest → `shuffler_string_validate`
+> → `robustness_sweep`. The checklist below is the original 11 Oct version (150 W panels, EcoFlow) kept for reference.
+
+## 1. Model edits (GUI, once) — checklist (11 Oct, superseded)
 
 Start: copy `SIL_power_shuffler_sim.slx` → `carpark_shuffler_sim.slx` in this
 folder (keep the MIL variant with the MATLAB Function blocks; the C Caller

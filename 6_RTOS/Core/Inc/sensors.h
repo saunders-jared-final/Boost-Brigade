@@ -2,11 +2,12 @@
   * @file    sensors.h
   * @brief   TMCS1126 hall-effect current sensing and over-current latch.
   *
-  * Sampled at the control rate (hw control tick): Sensors_Tick() reads the
-  * conversions started on the previous tick, converts, checks the latch and
-  * starts the next sequence. Each conversion is 4x oversampled over ~10 us,
-  * i.e. averaged over one 100 kHz switching period (the average inductor
-  * current, not a point on the ripple).
+  * HRTIM-triggered: four equally spaced samples per 200 kHz PWM period per
+  * channel, DMA'd into circular buffers that hold exactly one control tick
+  * (20 periods). Sensors_Tick() (control ISR, 10 kHz) averages the buffer, so
+  * each reading is the mean inductor current over exactly 20 whole switching
+  * periods: a comb filter with nulls at k*fsw (k = 1..3) and at every 10 kHz
+  * multiple. See sensors.c for the timing budget.
   */
 #ifndef __SENSORS_H__
 #define __SENSORS_H__
@@ -29,11 +30,12 @@ typedef enum
   SENSE_COUNT
 } Sense_Channel;
 
-#define SENSE_OC_LIMIT_A    12.0f   /* over-current threshold |I| [A] (TMCS1126B4 range 15.5 A) */
+#define SENSE_OC_LIMIT_A    12.0f   /* default and ceiling of the over-current threshold |I| [A] (B4 range 15.5 A) */
 #define SENSE_OC_TICKS      20      /* consecutive control ticks above the limit before latching (2 ms) */
 #define SENSE_RAIL_TICKS    3       /* ADC code at a rail for this many ticks = signal fault */
 
-void        Sensors_Init(void);
+void        Sensors_Init(void);                    /* ADC + DMA set-up; conversions wait for the HRTIM triggers */
+uint8_t     Sensors_ZeroCal(void);                 /* after hw_init() (counters running, outputs off): 1 = sampling alive */
 void        Sensors_Tick(void);                    /* call from the control ISR, before the controller */
 float       Sensors_Current_A(Sense_Channel ch);   /* last sample, calibrated, control sign convention */
 int32_t     Sensors_Current_mA(Sense_Channel ch);
@@ -48,6 +50,10 @@ const char *Sensors_Name(Sense_Channel ch);
 /* Calibration: gain [mV/A] (sign = sensor orientation) and ADC zero code. */
 void        Sensors_SetCal(Sense_Channel ch, float mV_per_A, int16_t zero_code);
 float       Sensors_Cal_mVperA(Sense_Channel ch);
+int16_t     Sensors_Cal_Zero(Sense_Channel ch);
+void        Sensors_SetOcLimit(float amps);        /* clamped to (0, SENSE_OC_LIMIT_A] */
+float       Sensors_OcLimit(void);
+float       Sensors_RawAvg(Sense_Channel ch);      /* last tick-average ADC code (diagnostics) */
 
 #ifdef __cplusplus
 }

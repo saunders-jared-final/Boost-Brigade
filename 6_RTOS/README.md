@@ -12,15 +12,19 @@ shared with the SIL model and the QSPICE DLL, compiled here with
 ctrl_core/            control stack (ctrl / supervisor / mppt / recon / stack), params.h GENERATED
   params/             shuffler_params.json (gains, single source), gen_params.py, export_params.m
 App/
-  shuffler_hw.c/.h    HRTIM: master timer @100 kHz, four legs (A legs reset on master period,
+  shuffler_hw.c/.h    HRTIM: master timer @200 kHz, four legs (A legs reset on master period,
                       B legs on master CMP2 -> 180 deg), 200 ns dead time, duty = CMP1 preload,
-                      control tick = master repetition IRQ @10 kHz, outputs-off / gates-low paths
+                      control tick = master repetition IRQ @10 kHz (every 20 periods), outputs-off /
+                      gates-low paths; ADC trigger 1 = timer A/B CMP3/CMP4 (4 per period, PER/8 + k*PER/4)
+  params_rt.c/.h      run-time parameter table: C,SET/SETM/GET/LIST/APPLY/REVERT, gain set in RAM
+                      (CTRL_RUNTIME_GAINS), kscale (boot 0.3), MCU 4x4 inverse, bumpless swap
   app.c/.h            state machine BOOT->SELFTEST->IDLE->SOFTSTART->RUN->STOP, FAULT latch,
                       10 kHz control ISR (sensors -> stack_step -> duties), 1 kHz INA task,
                       100 Hz safety task (envelopes, IWDG, E-stop), requests from the parser
   comms.c/.h          T/S/F/A frames + C commands (0_Documentation/telemetry.md), LPUART1 921600
-Core/Src/sensors.c    TMCS1126 hall sensing (injected ADC, 4x oversampled over one PWM period),
-                      over-current latch (12 A for 2 ms, or a railed ADC code) -> outputs off in the ISR
+Core/Src/sensors.c    TMCS1126 hall sensing: HRTIM-triggered regular ADC1/ADC2 + circular DMA, 80 samples
+                      per channel per tick = mean over exactly 20 PWM periods (comb, nulls at k*fsw);
+                      over-current latch (oc_a, default 12 A, for 2 ms, a railed code, or stalled DMA)
 Core/Src/ina2x9.c     INA239/229 bus-voltage monitors on SPI3 (3 chip selects), isolator-conflict detection
 ```
 
@@ -84,12 +88,15 @@ Terminal on the ST-LINK VCP (921600 8N1, send `\n`); the `T` stream is just nois
 ## Bring-up order (bench, PSUs + resistors)
 
 1. Flash, open the VCP at 921600: banner, `S` lines, `T` frames at 50 Hz.
-2. `C,MODE,OL2` `C,EN,1`: scope PB12/PB13 — 100 kHz, 200 ns dead time; `C,DUTY,2,0.6` moves leg 2.
+2. `C,MODE,OL2` `C,EN,1`: scope PB12/PB13 — 200 kHz, 200 ns dead time; `C,DUTY,2,0.6` moves leg 2.
 3. `C,MODE,OL1` likewise on PA8..PA11, then `C,MODE,OL` for all four; confirm 180° between A and B.
-4. Hall calibration: known DC current per phase, `C,CAL,<ch>,<mV/A>,<zero>` until `T` reads right;
-   put the final values into `sensors.c`. Over-current test by lowering `SENSE_OC_LIMIT_A` temporarily.
+4. Hall calibration: known DC current per phase, `C,SET,hall_mva<ch>,<mV/A>` until `T` reads right
+   (B phases: 25 vs 100 mV/A is open); save to `7_Pi/pod/params.yaml`, later into `sensors.c`.
+   Over-current test with `C,SET,oc_a,2` and a 3 A PSU current.
 5. `VM1..3` vs DMM after the U10 isolator rework.
-6. `C,MODE,CL2` `C,EN,1` with the Simulink-identified `params.h`; `C,VREF,0,1` steps; then `CL`.
+6. `C,MODE,CL2` `C,EN,1` at the boot `kscale` 0.3 (telemetry field `kscale`); `C,VREF,0,1` steps;
+   raise kscale with `C,SET,kscale,<k>` + `C,APPLY` (or the page on :8080) only while steps settle
+   cleanly; then `CL1`, `CL`. Without U10: `C,SET,vm1_src,1` + `C,SET,vstr_param,<DL3021 CV V>`.
 
 ## CubeMX pass (Monday) — things the GUI should own
 

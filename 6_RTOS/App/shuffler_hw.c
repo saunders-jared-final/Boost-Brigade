@@ -34,7 +34,7 @@ static uint8_t s_en_tries = 0U;
  * would leave it offset by half the ripple (~2x the steady peak right after enable). A late service
  * (the control tick shares this IRQ) waits for the next period instead of enabling at a random phase. */
 #define HW_EN_CMP     (HW_HRTIM_PER / 4U)
-#define HW_EN_WINDOW  (HW_HRTIM_PER / 8U)    /* 1.25 us of IRQ latency still lands within phase 0.25..0.375 */
+#define HW_EN_WINDOW  (HW_HRTIM_PER / 4U)    /* 1.25 us at 200 kHz: IRQ latency still lands within phase 0.25..0.5 */
 #define HW_EN_TRIES   16U                   /* then enable anyway: never leave SOFTSTART ramping into dead outputs */
 
 #define S1_GATE_PINS (S1_A_H_Pin | S1_A_L_Pin | S1_B_H_Pin | S1_B_L_Pin)
@@ -152,6 +152,15 @@ void hw_init(void)
     HRTIM_CompareCfgTypeDef cmp = {0};
     cmp.CompareValue = duty_to_cmp(s_duty[leg]);
     if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, s_timidx[leg], HRTIM_COMPAREUNIT_1, &cmp) != HAL_OK) Error_Handler();
+    if (leg < 2U)
+    {
+      /* hall ADC trigger instants, PER/8 and 3PER/8 after this leg's reset (A: 0, B: PER/2) */
+      cmp.CompareValue = HW_HRTIM_PER / 8U;
+      if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, s_timidx[leg], HRTIM_COMPAREUNIT_3, &cmp) != HAL_OK) Error_Handler();
+      cmp.CompareValue = (3U * HW_HRTIM_PER) / 8U;
+      cmp.AutoDelayedMode = HRTIM_AUTODELAYEDMODE_REGULAR;
+      if (HAL_HRTIM_WaveformCompareConfig(&hhrtim1, s_timidx[leg], HRTIM_COMPAREUNIT_4, &cmp) != HAL_OK) Error_Handler();
+    }
 
     /* dead time 200 ns both edges: DTPRSC = 000 -> tDTG = tHRTIM/8 = 0.735 ns;
      * on this HAL the macro that encodes DTPRSC = 000 is ..._MUL8 */
@@ -181,6 +190,13 @@ void hw_init(void)
     if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, s_timidx[leg], s_out1[leg], &out) != HAL_OK) Error_Handler();
     if (HAL_HRTIM_WaveformOutputConfig(&hhrtim1, s_timidx[leg], s_out2[leg], &out) != HAL_OK) Error_Handler();
   }
+
+  /* ---- hall ADC trigger 1: four evenly spaced events per period (header) ---- */
+  HRTIM_ADCTriggerCfgTypeDef atrg = {0};
+  atrg.UpdateSource = HRTIM_ADCTRIGGERUPDATE_MASTER;
+  atrg.Trigger = HRTIM_ADCTRIGGEREVENT13_TIMERA_CMP3 | HRTIM_ADCTRIGGEREVENT13_TIMERA_CMP4 |
+                 HRTIM_ADCTRIGGEREVENT13_TIMERB_CMP3 | HRTIM_ADCTRIGGEREVENT13_TIMERB_CMP4;
+  if (HAL_HRTIM_ADCTriggerConfig(&hhrtim1, HRTIM_ADCTRIGGER_1, &atrg) != HAL_OK) Error_Handler();
 
   /* transfer preload -> active now, while the counters are stopped */
   if (HAL_HRTIM_SoftwareUpdate(&hhrtim1, HRTIM_TIMERUPDATE_MASTER | HRTIM_TIMERUPDATE_A | HRTIM_TIMERUPDATE_B |

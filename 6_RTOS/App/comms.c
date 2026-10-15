@@ -15,11 +15,13 @@
 #include "app.h"
 #include "ina2x9.h"
 #include "main.h"
+#include "params_rt.h"
 #include "sensors.h"
 #include "shuffler_hw.h"
 
-#define RX_RING 256
-#define LINE_MAX 96
+#define RX_RING 512
+#define LINE_MAX 256   /* C,SETM carries 16 floats */
+#define MAX_FIELDS 24
 
 static volatile uint8_t s_ring[RX_RING];
 static volatile uint16_t s_head, s_tail;
@@ -40,6 +42,27 @@ static char *fmt_f(char *buf, float x)
 }
 
 char *comms_fmt(char *buf, float x) { return fmt_f(buf, x); }
+
+/* 6 significant digits with exponent (C,GET / C,LIST): -2.52252e+01. buf >= 24 bytes. */
+static char *fmt_g6(char *buf, float x)
+{
+  int e = 0;
+  float a;
+  int32_t m;
+  if (isnan(x)) { strcpy(buf, "nan"); return buf; }
+  if (isinf(x)) { strcpy(buf, x < 0 ? "-inf" : "inf"); return buf; }
+  if (x == 0.0f) { strcpy(buf, "0"); return buf; }
+  a = fabsf(x);
+  while (a >= 10.0f) { a *= 0.1f; e++; }
+  while (a < 1.0f)   { a *= 10.0f; e--; }
+  m = (int32_t)(a * 100000.0f + 0.5f);
+  if (m >= 1000000) { m /= 10; e++; }
+  if (e > 99) e = 99;
+  if (e < -99) e = -99;
+  snprintf(buf, 24, "%s%ld.%05lde%c%02d", x < 0 ? "-" : "", (long)(m / 100000), (long)(m % 100000), e < 0 ? '-' : '+',
+           (int)(e < 0 ? -e : e));
+  return buf;
+}
 
 static void tx(const char *s)
 {
@@ -125,6 +148,7 @@ void comms_send_telemetry(void)
   n += snprintf(b + n, sizeof b - (size_t)n, ",%s", fmt_f(f, s.stress));
   for (i = 0; i < N_MOD - 1; i++) n += snprintf(b + n, sizeof b - (size_t)n, ",%s", fmt_f(f, s.IMr[i]));
   for (i = 0; i < 3; i++) n += snprintf(b + n, sizeof b - (size_t)n, ",%s", fmt_f(f, s.Tdie[i]));
+  n += snprintf(b + n, sizeof b - (size_t)n, ",%s,%u", fmt_f(f, s.kscale), (unsigned)s.pset);
   n += snprintf(b + n, sizeof b - (size_t)n, ",%s\n", PARAMS_VERSION);
   (void)n;
   tx(b);
@@ -180,13 +204,22 @@ static int split(char *line, char **f, int maxf)
   return n;
 }
 
+static void list_cb(const char *name, float v, float lo, float hi, prm_class_t cls)
+{
+  static const char *const cn[] = {"LIVE", "IDLE", "STAGED"};
+  char b[112], fv[24], fl[24], fh[24];
+  snprintf(b, sizeof b, "P,%s,%s,%s,%s,%s\n", name, fmt_g6(fv, v), fmt_g6(fl, lo), fmt_g6(fh, hi), cn[cls]);
+  tx(b);
+}
+
 static void handle_line(char *line)
 {
-  char *f[8];
-  int n = split(line, f, 8);
+  char *f[MAX_FIELDS];
+  int n = split(line, f, MAX_FIELDS);
   const char *why = NULL;
   if (n < 2 || strcmp(f[0], "C") != 0) { answer("?", 0, "expected C,<cmd>,..."); return; }
   const char *cmd = f[1];
+  app_note_rx();   /* any well-formed command feeds the closed-loop comms watchdog */
   if (strcmp(cmd, "MODE") == 0 && n >= 3)
   {
     app_mode_t m = MODE_COUNT;
@@ -224,7 +257,46 @@ static void handle_line(char *line)
   }
   else if (strcmp(cmd, "GAIN") == 0)
   {
-    answer(cmd, 0, "single gain set in this build");
+    answer(cmd, 0, "use C,SET / C,SETM / C,APPLY");
+  }
+  else if (strcmp(cmd, "SET") == 0 && n >= 4)
+  {
+    /* C,SET,<name>,<value> */
+    char *end = NULL;
+    float v = strtof(f[3], &end);
+    if (end == f[3]) { answer(cmd, 0, "bad number"); return; }
+    answer(cmd, prt_set(f[2], v, app_running(), &why), why);
+  }
+  else if (strcmp(cmd, "SETM") == 0)
+  {
+    /* C,SETM,<m00>,<m01>,...,<m33> : base M row-major, staged until C,APPLY */
+    float v[N_Y * N_Y];
+    int k;
+    if (n != 2 + N_Y * N_Y) { answer(cmd, 0, "need 16 values"); return; }
+    for (k = 0; k < N_Y * N_Y; k++) v[k] = strtof(f[2 + k], NULL);
+    answer(cmd, prt_setm(v, N_Y * N_Y, &why), why);
+  }
+  else if (strcmp(cmd, "GET") == 0 && n >= 3)
+  {
+    float v;
+    char b[64], fv[24];
+    if (!prt_get(f[2], &v)) { answer(cmd, 0, "unknown parameter"); return; }
+    snprintf(b, sizeof b, "P,%s,%s\n", f[2], fmt_g6(fv, v));
+    tx(b);
+    answer(cmd, 1, NULL);
+  }
+  else if (strcmp(cmd, "LIST") == 0)
+  {
+    prt_list(list_cb);
+    answer(cmd, 1, prt_staged_dirty() ? "staged changes pending, C,APPLY" : NULL);
+  }
+  else if (strcmp(cmd, "APPLY") == 0)
+  {
+    answer(cmd, prt_apply(&why), why);
+  }
+  else if (strcmp(cmd, "REVERT") == 0)
+  {
+    answer(cmd, prt_revert(app_running(), &why), why);
   }
   else if (strcmp(cmd, "ESTOP") == 0)
   {
@@ -238,8 +310,13 @@ static void handle_line(char *line)
   else if (strcmp(cmd, "CAL") == 0 && n >= 5)
   {
     /* C,CAL,<ch 0..3>,<mV/A>,<zero code or 0> : bench calibration of a hall channel */
-    Sensors_SetCal((Sense_Channel)atoi(f[2]), (float)atof(f[3]), (int16_t)atoi(f[4]));
-    answer(cmd, 1, NULL);
+    /* routed through the parameter table so C,LIST shows it (same bounds) */
+    char nm[12];
+    int ch = atoi(f[2]);
+    int ok = (ch >= 0 && ch < SENSE_COUNT);
+    if (ok) { snprintf(nm, sizeof nm, "hall_mva%d", ch); ok = prt_set(nm, (float)atof(f[3]), app_running(), &why); }
+    if (ok && atoi(f[4]) > 0) { snprintf(nm, sizeof nm, "hall_zero%d", ch); ok = prt_set(nm, (float)atoi(f[4]), app_running(), &why); }
+    answer(cmd, ok, ok ? NULL : (why ? why : "channel 0..3"));
   }
   else if (strcmp(cmd, "PING") == 0)
   {

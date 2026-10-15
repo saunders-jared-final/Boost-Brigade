@@ -8,9 +8,22 @@
  */
 #include "shuffler_ctrl.h"
 
+#ifdef CTRL_RUNTIME_GAINS
+ctrl_gains_t ctrl_gains = {CTRL_M_INIT, CTRL_MP_INIT, CTRL_MINV_INIT, CTRL_A, CTRL_DMIN, CTRL_DMAX};
+#define ctrl_M        ctrl_gains.M
+#define ctrl_Mp       ctrl_gains.Mp
+#define ctrl_Minv     ctrl_gains.Minv
+#define CTRL_A_NOW    ctrl_gains.a
+#define CTRL_DMIN_NOW ctrl_gains.dmin
+#define CTRL_DMAX_NOW ctrl_gains.dmax
+#else
 MAT_CONST ctrl_M[N_Y][N_Y] = CTRL_M_INIT;
 MAT_CONST ctrl_Mp[N_Y][N_Y] = CTRL_MP_INIT;
 MAT_CONST ctrl_Minv[N_Y][N_Y] = CTRL_MINV_INIT;
+#define CTRL_A_NOW    CTRL_A
+#define CTRL_DMIN_NOW CTRL_DMIN
+#define CTRL_DMAX_NOW CTRL_DMAX
+#endif
 
 /* MATLAB min(max(x, lo), hi): NaN maps to lo */
 static float clamp_f(float x, float lo, float hi)
@@ -47,7 +60,7 @@ void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
 
     /* y_f = y_f + a*(y - y_f) */
     for (i = 0u; i < (uint8_t)N_Y; i++) {
-        state->y_f[i] = state->y_f[i] + CTRL_A * (y[i] - state->y_f[i]);
+        state->y_f[i] = state->y_f[i] + CTRL_A_NOW * (y[i] - state->y_f[i]);
     }
 
     /* e = r - y_f, r = [rv, 0] */
@@ -83,8 +96,8 @@ void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
     for (i = 0u; i < (uint8_t)N_SHUF; i++) {
         float uc = (float)u[i];
         float ud = (float)u[(uint8_t)N_SHUF + i];
-        float dA = clamp_f(0.5f + 0.5f * (uc + ud), CTRL_DMIN, CTRL_DMAX);
-        float dB = clamp_f(0.5f + 0.5f * (uc - ud), CTRL_DMIN, CTRL_DMAX);
+        float dA = clamp_f(0.5f + 0.5f * (uc + ud), CTRL_DMIN_NOW, CTRL_DMAX_NOW);
+        float dB = clamp_f(0.5f + 0.5f * (uc - ud), CTRL_DMIN_NOW, CTRL_DMAX_NOW);
         out->d[2u * i] = dA;
         out->d[2u * i + 1u] = dB;
         u_act[i] = (dA + dB) - 1.0f;
@@ -100,3 +113,24 @@ void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
         state->xi[i] = acc;
     }
 }
+
+#ifdef CTRL_RUNTIME_GAINS
+void ctrl_rebase(ctrl_state_t *state, const float d[N_LEG])
+{
+    float u_act[N_Y];
+    uint8_t i;
+    uint8_t j;
+
+    for (i = 0u; i < (uint8_t)N_SHUF; i++) {
+        u_act[i] = (d[2u * i] + d[2u * i + 1u]) - 1.0f;
+        u_act[(uint8_t)N_SHUF + i] = d[2u * i] - d[2u * i + 1u];
+    }
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        ctrl_accum_t acc = (ctrl_accum_t)0;
+        for (j = 0u; j < (uint8_t)N_Y; j++) {
+            acc += (ctrl_accum_t)ctrl_Minv[i][j] * (ctrl_accum_t)u_act[j];
+        }
+        state->xi[i] = acc;
+    }
+}
+#endif

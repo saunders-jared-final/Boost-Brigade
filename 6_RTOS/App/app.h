@@ -28,11 +28,18 @@ typedef enum { MODE_IDLE = 0, MODE_OL, MODE_CL, MODE_OL1, MODE_CL1, MODE_OL2, MO
 #define FLT_OVERTEMP   0x080U
 #define FLT_WDG_RESET  0x100U
 #define FLT_SOFT_ESTOP 0x200U
+#define FLT_STRING_OV  0x400U   /* sum of module voltages (or e-load readback) above vstr_ov */
+#define FLT_COMMS_WDG  0x800U   /* closed loop with no command / C,PING for wdg_s seconds */
+#define FLT_VSTR_STALE 0x1000U  /* vm1_src = VSTR_PI and the Pi stopped pushing vstr_pi (> 2 s) */
 
 #define APP_SOFTSTART_MS   150U    /* duty ramp from the pre-bias d0 = Vbot/(Vtop+Vbot) to the mode's duty */
 #define APP_VM_OV_V        30.0f   /* per-module over-voltage envelope */
 #define APP_VM_UV_V        3.0f    /* per-module under-voltage while running */
 #define APP_TEMP_MAX_C     85.0f   /* INA die / Pi-reported heatsink limit */
+#define APP_VSTR_OV_V      85.0f   /* string over-voltage (3 x KAUSSP80 Voc = 75.2 V) */
+#define APP_DUTY_SLEW      0.01f   /* closed-loop duty slew limit per 100 us tick */
+#define APP_COMMS_WDG_S    5.0f    /* closed loop stops after this long without a command (0 = off) */
+/* run-time values of the limits above live in params_rt (prt.*); these are the boot defaults */
 #define APP_USE_IWDG       1
 
 /* snapshot handed to telemetry (written by the ISR / tasks, copied with IRQs masked) */
@@ -50,6 +57,8 @@ typedef struct {
   float Tdie[3];           /* INA die temperatures [C] */
   uint8_t vm_valid;        /* bit k = VM[k] readable */
   uint8_t legs;            /* enabled legs mask */
+  float kscale;            /* gain scale of the active controller gain set */
+  uint16_t pset;           /* gain-set counter, +1 on every C,APPLY swap */
 } app_snapshot_t;
 
 void app_init(void);
@@ -82,6 +91,9 @@ void app_req_soft_estop(void);
 bool app_req_clear(const char **why);
 
 void app_get_snapshot(app_snapshot_t *out);
+uint32_t app_ms(void);
+bool app_running(void);                /* SOFTSTART or RUN */
+void app_note_rx(void);                /* a valid command line arrived (comms watchdog) */
 const char *app_state_name(app_state_t s);
 const char *app_mode_name(app_mode_t m);
 uint32_t app_faults(void);

@@ -122,10 +122,11 @@ int main(void)
   {
     Error_Handler();
   }
-  Sensors_Init();      /* zero calibration before anything switches */
+  Sensors_Init();      /* hall ADC + DMA armed on the HRTIM triggers */
   INA_Init();
   INA_Poll();
-  hw_init();           /* HRTIM: master tick + four legs, outputs disabled */
+  hw_init();           /* HRTIM: master tick + four legs + ADC triggers, outputs disabled */
+  (void)Sensors_ZeroCal();   /* zero offsets from the running (non-switching) sampling chain */
   app_init();
   while (1)
   {

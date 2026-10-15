@@ -14,6 +14,7 @@
 #include "comms.h"
 #include "ina2x9.h"
 #include "main.h"
+#include "params_rt.h"
 #include "sensors.h"
 #include "shuffler_hw.h"
 #include "stack.h"
@@ -29,6 +30,7 @@ static volatile uint32_t    s_faults = 0U;
 static volatile uint32_t    s_ms = 0U;
 static volatile uint32_t    s_state_since_ms = 0U;
 static volatile uint8_t     s_cmd_enable = 0U;
+static volatile uint32_t    s_last_rx_ms = 0U;   /* comms watchdog: last valid command line */
 
 static volatile float s_vm[N_MOD];
 static volatile uint8_t s_vm_valid = 0U;
@@ -60,6 +62,9 @@ static const char *const s_mode_names[]  = {"IDLE", "OL", "CL", "OL1", "CL1", "O
 const char *app_state_name(app_state_t s) { return (s <= ST_FAULT) ? s_state_names[s] : "?"; }
 const char *app_mode_name(app_mode_t m)   { return (m < MODE_COUNT) ? s_mode_names[m] : "?"; }
 uint32_t app_faults(void) { return s_faults; }
+uint32_t app_ms(void) { return s_ms; }
+bool app_running(void) { return s_state == ST_SOFTSTART || s_state == ST_RUN; }
+void app_note_rx(void) { s_last_rx_ms = s_ms; }
 
 static uint8_t mode_legs(app_mode_t m)
 {
@@ -145,6 +150,7 @@ void app_init(void)
 
   for (i = 0; i < N_MOD; i++) { s_vm[i] = NAN; s_vm_isr[i] = 0.0f; s_imr[i] = 0.0f; }
   for (i = 0; i < N_SHUF; i++) s_vref[i] = 0.0f;
+  prt_init();                           /* run-time parameter table + boot gain set (kscale default) */
   stack_init(&s_stack);
   estop_init();
 
@@ -198,6 +204,9 @@ void app_ctrl_isr(void)
     st = ST_FAULT;
   }
 
+  /* C,APPLY: swap the gain set at this tick boundary, integrators rebased on the applied duties */
+  prt_isr_service(&s_stack.ctrl, s_d_applied);
+
   /* module voltages: latest task snapshot (written at 1 kHz) */
   for (i = 0; i < N_MOD; i++) s_vm_isr[i] = (float)s_vm[i];
 
@@ -238,7 +247,17 @@ void app_ctrl_isr(void)
     in.en_sup = s_sup_en ? 1.0f : 0.0f;
     in.en_mppt = 0.0f;                  /* the load (EcoFlow) does string MPPT */
     stack_step(&in, &s_stack, &s_stack_out);
-    for (i = 0; i < N_LEG; i++) s_d_applied[i] = s_stack_out.d[i];
+    {
+      /* duty slew limit: bounds the step a wrong gain or a sensor glitch can put on the bridge */
+      float sl = prt.slew;
+      for (i = 0; i < N_LEG; i++)
+      {
+        float dn = s_stack_out.d[i], dp = s_d_applied[i];
+        if (dn > dp + sl) dn = dp + sl;
+        if (dn < dp - sl) dn = dp - sl;
+        s_d_applied[i] = dn;
+      }
+    }
     for (i = 0; i < N_MOD; i++) s_imr[i] = s_stack_out.IM[i];
   }
   else if (st == ST_RUN)
@@ -282,9 +301,25 @@ void app_task_sense_v(void)
   float vm3 = v[0];
   float vm2 = v[1] - v[0];
   float vm1 = v[2] - vm2;
+  uint8_t vm23_ok = ((ok & 3U) == 3U) ? 1U : 0U;
+  uint8_t vm1_ok = ((ok & 7U) == 7U) ? 1U : 0U;
+  /* VM1 source (C,SET,vm1_src): U10 (CS3), or the string voltage from the DL3021 minus VM2 + VM3 */
+  int src = (int)prt.vm1_src;
+  if (src == VM1_SRC_VSTR_PARAM)
+  {
+    vm1_ok = (vm23_ok && prt.vstr_param > 1.0f) ? 1U : 0U;
+    vm1 = vm1_ok ? (prt.vstr_param - v[1]) : NAN;      /* v[1] = U11 = VM2 + VM3 */
+  }
+  else if (src == VM1_SRC_VSTR_PI)
+  {
+    uint32_t t = prt_vstr_pi_ms;
+    uint8_t fresh = (t != 0U) && ((s_ms - t) <= PRT_VSTR_PI_STALE_MS);
+    vm1_ok = (vm23_ok && fresh && prt.vstr_pi > 1.0f) ? 1U : 0U;
+    vm1 = vm1_ok ? (prt.vstr_pi - v[1]) : NAN;
+  }
   __disable_irq();
   s_vm[2] = vm3;  s_vm[1] = vm2;  s_vm[0] = vm1;
-  s_vm_valid = (uint8_t)(((ok & 1U) ? 4U : 0U) | (((ok & 3U) == 3U) ? 2U : 0U) | (((ok & 7U) == 7U) ? 1U : 0U));
+  s_vm_valid = (uint8_t)(((ok & 1U) ? 4U : 0U) | (vm23_ok ? 2U : 0U) | (vm1_ok ? 1U : 0U));
   __enable_irq();
 }
 
@@ -307,12 +342,24 @@ void app_task_safety(void)
   if (st == ST_RUN || st == ST_SOFTSTART)
   {
     if (estop_pressed()) trip(FLT_ESTOP);
+    float vsum = 0.0f;
     for (i = 0; i < N_MOD; i++)
     {
       float v = (float)s_vm[i];
-      if (!isnan(v) && v > APP_VM_OV_V) { trip(FLT_OV); break; }
-      if (!isnan(v) && v < APP_VM_UV_V && mode_closed(s_mode) && (s_vm_valid & (1U << i))) { trip(FLT_UV); break; }
+      if (!isnan(v)) vsum += v;
+      if (!isnan(v) && v > prt.vm_ov) { trip(FLT_OV); break; }
+      if (!isnan(v) && v < prt.vm_uv && mode_closed(s_mode) && (s_vm_valid & (1U << i))) { trip(FLT_UV); break; }
     }
+    /* string OV: sum of the readable modules (a lower bound when VM1 is missing), and the e-load readback */
+    if (vsum > prt.vstr_ov || ((int)prt.vm1_src == VM1_SRC_VSTR_PI && prt_vstr_pi_ms != 0U && prt.vstr_pi > prt.vstr_ov))
+      trip(FLT_STRING_OV);
+    /* comms watchdog (closed loop only): the Pi pod sends C,PING every second */
+    if (mode_closed(s_mode) && prt.wdg_s > 0.0f && (s_ms - s_last_rx_ms) > (uint32_t)(prt.wdg_s * 1000.0f))
+      trip(FLT_COMMS_WDG);
+    /* VM1 from the Pi went stale while converter 1 is closed loop */
+    if (mode_closed(s_mode) && (mode_legs(s_mode) & HW_LEGS_S1) && (int)prt.vm1_src == VM1_SRC_VSTR_PI &&
+        !(s_vm_valid & 1U))
+      trip(FLT_VSTR_STALE);
     for (i = 0; i < 3; i++)
     {
       if (!isnan((float)s_tdie[i]) && (float)s_tdie[i] > APP_TEMP_MAX_C) { trip(FLT_OVERTEMP); break; }
@@ -511,6 +558,7 @@ bool app_req_enable(bool on, const char **why)
     if (s_mode == MODE_IDLE) { *why = "select a mode first"; return false; }
     if (estop_pressed()) { *why = "E-stop pressed"; return false; }
     if (!vm_ok_for(s_mode)) { *why = "module voltages not readable"; return false; }
+    s_last_rx_ms = s_ms;
     s_cmd_enable = 1U;
   }
   else
@@ -536,13 +584,14 @@ bool app_req_vref(const float *rv, const char **why)
   {
     if (rv[i] < -SUP_RVMAX || rv[i] > SUP_RVMAX) { *why = "vref out of range"; return false; }
   }
-  for (i = 0; i < N_SHUF; i++) s_vref[i] = rv[i];
+  for (i = 0; i < N_SHUF; i++) { s_vref[i] = rv[i]; prt.vref[i] = rv[i]; }
   return true;
 }
 
 bool app_req_sup_enable(bool on)
 {
   s_sup_en = on ? 1U : 0U;
+  prt.sup_en = on ? 1.0f : 0.0f;
   return true;
 }
 
@@ -583,5 +632,7 @@ void app_get_snapshot(app_snapshot_t *o)
   for (i = 0; i < 3; i++) o->Tdie[i] = (float)s_tdie[i];
   o->vm_valid = s_vm_valid;
   o->legs = hw_legs_enabled();
+  o->kscale = prt_kscale_active;
+  o->pset = prt_pset;
   __enable_irq();
 }

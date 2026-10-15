@@ -1,0 +1,70 @@
+{
+  "_comment": [
+    "Single source of truth for the control-stack constants. gen_params.py / export_params.m",
+    "turn this into params.h. N_MOD modules, N_MOD-1 shufflers, 2 legs per shuffler.",
+    "ctrl.M is the (2*N_SHUF)x(2*N_SHUF) decoupling matrix M = inv(G)*diag(kI) from",
+    "shuffler_string_ident (rows/cols: voltage channels 1..N_SHUF, then current channels).",
+    "PLACEHOLDER M: sub-blocks of the validated 4-module 540 W identification (sps-params-1.0.0)",
+    "for shufflers 1-2. Replace with the 3-module / 150 W identification before closed loop."
+  ],
+  "version": "sps-params-2.20261011-1634-3mod-qspice",
+  "n_mod": 3,
+  "ctrl": {
+    "ts": 0.0001,
+    "fc_lpf": 2000.0,
+    "dmin": 0.08,
+    "dmax": 0.92,
+    "kp_ratio_v": 0.000158,
+    "kp_ratio_i": 0.000108,
+    "M": [
+      [
+        -25.225200769285795,
+        -0.5383336747139033,
+        1.9472174297760971,
+        0.24809218131397714
+      ],
+      [
+        -0.2731997022059976,
+        -24.9973347924922,
+        -0.47058685192446037,
+        -2.0916221056669455
+      ],
+      [
+        0.06891372818279752,
+        -0.017599508371848135,
+        9.999255935584266,
+        1.1799024593207
+      ],
+      [
+        -0.030047109753783434,
+        0.10121264680567958,
+        1.8667802565964111,
+        11.873773541288386
+      ]
+    ]
+  },
+  "sup": {
+    "ts": 0.001,
+    "tf": 0.005,
+    "i_rated": 10.0,
+    "s_hi": 0.9,
+    "s_lo": 0.7,
+    "kb": 60.0,
+    "krel": 6.0,
+    "bmax": 4.0,
+    "rvmax": 30.0
+  },
+  "mppt": {
+    "ts": 0.001,
+    "tp": 0.02,
+    "iref0": 8.0,
+    "imin": 2.0,
+    "imax": 8.5,
+    "db": 1.0,
+    "ka": 0.01,
+    "smin": 0.05,
+    "smax": 1.0,
+    "s0": 0.25,
+    "btol": 0.001
+  }
+}

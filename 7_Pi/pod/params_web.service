@@ -1,0 +1,14 @@
+[Unit]
+Description=Shuffler run-time parameter page (http://<pi>:8080), talks to the pod control socket
+After=network-online.target pod.service
+Wants=network-online.target
+
+[Service]
+User=@USER@
+WorkingDirectory=@PI_DIR@/pod
+ExecStart=@PI_DIR@/.venv/bin/python @PI_DIR@/pod/params_web.py
+Restart=always
+RestartSec=2
+
+[Install]
+WantedBy=multi-user.target

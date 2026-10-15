@@ -47,4 +47,14 @@ void sup_init(sup_state_t *state);
 /* One supervisor step (SUP_TS3). */
 void sup_step(const sup_in_t *in, sup_state_t *state, sup_out_t *out);
 
+#ifdef CTRL_RUNTIME_GAINS
+/* Firmware-only: run-time governor thresholds, initialised from params.h. */
+typedef struct {
+    float i_rated; /* SUP_I_RATED [A] */
+    float s_hi;    /* SUP_S_HI */
+    float s_lo;    /* SUP_S_LO */
+} sup_rt_t;
+extern sup_rt_t sup_rt;
+#endif
+
 #endif /* SHUFFLER_SUPERVISOR_H */

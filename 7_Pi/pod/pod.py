@@ -21,6 +21,7 @@ import os
 import queue
 import re
 import socket
+import struct
 import threading
 import time
 
@@ -115,6 +116,8 @@ class CtlServer:
         log.info("control socket: 127.0.0.1:%d", CTL_PORT)
         while True:
             c, _ = srv.accept()
+            # a client that stops reading must not stall the serial rx thread: 1 s send timeout, then dropped
+            c.setsockopt(socket.SOL_SOCKET, socket.SO_SNDTIMEO, struct.pack("ll", 1, 0))
             with self.lock:
                 self.clients.append(c)
             threading.Thread(target=self._client, args=(c,), daemon=True).start()
@@ -162,21 +165,22 @@ class Nucleo:
         threading.Thread(target=self._rx, daemon=True).start()
         threading.Thread(target=self._txloop, daemon=True).start()
 
-    def send(self, cmd: str):
-        self.tx.put(cmd)
+    def send(self, cmd: str, quiet: bool = False):
+        self.tx.put((cmd, quiet))
 
     def _txloop(self):
         while True:
-            cmd = self.tx.get()
+            cmd, quiet = self.tx.get()
             if self.ser is None:
-                log.warning("-> %s dropped: no Nucleo link", cmd)
+                if not quiet:
+                    log.warning("-> %s dropped: no Nucleo link", cmd)
                 continue
             try:
                 for b in (cmd.strip() + "\n").encode():
                     self.ser.write(bytes((b,)))
                     self.ser.flush()
                     time.sleep(TX_CHAR_GAP_S)
-                log.info("-> %s", cmd)
+                (log.debug if quiet else log.info)("-> %s", cmd)
             except (serial.SerialException, OSError) as e:
                 log.warning("-> %s failed: %s", cmd, e)
 
@@ -388,7 +392,13 @@ def main():
                          {"source": "nucleo", "channel": fr.values["channel"]})
             log.error("FAULT %s", fr.raw)
         elif fr.kind == "A":
-            log.info("<- %s", fr.raw)
+            # heartbeat and e-load forwarding answers are routine; refusals are not
+            if not fr.values["ok"]:
+                log.warning("<- %s", fr.raw)
+            elif fr.values["cmd"] in ("PING", "SET", "GET", "LIST"):
+                log.debug("<- %s", fr.raw)
+            else:
+                log.info("<- %s", fr.raw)
 
     nucleo = Nucleo(a.port, a.baud, on_line)
     ctl = CtlServer(nucleo)
@@ -413,6 +423,9 @@ def main():
                 nucleo.send("C,TEST,0")
         if now - t_last >= 1.0:
             t_last = now
+            # heartbeat for the firmware's closed-loop comms watchdog (C,SET,wdg_s; FLT_COMMS_WDG 0x800)
+            if link_ok:
+                nucleo.send("C,PING", quiet=True)
             temp = read_ds18b20()
             if temp is not None:
                 influx.write("telemetry", {"heatsink_c": temp}, {"source": "pi"})

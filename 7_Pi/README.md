@@ -7,6 +7,8 @@ docker-compose.yml        InfluxDB 2.7 (:8086) + Grafana 11 (:3000, anonymous vi
                           datasource and the "Shuffler pod" dashboard (grafana/dashboards/shuffler.json)
 pod/pod.py                serial bridge (Nucleo T/S/F frames -> Influx), DS18B20 heatsink probe,
                           IR remote -> commands, LCD + RGB status; pod.service for systemd
+pod/eload.py              Rigol DL3021 e-load over USB (USB-TMC) -> Influx measurement "eload" (v, i, p at 5 Hz;
+                          mode, input, setpoint at 1 Hz); read-only, eload.service for systemd
 pod/telemetry_parser.py   the frame parser (field order from 0_Documentation/telemetry.md)
 tools/podctl.py           send C,... commands through the running pod (it owns the serial port): over SSH
 tools/nucleo_cli.py       interactive console straight on the serial port (only with the pod stopped)
@@ -50,6 +52,11 @@ The pod runs `C,TEST,0` by itself whenever the Nucleo link comes up (`--no-init`
 
 First milestone: `heatsink_c` on the dashboard within a minute of boot (no Nucleo needed).
 Then plug the Nucleo (ST-LINK VCP = `/dev/ttyACM0`): `T` frames at 50 Hz appear as `telemetry` fields.
+
+E-load: plug the DL3021's rear USB (device) port into the Pi; `ls /dev/usbtmc*` should show it
+(setup.sh adds the udev rule). `journalctl -u eload -f` logs the `*IDN?` on connect. The dashboard's
+bottom row shows its V/I/P (power line at the DL3021's 200 W rating) and the e-load voltage is overlaid
+on the String voltage panel as a cross-check of the INA sum. Set the load from its front panel.
 
 IR: run `sudo ir-keytable -t` once, press the remote's buttons, map the key names in `IR_MAP`
 (pod.py). Defaults: POWER = disable, PLAY = enable, STOP = E-stop, OK = clear fault, 1–6 = modes,
