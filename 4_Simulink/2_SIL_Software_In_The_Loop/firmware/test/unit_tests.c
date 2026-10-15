@@ -530,6 +530,37 @@ static void test_ctrl_duty_clamps(void)
     CHECK(out.d[1] == CTRL_DMAX);
 }
 
+#ifdef CTRL_RUNTIME_GAINS
+static void test_ctrl_moving_average(void)
+{
+    /* ma_n = 4: after 4 zero ticks, a unit step on ic1 reads 1/4, 2/4, 3/4, 1;
+     * switching to ma_n = 8 uses the buffer that was filled in the meantime */
+    ctrl_state_t s;
+    ctrl_in_t in;
+    ctrl_out_t out;
+    int k;
+    memset(&in, 0, sizeof in);
+    ctrl_init(&s);
+    ctrl_gains.ma_n = 4u;
+    for (k = 0; k < 4; k++) {
+        ctrl_step(&in, &s, &out);
+        CHECK(s.y_f[NS] == 0.0f);
+    }
+    in.IL[0] = 1.0f;   /* ic1 = ILA1 + ILB1 = 1 */
+    for (k = 1; k <= 4; k++) {
+        ctrl_step(&in, &s, &out);
+        CHECK_NEAR(s.y_f[NS], 0.25 * k, 1e-6);
+        CHECK_NEAR(s.y_f[0], 0.0, 1e-9);
+    }
+    ctrl_gains.ma_n = 8u;
+    ctrl_step(&in, &s, &out);
+    CHECK_NEAR(s.y_f[NS], 5.0 / 8.0, 1e-6);
+    ctrl_gains.ma_n = 0u;   /* back to the IIR: continues from the MA value */
+    ctrl_step(&in, &s, &out);
+    CHECK_NEAR(s.y_f[NS], 5.0 / 8.0 + (double)CTRL_A * (1.0 - 5.0 / 8.0), 1e-6);
+}
+#endif
+
 static void test_ctrl_antiwindup_steady(void)
 {
     /* constant error saturating ALL duties: the every-step Minv recompute
@@ -1085,17 +1116,26 @@ static void test_stack_vs_double_ref(void)
 
 int main(void)
 {
-    printf("shuffler stack unit tests, %s, N_MOD=%d, Ts=%g, accum=%s\n", PARAMS_VERSION, NM,
+    printf("shuffler stack unit tests, %s, N_MOD=%d, Ts=%g, accum=%s%s\n", PARAMS_VERSION, NM,
            (double)CTRL_TS,
 #ifdef SHUF_ACCUM_DOUBLE
            "double"
 #else
            "float"
 #endif
+           ,
+#ifdef CTRL_RUNTIME_GAINS
+           ", runtime gains"
+#else
+           ""
+#endif
     );
     test_ctrl_zero_inputs();
     test_ctrl_duty_clamps();
     test_ctrl_antiwindup_steady();
+#ifdef CTRL_RUNTIME_GAINS
+    test_ctrl_moving_average();
+#endif
     test_ctrl_vs_double_ref();
     test_sup_seed_and_reset();
     test_sup_hysteresis_and_bmax();

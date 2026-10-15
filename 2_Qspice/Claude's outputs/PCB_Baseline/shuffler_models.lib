@@ -58,6 +58,19 @@ X1 A K E pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=0 avm=0.00
 X1 A K E pvmi avoc=0.00193169 bvoc=20.4753 aisc=0.00872098 bisc=0 avm=0.000555523 bvm=17.7245 aim=0.00820223 bim=0.00478264 Rs=1m Rsh=1meg
 .ends pvmi_150w
 *
+* ---- 80 W KAUSSP80 panel (carpark, S10p), same model ----
+.subckt pvmi_80w A K E
+X1 A K E pvmi avoc=0.00216126 bvoc=22.9087 aisc=0.00434999 bisc=0 avm=0.000622988 bvm=19.877 aim=0.00389773 bim=0.00227273 Rs=1m Rsh=1meg
+.ends pvmi_80w
+*
+* ---- R&S NGE103 channel as a bench "module" (S10): current limit V(E)/1000 A (node E carries the limit in mA),
+*      voltage clamp at VSET through RCLAMP (the CV regulator), i.e. the rectangular I-V of a PSU ----
+.subckt nge_ch A K E
+B1 K A I=max(V(E),0)*1m
+B2 A K I=max(V(A,K)-VSET,0)/RCLAMP
+Re E 0 10Meg
+.ends nge_ch
+*
 * ---- one lumped bypass diode per module (junction box has three, this is enough for the string) ----
 .model dbypass D(Is=2u N=1.05 Rs=8m Cjo=500p Vj=0.5 m=0.4)
 *

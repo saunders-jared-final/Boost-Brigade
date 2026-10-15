@@ -1,0 +1,88 @@
+.meas tran y1 avg v(pv1p,pv2p)-v(pv2p,pv3p) from 0.0025 to 0.003:
+   0   -4.11125
+   1   -4.98121
+   2   -3.05784
+.meas tran y2 avg v(pv2p,pv3p)-v(pv3p) from 0.0025 to 0.003:
+   0   0.950738
+   1 -0.00393313
+   2  -0.987701
+.meas tran y3 avg i(vsa1)-i(vsb1) from 0.0025 to 0.003:
+   0 1.8101e-12
+   1 1.6286e-12
+   2 1.57782e-12
+.meas tran y4 avg i(vsa2)-i(vsb2) from 0.0025 to 0.003:
+   0  0.0480926
+   1 0.00414639
+   2  0.0218139
+.meas tran ish1 avg i(vsa1)+i(vsb1) from 0.0025 to 0.003:
+   0 -1.20491e-05
+   1 -1.2157e-05
+   2 -1.20366e-05
+.meas tran ish2 avg i(vsa2)+i(vsb2) from 0.0025 to 0.003:
+   0  -0.952526
+   1 -0.0897553
+   2   0.347603
+.meas tran vm1 avg v(pv1p,pv2p) from 0.0025 to 0.003:
+   0    20.9192
+   1    20.0205
+   2    20.9752
+.meas tran i1 avg i(vi1) from 0.0025 to 0.003:
+   0        0.8
+   1        0.8
+   2        0.8
+.meas tran vm2 avg v(pv2p,pv3p) from 0.0025 to 0.003:
+   0    25.0305
+   1    25.0017
+   2     24.033
+.meas tran i2 avg i(vi2) from 0.0025 to 0.003:
+   0   0.350994
+   1   0.769741
+   2          1
+.meas tran vm3 avg v(pv3p) from 0.0025 to 0.003:
+   0    24.0797
+   1    25.0056
+   2    25.0207
+.meas tran i3 avg i(vi3) from 0.0025 to 0.003:
+   0        1.3
+   1   0.861523
+   2    0.64721
+.meas tran vstr avg v(pv1p) from 0.0025 to 0.003:
+   0    70.0295
+   1    70.0278
+   2    70.0289
+.meas tran istr avg i(bload) from 0.0025 to 0.003:
+   0   0.800093
+   1   0.800324
+   2   0.801896
+.meas tran vsa2avg avg i(vsa2) from 0.0025 to 0.003:
+   0  -0.452217
+   1 -0.0428045
+   2   0.184709
+.meas tran vsa2max max i(vsa2) from 0.00298 to 0.003:
+   0    4.43038
+   1      4.488
+   2    5.33646
+.meas tran vsa2min min i(vsa2) from 0.00298 to 0.003:
+   0   -5.61829
+   1   -4.62013
+   2   -4.66223
+.meas tran vsa2rms rms i(vsa2) from 0.0025 to 0.003:
+   0    2.63846
+   1    2.62614
+   2    2.60461
+.meas tran vsb2avg avg i(vsb2) from 0.0025 to 0.003:
+   0  -0.500309
+   1 -0.0469509
+   2   0.162895
+.meas tran vsb2max max i(vsb2) from 0.00298 to 0.003:
+   0    4.44139
+   1    4.53439
+   2    5.19236
+.meas tran vsb2min min i(vsb2) from 0.00298 to 0.003:
+   0   -5.62053
+   1   -4.56646
+   2   -4.80237
+.meas tran vsb2rms rms i(vsb2) from 0.0025 to 0.003:
+   0    2.64705
+   1    2.62637
+   2    2.60299

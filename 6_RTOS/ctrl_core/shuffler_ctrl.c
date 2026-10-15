@@ -9,7 +9,7 @@
 #include "shuffler_ctrl.h"
 
 #ifdef CTRL_RUNTIME_GAINS
-ctrl_gains_t ctrl_gains = {CTRL_M_INIT, CTRL_MP_INIT, CTRL_MINV_INIT, CTRL_A, CTRL_DMIN, CTRL_DMAX};
+ctrl_gains_t ctrl_gains = {CTRL_M_INIT, CTRL_MP_INIT, CTRL_MINV_INIT, CTRL_A, CTRL_DMIN, CTRL_DMAX, 0u};
 #define ctrl_M        ctrl_gains.M
 #define ctrl_Mp       ctrl_gains.Mp
 #define ctrl_Minv     ctrl_gains.Minv
@@ -35,10 +35,22 @@ static float clamp_f(float x, float lo, float hi)
 void ctrl_init(ctrl_state_t *state)
 {
     uint8_t i;
+#ifdef CTRL_RUNTIME_GAINS
+    uint8_t j;
+#endif
     for (i = 0u; i < (uint8_t)N_Y; i++) {
         state->xi[i] = (ctrl_accum_t)0;
         state->y_f[i] = 0.0f;
     }
+#ifdef CTRL_RUNTIME_GAINS
+    for (j = 0u; j < (uint8_t)CTRL_MA_MAX; j++) {
+        for (i = 0u; i < (uint8_t)N_Y; i++) {
+            state->ma_buf[j][i] = 0.0f;
+        }
+    }
+    state->ma_idx = 0u;
+    state->ma_cnt = 0u;
+#endif
 }
 
 void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
@@ -62,6 +74,28 @@ void ctrl_step(const ctrl_in_t *in, ctrl_state_t *state, ctrl_out_t *out)
     for (i = 0u; i < (uint8_t)N_Y; i++) {
         state->y_f[i] = state->y_f[i] + CTRL_A_NOW * (y[i] - state->y_f[i]);
     }
+#ifdef CTRL_RUNTIME_GAINS
+    /* optional moving average over the last ma_n ticks (replaces the IIR output);
+     * the ring buffer is filled every tick in either mode */
+    for (i = 0u; i < (uint8_t)N_Y; i++) {
+        state->ma_buf[state->ma_idx][i] = y[i];
+    }
+    state->ma_idx = (uint8_t)((state->ma_idx + 1u) % CTRL_MA_MAX);
+    if (state->ma_cnt < (uint8_t)CTRL_MA_MAX) {
+        state->ma_cnt++;
+    }
+    if (ctrl_gains.ma_n > 0u) {
+        uint8_t n = (ctrl_gains.ma_n < state->ma_cnt) ? ctrl_gains.ma_n : state->ma_cnt;
+        uint8_t k;
+        for (i = 0u; i < (uint8_t)N_Y; i++) {
+            float s = 0.0f;
+            for (k = 1u; k <= n; k++) {
+                s += state->ma_buf[(uint8_t)((state->ma_idx + CTRL_MA_MAX - k) % CTRL_MA_MAX)][i];
+            }
+            state->y_f[i] = s / (float)n;
+        }
+    }
+#endif
 
     /* e = r - y_f, r = [rv, 0] */
     for (i = 0u; i < (uint8_t)N_SHUF; i++) {

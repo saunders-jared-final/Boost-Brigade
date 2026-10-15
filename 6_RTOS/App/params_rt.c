@@ -182,6 +182,7 @@ static bool build_gains(ctrl_gains_t *g, const char **why)
     float w = 6.28318531f * prt.fc_lpf * CTRL_TS;
     g->a = w / (1.0f + w);
   }
+  g->ma_n = (uint8_t)(prt.filt_ma + 0.5f);
   g->dmin = (prt.dmin < HW_DUTY_MIN) ? HW_DUTY_MIN : prt.dmin;
   g->dmax = (prt.dmax > HW_DUTY_MAX) ? HW_DUTY_MAX : prt.dmax;
   return true;
@@ -202,6 +203,7 @@ void prt_init(void)
   prt.kp_i = s_Mp0[N_SHUF][N_SHUF] / s_M0[N_SHUF][N_SHUF];
 #endif
   prt.fc_lpf = CTRL_FC_LPF;
+  prt.filt_ma = 0.0f;
   prt.dmin = CTRL_DMIN;
   prt.dmax = CTRL_DMAX;
   memcpy(prt.M, s_M0, sizeof prt.M);
@@ -231,6 +233,7 @@ void prt_init(void)
   add("kp_v", &prt.kp_v, 0.0f, 1e-2f, PRM_STAGED, H_NONE);
   add("kp_i", &prt.kp_i, 0.0f, 1e-2f, PRM_STAGED, H_NONE);
   add("fc_lpf", &prt.fc_lpf, 100.0f, 4000.0f, PRM_STAGED, H_NONE);
+  add("filt_ma", &prt.filt_ma, 0.0f, (float)CTRL_MA_MAX, PRM_STAGED, H_NONE);
   add("dmin", &prt.dmin, HW_DUTY_MIN, 0.45f, PRM_STAGED, H_NONE);
   add("dmax", &prt.dmax, 0.55f, HW_DUTY_MAX, PRM_STAGED, H_NONE);
   for (i = 0; i < N_Y; i++)

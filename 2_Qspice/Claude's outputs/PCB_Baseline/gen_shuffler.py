@@ -53,13 +53,28 @@ PANEL150 = ("avoc=%.6g bvoc=%.6g aisc=%.6g bisc=0 avm=%.6g bvm=%.6g aim=%.6g bim
     0.0148652612 * 8.721 / 14.8653,
     0.00116836 * 18.28 / 38.4460, 37.2775900991 * 18.28 / 38.4460,
     0.0141475710 * 8.207 / 14.1558, 0.0082493126 * 8.207 / 14.1558))
+# KickAss KAUSSP80 80 W panel (Voc 25.07 V, Isc 4.35 A; Vmp/Imp not on the datasheet: 20.5 V / 3.90 A assumed,
+# 36 cells), same scaling of the Aiko fit as the 150 W panel - the carpark string for the S10 PV80 runs
+PANEL80 = ("avoc=%.6g bvoc=%.6g aisc=%.6g bisc=0 avm=%.6g bvm=%.6g aim=%.6g bim=%.6g Rs=1m Rsh=1meg" % (
+    0.004013 * 25.07 / 46.5496, 42.5365990991 * 25.07 / 46.5496,
+    0.0148652612 * 4.35 / 14.8653,
+    0.00116836 * 20.5 / 38.4460, 37.2775900991 * 20.5 / 38.4460,
+    0.0141475710 * 3.90 / 14.1558, 0.0082493126 * 3.90 / 14.1558))
 PV_SUB = "pvmi_aiko"          # module subcircuit used by pv_string(); S9 switches to pvmi_150w
 ICC_150 = 6.5                 # S9 load: current sink below what the shaded string can carry (module 2 at 600 W/m2: Isc 5.2 A + shuffling)
 
 FSW = 200e3
 TSW = 1 / FSW
-FSW_CTRL = 100e3              # S9: PWM as flashed on the Nucleo (HW_PWM_HZ)
+FSW_CTRL = 100e3              # S9: PWM as flashed on the Nucleo then (HW_PWM_HZ); build() sets it per stage
 TSW_CTRL = 1 / FSW_CTRL
+# S10 family (Gate 4, fw-0.3.0): 200 kHz, bench NGE103 source / DL3021 CV load, shuffler_ctrl_dll2
+S10_STAGES = ("S10c", "S10i", "S10", "S10n", "S10p", "S10xb", "S10xp")   # S10x*: overnight report matrix
+S10_FSW = {"S10c": 100e3}                 # S10c = the 13 Oct bench run (100 kHz); the rest 200 kHz
+BENCH_ILIM = (0.8, 1.0, 1.3)              # NGE103 current limits [A] (user, 15 Oct); VSET 25 V each
+S1OFF_PARAM = None                        # S10c: converter-1 gates held low (only shuffler 2 switched on 13 Oct)
+HALL_BW = None                            # S10*: TMCS1126 500 kHz output pole on the hall signals
+CAP_IC = None                             # S10*: initial module voltages (v1, v2, v3) on every capacitor: with uic,
+                                          # .ic only reaches the first .step run
 VLOGIC = 3.3
 TDEAD = 200e-9
 VDRV = 12.0
@@ -165,6 +180,19 @@ X1 A K E pvmi {AIKO}
 .subckt pvmi_150w A K E
 X1 A K E pvmi {PANEL150}
 .ends pvmi_150w
+*
+* ---- 80 W KAUSSP80 panel (carpark, S10p), same model ----
+.subckt pvmi_80w A K E
+X1 A K E pvmi {PANEL80}
+.ends pvmi_80w
+*
+* ---- R&S NGE103 channel as a bench "module" (S10): current limit V(E)/1000 A (node E carries the limit in mA),
+*      voltage clamp at VSET through RCLAMP (the CV regulator), i.e. the rectangular I-V of a PSU ----
+.subckt nge_ch A K E
+B1 K A I=max(V(E),0)*1m
+B2 A K I=max(V(A,K)-VSET,0)/RCLAMP
+Re E 0 10Meg
+.ends nge_ch
 *
 * ---- one lumped bypass diode per module (junction box has three, this is enough for the string) ----
 .model dbypass D(Is=2u N=1.05 Rs=8m Cjo=500p Vj=0.5 m=0.4)
@@ -363,7 +391,7 @@ def pv_string(c, x0, y0, prefix, nets, load_ref, with_cpv, with_cables, sense_pr
         c.wire([(x0 + 600, yt - 1500), (x0 + 600, y_bot_rail)], bot_term)
         if with_cpv:
             c.C(f"Cpv{sense_prefix}{k+1}", top_term, bot_term, pval("Cpv", comp('Cpv_nF', 10), "n", "PV module terminal capacitance (ballpark)"),
-                x0 + 1000, yt - 1300, extra=("RSER=0.1",))
+                x0 + 1000, yt - 1300, extra=("RSER=0.1" + (f" IC={CAP_IC[k]:g}" if CAP_IC and sense_prefix == "" else ""),))
             c.wire([(x0 + 1000, yt - 1100), (x0 + 1000, y_top_rail)], top_term)
             c.wire([(x0 + 1000, yt - 1500), (x0 + 1000, y_bot_rail)], bot_term)
         if with_cables:
@@ -379,7 +407,8 @@ def pv_string(c, x0, y0, prefix, nets, load_ref, with_cpv, with_cables, sense_pr
     # load: behavioural source = resistor near MPP or constant current sink
     # the current sink ramps up over the first 200 us: a 10 A step at t=0 into a string that starts at 0 V
     # broke the operating point of the single-sheet file (the stage files only survived it by luck of the solver)
-    c.B(load_ref, rails[0], rails[3], f"I=if(LOADSEL<0.5, V({rails[0]})/Rmpp, Icc*min(1, time/200u))", x0 + 2000, y0 - 1400)
+    vstr_ex = f"V({rails[0]})" if rails[3] == "GND" else f"V({rails[0]},{rails[3]})"
+    c.B(load_ref, rails[0], rails[3], f"I=if(LOADSEL<0.5, V({rails[0]})/Rmpp, if(LOADSEL<1.5, Icc*min(1, time/200u), max({vstr_ex}-VCV,0)/RCV))", x0 + 2000, y0 - 1400)
     c.stub((x0 + 2000, y0 - 1200), rails[0], "up", 300)
     c.stub((x0 + 2000, y0 - 1600), rails[3], "down", 300)
 
@@ -398,6 +427,9 @@ def bulk_caps(c, x0, y0, with_esl):
     caps = [("C1", "PV1P", "PV2P", x0, y0 - 1400), ("C2", "PV2P", "PV3P", x0, y0 - 4200),
             ("C3", "PV2P", "PV3P", x0 + 500, y0 - 4200), ("C4", "PV3P", "GND", x0, y0 - 7000)]
     for ref, nt, nb, x, y in caps:
+        if CAP_IC:
+            v = CAP_IC[{"C1": 0, "C2": 1, "C3": 1, "C4": 2}[ref]]
+            esr = esr.split(" IC=")[0] + f" IC={v:g}"
         if with_esl:
             mid = f"{ref.lower()}n"
             c.C(ref, nt, mid, "130u", x, y, extra=(esr,))
@@ -605,6 +637,8 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
                     expr = f"V=if(V({ramp}) < V({dnet})-{dead:g}, {VLOGIC}, 0)"
                 else:
                     expr = f"V=if(V({ramp}) > V({dnet}), if(V({ramp}) < {1 - dead:g}, {VLOGIC}, 0), 0)"
+                if S1OFF_PARAM and k == 1:
+                    expr = f"V=if({S1OFF_PARAM}>0.5, 0, {expr[2:]})"
                 p = c.B(f"Bp{pos}{leg}{s}", inp, "GND", expr, xv + 400 * i, Y0 - 3200)
             else:
                 p = c.V(f"Vp{pos}{leg}{s}", inp, "GND", pulse_expr(pos, leg, k, logic=True), xv + 400 * i, Y0 - 3200)
@@ -686,6 +720,103 @@ def ctrl_block(c, x0, y0, vstep=1.0, t_en=1e-3, t_step=8e-3):
                                "with the firmware's sensor quantisation; duties -> HRTIM-style PWM comparators in the converters.")
 
 
+CTRL_INS2 = CTRL_INS + ["KSCALE", "MSEL", "FILT", "FC", "NOISE", "SAMP", "KBERR", "FSWP", "VM1SRC", "VSTRP"]
+
+
+def ctrl_sym2():
+    w, h = 1600, 4400
+    prims = [p_rect(-w // 2, h // 2, w // 2, -h // 2, "box")]
+    pins = []
+    for i, n in enumerate(CTRL_INS2):
+        pins.append((n, -w // 2, h // 2 - 200 - 200 * i, 60, -40, 13, 145))
+    for i, n in enumerate(CTRL_OUTS):
+        pins.append((n, w // 2, h // 2 - 200 - 200 * i, -60, -40, 14, 146))
+    pins.append(("GND", 0, -h // 2, 0, 60, 11, 147))
+    return SymbolDef("shuffler_ctrl_dll2", "\u00d8(.DLL)", "control stack C-block with test inputs (2_Qspice/ctrl_dll/shuffler_ctrl_dll2)",
+                     prims, pins, libfile=None, ref_pos=(0, h // 2 + 150), val_pos=(0, 0), extra_pos=(0, -h // 2 - 150),
+                     text_just=0)
+
+
+def ctrl_block2(c, x0, y0, t_en, t_step, offs, tests):
+    """S10 control block: hall outputs (+ TMCS1126 500 kHz pole), ramps at TSW_CTRL, enable, VREF2 step of VSTEP2
+    at t_step, duty override offsets `offs` (open loop), the test inputs `tests` {pin: B-source V= expression}
+    and shuffler_ctrl_dll2."""
+    for k, (leg, S) in enumerate(((("A", 0.1), ("B", -0.025)) * 2)):
+        conv = 1 + k // 2
+        hs = f"HS{leg}{conv}"
+        if HALL_BW:
+            raw = hs + "R"
+            p = c.B(f"Bhs{leg}{conv}", raw, "GND", f"V=1.65+{S:g}*I(Vs{leg}{conv})", x0 + 500 * k, y0)
+            c.stub(p.pin["+"], raw, "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+            c.R(f"Rhs{leg}{conv}", raw, hs, "1k", x0 + 500 * k, y0 + 700)
+            p = c.C(f"Chs{leg}{conv}", hs, "GND", f"{1 / (2 * 3.141592653589793 * HALL_BW * 1e3):.4g}", x0 + 500 * k + 250, y0 + 700)
+            c.stub(p.pin["1"], hs, "up", 200); c.stub(p.pin["2"], "GND", "down", 200)
+        else:
+            p = c.B(f"Bhs{leg}{conv}", hs, "GND", f"V=1.65+{S:g}*I(Vs{leg}{conv})", x0 + 500 * k, y0)
+            c.stub(p.pin["+"], hs, "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    tsw, tr = TSW_CTRL, TSW_CTRL - 2e-9
+    p = c.V("Vrampa", "RAMPA", "GND", f"PULSE(0 1 0 {tr:.4g} 1n 1n {tsw:g})", x0 + 2200, y0)
+    c.stub(p.pin["+"], "RAMPA", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vrampb", "RAMPB", "GND", f"PULSE(0 1 {tsw / 2:g} {tr:.4g} 1n 1n {tsw:g})", x0 + 2700, y0)
+    c.stub(p.pin["+"], "RAMPB", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Ven", "CTRL_EN", "GND", f"PWL(0 0 {t_en:g} 0 {t_en + 1e-6:g} 1)", x0 + 3200, y0)
+    c.stub(p.pin["+"], "CTRL_EN", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vref1", "VREF1", "GND", "0", x0 + 3700, y0)
+    c.stub(p.pin["+"], "VREF1", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    p = c.V("Vref2", "VREF2", "GND", f"PWL(0 0 {t_step:g} 0 {t_step + 1e-6:g} {{VSTEP2}})", x0 + 4200, y0)
+    c.stub(p.pin["+"], "VREF2", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    for i, (dn, off) in enumerate(offs.items()):
+        p = c.B(f"Bd{dn}", dn + "C", "GND", f"V=if(V(CTRL_EN)>0.5, V({dn}), 0.5+{off})", x0 + 500 * i, y0 - 3200)
+        c.stub(p.pin["+"], dn + "C", "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    for i, pin in enumerate(CTRL_INS2[10:]):
+        p = c.B(f"Bt{pin}", pin, "GND", f"V={tests[pin]}", x0 + 2200 + 500 * i, y0 - 3200)
+        c.stub(p.pin["+"], pin, "up", 200); c.stub(p.pin["-"], "GND", "down", 200)
+    sym = ctrl_sym2()
+    p = c.DLL("Xc", sym, CTRL_INS2, CTRL_OUTS, "0", "shuffler_ctrl_dll2", x0 + 8500, y0 - 1400)
+    for n in CTRL_INS2:
+        c.stub(p.pin[n], n, "left", 400)
+    for n in CTRL_OUTS:
+        c.stub(p.pin[n], n, "right", 400)
+    c.stub(p.pin["GND"], "GND", "down", 200)
+    c.sch.comment(x0, y0 + 1300, "S10: shuffler_ctrl_dll2.dll = firmware control stack (runtime gains) + test inputs "
+                                "KSCALE MSEL FILT FC NOISE SAMP KBERR FSWP VM1SRC VSTRP (B-sources from .param)")
+
+
+def bench_sources(c, x0, y0, ilim3_expr):
+    """S10 bench: node Ek carries the NGE103 current limit of channel k in mA (nge_ch subcircuit)."""
+    vals = (["1000", "1000"] if "IRR3" in ilim3_expr else ["ILIM1*1000", "ILIM2*1000"]) + [ilim3_expr]
+    for i, v in enumerate(vals):
+        p = c.B(f"BE{i+1}", f"E{i+1}", "GND", f"V={v}", x0 + 600 * i, y0)
+        c.stub(p.pin["+"], f"E{i+1}", "up", 200)
+        c.stub(p.pin["-"], "GND", "down", 200)
+
+
+S10_SAVE = (".save V(PV1P) V(PV2P) V(PV3P) I(VsA1) I(VsB1) I(VsA2) I(VsB2) V(DA1) V(DB1) V(DA2) V(DB2) "
+            "V(BETA) V(STRESS) V(RV1) V(RV2) V(IM1R) V(IM2R) I(Bload) I(Vi1) I(Vi2) I(Vi3) V(VREF2) V(HSA2) V(HSB2) V(SWA2)")
+
+
+def s10_cl_measurements(c, ta, tstep, tb, tshade, tc, tend):
+    """Closed loop: settled (ta..tstep), Vref2 step at tstep (overshoot, 98 % time), settled (tb..tshade),
+    shade at tshade, settled (tc..tend); noise/limit-cycle std via AVG + RMS; peak phase currents."""
+    vd1, vd2 = "V(PV1P,PV2P)-V(PV2P,PV3P)", "V(PV2P,PV3P)-V(PV3P)"
+    ic1, ic2 = "I(VsA1)-I(VsB1)", "I(VsA2)-I(VsB2)"
+    for tag, a, b in (("a", ta, tstep), ("b", tb, tshade), ("c", tc, tend)):
+        for nm, ex in (("vd1", vd1), ("vd2", vd2), ("ic1", ic1), ("ic2", ic2), ("da1", "V(DA1)"), ("da2", "V(DA2)"),
+                       ("sh1", "I(VsA1)+I(VsB1)"), ("sh2", "I(VsA2)+I(VsB2)")):
+            c.measure(f".meas tran {nm}{tag} AVG {ex} FROM {a:g} TO {b:g}")
+            c.measure(f".meas tran {nm}{tag}r RMS {ex} FROM {a:g} TO {b:g}")
+    c.measure(f".meas tran vd2max MAX {vd2} FROM {tstep:g} TO {tshade:g}")
+    c.measure(f".meas tran t98 WHEN {vd2}=1.96 RISE=1")
+    for nm in ("VsA1", "VsB1", "VsA2", "VsB2"):
+        c.measure(f".meas tran {nm.lower()}max MAX I({nm}) FROM {ta:g} TO {tend:g}")
+        c.measure(f".meas tran {nm.lower()}min MIN I({nm}) FROM {ta:g} TO {tend:g}")
+    c.measure(f".meas tran betamax MAX V(BETA) FROM {ta:g} TO {tend:g}")
+    c.measure(f".meas tran stressmax MAX V(STRESS) FROM {ta:g} TO {tend:g}")
+    c.measure(f".meas tran pout AVG V(PV1P)*I(Bload) FROM {tc:g} TO {tend:g}")
+    for k in (1, 2, 3):
+        c.measure(f".meas tran i{k}c AVG I(Vi{k}) FROM {tc:g} TO {tend:g}")
+
+
 def ctrl_measurements(c, t0, t1, t2, t3):
     """Settled means before (t0..t1) and after (t2..t3) the Vref step, supervisor extrema, harvest."""
     for tag, a, b in (("", t0, t1), ("s", t2, t3)):
@@ -741,7 +872,7 @@ def lump_params(name, R, L):
 
 # ----------------------------------------------------------------------------- stages
 def base_directives(c, tstop, tsave, maxstep, steps=True, case=1, loadsel=0):
-    c.directive(f".param Rmpp={RMPP:.3f} Icc={ICC:g} CASE={case} LOADSEL={loadsel}")
+    c.directive(f".param Rmpp={RMPP:.3f} Icc={ICC:g} CASE={case} LOADSEL={loadsel} VCV=70 RCV=0.05")
     c.directive(".option savepowers")
     c.directive(f".tran 0 {tstop:g} {tsave:g} {maxstep:g}")
     if steps:
@@ -813,11 +944,30 @@ def build(stage):
         "S8b": "S8b - HF decoupling sweep (snubber fixed at 470 pF / 4.7 R)",
         "S9": "S9 - CLOSED LOOP: 150 W panels, drivers (S5 circuit), 100 kHz PWM, firmware control stack as a C-block DLL",
         "S9i": "S9i - IDENTIFICATION of the S9 plant: open loop, baseline + 4 modal duty steps (RUN 1..5) -> G -> M (qspice_ident.py)",
+        "S10c": "S10c - BENCH CALIBRATION: NGE103 sources, DL3021 CV 70 V, 100 kHz, shuffler 1 off, shuffler 2 at D2 (13 Oct run)",
+        "S10i": "S10i - IDENTIFICATION at 200 kHz on the bench operating point (RUN 1..5, DU) -> G200 -> M200",
+        "S10": "S10 - CLOSED LOOP 200 kHz bench: MSEL x KSCALE grid, VREF2 step, shade step (shuffler_ctrl_dll2, comb sampling)",
+        "S10n": "S10n - NOISE + FILTER A/B 200 kHz bench: bench-level sensor noise, IIR 2k / IIR 500 / MA4 / old sampling",
+        "S10p": "S10p - CLOSED LOOP 200 kHz carpark: 3 x KAUSSP80, DL3021 CV, VREF2 step, shade step",
+        "S10xb": "S10xb - MATRIX bench: FILT {IIR2k, MA4} x VM1SRC {INA, CV} x KBERR {1, 4} x KSCALE {0.3, 1}, noise on",
+        "S10xp": "S10xp - MATRIX carpark 3 x KAUSSP80: FILT {IIR2k, MA4} x VM1SRC {INA, CV} x KBERR {1, 4} x KSCALE {0.3, 1}, noise on",
     }
     order = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
-    global PV_SUB
+    global PV_SUB, FSW_CTRL, TSW_CTRL, S1OFF_PARAM, HALL_BW, CAP_IC
     PV_SUB = "pvmi_150w" if stage in ("S9", "S9i") else "pvmi_aiko"
-    if stage in ("S9", "S9i"):
+    s10 = stage in S10_STAGES
+    FSW_CTRL = S10_FSW.get(stage, 200e3) if s10 else 100e3
+    TSW_CTRL = 1 / FSW_CTRL
+    S1OFF_PARAM = "S1OFF" if stage == "S10c" else None
+    HALL_BW = 500e3 if s10 else None
+    if s10:
+        vcv0 = 61.5 if stage in ("S10p", "S10xp") else 70.0
+        CAP_IC = (22.4, 23.8, 23.8) if stage == "S10c" else (vcv0 / 3,) * 3
+    else:
+        CAP_IC = None
+    if s10:
+        PV_SUB = "pvmi_80w" if stage in ("S10p", "S10xp") else "nge_ch"
+    if stage in ("S9", "S9i") or s10:
         stage_flags = dict(cpv=True, bulk=True, conv=[1, 2], drive="driver", paras=False, snub=False, full_meas=False)
         idx = order.index("S5")
     else:
@@ -831,7 +981,7 @@ def build(stage):
     if idx >= 6: S["full_meas"] = True
     if stage_flags:
         S.update(stage_flags)
-    ctrl = stage in ("S9", "S9i")
+    ctrl = stage in ("S9", "S9i") or s10
 
     c = Circuit(stage, titles[stage])
     # ---- geometry anchors
@@ -840,15 +990,36 @@ def build(stage):
     pv_string(c, Xs, Ys, "", ["PV1P", "PV2P", "PV3P", "GND"], "Bload", S["cpv"], S["paras"], "")
     # reference string (no converter ever); it keeps the module capacitance so that a bypassed module
     # (12 A sink, shaded module) does not chatter at picosecond timesteps
-    pv_string(c, Xs - 5000, Ys, "r", ["R1P", "R2P", "R3P", "GND"], "Bref", True, False, "r")
-    irradiance_sources(c, Xs - 5000, Ys - 10000)
+    if not s10:
+        pv_string(c, Xs - 5000, Ys, "r", ["R1P", "R2P", "R3P", "GND"], "Bref", True, False, "r")
+        irradiance_sources(c, Xs - 5000, Ys - 10000)
+    elif stage in ("S10p", "S10xp"):
+        bench_sources(c, Xs - 5000, Ys - 10000, "if(time<TSHADE, IRR3, IRR3*SHADE)")
+    else:
+        bench_sources(c, Xs - 5000, Ys - 10000, "1000*if(time<TSHADE, ILIM3, ILIM3*SHADE)")
     if S["bulk"]:
         bulk_caps(c, Xs + 3000, Ys, S["paras"])
     conv_nets = {1: ("PV1P", "PV2P", "PV3P"), 2: ("PV2P", "PV3P", "GND")}
     for k in S["conv"]:
         T, M, B = conv_nets[k]
         converter(c, k, Xs + 8000, Ys - 4600 * (k - 1), T, M, B, S["drive"], S["paras"], S["snub"], ctrl=ctrl)
-    if ctrl:
+    if s10:
+        modal = {"DA1": "table(RUN, 1,0, 2,DU/2, 3,0, 4,DU/2, 5,0)",
+                 "DB1": "table(RUN, 1,0, 2,DU/2, 3,0, 4,-DU/2, 5,0)",
+                 "DA2": "table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,DU/2)",
+                 "DB2": "table(RUN, 1,0, 2,0, 3,DU/2, 4,0, 5,-DU/2)"}
+        if stage == "S10c":
+            modal = {"DA1": "0", "DB1": "0", "DA2": "(D2-0.5)", "DB2": "(D2-0.5)"}
+        tests = {n: n for n in CTRL_INS2[10:]}
+        tests["FSWP"] = f"{FSW_CTRL:g}"
+        if stage == "S10n":   # RUN 1 IIR 2k comb, 2 IIR 500 Hz comb, 3 MA4 comb, 4 IIR 2k old sampling, 5 = 1 with B hall x4
+            tests["FILT"] = "table(RUN, 1,0, 2,0, 3,4, 4,0, 5,0)"
+            tests["FC"] = "table(RUN, 1,2000, 2,500, 3,2000, 4,2000, 5,2000)"
+            tests["SAMP"] = "table(RUN, 1,1, 2,1, 3,1, 4,2, 5,1)"
+            tests["KBERR"] = "table(RUN, 1,1, 2,1, 3,1, 4,1, 5,4)"
+        t_en = 0.5e-3 if stage in ("S10", "S10n", "S10p", "S10xb", "S10xp") else 1.0
+        ctrl_block2(c, Xs + 8000, Ys - 12000, t_en=t_en, t_step=2e-3, offs=modal, tests=tests)
+    elif ctrl:
         ctrl_block(c, Xs + 8000, Ys - 12000, t_en=(0.5e-3 if stage == "S9" else 1.0), t_step=3e-3)
     # ---- simulation control
     if stage == "S9":
@@ -856,12 +1027,53 @@ def build(stage):
         # current-sink load (the resistor B-source stalls the solver at t=0 with this PV model; a sink above the
         # shaded string's capability collapses the string - keep Icc below it), 6 ms: open loop 0-0.5 ms, closed loop from 0.5 ms, Vref1 step at 3 ms
         # (no savepowers, 250 ns max step: the .qraw stays near 1 GB for the 6 ms run)
-        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=1 DU=0 RUN=1")
+        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=1 DU=0 RUN=1 VCV=70 RCV=0.05")
         c.directive(".tran 0 6m 0 250n")
     elif stage == "S9i":
-        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=0 DU=0.04 RUN=1")
+        c.directive(f".param Rmpp={3 * 18.28 / 8.207:.3f} Icc={ICC_150:g} CASE=2 LOADSEL=1 VSTEP=0 DU=0.04 RUN=1 VCV=70 RCV=0.05")
         c.directive(".step param RUN list 1 2 3 4 5")
         c.directive(".tran 0 4m 2.5m 250n")
+    elif s10:
+        # common: bench NGE103 (VSET 25 V, ILIM*), DL3021 CV (LOADSEL 2: VCV through RCV), test-input defaults
+        vcv = 61.5 if stage in ("S10p", "S10xp") else 70
+        P = dict(LOADSEL=2, VCV=vcv, RCV=0.05, Rmpp=1, Icc=1,
+                 VSET=25, RCLAMP=0.05, ILIM1=BENCH_ILIM[0], ILIM2=BENCH_ILIM[1], ILIM3=BENCH_ILIM[2],
+                 IRR3=1000, SHADE=0.5, TSHADE="3m",
+                 KSCALE=1, MSEL=0, FILT=0, FC=2000, NOISE=0, SAMP=1, KBERR=1, VM1SRC=0, VSTRP=vcv,
+                 VSTEP2=2, DU=0, RUN=1, D2=0.5, S1OFF=0)
+        P.update({"S10c": dict(S1OFF=1, TSHADE=1), "S10i": dict(DU=0.02, TSHADE=1),
+                  "S10n": dict(NOISE=1, MSEL=2, KSCALE=1),
+                  "S10xb": dict(NOISE=0.22), "S10xp": dict(NOISE=0.22), "S10p": dict(NOISE=0.22)}.get(stage, {}))
+        items = [f"{k}={v:g}" if isinstance(v, (int, float)) else f"{k}={v}" for k, v in P.items()]
+        for i in range(0, len(items), 8):
+            c.directive(".param " + " ".join(items[i:i + 8]))
+        c.directive(S10_SAVE)
+        # no DC operating point (it hangs with the PSU clamps + CV load + static switch state): start from the
+        # string split the bench showed (13 Oct: 22.4 / 23.8 / 23.8 V at CV 70 V) and let the switching settle
+        v3 = 23.8 if stage == "S10c" else vcv / 3
+        c.directive(f".ic V(PV1P)={vcv:g} V(PV2P)={2 * v3:g} V(PV3P)={v3:g}")
+        if stage == "S10c":
+            c.directive(".step param D2 list 0.49 0.5 0.51")
+            c.directive(".tran 0 3m 0 250n uic")
+        elif stage == "S10i":
+            c.directive(".step param RUN list 1 2 3 4 5")
+            c.directive(".tran 0 3m 0 125n uic")
+        elif stage == "S10":
+            c.directive(".step param MSEL list 0 2")
+            c.directive(".step param KSCALE list 0.3 1")
+            c.directive(".tran 0 4m 0 125n uic")
+        elif stage == "S10n":
+            c.directive(".step param RUN list 1 2 3 4 5")
+            c.directive(".tran 0 4m 0 125n uic")
+        elif stage == "S10p":
+            c.directive(".step param KSCALE list 0.3 1")
+            c.directive(".tran 0 4m 0 125n uic")
+        elif stage in ("S10xb", "S10xp"):
+            c.directive(".step param FILT list 0 4")
+            c.directive(".step param VM1SRC list 0 1")
+            c.directive(".step param KBERR list 1 4")
+            c.directive(".step param KSCALE list 0.3 1")
+            c.directive(".tran 0 4m 0 125n uic")
     elif stage in ("S1", "S2"):
         base_directives(c, 2e-3, 1.9e-3, 1e-6)
     elif stage in ("S3", "S4", "S5"):
@@ -881,7 +1093,27 @@ def build(stage):
         c.directive(".param Csn=470p Rsn=4.7")
         c.directive(".step param Chf list 1p 100n 470n 1u")
     # ---- measurements
-    if stage == "S9i":
+    if stage in ("S10c", "S10i"):
+        a, b = (2.5e-3, 3e-3) if stage == "S10c" else (2e-3, 3e-3)
+        c.measure(f".meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran y3 AVG I(VsA1)-I(VsB1) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran y4 AVG I(VsA2)-I(VsB2) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran ish1 AVG I(VsA1)+I(VsB1) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran ish2 AVG I(VsA2)+I(VsB2) FROM {a:g} TO {b:g}")
+        for k, ex in ((1, "V(PV1P,PV2P)"), (2, "V(PV2P,PV3P)"), (3, "V(PV3P)")):
+            c.measure(f".meas tran vm{k} AVG {ex} FROM {a:g} TO {b:g}")
+            c.measure(f".meas tran i{k} AVG I(Vi{k}) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran vstr AVG V(PV1P) FROM {a:g} TO {b:g}")
+        c.measure(f".meas tran istr AVG I(Bload) FROM {a:g} TO {b:g}")
+        for nm in ("VsA2", "VsB2"):
+            c.measure(f".meas tran {nm.lower()}avg AVG I({nm}) FROM {a:g} TO {b:g}")
+            c.measure(f".meas tran {nm.lower()}max MAX I({nm}) FROM {b - 20e-6:g} TO {b:g}")
+            c.measure(f".meas tran {nm.lower()}min MIN I({nm}) FROM {b - 20e-6:g} TO {b:g}")
+            c.measure(f".meas tran {nm.lower()}rms RMS I({nm}) FROM {a:g} TO {b:g}")
+    elif stage in ("S10", "S10n", "S10p", "S10xb", "S10xp"):
+        s10_cl_measurements(c, 1.5e-3, 2e-3, 2.6e-3, 3e-3, 3.6e-3, 4e-3)
+    elif stage == "S9i":
         # settled plant outputs in the control stack's conventions: y = [VM1-VM2, VM2-VM3, ic1, ic2],
         # ic = ILA + ILB with ILB positive OUT of the midpoint = I(VsA) - I(VsB).
         # Saved data starts at 2.5 ms and is time-rebased to 0: the window 0.5..1.5 ms = 3..4 ms of the run.
@@ -892,7 +1124,7 @@ def build(stage):
         c.measure(".meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.5m TO 1.5m")
         c.measure(".meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.5m TO 1.5m")
         c.measure(".meas tran pout AVG V(PV1P)*I(Bload) FROM 0.5m TO 1.5m")
-    elif ctrl:
+    elif ctrl and not s10:
         ctrl_measurements(c, 2e-3, 2.9e-3, 4.5e-3, 6e-3)
     else:
         string_measurements(c, refstring=True, modules=True)

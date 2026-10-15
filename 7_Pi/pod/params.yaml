@@ -10,20 +10,21 @@ kscale: 0.3            # 0.05..1   scales the whole PI (bandwidth). Boot default
 kp_v: 0.000158         # 0..0.01 s P/I ratio, voltage channels (VM1-VM2, VM2-VM3)
 kp_i: 0.000108         # 0..0.01 s P/I ratio, circulating-current channels (ILA+ILB)
 fc_lpf: 2000           # 100..4000 Hz measurement LPF corner (controller side)
+filt_ma: 0             # 0..8  0 = first-order IIR at fc_lpf; N = moving average over N control ticks (N x 100 us)
 dmin: 0.08             # 0.05..0.45 duty clamp low (200 kHz: 0.05 = 250 ns on-time vs 200 ns dead time)
 dmax: 0.92             # 0.55..0.95 duty clamp high
-# M = inv(G)*diag(kI), rows/cols: [VM1-VM2, VM2-VM3, ic1, ic2]. Simulink carpark model, BENCH ident
-# (sps-params-2.20261015-1754-3mod-simulink-bench) = params.h. Current channels ~3x softer than QSPICE (safer start).
-# QSPICE S9i alternative (switching model, faster current loop), copy over the rows below to try it:
-#   - [-25.2252, -0.538334, 1.94722, 0.248092]
-#   - [-0.2732, -24.9973, -0.470587, -2.09162]
-#   - [0.0689137, -0.0175995, 9.99926, 1.1799]
-#   - [-0.0300471, 0.101213, 1.86678, 11.8738]
+# M = inv(G)*diag(kI), rows/cols: [VM1-VM2, VM2-VM3, ic1, ic2]. QSPICE 200 kHz bench ident = params.h
+# (sps-params-2.20261015-1950-3mod-qspice200-bench). Stable in sim on both the switching (QSPICE) and averaged (Simulink) plants.
+# Simulink BENCH alternative (current channels ~5x softer on the real plant), copy over the rows below to try it:
+#   - [-20.4772, 0.0097938, -0.0457161, 0.0914978]
+#   - [-0.00834409, -19.9026, -0.0889698, 0.0445129]
+#   - [-3.83262e-17, 1.83306e-20, 3.38957, 6.50679e-18]
+#   - [-3.82747e-17, 1.83059e-20, -8.54493e-20, 3.38501]
 M:
-  - [-20.4772, 0.0097938, -0.0457161, 0.0914978]
-  - [-0.00834409, -19.9026, -0.0889698, 0.0445129]
-  - [0, 0, 3.38957, 0]
-  - [0, 0, 0, 3.38501]
+  - [-20.2837, 0.121779, -9.3844, 0.104574]
+  - [0.206527, -20.0103, 0.0548153, -10.5207]
+  - [-0.146367, -0.0444864, 17.5687, -0.201638]
+  - [-0.195314, -0.13129, -0.10243, 18.019]
 
 # ---- supervisor (LIVE) ----
 sup_en: 1              # 0/1 feasibility governor on

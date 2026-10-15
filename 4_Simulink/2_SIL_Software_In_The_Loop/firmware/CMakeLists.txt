@@ -56,6 +56,18 @@ target_include_directories(shuffler_core_hw PUBLIC ${SHUF_CORE_DIR})
 target_compile_options(shuffler_core_hw PRIVATE ${SHUF_C_FLAGS})
 target_compile_definitions(shuffler_core_hw PUBLIC STACK_RECON_IM=1)
 
+# Runtime-gain configuration (firmware + QSPICE DLL): gains in RAM, optional
+# moving-average measurement filter. unit_tests_rt re-runs the whole suite on it.
+add_library(shuffler_core_rt STATIC
+  ${SHUF_CORE_DIR}/shuffler_ctrl.c
+  ${SHUF_CORE_DIR}/shuffler_supervisor.c
+  ${SHUF_CORE_DIR}/shuffler_mppt.c
+  ${SHUF_CORE_DIR}/shuffler_recon.c
+  ${SHUF_CORE_DIR}/stack.c)
+target_include_directories(shuffler_core_rt PUBLIC ${SHUF_CORE_DIR})
+target_compile_options(shuffler_core_rt PRIVATE ${SHUF_C_FLAGS})
+target_compile_definitions(shuffler_core_rt PUBLIC CTRL_RUNTIME_GAINS)
+
 # Compiled here only to prove the Simulink-facing wrappers build warning-free.
 add_library(shuffler_sil_wrappers STATIC sil/sil_wrappers.c)
 target_include_directories(shuffler_sil_wrappers PUBLIC sil)

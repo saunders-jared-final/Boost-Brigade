@@ -24,6 +24,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--du", type=float, default=0.04)
     ap.add_argument("--write", action="store_true")
+    ap.add_argument("--mfile", help="also write M (16 numbers, row-major) for shuffler_ctrl_dll2 MSEL=2, e.g. stages/ctrl_M2.txt")
+    ap.add_argument("--simulink", action="store_true", help="compare with the M in shuffler_params.json (Simulink ident)")
     ap.add_argument("--meas", default=os.path.join(HERE, "results", "S9i.meas.json"))
     a = ap.parse_args()
     d = json.load(open(a.meas))
@@ -39,6 +41,16 @@ def main():
     print("u_diff -> ic diagonals:", dg, "(sign must match the firmware/hardware; Simulink 4-mod ident had negative)")
     M = np.linalg.solve(G, np.diag([KI_V, KI_V, KI_I, KI_I]))
     print("\nM = G \\ diag(kI):\n", np.array2string(M, precision=6, suppress_small=True))
+    if a.simulink:
+        Ms = np.array(json.load(open(JSON_PATH))["ctrl"]["M"], dtype=float)
+        Gs = np.diag([KI_V, KI_V, KI_I, KI_I]) @ np.linalg.inv(Ms)
+        print("\nG of the JSON M (G = diag(kI) M^-1):\n", np.array2string(Gs, precision=3, suppress_small=True))
+        print("diag ratio G_qspice / G_json:", np.round(np.diag(G) / np.diag(Gs), 3))
+    if a.mfile:
+        with open(a.mfile, "w") as f:
+            for r in M:
+                f.write(" ".join(f"{x:.9g}" for x in r) + "\n")
+        print("wrote", a.mfile)
     if a.write:
         J = json.load(open(JSON_PATH))
         J["ctrl"]["M"] = M.tolist()

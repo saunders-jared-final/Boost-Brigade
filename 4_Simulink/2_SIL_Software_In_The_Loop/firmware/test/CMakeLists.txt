@@ -16,14 +16,20 @@ add_executable(unit_tests unit_tests.c)
 target_link_libraries(unit_tests PRIVATE shuffler_core)
 target_compile_options(unit_tests PRIVATE ${SHUF_TEST_FLAGS})
 
+add_executable(unit_tests_rt unit_tests.c)
+target_link_libraries(unit_tests_rt PRIVATE shuffler_core_rt)
+target_compile_options(unit_tests_rt PRIVATE ${SHUF_TEST_FLAGS})
+
 # sin/fabs on some hosts still need libm explicitly
 find_library(SHUF_LIBM m)
 if(SHUF_LIBM)
   target_link_libraries(replay PRIVATE ${SHUF_LIBM})
   target_link_libraries(unit_tests PRIVATE ${SHUF_LIBM})
+  target_link_libraries(unit_tests_rt PRIVATE ${SHUF_LIBM})
 endif()
 
 add_test(NAME unit_tests COMMAND unit_tests)
+add_test(NAME unit_tests_rt COMMAND unit_tests_rt)
 add_test(NAME replay_selftest COMMAND replay --selftest ${CMAKE_CURRENT_BINARY_DIR})
 
 # AVR compile-only check (PIL forward-compatibility). Always registered so a

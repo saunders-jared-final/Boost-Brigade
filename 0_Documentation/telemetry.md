@@ -82,7 +82,8 @@ duties do not jump. Effective gains: `M_eff = kscale·M`, `Mp = M_eff·diag(kp_v
 | `kscale` | 0.3 | 0.05–1 | STAGED | scales the whole PI (closed-loop bandwidth) |
 | `kp_v`, `kp_i` | 1.58e-4, 1.08e-4 s | 0–0.01 | STAGED | P/I ratios, voltage / current channels |
 | `fc_lpf` | 2000 Hz | 100–4000 | STAGED | controller measurement LPF corner |
-| `dmin`, `dmax` | 0.05, 0.95 | 0.05–0.45, 0.55–0.95 | STAGED | controller duty clamp |
+| `filt_ma` | 0 | 0–8 | STAGED | 0 = the IIR above; N = moving average of the last N ticks instead |
+| `dmin`, `dmax` | 0.08, 0.92 | 0.05–0.45, 0.55–0.95 | STAGED | controller duty clamp |
 | `m00`..`m33` | params.h | ±1000 | STAGED | base M (also `C,SETM`) |
 | `sup_en` | 1 | 0–1 | LIVE | governor on |
 | `sup_i_rated`, `sup_s_hi`, `sup_s_lo` | 10 A, 0.9, 0.7 | 1–12, 0.3–1, 0.1–0.95 | LIVE | governor stress scale and thresholds |

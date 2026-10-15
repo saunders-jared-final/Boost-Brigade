@@ -34,6 +34,7 @@ typedef enum { PRM_LIVE = 0, PRM_IDLE = 1, PRM_STAGED = 2 } prm_class_t;
 typedef struct {
   /* staged (C,APPLY) */
   float kscale, kp_v, kp_i, fc_lpf, dmin, dmax;
+  float filt_ma;                      /* 0 = IIR at fc_lpf, 1..8 = moving average over N ticks */
   float M[N_Y][N_Y];
   /* live */
   float sup_en, sup_i_rated, sup_s_hi, sup_s_lo;

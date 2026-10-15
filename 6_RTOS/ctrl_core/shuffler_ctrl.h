@@ -39,9 +39,18 @@ typedef double ctrl_accum_t;
 typedef float ctrl_accum_t;
 #endif
 
+#ifdef CTRL_RUNTIME_GAINS
+#define CTRL_MA_MAX 8u    /* longest moving-average window [ticks] */
+#endif
+
 typedef struct {
     ctrl_accum_t xi[N_Y]; /* integrator state (MATLAB persistent xi) */
     float y_f[N_Y];       /* filtered measurement vector (MATLAB persistent y_f) */
+#ifdef CTRL_RUNTIME_GAINS
+    float ma_buf[CTRL_MA_MAX][N_Y]; /* last CTRL_MA_MAX raw y, always updated so a */
+    uint8_t ma_idx;                 /* filter switch at C,APPLY needs no warm-up */
+    uint8_t ma_cnt;                 /* valid entries (0..CTRL_MA_MAX) after init */
+#endif
 } ctrl_state_t;
 
 typedef struct {
@@ -68,6 +77,7 @@ typedef struct {
     float a;     /* measurement LPF coefficient (CTRL_A) */
     float dmin;  /* duty clamp (CTRL_DMIN / CTRL_DMAX) */
     float dmax;
+    uint8_t ma_n; /* 0: first-order IIR (a); 1..CTRL_MA_MAX: y_f = mean of the last ma_n y */
 } ctrl_gains_t;
 
 extern ctrl_gains_t ctrl_gains;

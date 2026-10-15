@@ -1,6 +1,13 @@
 {
-  "_comment": ["Single source of truth for the control-stack constants. gen_params.py / export_params.m","turn this into params.h. N_MOD modules, N_MOD-1 shufflers, 2 legs per shuffler.","ctrl.M = inv(G)*diag(kI) from 4_Simulink/3_Carpark_3mod/shuffler_string_ident (averaged","carpark model, SETUP in the version tag). The QSPICE-identified M is kept in","shuffler_params.sps-params-2.20261011-1634-3mod-qspice.json. mppt: not identified (unused with the DL3021)."],
-  "version": "sps-params-2.20261015-1754-3mod-simulink-bench",
+  "_comment": [
+    "Single source of truth for the control-stack constants. gen_params.py / export_params.m",
+    "turn this into params.h. N_MOD modules, N_MOD-1 shufflers, 2 legs per shuffler.",
+    "ctrl.M = inv(G)*diag(kI), G from QSPICE S10i (switching model, 200 kHz, 200 ns dead time, bench NGE103",
+    "operating point; qspice_ident.py --du 0.02). Chosen over the Simulink BENCH M (Gate 4, 15 Oct): the",
+    "u_diff->i_comm gain is 140 A/unit on the switching plant vs 742 averaged; M200 is stable on both.",
+    "Backups: shuffler_params.<version>.json (Simulink bench, QSPICE S9i 100 kHz). mppt: unused with the DL3021."
+  ],
+  "version": "sps-params-2.20261015-1950-3mod-qspice200-bench",
   "n_mod": 3,
   "ctrl": {
     "ts": 0.0001,
@@ -11,28 +18,28 @@
     "kp_ratio_i": 0.000108,
     "M": [
       [
-        -20.477249884027671,
-        0.0097938046964469085,
-        -0.045716057161806038,
-        0.091497768236490737
+        -20.2837178,
+        0.121778596,
+        -9.38439918,
+        0.104574089
       ],
       [
-        -0.0083440889905499159,
-        -19.90256081537586,
-        -0.088969825867162955,
-        0.04451288045464713
+        0.206526644,
+        -20.0102766,
+        0.0548153217,
+        -10.5207408
       ],
       [
-        -3.8326229599860856E-17,
-        1.8330567316317296E-20,
-        3.3895659152047619,
-        6.506794294543172E-18
+        -0.146366942,
+        -0.0444863769,
+        17.5686538,
+        -0.201637891
       ],
       [
-        -3.8274661560072449E-17,
-        1.8305903491188112E-20,
-        -8.5449297422203E-20,
-        3.3850052456109716
+        -0.195313518,
+        -0.131289785,
+        -0.102429946,
+        18.0190238
       ]
     ]
   },
