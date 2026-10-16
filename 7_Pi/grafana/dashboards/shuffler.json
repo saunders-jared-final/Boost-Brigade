@@ -1,798 +1,1153 @@
 {
-  "title": "Shuffler pod",
-  "uid": "shuffler",
-  "schemaVersion": 39,
-  "refresh": "1s",
-  "time": {
-    "from": "now-5m",
-    "to": "now"
-  },
-  "templating": {
-    "list": [
-      {
-        "name": "DS",
-        "type": "datasource",
-        "query": "influxdb",
-        "current": {
-          "text": "InfluxDB",
-          "value": "InfluxDB"
-        }
-      }
-    ]
-  },
-  "panels": [
-    {
-      "type": "stat",
-      "title": "Mode",
-      "gridPos": {
-        "x": 0,
-        "y": 0,
-        "w": 4,
-        "h": 6
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [],
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "text"
-          }
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "colorMode": "none",
-        "textMode": "value",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "horizontal"
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"pod\") |> filter(fn: (r) => r[\"_field\"] == \"mode\") |> last() |> keep(columns: [\"_value\"])"
-        }
-      ]
-    },
-    {
-      "type": "stat",
-      "title": "Active (S1 top / S2 bottom / switching / fault / Nucleo link)",
-      "gridPos": {
-        "x": 4,
-        "y": 0,
-        "w": 10,
-        "h": 6
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "☐ OFF",
-                  "color": "text",
-                  "index": 0
-                },
-                "1": {
-                  "text": "☑ ON",
-                  "color": "green",
-                  "index": 1
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "text"
-          },
-          "displayName": "${__field.labels._field}"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "fault_active"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "☐ no fault",
-                        "color": "green",
-                        "index": 0
-                      },
-                      "1": {
-                        "text": "☑ FAULT",
-                        "color": "red",
-                        "index": 1
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "link_ok"
-            },
-            "properties": [
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "NO LINK",
-                        "color": "purple",
-                        "index": 0
-                      },
-                      "1": {
-                        "text": "link ok",
-                        "color": "green",
-                        "index": 1
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "background",
-        "textMode": "value_and_name",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "horizontal"
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"pod\") |> filter(fn: (r) => r[\"_field\"] == \"s2_active\" or r[\"_field\"] == \"s1_active\" or r[\"_field\"] == \"switching\" or r[\"_field\"] == \"fault_active\" or r[\"_field\"] == \"link_ok\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
-        }
-      ]
-    },
-    {
-      "type": "stat",
-      "title": "Init check (last C,TEST,0)",
-      "gridPos": {
-        "x": 14,
-        "y": 0,
-        "w": 10,
-        "h": 6
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "mappings": [
-            {
-              "type": "value",
-              "options": {
-                "0": {
-                  "text": "FAIL",
-                  "color": "red",
-                  "index": 0
-                },
-                "1": {
-                  "text": "PASS",
-                  "color": "green",
-                  "index": 1
-                }
-              }
-            }
-          ],
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "text"
-          },
-          "displayName": "${__field.labels._field}"
-        },
-        "overrides": []
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "colorMode": "background",
-        "textMode": "value_and_name",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "horizontal"
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"init\") |> filter(fn: (r) => r[\"_field\"] != \"fails\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Heatsink / INA die temperature",
-      "gridPos": {
-        "x": 0,
-        "y": 6,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "celsius"
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"heatsink_c\" or r[\"_field\"] == \"T1\" or r[\"_field\"] == \"T2\" or r[\"_field\"] == \"T3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "stat",
-      "title": "State",
-      "gridPos": {
-        "x": 12,
-        "y": 6,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": ""
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"state_code\" or r[\"_field\"] == \"fault\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Module voltages",
-      "gridPos": {
-        "x": 0,
-        "y": 14,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "volt"
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"VM1\" or r[\"_field\"] == \"VM2\" or r[\"_field\"] == \"VM3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Inductor currents",
-      "gridPos": {
-        "x": 12,
-        "y": 14,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "amp"
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"ILA1\" or r[\"_field\"] == \"ILB1\" or r[\"_field\"] == \"ILA2\" or r[\"_field\"] == \"ILB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Duties",
-      "gridPos": {
-        "x": 0,
-        "y": 22,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "percentunit"
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"dA1\" or r[\"_field\"] == \"dB1\" or r[\"_field\"] == \"dA2\" or r[\"_field\"] == \"dB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Supervisor",
-      "gridPos": {
-        "x": 12,
-        "y": 22,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": ""
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"rv1\" or r[\"_field\"] == \"rv2\" or r[\"_field\"] == \"beta\" or r[\"_field\"] == \"stress\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "Reconstructed module currents (rel. to module 3)",
-      "gridPos": {
-        "x": 0,
-        "y": 30,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "amp"
-        },
-        "overrides": []
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"IM1r\" or r[\"_field\"] == \"IM2r\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "String voltage (INA sum vs e-load)",
-      "gridPos": {
-        "x": 12,
-        "y": 30,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "volt"
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "v"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "V e-load"
-              }
-            ]
-          }
-        ]
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"Vstr\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        },
-        {
-          "refId": "B",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"v\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "stat",
-      "title": "E-load (DL3021)",
-      "gridPos": {
-        "x": 0,
-        "y": 38,
-        "w": 24,
-        "h": 4
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "fixed",
-            "fixedColor": "text"
-          },
-          "decimals": 2
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "link_ok"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "USB link"
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "NO LINK",
-                        "color": "purple",
-                        "index": 0
-                      },
-                      "1": {
-                        "text": "link ok",
-                        "color": "green",
-                        "index": 1
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "input_on"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Input"
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "OFF",
-                        "color": "text",
-                        "index": 0
-                      },
-                      "1": {
-                        "text": "ON",
-                        "color": "green",
-                        "index": 1
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "mode"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Mode"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "setpoint"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Setpoint (V/A/Ω/W)"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Power"
-              },
-              {
-                "id": "unit",
-                "value": "watt"
-              },
-              {
-                "id": "color",
-                "value": {
-                  "mode": "thresholds"
-                }
-              },
-              {
-                "id": "thresholds",
-                "value": {
-                  "mode": "absolute",
-                  "steps": [
-                    {
-                      "color": "green",
-                      "value": null
-                    },
-                    {
-                      "color": "orange",
-                      "value": 180
-                    },
-                    {
-                      "color": "red",
-                      "value": 200
-                    }
-                  ]
-                }
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "paused"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "Logging"
-              },
-              {
-                "id": "mappings",
-                "value": [
-                  {
-                    "type": "value",
-                    "options": {
-                      "0": {
-                        "text": "logging",
-                        "color": "green",
-                        "index": 0
-                      },
-                      "1": {
-                        "text": "PAUSED (panel free)",
-                        "color": "orange",
-                        "index": 1
-                      }
-                    }
-                  }
-                ]
-              }
-            ]
-          }
-        ]
-      },
-      "options": {
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "/.*/",
-          "values": false
-        },
-        "colorMode": "background",
-        "textMode": "value_and_name",
-        "graphMode": "none",
-        "justifyMode": "center",
-        "orientation": "vertical"
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"link_ok\" or r[\"_field\"] == \"paused\" or r[\"_field\"] == \"input_on\" or r[\"_field\"] == \"mode\" or r[\"_field\"] == \"setpoint\" or r[\"_field\"] == \"p\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "E-load voltage / current",
-      "gridPos": {
-        "x": 0,
-        "y": 42,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {},
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "v"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "V string (e-load)"
-              },
-              {
-                "id": "unit",
-                "value": "volt"
-              }
-            ]
-          },
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "i"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "I string (e-load)"
-              },
-              {
-                "id": "unit",
-                "value": "amp"
-              },
-              {
-                "id": "custom.axisPlacement",
-                "value": "right"
-              }
-            ]
-          }
-        ]
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"v\" or r[\"_field\"] == \"i\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
-    },
-    {
-      "type": "timeseries",
-      "title": "String power at the e-load (DL3021 limit 200 W)",
-      "gridPos": {
-        "x": 12,
-        "y": 42,
-        "w": 12,
-        "h": 8
-      },
-      "datasource": {
-        "type": "influxdb",
-        "uid": "${DS}"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "unit": "watt",
-          "custom": {
-            "thresholdsStyle": {
-              "mode": "line"
-            }
-          },
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "red",
-                "value": 200
-              }
-            ]
-          }
-        },
-        "overrides": [
-          {
-            "matcher": {
-              "id": "byName",
-              "options": "p"
-            },
-            "properties": [
-              {
-                "id": "displayName",
-                "value": "P string (e-load)"
-              }
-            ]
-          }
-        ]
-      },
-      "targets": [
-        {
-          "refId": "A",
-          "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"p\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
-        }
-      ]
+ "title": "Shuffler pod",
+ "uid": "shuffler",
+ "schemaVersion": 39,
+ "refresh": "1s",
+ "time": {
+  "from": "now-5m",
+  "to": "now"
+ },
+ "templating": {
+  "list": [
+   {
+    "name": "DS",
+    "type": "datasource",
+    "query": "influxdb",
+    "current": {
+     "text": "InfluxDB",
+     "value": "InfluxDB"
     }
+   }
   ]
+ },
+ "panels": [
+  {
+   "type": "stat",
+   "title": "Mode",
+   "gridPos": {
+    "x": 0,
+    "y": 0,
+    "w": 4,
+    "h": 6
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "mappings": [],
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "text"
+     }
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "/.*/",
+     "values": false
+    },
+    "colorMode": "none",
+    "textMode": "value",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "orientation": "horizontal"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"pod\") |> filter(fn: (r) => r[\"_field\"] == \"mode\") |> last() |> keep(columns: [\"_value\"])"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "title": "Active (S1 top / S2 bottom / switching / fault / Nucleo link)",
+   "gridPos": {
+    "x": 4,
+    "y": 0,
+    "w": 10,
+    "h": 6
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "\u2610 OFF",
+         "color": "text",
+         "index": 0
+        },
+        "1": {
+         "text": "\u2611 ON",
+         "color": "green",
+         "index": 1
+        }
+       }
+      }
+     ],
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "text"
+     },
+     "displayName": "${__field.labels._field}"
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "fault_active"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "\u2610 no fault",
+            "color": "green",
+            "index": 0
+           },
+           "1": {
+            "text": "\u2611 FAULT",
+            "color": "red",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "link_ok"
+      },
+      "properties": [
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "NO LINK",
+            "color": "purple",
+            "index": 0
+           },
+           "1": {
+            "text": "link ok",
+            "color": "green",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "background",
+    "textMode": "value_and_name",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "orientation": "horizontal"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"pod\") |> filter(fn: (r) => r[\"_field\"] == \"s2_active\" or r[\"_field\"] == \"s1_active\" or r[\"_field\"] == \"switching\" or r[\"_field\"] == \"fault_active\" or r[\"_field\"] == \"link_ok\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "title": "Init check (last C,TEST,0)",
+   "gridPos": {
+    "x": 14,
+    "y": 0,
+    "w": 10,
+    "h": 6
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "mappings": [
+      {
+       "type": "value",
+       "options": {
+        "0": {
+         "text": "FAIL",
+         "color": "red",
+         "index": 0
+        },
+        "1": {
+         "text": "PASS",
+         "color": "green",
+         "index": 1
+        }
+       }
+      }
+     ],
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "text"
+     },
+     "displayName": "${__field.labels._field}"
+    },
+    "overrides": []
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "",
+     "values": false
+    },
+    "colorMode": "background",
+    "textMode": "value_and_name",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "orientation": "horizontal"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"init\") |> filter(fn: (r) => r[\"_field\"] != \"fails\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Heatsink / INA die temperature",
+   "gridPos": {
+    "x": 0,
+    "y": 6,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "celsius"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"heatsink_c\" or r[\"_field\"] == \"T1\" or r[\"_field\"] == \"T2\" or r[\"_field\"] == \"T3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "title": "State",
+   "gridPos": {
+    "x": 12,
+    "y": 6,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": ""
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"state_code\" or r[\"_field\"] == \"fault\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Module voltages",
+   "gridPos": {
+    "x": 0,
+    "y": 14,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "volt"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"VM1\" or r[\"_field\"] == \"VM2\" or r[\"_field\"] == \"VM3\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Inductor currents",
+   "gridPos": {
+    "x": 12,
+    "y": 14,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "amp"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"ILA1\" or r[\"_field\"] == \"ILB1\" or r[\"_field\"] == \"ILA2\" or r[\"_field\"] == \"ILB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Duties",
+   "gridPos": {
+    "x": 0,
+    "y": 22,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "percentunit"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"dA1\" or r[\"_field\"] == \"dB1\" or r[\"_field\"] == \"dA2\" or r[\"_field\"] == \"dB2\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Supervisor",
+   "gridPos": {
+    "x": 12,
+    "y": 22,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": ""
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"rv1\" or r[\"_field\"] == \"rv2\" or r[\"_field\"] == \"beta\" or r[\"_field\"] == \"stress\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "Reconstructed module currents (rel. to module 3)",
+   "gridPos": {
+    "x": 0,
+    "y": 30,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "amp"
+    },
+    "overrides": []
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"IM1r\" or r[\"_field\"] == \"IM2r\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "String voltage (INA sum vs e-load)",
+   "gridPos": {
+    "x": 12,
+    "y": 30,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "volt"
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "v"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "V e-load"
+       }
+      ]
+     }
+    ]
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"telemetry\") |> filter(fn: (r) => r[\"_field\"] == \"Vstr\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    },
+    {
+     "refId": "B",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"v\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "stat",
+   "title": "E-load (DL3021): link, local/remote, mode, input, levels",
+   "gridPos": {
+    "x": 0,
+    "y": 38,
+    "w": 24,
+    "h": 5
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "color": {
+      "mode": "fixed",
+      "fixedColor": "text"
+     },
+     "decimals": 2
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "link_ok"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "USB link"
+       },
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "NO LINK",
+            "color": "purple",
+            "index": 0
+           },
+           "1": {
+            "text": "link ok",
+            "color": "green",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "input_on"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Input"
+       },
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "OFF",
+            "color": "text",
+            "index": 0
+           },
+           "1": {
+            "text": "ON",
+            "color": "green",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "mode"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Mode"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "setpoint"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Setpoint (V/A/\u03a9/W)"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "p"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Power"
+       },
+       {
+        "id": "unit",
+        "value": "watt"
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "thresholds"
+        }
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "green",
+           "value": null
+          },
+          {
+           "color": "orange",
+           "value": 180
+          },
+          {
+           "color": "red",
+           "value": 200
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "paused"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Logging"
+       },
+       {
+        "id": "mappings",
+        "value": [
+         {
+          "type": "value",
+          "options": {
+           "0": {
+            "text": "logging",
+            "color": "green",
+            "index": 0
+           },
+           "1": {
+            "text": "PAUSED (panel free)",
+            "color": "orange",
+            "index": 1
+           }
+          }
+         }
+        ]
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "set_cc"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Level CC"
+       },
+       {
+        "id": "unit",
+        "value": "amp"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "set_cv"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Level CV"
+       },
+       {
+        "id": "unit",
+        "value": "volt"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "set_cp"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Level CP"
+       },
+       {
+        "id": "unit",
+        "value": "watt"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "v"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "V load"
+       },
+       {
+        "id": "unit",
+        "value": "volt"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "i"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "I load"
+       },
+       {
+        "id": "unit",
+        "value": "amp"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "ques"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "QUES reg"
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "thresholds"
+        }
+       },
+       {
+        "id": "thresholds",
+        "value": {
+         "mode": "absolute",
+         "steps": [
+          {
+           "color": "green",
+           "value": null
+          },
+          {
+           "color": "orange",
+           "value": 1
+          }
+         ]
+        }
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "err"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Last SCPI error"
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "orange"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "reduceOptions": {
+     "calcs": [
+      "lastNotNull"
+     ],
+     "fields": "/.*/",
+     "values": false
+    },
+    "colorMode": "background",
+    "textMode": "value_and_name",
+    "graphMode": "none",
+    "justifyMode": "center",
+    "orientation": "vertical"
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: -1h) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"link_ok\" or r[\"_field\"] == \"paused\" or r[\"_field\"] == \"input_on\" or r[\"_field\"] == \"mode\" or r[\"_field\"] == \"setpoint\" or r[\"_field\"] == \"set_cc\" or r[\"_field\"] == \"set_cv\" or r[\"_field\"] == \"set_cp\" or r[\"_field\"] == \"v\" or r[\"_field\"] == \"i\" or r[\"_field\"] == \"p\" or r[\"_field\"] == \"ques\" or r[\"_field\"] == \"err\") |> last() |> keep(columns: [\"_field\", \"_value\"])"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "E-load voltage / current (+ active setpoint)",
+   "gridPos": {
+    "x": 0,
+    "y": 43,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {},
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "v"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "V string (e-load)"
+       },
+       {
+        "id": "unit",
+        "value": "volt"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "i"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "I string (e-load)"
+       },
+       {
+        "id": "unit",
+        "value": "amp"
+       },
+       {
+        "id": "custom.axisPlacement",
+        "value": "right"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "setpoint"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "setpoint (active mode)"
+       },
+       {
+        "id": "custom.lineStyle",
+        "value": {
+         "fill": "dash",
+         "dash": [
+          6,
+          4
+         ]
+        }
+       },
+       {
+        "id": "color",
+        "value": {
+         "mode": "fixed",
+         "fixedColor": "text"
+        }
+       }
+      ]
+     }
+    ]
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"v\" or r[\"_field\"] == \"i\" or r[\"_field\"] == \"setpoint\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "timeseries",
+   "title": "String power at the e-load (DL3021 limit 200 W)",
+   "gridPos": {
+    "x": 12,
+    "y": 43,
+    "w": 12,
+    "h": 8
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "unit": "watt",
+     "custom": {
+      "thresholdsStyle": {
+       "mode": "line"
+      }
+     },
+     "thresholds": {
+      "mode": "absolute",
+      "steps": [
+       {
+        "color": "green",
+        "value": null
+       },
+       {
+        "color": "red",
+        "value": 200
+       }
+      ]
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "p"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "P string (e-load)"
+       }
+      ]
+     }
+    ]
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"eload\") |> filter(fn: (r) => r[\"_field\"] == \"p\") |> aggregateWindow(every: v.windowPeriod, fn: mean, createEmpty: false)"
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "title": "Command log (Nucleo tx/rx, IR keys, e-load) and firmware notes",
+   "gridPos": {
+    "x": 0,
+    "y": 51,
+    "w": 14,
+    "h": 11
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "filterable": true
+     }
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "_time"
+      },
+      "properties": [
+       {
+        "id": "custom.width",
+        "value": 180
+       },
+       {
+        "id": "displayName",
+        "value": "Time"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "_measurement"
+      },
+      "properties": [
+       {
+        "id": "custom.width",
+        "value": 60
+       },
+       {
+        "id": "displayName",
+        "value": "Kind"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "source"
+      },
+      "properties": [
+       {
+        "id": "custom.width",
+        "value": 70
+       },
+       {
+        "id": "displayName",
+        "value": "Source"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "dir"
+      },
+      "properties": [
+       {
+        "id": "custom.width",
+        "value": 50
+       },
+       {
+        "id": "displayName",
+        "value": "Dir"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "_value"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Line"
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "sortBy": [
+     {
+      "displayName": "Time",
+      "desc": true
+     }
+    ]
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: v.timeRangeStart, stop: v.timeRangeStop) |> filter(fn: (r) => r[\"_measurement\"] == \"cmd\" or r[\"_measurement\"] == \"note\") |> filter(fn: (r) => r[\"_field\"] == \"line\") |> keep(columns: [\"_time\", \"_measurement\", \"source\", \"dir\", \"_value\"]) |> sort(columns: [\"_time\"], desc: true) |> limit(n: 300)"
+    }
+   ]
+  },
+  {
+   "type": "table",
+   "title": "Run-time parameters (last C,LIST; recorded after every Apply)",
+   "gridPos": {
+    "x": 14,
+    "y": 51,
+    "w": 10,
+    "h": 11
+   },
+   "datasource": {
+    "type": "influxdb",
+    "uid": "${DS}"
+   },
+   "fieldConfig": {
+    "defaults": {
+     "custom": {
+      "filterable": true
+     },
+     "decimals": 6
+    },
+    "overrides": [
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "_field"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Parameter"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "_value"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "Value"
+       }
+      ]
+     },
+     {
+      "matcher": {
+       "id": "byName",
+       "options": "pver"
+      },
+      "properties": [
+       {
+        "id": "displayName",
+        "value": "params.h"
+       },
+       {
+        "id": "custom.width",
+        "value": 120
+       }
+      ]
+     }
+    ]
+   },
+   "options": {
+    "showHeader": true,
+    "sortBy": [
+     {
+      "displayName": "Parameter",
+      "desc": false
+     }
+    ]
+   },
+   "targets": [
+    {
+     "refId": "A",
+     "query": "from(bucket: \"shuffler\") |> range(start: -30d) |> filter(fn: (r) => r[\"_measurement\"] == \"params\") |> last() |> keep(columns: [\"_field\", \"_value\", \"pver\"])"
+    }
+   ]
+  }
+ ]
 }

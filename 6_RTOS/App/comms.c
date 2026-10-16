@@ -168,6 +168,8 @@ void comms_send_fault(void)
 {
   char b[128], f[16];
   uint32_t ms = 0U;
+  const char *vm_name = "-";
+  float vm_v = 0.0f;
   app_snapshot_t s;
   app_get_snapshot(&s);
   ms = s.ms;
@@ -175,6 +177,10 @@ void comms_send_fault(void)
   {
     snprintf(b, sizeof b, "F,%lu,%lx,%s,%s,%u\n", (unsigned long)ms, (unsigned long)s.faults,
              Sensors_Name(Sensors_FaultChannel()), fmt_f(f, Sensors_FaultCurrent_A()), (unsigned)Sensors_FaultRaw());
+  }
+  else if ((s.faults & (FLT_OV | FLT_UV | FLT_STRING_OV)) && app_fault_vm(&vm_name, &vm_v))
+  {
+    snprintf(b, sizeof b, "F,%lu,%lx,%s,%s,0\n", (unsigned long)ms, (unsigned long)s.faults, vm_name, fmt_f(f, vm_v));
   }
   else
   {

@@ -42,6 +42,7 @@ typedef struct {
   float hall_mva[N_LEG];
   float oc_a, vm_ov, vm_uv, vstr_ov;
   float vstr_param, vstr_pi;
+  float vm1_prot;                     /* 0 = VM1 takes no part in OV / UV / string-OV checks (U10 is unreliable) */
   float slew, wdg_s;
   /* idle-only */
   float hall_zero[N_LEG];

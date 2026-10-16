@@ -10,7 +10,7 @@ U="$(id -un)"
 
 echo "== apt packages"
 sudo apt-get update
-sudo apt-get install -y git rsync openocd docker.io ir-keytable python3-venv python3-pip \
+sudo apt-get install -y git rsync openocd docker.io ir-keytable i2c-tools python3-venv python3-pip \
   python3-gpiozero python3-lgpio python3-serial python3-smbus2 python3-evdev
 # compose: the package name differs between Raspberry Pi OS releases
 for p in docker-compose-v2 docker-compose-plugin docker-compose; do
@@ -47,6 +47,16 @@ for l in "dtparam=i2c_arm=on" "dtoverlay=w1-gpio,gpiopin=4" "dtoverlay=gpio-ir,g
   grep -qxF "$l" "$CFG" || echo "$l" | sudo tee -a "$CFG" >/dev/null
 done
 
+echo "== Elegoo IR remote keymap (NEC; loaded at boot through /etc/rc_maps.cfg)"
+sudo install -d /etc/rc_keymaps
+sudo install -m 644 "$PI_DIR/deploy/elegoo.toml" /etc/rc_keymaps/elegoo.toml
+grep -q "elegoo.toml" /etc/rc_maps.cfg 2>/dev/null || echo "gpio_ir_recv * /etc/rc_keymaps/elegoo.toml" | sudo tee -a /etc/rc_maps.cfg >/dev/null
+for d in /sys/class/rc/rc*; do
+  if grep -q "DRV_NAME=gpio_ir_recv" "$d/uevent" 2>/dev/null; then
+    sudo ir-keytable -s "$(basename "$d")" -c -w /etc/rc_keymaps/elegoo.toml && echo "   $(basename "$d"): $(cat "$d/protocols")"
+  fi
+done
+
 echo "== pod + eload + params_web services (user $U, $PI_DIR)"
 for svc in pod eload params_web; do
   sed -e "s|@USER@|$U|g" -e "s|@PI_DIR@|$PI_DIR|g" "$PI_DIR/pod/$svc.service" | sudo tee /etc/systemd/system/$svc.service >/dev/null
@@ -56,6 +66,11 @@ sudo systemctl enable --now pod eload params_web
 sudo systemctl restart pod eload params_web   # pick up new code on a re-run
 
 echo "== InfluxDB + Grafana"
+# an apt InfluxDB 1.x service holds port 8086 and the InfluxDB 2 container cannot start (every pod write 404s)
+if systemctl list-unit-files influxdb.service >/dev/null 2>&1 && systemctl is-enabled influxdb >/dev/null 2>&1; then
+  echo "   disabling the apt influxdb (1.x) service that blocks port 8086"
+  sudo systemctl disable --now influxdb
+fi
 cd "$PI_DIR"
 # Grafana runs as uid 472; a bind-mount dir docker creates is root-owned and Grafana restart-loops on it
 mkdir -p data/grafana data/influxdb
@@ -66,7 +81,7 @@ cat <<MSG
 
 Done. Log out and back in once (new groups), and reboot if the overlays were just added.
   Grafana  http://$(hostname -I | awk '{print $1}'):3000   (admin / shuffler, anonymous viewer on)
-  Params   http://$(hostname -I | awk '{print $1}'):8080   (run-time parameters, pod/params.yaml)
+  Control  http://$(hostname -I | awk '{print $1}'):8080   (status, presets, run-time parameters)
   Logs     journalctl -u pod -f      (e-load: journalctl -u eload -f)
   Flash    $PI_DIR/tools/flash_nucleo.sh
 MSG

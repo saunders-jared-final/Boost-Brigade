@@ -85,12 +85,35 @@ static void set_state(app_state_t s)
 }
 
 /* any context: outputs off, latch the fault, state FAULT */
+/* voltage faults: which reading tripped (for the F line), and consecutive-sample confirmation so one corrupted
+ * SPI read-out (the U10 isolator) cannot fault a run; VM_FLT_CONFIRM x 10 ms is well inside what the bulk caps allow */
+#define VM_FLT_CONFIRM 3U
+static int8_t s_flt_vm_ch = -1;      /* 0..2 = VM1..VM3, 3 = string sum, -1 = none */
+static float s_flt_vm_v = 0.0f;
+static uint8_t s_ov_cnt, s_uv_cnt, s_sov_cnt;
+
+bool app_fault_vm(const char **name, float *v)
+{
+  static const char *const nm[] = {"VM1", "VM2", "VM3", "Vstr"};
+  if (s_flt_vm_ch < 0) return false;
+  *name = nm[s_flt_vm_ch];
+  *v = s_flt_vm_v;
+  return true;
+}
+
 static void trip(uint32_t code)
 {
   hw_outputs_off();
   s_faults |= code;
   s_cmd_enable = 0U;
   set_state(ST_FAULT);
+}
+
+static void trip_vm(uint32_t code, int8_t ch, float v)
+{
+  s_flt_vm_ch = ch;
+  s_flt_vm_v = v;
+  trip(code);
 }
 
 /* ------------------------------------------------------------- watchdog --- */
@@ -285,6 +308,11 @@ void app_tick_1ms(void)
   s_flag_1ms = 1U;
 }
 
+/* U10 (INA CS3) is wired with its VBUS/GND the other way round on the Version 0 board: the magnitude is right,
+ * the sign is negative (bench, 16 Oct 2026). Applied to every use of its reading (VM1 and the init-check line). */
+#define U10_VBUS_SIGN (-1.0f)
+static float ina_sign(uint8_t i) { return (i == 2U) ? U10_VBUS_SIGN : 1.0f; }
+
 /* --------------------------------------------------------------- tasks --- */
 void app_task_sense_v(void)
 {
@@ -294,10 +322,10 @@ void app_task_sense_v(void)
   for (i = 0; i < INA_COUNT; i++)
   {
     const INA_Dev *d = INA_Get(i);
-    if (d->kind == INA_239 || d->kind == INA_229) { v[i] = (float)d->vbus_mV * 1e-3f; ok |= (uint8_t)(1U << i); s_tdie[i] = (float)d->temp_C; }
+    if (d->kind == INA_239 || d->kind == INA_229) { v[i] = (float)d->vbus_mV * 1e-3f * ina_sign(i); ok |= (uint8_t)(1U << i); s_tdie[i] = (float)d->temp_C; }
     else { v[i] = NAN; s_tdie[i] = NAN; }
   }
-  /* index 0 = CS1 (U12, PV3+ to GND), 1 = CS2 (U11, PV2+ to GND), 2 = CS3 (U10, PV1+ to PV3+) */
+  /* index 0 = CS1 (U12, PV3+ to GND), 1 = CS2 (U11, PV2+ to GND), 2 = CS3 (U10, PV1+ to PV3+, sign U10_VBUS_SIGN) */
   float vm3 = v[0];
   float vm2 = v[1] - v[0];
   float vm1 = v[2] - vm2;
@@ -332,6 +360,21 @@ static bool vm_ok_for(app_mode_t m)
   return (s_vm_valid & need) == need;
 }
 
+/* operator-facing reason when a closed-loop mode is refused for missing module voltages */
+static const char *vm_why(app_mode_t m)
+{
+  uint8_t need = 0U;
+  if (mode_legs(m) & HW_LEGS_S1) need |= 0x3U;
+  if (mode_legs(m) & HW_LEGS_S2) need |= 0x6U;
+  if (!(s_vm_valid & 0x6U & need)) return "VM2/VM3 not readable (INA CS1/CS2)";
+  switch ((int)prt.vm1_src)
+  {
+    case VM1_SRC_VSTR_PARAM: return "VM1 not readable: vstr_param is 0 (vm1_src 1)";
+    case VM1_SRC_VSTR_PI:    return "VM1 not readable: no vstr_pi from the e-load for 2 s (vm1_src 2: eload service / USB / LOCAL?)";
+    default:                 return "VM1 not readable: U10 (INA CS3) absent (vm1_src 0; use vm1_src 2 or 1)";
+  }
+}
+
 void app_task_safety(void)
 {
   app_state_t st = s_state;
@@ -342,17 +385,27 @@ void app_task_safety(void)
   if (st == ST_RUN || st == ST_SOFTSTART)
   {
     if (estop_pressed()) trip(FLT_ESTOP);
+    /* module / string voltage envelopes. VM1 takes part only with vm1_prot = 1: U10 (CS3) answers intermittently
+     * through its isolator and can return a corrupted bus voltage, which must not fault a run. Each fault needs
+     * VM_FLT_CONFIRM consecutive 10 ms samples. */
     float vsum = 0.0f;
+    int8_t ov = -1, uv = -1;
     for (i = 0; i < N_MOD; i++)
     {
       float v = (float)s_vm[i];
-      if (!isnan(v)) vsum += v;
-      if (!isnan(v) && v > prt.vm_ov) { trip(FLT_OV); break; }
-      if (!isnan(v) && v < prt.vm_uv && mode_closed(s_mode) && (s_vm_valid & (1U << i))) { trip(FLT_UV); break; }
+      if (isnan(v) || (i == 0 && prt.vm1_prot < 0.5f)) continue;
+      vsum += v;
+      if (v > prt.vm_ov && ov < 0) ov = (int8_t)i;
+      if (v < prt.vm_uv && mode_closed(s_mode) && (s_vm_valid & (1U << i)) && uv < 0) uv = (int8_t)i;
     }
-    /* string OV: sum of the readable modules (a lower bound when VM1 is missing), and the e-load readback */
-    if (vsum > prt.vstr_ov || ((int)prt.vm1_src == VM1_SRC_VSTR_PI && prt_vstr_pi_ms != 0U && prt.vstr_pi > prt.vstr_ov))
-      trip(FLT_STRING_OV);
+    s_ov_cnt = (ov >= 0) ? (uint8_t)(s_ov_cnt + 1U) : 0U;
+    s_uv_cnt = (uv >= 0) ? (uint8_t)(s_uv_cnt + 1U) : 0U;
+    if (s_ov_cnt >= VM_FLT_CONFIRM) trip_vm(FLT_OV, ov, (float)s_vm[ov]);
+    else if (s_uv_cnt >= VM_FLT_CONFIRM) trip_vm(FLT_UV, uv, (float)s_vm[uv]);
+    /* string OV: sum of the modules taking part (a lower bound when VM1 is out), and the e-load readback */
+    float vpi = ((int)prt.vm1_src == VM1_SRC_VSTR_PI && prt_vstr_pi_ms != 0U) ? prt.vstr_pi : 0.0f;
+    s_sov_cnt = (vsum > prt.vstr_ov || vpi > prt.vstr_ov) ? (uint8_t)(s_sov_cnt + 1U) : 0U;
+    if (s_sov_cnt >= VM_FLT_CONFIRM) trip_vm(FLT_STRING_OV, 3, (vsum > prt.vstr_ov) ? vsum : vpi);
     /* comms watchdog (closed loop only): the Pi pod sends C,PING every second */
     if (mode_closed(s_mode) && prt.wdg_s > 0.0f && (s_ms - s_last_rx_ms) > (uint32_t)(prt.wdg_s * 1000.0f))
       trip(FLT_COMMS_WDG);
@@ -470,15 +523,16 @@ static bool init_check(void)
     if (ok)
     {
       snprintf(d, sizeof d, "%s mfr 0x%04X dev 0x%04X cfg ok, vbus %s V, die %d C", INA_KindName(dev->kind),
-               (unsigned)dev->mfr_id, (unsigned)dev->dev_id, comms_fmt(vs, (float)dev->vbus_mV * 1e-3f), (int)dev->temp_C);
+               (unsigned)dev->mfr_id, (unsigned)dev->dev_id, comms_fmt(vs, (float)dev->vbus_mV * 1e-3f * ina_sign((uint8_t)i)),
+               (int)dev->temp_C);
     }
     else
     {
       snprintf(d, sizeof d, "%s (mfr 0x%04X dev 0x%04X)%s", INA_KindName(dev->kind), (unsigned)dev->mfr_id,
-               (unsigned)dev->dev_id, (i == 2) ? " [CS3 = U10, needs the ISO7762 rework]" : "");
+               (unsigned)dev->dev_id, (i == 2) ? " [CS3 = U10: optional, re-probed every 1 s; VM1 from vstr_param with vm1_src 1]" : "");
     }
     init_line(nm, ok, d);
-    if (!ok) fails++;
+    if (!ok && i != 2) fails++;   /* U10 (CS3) comes and goes through its isolator: reported, not counted */
   }
 
   for (i = 0; i < SENSE_COUNT; i++)
@@ -510,7 +564,7 @@ bool app_req_mode(app_mode_t m, const char **why)
 {
   if (m >= MODE_COUNT) { *why = "bad mode"; return false; }
   if (s_state == ST_FAULT) { *why = "faulted, send C,CLEAR"; return false; }
-  if (!vm_ok_for(m)) { *why = "module voltages not readable for this mode"; return false; }
+  if (!vm_ok_for(m)) { *why = vm_why(m); return false; }
   if (s_state == ST_RUN || s_state == ST_SOFTSTART)
   {
     /* live mode change: only between modes with the same legs; otherwise stop first */
@@ -557,8 +611,10 @@ bool app_req_enable(bool on, const char **why)
     if (s_state == ST_FAULT) { *why = "faulted, send C,CLEAR"; return false; }
     if (s_mode == MODE_IDLE) { *why = "select a mode first"; return false; }
     if (estop_pressed()) { *why = "E-stop pressed"; return false; }
-    if (!vm_ok_for(s_mode)) { *why = "module voltages not readable"; return false; }
+    if (!vm_ok_for(s_mode)) { *why = vm_why(s_mode); return false; }
     s_last_rx_ms = s_ms;
+    s_ov_cnt = s_uv_cnt = s_sov_cnt = 0U;
+    s_flt_vm_ch = -1;
     s_cmd_enable = 1U;
   }
   else

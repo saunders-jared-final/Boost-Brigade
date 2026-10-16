@@ -97,5 +97,6 @@ void app_note_rx(void);                /* a valid command line arrived (comms wa
 const char *app_state_name(app_state_t s);
 const char *app_mode_name(app_mode_t m);
 uint32_t app_faults(void);
+bool app_fault_vm(const char **name, float *v);   /* which module / string reading tripped OV, UV or string OV */
 
 #endif /* APP_H */

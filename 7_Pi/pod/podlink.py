@@ -1,4 +1,5 @@
-"""Client for the pod's control socket (127.0.0.1:5017), shared by eload.py and params_web.py.
+"""Clients for the pod's control socket (127.0.0.1:5017, PodLink: shared by eload.py and params_web.py) and for
+the e-load service's control socket (127.0.0.1:5018, EloadLink: pod.py, params_web.py, tools/podctl.py).
 
 The pod forwards every line we send to the Nucleo and broadcasts every non-T Nucleo line (plus one T frame
 per second) to all clients, so a client MUST keep reading or the pod's sendall() eventually blocks: a
@@ -6,6 +7,7 @@ daemon thread drains the socket continuously, keeps the last T frame, and hands 
 request() when there is one. Reconnects on its own; never raises to the caller."""
 from __future__ import annotations
 
+import json
 import logging
 import queue
 import socket
@@ -106,3 +108,40 @@ class PodLink:
                 return False, lines + [f"timeout waiting for A,{name}"]
             finally:
                 self.waiting = None
+
+
+ELOAD_CTL = ("127.0.0.1", 5018)
+
+
+class EloadLink:
+    """Client for eload.py's control socket: one E,... line, one A,... answer, a fresh connection per request
+    (a few ms; nothing to keep alive). request() returns None when the eload service is not running."""
+
+    def __init__(self, addr=ELOAD_CTL):
+        self.addr = addr
+
+    def request(self, line: str, timeout: float = 10.0) -> str | None:
+        try:
+            with socket.create_connection(self.addr, timeout=1.0) as s:
+                s.settimeout(timeout)
+                s.sendall((line.strip() + "\n").encode())
+                buf = b""
+                while b"\n" not in buf:
+                    chunk = s.recv(4096)
+                    if not chunk:
+                        return None
+                    buf += chunk
+                return buf.split(b"\n", 1)[0].decode(errors="replace").strip()
+        except OSError as e:
+            log.debug("eload service not reachable (%s)", e)
+            return None
+
+    def status(self) -> dict | None:
+        """E,STATUS -> dict (cached readings + settings), None = eload service down."""
+        ans = self.request("E,STATUS", timeout=3.0)
+        if not ans or not ans.startswith("A,STATUS,OK,"):
+            return None
+        try:
+            return json.loads(ans.split(",", 3)[3])
+        except ValueError:
+            return None

@@ -45,8 +45,9 @@ hall_zero2: 2048
 hall_zero3: 2048
 
 # ---- VM1 source (IDLE) ----
-vm1_src: 0             # 0 = U10 (INA CS3), 1 = vstr_param - VM2 - VM3 (DL3021 in CV), 2 = DL3021 readback via eload.py
+vm1_src: 2             # 0 = U10 (INA CS3: unreliable, never for closed loop), 1 = vstr_param - VM2 - VM3, 2 = DL3021 readback via eload.py (boot default)
 vstr_param: 70         # 0..150 V string voltage for vm1_src = 1: the DL3021 CV setpoint (LIVE)
+vm1_prot: 0            # 0/1  1 = VM1 takes part in the OV / UV / string-OV checks. 0 while U10 (CS3) is unreliable (LIVE)
 
 # ---- protection (LIVE) ----
 oc_a: 12               # 0.5..12 A over-current latch (tick average, 2 ms)

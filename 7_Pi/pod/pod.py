@@ -1,12 +1,18 @@
 #!/usr/bin/env python3
 """Shuffler pod service: Nucleo serial <-> InfluxDB, DS18B20 heatsink probe,
-IR remote -> commands, LCD + RGB LED status. Run as a systemd service
+Elegoo IR remote -> LCD menu + commands (remote.py), LCD + RGB LED status. Run as a systemd service
 (pod.service) or by hand: python3 pod.py --port /dev/ttyACM0
 
 The pod owns the Nucleo's serial port, so other tools talk to the Nucleo through
 it: a line-based TCP socket on 127.0.0.1:5017 (tools/podctl.py). Every line a
 client sends is forwarded as a command; every non-T line from the Nucleo (plus
 one T frame per second) is copied back to all clients.
+
+Recorded in InfluxDB (bucket shuffler): every T frame -> "telemetry", S -> "status", F -> "fault",
+every # line -> "note", every command sent and every answer -> "cmd" (tags dir=tx|rx|ir), every C,LIST
+-> "params" (one field per parameter, also requested by the pod after each successful C,APPLY),
+"init" per init check, "pod" at 1 Hz. The e-load is logged by eload.py ("eload"); the pod only reads its
+status (podlink.EloadLink) for the LCD page and the IR presets.
 
 Everything optional degrades gracefully: no Influx -> log to stdout, no LCD ->
 skip, no IR device -> skip. Nothing here is in the control loop (Pi = telemetry
@@ -27,6 +33,8 @@ import time
 
 import serial
 
+from podlink import EloadLink
+from remote import Remote, ir_loop, page_lines
 from telemetry_parser import parse_line
 
 log = logging.getLogger("pod")
@@ -38,18 +46,6 @@ INFLUX_BUCKET = os.environ.get("INFLUX_BUCKET", "shuffler")
 CTL_PORT = 5017
 TX_CHAR_GAP_S = 0.002   # the firmware drops bytes of a back-to-back line at 921600 (one RX IRQ per byte)
 
-# IR remote key -> Nucleo command (edit after `ir-keytable -t` shows your remote's codes)
-IR_MAP = {
-    "KEY_POWER": ["C,EN,0"],
-    "KEY_PLAY": ["C,EN,1"],
-    "KEY_STOP": ["C,ESTOP"],
-    "KEY_OK": ["C,CLEAR"],
-    "KEY_1": ["C,MODE,OL"], "KEY_2": ["C,MODE,CL"],
-    "KEY_3": ["C,MODE,OL1"], "KEY_4": ["C,MODE,CL1"],
-    "KEY_5": ["C,MODE,OL2"], "KEY_6": ["C,MODE,CL2"],
-    "KEY_0": ["C,MODE,IDLE"],
-}
-MODE_CYCLE = ["IDLE", "OL", "CL", "OL1", "CL1", "OL2", "CL2"]
 
 # LCD line 1 per requested mode (16 chars max, fault code is appended in cols 13-16)
 MODE_TEXT = {"IDLE": "IDLE", "OL": "BOTH OL", "CL": "BOTH CL", "OL1": "S1 TOP OL", "CL1": "S1 TOP CL",
@@ -134,7 +130,8 @@ class CtlServer:
                     line, buf = buf.split(b"\n", 1)
                     cmd = line.decode(errors="replace").strip()
                     if cmd:
-                        self.nucleo.send(cmd)
+                        # the e-load's 2 Hz vstr_pi forward is routine: debug log, not recorded as a command
+                        self.nucleo.send(cmd, quiet=cmd.startswith("C,SET,vstr_pi,"))
         except OSError:
             pass
         with self.lock:
@@ -155,10 +152,11 @@ class CtlServer:
 class Nucleo:
     """Serial link; every line goes to on_line, commands are queued and answered."""
 
-    def __init__(self, port: str, baud: int, on_line):
+    def __init__(self, port: str, baud: int, on_line, on_tx=None):
         self.port, self.baud = port, baud
         self.ser = None  # opened (and re-opened) by _rx so the pod runs without a Nucleo
         self.on_line = on_line
+        self.on_tx = on_tx            # callable(cmd) for every non-quiet command that went out
         self.tx = queue.Queue()
         self.alive = 0.0
         self.connects = 0
@@ -181,6 +179,8 @@ class Nucleo:
                     self.ser.flush()
                     time.sleep(TX_CHAR_GAP_S)
                 (log.debug if quiet else log.info)("-> %s", cmd)
+                if not quiet and self.on_tx is not None:
+                    self.on_tx(cmd)
             except (serial.SerialException, OSError) as e:
                 log.warning("-> %s failed: %s", cmd, e)
 
@@ -230,6 +230,9 @@ class PodState:
         self.init_running = False
         self.init_result: str | None = None   # "PASS" / "FAIL"
         self.init_fails = 0
+        self.kscale = math.nan
+        self.pver = ""
+        self.eload: dict | None = None   # last E,STATUS from the eload service (None = service down)
 
     @property
     def switching(self) -> bool:
@@ -263,6 +266,7 @@ class Ui:
     def __init__(self):
         self.led = None
         self.lcd = None
+        self.remote = None            # remote.Remote: menu / message views and the EQ status pages
         try:
             from gpiozero import RGBLED
             self.led = RGBLED(12, 13, 19)
@@ -291,6 +295,14 @@ class Ui:
 
     def _lines(self, st: PodState, link_ok: bool, page: int) -> tuple[str, str]:
         b = self._box
+        if self.remote is not None:
+            ov = self.remote.lines()
+            if ov is not None:
+                return ov
+            page = self.remote.status_page(page)
+            pl = page_lines(st, page)
+            if pl is not None:
+                return pl
         if not link_ok:
             return "NO NUCLEO LINK", "check USB cable"
         if st.view == "init":
@@ -308,17 +320,14 @@ class Ui:
         l1 = MODE_TEXT.get(st.mode, st.mode)
         if f["fault_active"]:
             l1 = f"{l1[:12]:<12}F{st.fault:03x}"
-        if page == 0:
-            l2 = f"S1{b[f['s1_active']]} S2{b[f['s2_active']]} SW{b[f['switching']]} FL{b[f['fault_active']]}"
-        else:
-            l2 = f"V2 {st.vm[1]:4.1f} V3 {st.vm[2]:4.1f}"
+        l2 = f"S1{b[f['s1_active']]} S2{b[f['s2_active']]} SW{b[f['switching']]} FL{b[f['fault_active']]}"
         return l1, l2
 
     def show(self, st: PodState, link_ok: bool):
         if self.led:
             self._led(st, link_ok)
         if self.lcd:
-            page = int(time.time() / 3) % 2      # mode view alternates checkboxes / S2 module voltages
+            page = int(time.time() / 3) % 2      # auto: mode view alternates checkboxes / module voltages
             l1, l2 = self._lines(st, link_ok, page)
             try:
                 self.lcd.write(l1[:16], l2[:16])
@@ -340,9 +349,16 @@ def main():
     ui = Ui()
     st = PodState()
     ctl: CtlServer | None = None
+    remote: Remote | None = None
     t_echo = [0.0]
 
+    pending_params: dict[str, float] = {}
+
+    def record(direction: str, line: str, source: str = "nucleo"):
+        influx.write("cmd", {"line": line}, {"source": source, "dir": direction})
+
     def on_note(s: str):
+        influx.write("note", {"line": s[1:].strip()}, {"source": "nucleo"})
         m = INIT_RE.match(s)
         r = INIT_RESULT_RE.match(s)       # checked first: the RESULT line also fits INIT_RE
         if s.startswith("# INIT check start"):
@@ -374,6 +390,8 @@ def main():
         if fr.kind == "T":
             st.state, st.fault = fr.state, fr.fault
             st.vm = [fr.values.get(f"VM{k}", math.nan) for k in (1, 2, 3)]
+            st.kscale = fr.values.get("kscale", st.kscale)
+            st.pver = fr.values.get("pver", st.pver)
             if st.switching:
                 st.view = "mode"
             fields = {k: v for k, v in fr.values.items() if k != "pver"}
@@ -391,20 +409,43 @@ def main():
             influx.write("fault", {"code": float(fr.fault), "value": fr.values["value"]},
                          {"source": "nucleo", "channel": fr.values["channel"]})
             log.error("FAULT %s", fr.raw)
+        elif fr.kind == "P":
+            if "class" in fr.values:                    # C,LIST row; written as one "params" point on A,LIST
+                pending_params[fr.values["name"]] = fr.values["value"]
         elif fr.kind == "A":
+            if remote is not None:
+                remote.on_answer(fr.raw)
+            cmd, ok = fr.values["cmd"], fr.values["ok"]
             # heartbeat and e-load forwarding answers are routine; refusals are not
-            if not fr.values["ok"]:
+            if not ok:
                 log.warning("<- %s", fr.raw)
-            elif fr.values["cmd"] in ("PING", "SET", "GET", "LIST"):
+            elif cmd in ("PING", "SET", "GET", "LIST"):
                 log.debug("<- %s", fr.raw)
             else:
                 log.info("<- %s", fr.raw)
+            if not ok or cmd not in ("PING", "SET", "GET", "LIST"):
+                record("rx", fr.raw)
+            if cmd == "LIST" and pending_params:
+                fields = dict(pending_params, dirty="staged changes pending" in fr.values["why"])
+                influx.write("params", fields, {"source": "nucleo", "pver": st.pver})
+                pending_params.clear()
+            elif cmd == "APPLY" and ok:
+                nucleo.send("C,LIST", quiet=True)       # record the gain set that is now active
 
-    nucleo = Nucleo(a.port, a.baud, on_line)
+    nucleo = Nucleo(a.port, a.baud, on_line, on_tx=lambda c: record("tx", c))
     ctl = CtlServer(nucleo)
+    eload = EloadLink()
+    remote = Remote(nucleo, st, lambda: (time.time() - nucleo.alive) < 2.0, eload=eload, record=record)
+    ui.remote = remote
+
+    def eload_poll():
+        while True:                       # own thread: the eload service may be down or slow
+            st.eload = eload.status()
+            time.sleep(1.0)
+    threading.Thread(target=eload_poll, daemon=True).start()
 
     if not a.no_ir:
-        threading.Thread(target=ir_loop, args=(nucleo,), daemon=True).start()
+        threading.Thread(target=ir_loop, args=(remote,), daemon=True).start()
 
     t_last = 0.0
     temp = None
@@ -436,39 +477,6 @@ def main():
             influx.write("pod", pod_fields, {"source": "pi"})
         ui.show(st, link_ok)
         time.sleep(0.2)
-
-
-def ir_loop(nucleo: Nucleo):
-    """gpio-ir overlay (dtoverlay=gpio-ir,gpio_pin=17) + ir-keytable -> /dev/input/event*."""
-    try:
-        import evdev
-    except ImportError:
-        log.warning("evdev missing: IR disabled")
-        return
-    dev = None
-    for path in evdev.list_devices():
-        d = evdev.InputDevice(path)
-        if "gpio_ir" in d.name.lower() or "ir" in d.name.lower():
-            dev = d
-            break
-    if dev is None:
-        log.warning("no IR input device")
-        return
-    log.info("IR: %s", dev.name)
-    mode_idx = 0
-    for ev in dev.read_loop():
-        if ev.type != evdev.ecodes.EV_KEY or ev.value != 1:
-            continue
-        key = evdev.ecodes.KEY[ev.code]
-        if key == "KEY_RIGHT":
-            mode_idx = (mode_idx + 1) % len(MODE_CYCLE)
-            nucleo.send(f"C,MODE,{MODE_CYCLE[mode_idx]}")
-        elif key == "KEY_LEFT":
-            mode_idx = (mode_idx - 1) % len(MODE_CYCLE)
-            nucleo.send(f"C,MODE,{MODE_CYCLE[mode_idx]}")
-        else:
-            for cmd in IR_MAP.get(key, []):
-                nucleo.send(cmd)
 
 
 if __name__ == "__main__":

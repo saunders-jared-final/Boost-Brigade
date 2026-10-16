@@ -1,9 +1,11 @@
 #!/usr/bin/env python3
-"""Send commands to the Nucleo through the running pod service (it owns the serial port).
+"""Send commands to the Nucleo through the running pod service (it owns the serial port), and to the
+Rigol DL3021 through the eload service (E,... lines go to its control socket and print the answer).
 Over SSH on the Pi:
     python3 podctl.py C,TEST,0              one command, print what comes back for --wait seconds
-    python3 podctl.py C,TEST,1 C,EN,1       several, in order
-    python3 podctl.py                       interactive: type C,... lines, `q` quits
+    python3 podctl.py C,MODE,OL C,EN,1      several, in order
+    python3 podctl.py E,STATUS              e-load status (JSON); E,INPUT,0|1  E,MODE,CV  E,SET,CV,70  E,LOCAL  E,REMOTE
+    python3 podctl.py                       interactive: type C,... / E,... lines, `q` quits
 T frames are echoed once per second; --quiet-t hides them."""
 import argparse
 import socket
@@ -12,6 +14,16 @@ import threading
 import time
 
 CTL = ("127.0.0.1", 5017)
+ELOAD = ("127.0.0.1", 5018)
+
+
+def eload_cmd(line: str):
+    try:
+        with socket.create_connection(ELOAD, timeout=10) as e:
+            e.sendall((line + "\n").encode())
+            print(e.makefile().readline().rstrip(), flush=True)
+    except OSError as err:
+        print(f"eload service not reachable on {ELOAD[0]}:{ELOAD[1]} ({err}); systemctl status eload", flush=True)
 
 
 def main():
@@ -43,6 +55,9 @@ def main():
     threading.Thread(target=rx, daemon=True).start()
     if a.cmds:
         for c in a.cmds:
+            if c.startswith("E,"):
+                eload_cmd(c)
+                continue
             s.sendall((c + "\n").encode())
             time.sleep(0.3)
         time.sleep(a.wait)
@@ -51,7 +66,9 @@ def main():
         line = line.strip()
         if line == "q":
             break
-        if line:
+        if line.startswith("E,"):
+            eload_cmd(line)
+        elif line:
             s.sendall((line + "\n").encode())
 
 

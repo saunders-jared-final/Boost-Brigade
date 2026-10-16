@@ -221,9 +221,10 @@ void prt_init(void)
   prt.vm_ov = APP_VM_OV_V;
   prt.vm_uv = APP_VM_UV_V;
   prt.vstr_ov = APP_VSTR_OV_V;
-  prt.vm1_src = (float)VM1_SRC_INA;
+  prt.vm1_src = (float)VM1_SRC_VSTR_PI;   /* U10 (CS3) is unreliable on the Version 0 board: VM1 = DL3021 readback - U11 */
   prt.vstr_param = 70.0f;
   prt.vstr_pi = 0.0f;
+  prt.vm1_prot = 0.0f;
   prt.slew = APP_DUTY_SLEW;
   prt.wdg_s = APP_COMMS_WDG_S;
 
@@ -261,6 +262,7 @@ void prt_init(void)
   add("vstr_ov", &prt.vstr_ov, 10.0f, 96.0f, PRM_LIVE, H_NONE);
   add("vstr_param", &prt.vstr_param, 0.0f, 150.0f, PRM_LIVE, H_NONE);
   add("vstr_pi", &prt.vstr_pi, 0.0f, 150.0f, PRM_LIVE, H_VSTR_PI);
+  add("vm1_prot", &prt.vm1_prot, 0.0f, 1.0f, PRM_LIVE, H_NONE);
   add("slew", &prt.slew, 0.0005f, 0.2f, PRM_LIVE, H_NONE);
   add("wdg_s", &prt.wdg_s, 0.0f, 60.0f, PRM_LIVE, H_NONE);
   /* idle only */
@@ -293,7 +295,7 @@ bool prt_set(const char *name, float v, bool running, const char **why)
   if (v < e->lo || v > e->hi) { *why = "out of range (C,LIST shows bounds)"; return false; }
   if (e->cls == PRM_IDLE && running) { *why = "stop first (idle-only parameter)"; return false; }
   if (e->hook == H_HALL && strncmp(name, "hall_mva", 8) == 0 && fabsf(v) < 10.0f) { *why = "|mV/A| must be >= 10"; return false; }
-  if (strcmp(name, "vm1_src") == 0) v = floorf(v + 0.5f);
+  if (strcmp(name, "vm1_src") == 0 || strcmp(name, "vm1_prot") == 0) v = floorf(v + 0.5f);
   *e->p = v;
   if (e->cls == PRM_STAGED) s_dirty = 1U;
   run_hook(e);
