@@ -1,4 +1,32 @@
 ÿØÿÛ«schematic
+  «component (0,-300) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "Xcab1p"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (0,-2300) 6 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (-60,140) 1 39 0 0x1000000 -1 -1 "Xcab1n"»
+      «text (60,140) 1 39 0 0x1000000 -1 -1 "trace"»
+      «text (160,140) 1 39 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
   «component (0,-800) 4 0
     «symbol V
       «type: V»
@@ -62,6 +90,34 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
+  «component (0,-3100) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "Xcab2p"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (0,-5100) 6 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (-60,140) 1 39 0 0x1000000 -1 -1 "Xcab2n"»
+      «text (60,140) 1 39 0 0x1000000 -1 -1 "trace"»
+      «text (160,140) 1 39 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
   «component (0,-3600) 4 0
     «symbol V
       «type: V»
@@ -123,6 +179,34 @@
       «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=0.1 IC=23.8"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (0,-5900) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "Xcab3p"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (0,-7900) 6 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (-60,140) 1 39 0 0x1000000 -1 -1 "Xcab3n"»
+      «text (60,140) 1 39 0 0x1000000 -1 -1 "trace"»
+      «text (160,140) 1 39 2 0x1000000 -1 -1 "R=0.00695 L={LLEAD} RP=50"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
     »
   »
   «component (0,-6400) 4 0
@@ -267,7 +351,24 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "C1"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "130u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=28m IC=22.4"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KESR*0.028} IC=22.4"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (3000,-1800) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lc1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KESL*1.5e-08}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -283,7 +384,24 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "C2"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "130u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=28m IC=23.8"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KESR*0.028} IC=23.8"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (3000,-4600) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lc2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KESL*1.5e-08}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -299,7 +417,24 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "C3"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "130u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=28m IC=23.8"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KESR*0.028} IC=23.8"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (3500,-4600) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lc3"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KESL*1.5e-08}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -315,7 +450,120 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "C4"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "130u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=28m IC=23.8"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KESR*0.028} IC=23.8"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (3000,-7400) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lc4"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KESL*1.5e-08}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (8600,0) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtT1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.000518} L={KLRAIL*2.4e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8600,-2400) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtB1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.00011} L={KLRAIL*2.3e-10}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (10100,-200) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LdTA1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-1000) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LsTA1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-1400) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LdBA1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-2200) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LsBA1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -362,7 +610,21 @@
       «pin (100,-200) (0,0) 1 0 0 0x0 -1 "S"»
     »
   »
-  «component (9500,-500) 2 0
+  «component (9300,-600) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgTA1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=5.61m L=1.19n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8700,-500) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -376,7 +638,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (9500,-700) 2 0
+  «component (8700,-700) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -390,7 +652,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (8200,-600) 0 0
+  «component (7600,-600) 0 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -407,7 +669,21 @@
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
     »
   »
-  «component (9500,-1700) 2 0
+  «component (9300,-1800) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgBA1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=10.8m L=1.41n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8700,-1700) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -421,7 +697,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (9500,-1900) 2 0
+  «component (8700,-1900) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -435,7 +711,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (8200,-1800) 0 0
+  «component (7600,-1800) 0 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -450,6 +726,132 @@
       «pin (0,-300) (0,60) 1 11 0 0x0 -1 "VEE2"»
       «pin (400,100) (-60,-40) 1 14 0 0x0 -1 "OUTH"»
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
+    »
+  »
+  «component (10800,-600) 0 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "RsnTA1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-1000) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "CsnTA1"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-1400) 0 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "RsnBA1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-1800) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "CsnBA1"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-200) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LdTB1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-1000) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LsTB1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-1400) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LdBB1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-2200) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LsBB1"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
   «component (15400,-600) 8 0
@@ -494,7 +896,21 @@
       «pin (100,-200) (0,0) 1 0 0 0x0 -1 "S"»
     »
   »
-  «component (15900,-500) 6 0
+  «component (16100,-600) 8 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgTB1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=3.61m L=1.04n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (16700,-500) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -508,7 +924,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (15900,-700) 6 0
+  «component (16700,-700) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -522,7 +938,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (17200,-600) 8 0
+  «component (18000,-600) 8 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -539,7 +955,21 @@
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
     »
   »
-  «component (15900,-1700) 6 0
+  «component (16100,-1800) 8 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgBB1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=5.33m L=1.25n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (16700,-1700) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -553,7 +983,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (15900,-1900) 6 0
+  «component (16700,-1900) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -567,7 +997,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (17200,-1800) 8 0
+  «component (18000,-1800) 8 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -582,6 +1012,92 @@
       «pin (0,-300) (0,60) 1 11 0 0x0 -1 "VEE2"»
       «pin (400,100) (-60,-40) 1 14 0 0x0 -1 "OUTH"»
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
+    »
+  »
+  «component (14600,-600) 8 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "RsnTB1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-1000) 8 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (-150,100) 1 11 0 0x1000000 -1 -1 "CsnTB1"»
+      «text (-150,-100) 1 11 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-1400) 8 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "RsnBB1"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-1800) 8 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (-150,100) 1 11 0 0x1000000 -1 -1 "CsnBB1"»
+      «text (-150,-100) 1 11 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (11600,-1200) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtSWA1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.000795} L={KLSW*1.58e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (13800,-1200) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtSWB1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.001563} L={KLSW*5.58e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
     »
   »
   «component (12700,-1200) 0 0
@@ -616,7 +1132,21 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (12500,-300) 0 0
+  «component (12500,-200) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "XtLA1"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R={KR*0.001352} L={KLSW*2.68e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (12500,300) 0 0
     «symbol TMCS1126
       «type: X»
       «description: hall current sensor (conductor path)»
@@ -647,7 +1177,21 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (12900,-300) 0 0
+  «component (12900,-200) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "XtLB1"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R={KR*0.000992} L={KLSW*2.32e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (12900,300) 0 0
     «symbol TMCS1126
       «type: X»
       «description: hall current sensor (conductor path)»
@@ -659,6 +1203,20 @@
       «text (0,-300) 1 0 2 0x1000000 -1 -1 "RSH=0.7m LSH=0.5n"»
       «pin (0,-200) (0,60) 1 11 0 0x0 -1 "IN"»
       «pin (0,200) (0,-90) 1 7 0 0x0 -1 "OUT"»
+    »
+  »
+  «component (13500,600) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtM1"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.000149} L={KLRAIL*2.9e-10}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
     »
   »
   «component (4400,-1200) 0 0
@@ -710,7 +1268,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (6600,-200) 0 0
+  «component (6000,-200) 0 0
     «symbol D
       «type: D»
       «description: Diode»
@@ -726,7 +1284,7 @@
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "K"»
     »
   »
-  «component (6600,-600) 0 0
+  «component (6000,-600) 0 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -740,7 +1298,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (6200,-200) 0 0
+  «component (5600,-200) 0 0
     «symbol C
       «type: C»
       «description: Capacitor»
@@ -751,12 +1309,12 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "CbA1"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "100n"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (5800,-200) 0 0
+  «component (5200,-200) 0 0
     «symbol C
       «type: C»
       «description: Capacitor»
@@ -767,7 +1325,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "Cb2A1"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "10u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -813,7 +1371,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "CbB1"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "100n"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -829,7 +1387,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "Cb2B1"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "10u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -902,6 +1460,166 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
+  «component (21800,-800) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "Chf01"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Chf}"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KHF*0.02}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (21800,-1200) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lhf01"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KHF*8e-10}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (22800,-800) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "Chf11"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Chf}"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KHF*0.02}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (22800,-1200) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lhf11"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KHF*8e-10}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (8600,-4600) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtT2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.000149} L={KLRAIL*2.9e-10}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8600,-7000) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtB2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*2.2e-05} L={KLRAIL*2e-11}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (10100,-4800) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LdTA2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-5600) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LsTA2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-6000) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LdBA2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10100,-6800) 8 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "LsBA2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (-80,-160) 1 11 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
   «component (10000,-5200) 0 0
     «symbol NMOS
       «type: MN»
@@ -944,7 +1662,21 @@
       «pin (100,-200) (0,0) 1 0 0 0x0 -1 "S"»
     »
   »
-  «component (9500,-5100) 2 0
+  «component (9300,-5200) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgTA2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=3.01m L=0.91n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8700,-5100) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -958,7 +1690,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (9500,-5300) 2 0
+  «component (8700,-5300) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -972,7 +1704,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (8200,-5200) 0 0
+  «component (7600,-5200) 0 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -989,7 +1721,21 @@
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
     »
   »
-  «component (9500,-6300) 2 0
+  «component (9300,-6400) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgBA2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=4.85m L=1.25n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (8700,-6300) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1003,7 +1749,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (9500,-6500) 2 0
+  «component (8700,-6500) 2 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1017,7 +1763,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (8200,-6400) 0 0
+  «component (7600,-6400) 0 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -1032,6 +1778,132 @@
       «pin (0,-300) (0,60) 1 11 0 0x0 -1 "VEE2"»
       «pin (400,100) (-60,-40) 1 14 0 0x0 -1 "OUTH"»
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
+    »
+  »
+  «component (10800,-5200) 0 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "RsnTA2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-5600) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "CsnTA2"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-6000) 0 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "RsnBA2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (10800,-6400) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "CsnBA2"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-4800) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LdTB2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-5600) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LsTB2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-6000) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LdBB2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*1.5e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (15300,-6800) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "LsBB2"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KLSW*3e-09}"»
+      «text (80,-160) 1 7 2 0x1000000 -1 -1 "RPAR=5"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
   «component (15400,-5200) 8 0
@@ -1076,7 +1948,21 @@
       «pin (100,-200) (0,0) 1 0 0 0x0 -1 "S"»
     »
   »
-  «component (15900,-5100) 6 0
+  «component (16100,-5200) 8 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgTB2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=3.39m L=0.95n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (16700,-5100) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1090,7 +1976,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (15900,-5300) 6 0
+  «component (16700,-5300) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1104,7 +1990,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (17200,-5200) 8 0
+  «component (18000,-5200) 8 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -1121,7 +2007,21 @@
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
     »
   »
-  «component (15900,-6300) 6 0
+  «component (16100,-6400) 8 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtgBB2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R=4.44m L=1.1n"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (16700,-6300) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1135,7 +2035,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (15900,-6500) 6 0
+  «component (16700,-6500) 6 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1149,7 +2049,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (17200,-6400) 8 0
+  «component (18000,-6400) 8 0
     «symbol 1ED3140
       «type: X»
       «description: isolated gate driver»
@@ -1164,6 +2064,92 @@
       «pin (0,-300) (0,60) 1 11 0 0x0 -1 "VEE2"»
       «pin (400,100) (-60,-40) 1 14 0 0x0 -1 "OUTH"»
       «pin (400,-100) (-60,-40) 1 14 0 0x0 -1 "OUTL"»
+    »
+  »
+  «component (14600,-5200) 8 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "RsnTB2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-5600) 8 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (-150,100) 1 11 0 0x1000000 -1 -1 "CsnTB2"»
+      «text (-150,-100) 1 11 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-6000) 8 0
+    «symbol R
+      «type: R»
+      «description: Resistor»
+      «shorted pins: false»
+      «line (0,-200) (0,-150) 0 0 0x1000000 -1 -1»
+      «line (0,150) (0,200) 0 0 0x1000000 -1 -1»
+      «rect (50,-150) (-50,150) 0 0 0 0x1000000 0x2000000 -1 0 -1»
+      «text (-80,60) 1 11 0 0x1000000 -1 -1 "RsnBB2"»
+      «text (-80,-60) 1 11 0 0x1000000 -1 -1 "{Rsn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (14600,-6400) 8 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (-150,100) 1 11 0 0x1000000 -1 -1 "CsnBB2"»
+      «text (-150,-100) 1 11 0 0x1000000 -1 -1 "{Csn}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (11600,-5800) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtSWA2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.001872} L={KLSW*2.52e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (13800,-5800) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtSWB2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.001132} L={KLSW*1.04e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
     »
   »
   «component (12700,-5800) 0 0
@@ -1198,7 +2184,21 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (12500,-4900) 0 0
+  «component (12500,-4800) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "XtLA2"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R={KR*0.001} L={KLSW*2e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (12500,-4300) 0 0
     «symbol TMCS1126
       «type: X»
       «description: hall current sensor (conductor path)»
@@ -1229,7 +2229,21 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (12900,-4900) 0 0
+  «component (12900,-4800) 2 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (60,-140) 1 103 0 0x1000000 -1 -1 "XtLB2"»
+      «text (-60,-140) 1 103 0 0x1000000 -1 -1 "trace"»
+      «text (-160,-140) 1 103 2 0x1000000 -1 -1 "R={KR*0.001} L={KLSW*2e-09}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
+    »
+  »
+  «component (12900,-4300) 0 0
     «symbol TMCS1126
       «type: X»
       «description: hall current sensor (conductor path)»
@@ -1241,6 +2255,20 @@
       «text (0,-300) 1 0 2 0x1000000 -1 -1 "RSH=0.7m LSH=0.5n"»
       «pin (0,-200) (0,60) 1 11 0 0x0 -1 "IN"»
       «pin (0,200) (0,-90) 1 7 0 0x0 -1 "OUT"»
+    »
+  »
+  «component (13500,-4000) 0 0
+    «symbol trace
+      «type: X»
+      «description: PCB trace / cable lump»
+      «library file: shuffler_models.lib»
+      «shorted pins: false»
+      «rect (-300,-100) (300,100) 0 0 0 0xff0000 0x4000000 -1 0 -1»
+      «text (0,60) 1 0 0 0x1000000 -1 -1 "XtM2"»
+      «text (0,-60) 1 0 0 0x1000000 -1 -1 "trace"»
+      «text (0,-200) 1 0 2 0x1000000 -1 -1 "R={KR*0.00011} L={KLRAIL*2.3e-10}"»
+      «pin (-300,0) (60,-40) 1 13 0 0x0 -1 "A"»
+      «pin (300,0) (-60,-40) 1 14 0 0x0 -1 "B"»
     »
   »
   «component (4400,-5800) 0 0
@@ -1292,7 +2320,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (6600,-4800) 0 0
+  «component (6000,-4800) 0 0
     «symbol D
       «type: D»
       «description: Diode»
@@ -1308,7 +2336,7 @@
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "K"»
     »
   »
-  «component (6600,-5200) 0 0
+  «component (6000,-5200) 0 0
     «symbol R
       «type: R»
       «description: Resistor»
@@ -1322,7 +2350,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (6200,-4800) 0 0
+  «component (5600,-4800) 0 0
     «symbol C
       «type: C»
       «description: Capacitor»
@@ -1333,12 +2361,12 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "CbA2"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "100n"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
-  «component (5800,-4800) 0 0
+  «component (5200,-4800) 0 0
     «symbol C
       «type: C»
       «description: Capacitor»
@@ -1349,7 +2377,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "Cb2A2"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "10u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -1395,7 +2423,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "CbB2"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "100n"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=20m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -1411,7 +2439,7 @@
       «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
       «text (150,100) 1 7 0 0x1000000 -1 -1 "Cb2B2"»
       «text (150,-100) 1 7 0 0x1000000 -1 -1 "10u"»
-      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER=5m IC=11.5"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
@@ -1482,6 +2510,70 @@
       «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=if(V(RAMPB) > V(DB2C), if(V(RAMPB) < 0.98, 3.3, 0), 0)"»
       «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (21800,-5400) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "Chf02"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Chf}"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KHF*0.02}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (21800,-5800) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lhf02"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KHF*8e-10}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (22800,-5400) 0 0
+    «symbol C
+      «type: C»
+      «description: Capacitor»
+      «shorted pins: false»
+      «line (0,200) (0,40) 0 0 0x1000000 -1 -1»
+      «line (0,-40) (0,-200) 0 0 0x1000000 -1 -1»
+      «rect (-130,-40) (130,-30) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «rect (-130,30) (130,40) 0 0 0 0x1000000 0x3000000 -1 0 -1»
+      «text (150,100) 1 7 0 0x1000000 -1 -1 "Chf12"»
+      «text (150,-100) 1 7 0 0x1000000 -1 -1 "{Chf}"»
+      «text (150,-200) 1 7 2 0x1000000 -1 -1 "RSER={KHF*0.02}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
+    »
+  »
+  «component (22800,-5800) 0 0
+    «symbol L
+      «type: L»
+      «description: Inductor»
+      «shorted pins: false»
+      «line (0,200) (0,150) 0 0 0x1000000 -1 -1»
+      «line (0,-150) (0,-200) 0 0 0x1000000 -1 -1»
+      «ellipse (-45,150) (45,50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,50) (45,-50) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «ellipse (-45,-50) (45,-150) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «text (80,60) 1 7 0 0x1000000 -1 -1 "Lhf12"»
+      «text (80,-60) 1 7 0 0x1000000 -1 -1 "{KHF*8e-10}"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "1"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "2"»
     »
   »
   «component (8000,-12000) 0 0
@@ -2041,40 +3133,47 @@
   «text (-9000,-14000) 1 7 0 0x1000000 -1 -1 "ï»¿.param LOADSEL=2 VCV=70 RCV=0.05 Rmpp=1 Icc=1 VSET=25 RCLAMP=0.05 ILIM1=0.8"Â»
   «text (-9000,-14150) 1 7 0 0x1000000 -1 -1 "ï»¿.param ILIM2=1 ILIM3=1.3 IRR3=1000 SHADE=0.5 TSHADE=1 KSCALE=1 MSEL=0 FILT=0"Â»
   «text (-9000,-14300) 1 7 0 0x1000000 -1 -1 "ï»¿.param FC=2000 NOISE=0 SAMP=1 KBERR=1 VM1SRC=0 VSTRP=70 VSTEP2=2 DU=0"Â»
-  «text (-9000,-14450) 1 7 0 0x1000000 -1 -1 "ï»¿.param RUN=1 D2=0.5 S1OFF=1"Â»
-  «text (-9000,-14600) 1 7 0 0x1000000 -1 -1 "ï»¿.save V(PV1P) V(PV2P) V(PV3P) I(VsA1) I(VsB1) I(VsA2) I(VsB2) V(DA1) V(DB1) V(DA2) V(DB2) V(BETA) V(STRESS) V(RV1) V(RV2) V(IM1R) V(IM2R) I(Bload) I(Vi1) I(Vi2) I(Vi3) V(VREF2) V(HSA2) V(HSB2) V(SWA2)"Â»
-  «text (-9000,-14750) 1 7 0 0x1000000 -1 -1 "ï»¿.ic V(PV1P)=70 V(PV2P)=47.6 V(PV3P)=23.8"Â»
-  «text (-9000,-14900) 1 7 0 0x1000000 -1 -1 "ï»¿.step param D2 list 0.49 0.5 0.51"Â»
-  «text (-9000,-15050) 1 7 0 0x1000000 -1 -1 "ï»¿.tran 0 3m 0 250n uic"Â»
-  «text (-9000,-15200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-15350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-15500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y3 AVG I(VsA1)-I(VsB1) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-15650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y4 AVG I(VsA2)-I(VsB2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-15800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-15950) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16100) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm1 AVG V(PV1P,PV2P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16250) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i1 AVG I(Vi1) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16400) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm2 AVG V(PV2P,PV3P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16550) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i2 AVG I(Vi2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16700) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm3 AVG V(PV3P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-16850) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i3 AVG I(Vi3) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-17000) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vstr AVG V(PV1P) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-17150) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran istr AVG I(Bload) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-17300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2avg AVG I(VsA2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-17450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2max MAX I(VsA2) FROM 0.00298 TO 0.003"Â»
-  «text (-9000,-17600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2min MIN I(VsA2) FROM 0.00298 TO 0.003"Â»
-  «text (-9000,-17750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2rms RMS I(VsA2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-17900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2avg AVG I(VsB2) FROM 0.0025 TO 0.003"Â»
-  «text (-9000,-18050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2max MAX I(VsB2) FROM 0.00298 TO 0.003"Â»
-  «text (-9000,-18200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2min MIN I(VsB2) FROM 0.00298 TO 0.003"Â»
-  «text (-9000,-18350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2rms RMS I(VsB2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-14450) 1 7 0 0x1000000 -1 -1 "ï»¿.param RUN=1 D2=0.5 S1OFF=1 KLSW=1 KLRAIL=1 KESL=0.7 KESR=0.6 KHF=1"Â»
+  «text (-9000,-14600) 1 7 0 0x1000000 -1 -1 "ï»¿.param KR=1 LLEAD=750n Csn=470p Rsn=4.7 Chf=100n"Â»
+  «text (-9000,-14750) 1 7 0 0x1000000 -1 -1 "ï»¿.save V(PV1P) V(PV2P) V(PV3P) I(VsA1) I(VsB1) I(VsA2) I(VsB2) V(DA1) V(DB1) V(DA2) V(DB2) V(BETA) V(STRESS) V(RV1) V(RV2) V(IM1R) V(IM2R) I(Bload) I(Vi1) I(Vi2) I(Vi3) V(VREF2) V(HSA2) V(HSB2) V(SWA2)"Â»
+  «text (-9000,-14900) 1 7 0 0x1000000 -1 -1 "ï»¿.ic V(PV1P)=70 V(PV2P)=47.6 V(PV3P)=23.8"Â»
+  «text (-9000,-15050) 1 7 0 0x1000000 -1 -1 "ï»¿.step param D2 list 0.49 0.5 0.51"Â»
+  «text (-9000,-15200) 1 7 0 0x1000000 -1 -1 "ï»¿.tran 0 3m 0 250n uic"Â»
+  «text (-9000,-15350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-15500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-15650) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y3 AVG I(VsA1)-I(VsB1) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-15800) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran y4 AVG I(VsA2)-I(VsB2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-15950) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish1 AVG I(VsA1)+I(VsB1) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16100) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran ish2 AVG I(VsA2)+I(VsB2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16250) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm1 AVG V(PV1P,PV2P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16400) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i1 AVG I(Vi1) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16550) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm2 AVG V(PV2P,PV3P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16700) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i2 AVG I(Vi2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-16850) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vm3 AVG V(PV3P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-17000) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran i3 AVG I(Vi3) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-17150) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vstr AVG V(PV1P) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-17300) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran istr AVG I(Bload) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-17450) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2avg AVG I(VsA2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-17600) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2max MAX I(VsA2) FROM 0.00298 TO 0.003"Â»
+  «text (-9000,-17750) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2min MIN I(VsA2) FROM 0.00298 TO 0.003"Â»
+  «text (-9000,-17900) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsa2rms RMS I(VsA2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-18050) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2avg AVG I(VsB2) FROM 0.0025 TO 0.003"Â»
+  «text (-9000,-18200) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2max MAX I(VsB2) FROM 0.00298 TO 0.003"Â»
+  «text (-9000,-18350) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2min MIN I(VsB2) FROM 0.00298 TO 0.003"Â»
+  «text (-9000,-18500) 1 7 0 0x1000000 -1 -1 "ï»¿.meas tran vsb2rms RMS I(VsB2) FROM 0.0025 TO 0.003"Â»
+  «net (-400,0) 1 11 0 "PV1P"»
   «net (-600,-1500) 1 11 0 "E1"»
+  «net (1000,-600) 1 14 0 "m1p"»
+  «net (1000,-2000) 1 14 0 "m1n"»
+  «net (-400,-2800) 1 11 0 "PV2P"»
   «net (-600,-4300) 1 11 0 "E2"»
+  «net (1000,-3400) 1 14 0 "m2p"»
+  «net (1000,-4800) 1 14 0 "m2n"»
+  «net (-400,-5600) 1 11 0 "PV3P"»
   «net (-600,-7100) 1 11 0 "E3"»
-  «net (1400,0) 1 14 0 "PV1P"»
-  «net (1400,-2800) 1 14 0 "PV2P"»
-  «net (1400,-5600) 1 14 0 "PV3P"»
-  «net (1400,-8400) 1 14 0 "GND"»
+  «net (1000,-6200) 1 14 0 "m3p"»
+  «net (1000,-7600) 1 14 0 "m3n"»
+  «net (-400,-8400) 1 11 0 "GND"»
   «net (2000,-900) 1 14 0 "PV1P"»
   «net (2000,-1900) 1 13 0 "GND"»
   «net (-5000,-9600) 1 14 0 "E1"»
@@ -2084,47 +3183,52 @@
   «net (-3800,-9600) 1 14 0 "E3"»
   «net (-3800,-10400) 1 13 0 "GND"»
   «net (3000,-900) 1 14 0 "PV1P"»
-  «net (3000,-1900) 1 13 0 "PV2P"»
+  «net (3000,-2300) 1 13 0 "PV2P"»
   «net (3000,-3700) 1 14 0 "PV2P"»
-  «net (3000,-4700) 1 13 0 "PV3P"»
+  «net (3000,-5100) 1 13 0 "PV3P"»
   «net (3500,-3700) 1 14 0 "PV2P"»
-  «net (3500,-4700) 1 13 0 "PV3P"»
+  «net (3500,-5100) 1 13 0 "PV3P"»
   «net (3000,-6500) 1 14 0 "PV3P"»
-  «net (3000,-7500) 1 13 0 "GND"»
-  «net (9200,0) 1 14 0 "PV1P"»
-  «net (16200,0) 1 14 0 "PV1P"»
-  «net (9200,-2400) 1 14 0 "PV3P"»
-  «net (8200,-100) 1 14 0 "BOOTA1"»
-  «net (8200,-1100) 1 13 0 "SWA1"»
-  «net (7600,-500) 1 11 0 "PWM_AH1"»
-  «net (7600,-700) 1 11 0 "PWM_AL1"»
-  «net (8200,-1300) 1 14 0 "VREG1"»
-  «net (8200,-2300) 1 13 0 "PV3P"»
-  «net (7600,-1700) 1 11 0 "PWM_AL1"»
-  «net (7600,-1900) 1 11 0 "PWM_AH1"»
-  «net (17200,-100) 1 14 0 "BOOTB1"»
-  «net (17200,-1100) 1 13 0 "SWB1"»
-  «net (17800,-500) 1 7 0 "PWM_BH1"»
-  «net (17800,-700) 1 7 0 "PWM_BL1"»
-  «net (17200,-1300) 1 14 0 "VREG1"»
-  «net (17200,-2300) 1 13 0 "PV3P"»
-  «net (17800,-1700) 1 7 0 "PWM_BL1"»
-  «net (17800,-1900) 1 7 0 "PWM_BH1"»
-  «net (12000,-1200) 1 13 0 "SWA1"»
-  «net (13400,-1200) 1 14 0 "SWB1"»
-  «net (12900,600) 1 14 0 "PV2P"»
+  «net (3000,-7900) 1 13 0 "GND"»
+  «net (8300,300) 1 14 0 "PV1P"»
+  «net (8300,-2700) 1 13 0 "PV3P"»
+  «net (9200,0) 1 14 0 "T1"»
+  «net (16200,0) 1 14 0 "T1"»
+  «net (9200,-2400) 1 14 0 "B1"»
+  «net (7600,-100) 1 14 0 "BOOTA1"»
+  «net (7600,-1100) 1 13 0 "SWA1"»
+  «net (7000,-500) 1 11 0 "PWM_AH1"»
+  «net (7000,-700) 1 11 0 "PWM_AL1"»
+  «net (7600,-1300) 1 14 0 "VREG1"»
+  «net (7600,-2300) 1 13 0 "B1"»
+  «net (7000,-1700) 1 11 0 "PWM_AL1"»
+  «net (7000,-1900) 1 11 0 "PWM_AH1"»
+  «net (18000,-100) 1 14 0 "BOOTB1"»
+  «net (18000,-1100) 1 13 0 "SWB1"»
+  «net (18600,-500) 1 7 0 "PWM_BH1"»
+  «net (18600,-700) 1 7 0 "PWM_BL1"»
+  «net (18000,-1300) 1 14 0 "VREG1"»
+  «net (18000,-2300) 1 13 0 "B1"»
+  «net (18600,-1700) 1 7 0 "PWM_BL1"»
+  «net (18600,-1900) 1 7 0 "PWM_BH1"»
+  «net (10500,-1200) 1 13 0 "SWA1"»
+  «net (12000,-1200) 1 13 0 "SWAL1"»
+  «net (14900,-1200) 1 13 0 "SWB1"»
+  «net (13400,-1200) 1 14 0 "SWBL1"»
+  «net (12900,600) 1 14 0 "M1"»
+  «net (14100,600) 1 7 0 "PV2P"»
   «net (4400,-800) 1 14 0 "VREG1"»
-  «net (4400,-1600) 1 13 0 "PV3P"»
+  «net (4400,-1600) 1 13 0 "B1"»
   «net (4800,-800) 1 14 0 "VREG1"»
-  «net (4800,-1600) 1 13 0 "PV3P"»
+  «net (4800,-1600) 1 13 0 "B1"»
   «net (5200,-800) 1 14 0 "VREG1"»
-  «net (5200,-1600) 1 13 0 "PV3P"»
-  «net (6600,200) 1 14 0 "BOOTA1"»
-  «net (6600,-1000) 1 13 0 "VREG1"»
-  «net (6200,200) 1 14 0 "BOOTA1"»
-  «net (6200,-600) 1 13 0 "SWA1"»
-  «net (5800,200) 1 14 0 "BOOTA1"»
-  «net (5800,-600) 1 13 0 "SWA1"»
+  «net (5200,-1600) 1 13 0 "B1"»
+  «net (6000,200) 1 14 0 "BOOTA1"»
+  «net (6000,-1000) 1 13 0 "VREG1"»
+  «net (5600,200) 1 14 0 "BOOTA1"»
+  «net (5600,-600) 1 13 0 "SWA1"»
+  «net (5200,200) 1 14 0 "BOOTA1"»
+  «net (5200,-600) 1 13 0 "SWA1"»
   «net (20600,200) 1 14 0 "BOOTB1"»
   «net (20600,-1000) 1 13 0 "VREG1"»
   «net (20200,200) 1 14 0 "BOOTB1"»
@@ -2139,40 +3243,49 @@
   «net (5200,-3600) 1 13 0 "GND"»
   «net (5600,-2800) 1 14 0 "PWM_BL1"»
   «net (5600,-3600) 1 13 0 "GND"»
-  «net (9200,-4600) 1 14 0 "PV2P"»
-  «net (16200,-4600) 1 14 0 "PV2P"»
-  «net (9200,-7000) 1 14 0 "GND"»
-  «net (8200,-4700) 1 14 0 "BOOTA2"»
-  «net (8200,-5700) 1 13 0 "SWA2"»
-  «net (7600,-5100) 1 11 0 "PWM_AH2"»
-  «net (7600,-5300) 1 11 0 "PWM_AL2"»
-  «net (8200,-5900) 1 14 0 "VREG2"»
-  «net (8200,-6900) 1 13 0 "GND"»
-  «net (7600,-6300) 1 11 0 "PWM_AL2"»
-  «net (7600,-6500) 1 11 0 "PWM_AH2"»
-  «net (17200,-4700) 1 14 0 "BOOTB2"»
-  «net (17200,-5700) 1 13 0 "SWB2"»
-  «net (17800,-5100) 1 7 0 "PWM_BH2"»
-  «net (17800,-5300) 1 7 0 "PWM_BL2"»
-  «net (17200,-5900) 1 14 0 "VREG2"»
-  «net (17200,-6900) 1 13 0 "GND"»
-  «net (17800,-6300) 1 7 0 "PWM_BL2"»
-  «net (17800,-6500) 1 7 0 "PWM_BH2"»
-  «net (12000,-5800) 1 13 0 "SWA2"»
-  «net (13400,-5800) 1 14 0 "SWB2"»
-  «net (12900,-4000) 1 14 0 "PV3P"»
+  «net (21800,-400) 1 14 0 "T1"»
+  «net (21800,-1600) 1 13 0 "B1"»
+  «net (22800,-400) 1 14 0 "T1"»
+  «net (22800,-1600) 1 13 0 "B1"»
+  «net (8300,-4300) 1 14 0 "PV2P"»
+  «net (8300,-7300) 1 13 0 "GND"»
+  «net (9200,-4600) 1 14 0 "T2"»
+  «net (16200,-4600) 1 14 0 "T2"»
+  «net (9200,-7000) 1 14 0 "B2"»
+  «net (7600,-4700) 1 14 0 "BOOTA2"»
+  «net (7600,-5700) 1 13 0 "SWA2"»
+  «net (7000,-5100) 1 11 0 "PWM_AH2"»
+  «net (7000,-5300) 1 11 0 "PWM_AL2"»
+  «net (7600,-5900) 1 14 0 "VREG2"»
+  «net (7600,-6900) 1 13 0 "B2"»
+  «net (7000,-6300) 1 11 0 "PWM_AL2"»
+  «net (7000,-6500) 1 11 0 "PWM_AH2"»
+  «net (18000,-4700) 1 14 0 "BOOTB2"»
+  «net (18000,-5700) 1 13 0 "SWB2"»
+  «net (18600,-5100) 1 7 0 "PWM_BH2"»
+  «net (18600,-5300) 1 7 0 "PWM_BL2"»
+  «net (18000,-5900) 1 14 0 "VREG2"»
+  «net (18000,-6900) 1 13 0 "B2"»
+  «net (18600,-6300) 1 7 0 "PWM_BL2"»
+  «net (18600,-6500) 1 7 0 "PWM_BH2"»
+  «net (10500,-5800) 1 13 0 "SWA2"»
+  «net (12000,-5800) 1 13 0 "SWAL2"»
+  «net (14900,-5800) 1 13 0 "SWB2"»
+  «net (13400,-5800) 1 14 0 "SWBL2"»
+  «net (12900,-4000) 1 14 0 "M2"»
+  «net (14100,-4000) 1 7 0 "PV3P"»
   «net (4400,-5400) 1 14 0 "VREG2"»
-  «net (4400,-6200) 1 13 0 "GND"»
+  «net (4400,-6200) 1 13 0 "B2"»
   «net (4800,-5400) 1 14 0 "VREG2"»
-  «net (4800,-6200) 1 13 0 "GND"»
+  «net (4800,-6200) 1 13 0 "B2"»
   «net (5200,-5400) 1 14 0 "VREG2"»
-  «net (5200,-6200) 1 13 0 "GND"»
-  «net (6600,-4400) 1 14 0 "BOOTA2"»
-  «net (6600,-5600) 1 13 0 "VREG2"»
-  «net (6200,-4400) 1 14 0 "BOOTA2"»
-  «net (6200,-5200) 1 13 0 "SWA2"»
-  «net (5800,-4400) 1 14 0 "BOOTA2"»
-  «net (5800,-5200) 1 13 0 "SWA2"»
+  «net (5200,-6200) 1 13 0 "B2"»
+  «net (6000,-4400) 1 14 0 "BOOTA2"»
+  «net (6000,-5600) 1 13 0 "VREG2"»
+  «net (5600,-4400) 1 14 0 "BOOTA2"»
+  «net (5600,-5200) 1 13 0 "SWA2"»
+  «net (5200,-4400) 1 14 0 "BOOTA2"»
+  «net (5200,-5200) 1 13 0 "SWA2"»
   «net (20600,-4400) 1 14 0 "BOOTB2"»
   «net (20600,-5600) 1 13 0 "VREG2"»
   «net (20200,-4400) 1 14 0 "BOOTB2"»
@@ -2187,6 +3300,10 @@
   «net (5200,-8200) 1 13 0 "GND"»
   «net (5600,-7400) 1 14 0 "PWM_BL2"»
   «net (5600,-8200) 1 13 0 "GND"»
+  «net (21800,-5000) 1 14 0 "T2"»
+  «net (21800,-6200) 1 13 0 "B2"»
+  «net (22800,-5000) 1 14 0 "T2"»
+  «net (22800,-6200) 1 13 0 "B2"»
   «net (8000,-11600) 1 14 0 "HSA1R"»
   «net (8000,-12400) 1 13 0 "GND"»
   «net (8250,-10900) 1 14 0 "HSA1"»
@@ -2272,75 +3389,76 @@
   «net (17700,-13000) 1 7 0 "IM1R"»
   «net (17700,-13200) 1 7 0 "IM2R"»
   «net (16500,-15800) 1 13 0 "GND"»
-  «junction (0,-8400)»
+  «junction (0,-7600)»
+  «junction (0,-6200)»
   «junction (0,-5600)»
+  «junction (0,-4800)»
+  «junction (0,-3400)»
   «junction (0,-2800)»
-  «junction (0,0)»
-  «junction (600,-8400)»
-  «junction (600,-5600)»
-  «junction (600,-2800)»
-  «junction (600,0)»
-  «junction (1000,-8400)»
-  «junction (1000,-5600)»
-  «junction (1000,-2800)»
-  «junction (1000,0)»
-  «junction (9700,-6400)»
-  «junction (9700,-5200)»
-  «junction (9700,-1800)»
-  «junction (9700,-600)»
+  «junction (0,-2000)»
+  «junction (0,-600)»
+  «junction (600,-7600)»
+  «junction (600,-6200)»
+  «junction (600,-4800)»
+  «junction (600,-3400)»
+  «junction (600,-2000)»
+  «junction (600,-600)»
+  «junction (8900,-6400)»
+  «junction (8900,-5200)»
+  «junction (8900,-1800)»
+  «junction (8900,-600)»
   «junction (10100,-7000)»
   «junction (10100,-5800)»
   «junction (10100,-4600)»
   «junction (10100,-2400)»
   «junction (10100,-1200)»
   «junction (10100,0)»
+  «junction (12900,-4000)»
+  «junction (12900,600)»
   «junction (15300,-7000)»
   «junction (15300,-5800)»
   «junction (15300,-4600)»
   «junction (15300,-2400)»
   «junction (15300,-1200)»
   «junction (15300,0)»
-  «junction (15700,-6400)»
-  «junction (15700,-5200)»
-  «junction (15700,-1800)»
-  «junction (15700,-600)»
-  «wire (0,0) (0,-600) "PV1P"»
-  «wire (0,-2000) (0,-2800) "PV2P"»
+  «junction (16500,-6400)»
+  «junction (16500,-5200)»
+  «junction (16500,-1800)»
+  «junction (16500,-600)»
+  «wire (0,0) (-400,0) "PV1P"»
+  «wire (0,-2600) (0,-2800) "PV2P"»
   «wire (-300,-1500) (-600,-1500) "E1"»
-  «wire (600,-1100) (600,0) "PV1P"»
-  «wire (600,-1500) (600,-2800) "PV2P"»
-  «wire (1000,-1100) (1000,0) "PV1P"»
-  «wire (1000,-1500) (1000,-2800) "PV2P"»
-  «wire (0,-2800) (0,-3400) "PV2P"»
-  «wire (0,-4800) (0,-5600) "PV3P"»
+  «wire (600,-1100) (600,-600) "m1p"»
+  «wire (600,-1500) (600,-2000) "m1n"»
+  «wire (1000,-1100) (1000,-600) "m1p"»
+  «wire (1000,-1500) (1000,-2000) "m1n"»
+  «wire (0,-600) (600,-600) "m1p"»
+  «wire (600,-600) (1000,-600) "m1p"»
+  «wire (0,-2000) (600,-2000) "m1n"»
+  «wire (600,-2000) (1000,-2000) "m1n"»
+  «wire (0,-2800) (-400,-2800) "PV2P"»
+  «wire (0,-5400) (0,-5600) "PV3P"»
   «wire (-300,-4300) (-600,-4300) "E2"»
-  «wire (600,-3900) (600,-2800) "PV2P"»
-  «wire (600,-4300) (600,-5600) "PV3P"»
-  «wire (1000,-3900) (1000,-2800) "PV2P"»
-  «wire (1000,-4300) (1000,-5600) "PV3P"»
-  «wire (0,-5600) (0,-6200) "PV3P"»
-  «wire (0,-7600) (0,-8400) "GND"»
+  «wire (600,-3900) (600,-3400) "m2p"»
+  «wire (600,-4300) (600,-4800) "m2n"»
+  «wire (1000,-3900) (1000,-3400) "m2p"»
+  «wire (1000,-4300) (1000,-4800) "m2n"»
+  «wire (0,-3400) (600,-3400) "m2p"»
+  «wire (600,-3400) (1000,-3400) "m2p"»
+  «wire (0,-4800) (600,-4800) "m2n"»
+  «wire (600,-4800) (1000,-4800) "m2n"»
+  «wire (0,-5600) (-400,-5600) "PV3P"»
+  «wire (0,-8200) (0,-8400) "GND"»
   «wire (-300,-7100) (-600,-7100) "E3"»
-  «wire (600,-6700) (600,-5600) "PV3P"»
-  «wire (600,-7100) (600,-8400) "GND"»
-  «wire (1000,-6700) (1000,-5600) "PV3P"»
-  «wire (1000,-7100) (1000,-8400) "GND"»
-  «wire (-400,0) (0,0) "PV1P"»
-  «wire (0,0) (600,0) "PV1P"»
-  «wire (600,0) (1000,0) "PV1P"»
-  «wire (1000,0) (1400,0) "PV1P"»
-  «wire (-400,-2800) (0,-2800) "PV2P"»
-  «wire (0,-2800) (600,-2800) "PV2P"»
-  «wire (600,-2800) (1000,-2800) "PV2P"»
-  «wire (1000,-2800) (1400,-2800) "PV2P"»
-  «wire (-400,-5600) (0,-5600) "PV3P"»
-  «wire (0,-5600) (600,-5600) "PV3P"»
-  «wire (600,-5600) (1000,-5600) "PV3P"»
-  «wire (1000,-5600) (1400,-5600) "PV3P"»
-  «wire (-400,-8400) (0,-8400) "GND"»
-  «wire (0,-8400) (600,-8400) "GND"»
-  «wire (600,-8400) (1000,-8400) "GND"»
-  «wire (1000,-8400) (1400,-8400) "GND"»
+  «wire (600,-6700) (600,-6200) "m3p"»
+  «wire (600,-7100) (600,-7600) "m3n"»
+  «wire (1000,-6700) (1000,-6200) "m3p"»
+  «wire (1000,-7100) (1000,-7600) "m3n"»
+  «wire (0,-6200) (600,-6200) "m3p"»
+  «wire (600,-6200) (1000,-6200) "m3p"»
+  «wire (0,-7600) (600,-7600) "m3n"»
+  «wire (600,-7600) (1000,-7600) "m3n"»
+  «wire (0,-8400) (-400,-8400) "GND"»
   «wire (2000,-1200) (2000,-900) "PV1P"»
   «wire (2000,-1600) (2000,-1900) "GND"»
   «wire (-5000,-9800) (-5000,-9600) "E1"»
@@ -2350,85 +3468,89 @@
   «wire (-3800,-9800) (-3800,-9600) "E3"»
   «wire (-3800,-10200) (-3800,-10400) "GND"»
   «wire (3000,-1200) (3000,-900) "PV1P"»
-  «wire (3000,-1600) (3000,-1900) "PV2P"»
+  «wire (3000,-2000) (3000,-2300) "PV2P"»
   «wire (3000,-4000) (3000,-3700) "PV2P"»
-  «wire (3000,-4400) (3000,-4700) "PV3P"»
+  «wire (3000,-4800) (3000,-5100) "PV3P"»
   «wire (3500,-4000) (3500,-3700) "PV2P"»
-  «wire (3500,-4400) (3500,-4700) "PV3P"»
+  «wire (3500,-4800) (3500,-5100) "PV3P"»
   «wire (3000,-6800) (3000,-6500) "PV3P"»
-  «wire (3000,-7200) (3000,-7500) "GND"»
-  «wire (9200,0) (10100,0) "PV1P"»
-  «wire (10100,0) (10800,0) "PV1P"»
-  «wire (10800,0) (12200,0) "PV1P"»
-  «wire (13200,0) (14600,0) "PV1P"»
-  «wire (14600,0) (15300,0) "PV1P"»
-  «wire (15300,0) (16200,0) "PV1P"»
-  «wire (9200,-2400) (10100,-2400) "PV3P"»
-  «wire (10100,-2400) (10800,-2400) "PV3P"»
-  «wire (10800,-2400) (14600,-2400) "PV3P"»
-  «wire (14600,-2400) (15300,-2400) "PV3P"»
-  «wire (15300,-2400) (16200,-2400) "PV3P"»
-  «wire (10100,0) (10100,-400) "PV1P"»
-  «wire (10100,-800) (10100,-1200) "SWA1"»
-  «wire (10100,-1200) (10100,-1600) "SWA1"»
-  «wire (10100,-2000) (10100,-2400) "PV3P"»
-  «wire (9800,-600) (9700,-600) "gTA1"»
-  «wire (9700,-500) (9700,-700) "gTA1"»
-  «wire (8600,-500) (9300,-500) "ohTA1"»
-  «wire (8600,-700) (9300,-700) "olTA1"»
-  «wire (8200,-300) (8200,-100) "BOOTA1"»
-  «wire (8200,-900) (8200,-1100) "SWA1"»
-  «wire (7800,-500) (7600,-500) "PWM_AH1"»
-  «wire (7800,-700) (7600,-700) "PWM_AL1"»
-  «wire (9800,-1800) (9700,-1800) "gBA1"»
-  «wire (9700,-1700) (9700,-1900) "gBA1"»
-  «wire (8600,-1700) (9300,-1700) "ohBA1"»
-  «wire (8600,-1900) (9300,-1900) "olBA1"»
-  «wire (8200,-1500) (8200,-1300) "VREG1"»
-  «wire (8200,-2100) (8200,-2300) "PV3P"»
-  «wire (7800,-1700) (7600,-1700) "PWM_AL1"»
-  «wire (7800,-1900) (7600,-1900) "PWM_AH1"»
-  «wire (15300,0) (15300,-400) "PV1P"»
-  «wire (15300,-800) (15300,-1200) "SWB1"»
-  «wire (15300,-1200) (15300,-1600) "SWB1"»
-  «wire (15300,-2000) (15300,-2400) "PV3P"»
-  «wire (15600,-600) (15700,-600) "gTB1"»
-  «wire (15700,-500) (15700,-700) "gTB1"»
-  «wire (16800,-500) (16100,-500) "ohTB1"»
-  «wire (16800,-700) (16100,-700) "olTB1"»
-  «wire (17200,-300) (17200,-100) "BOOTB1"»
-  «wire (17200,-900) (17200,-1100) "SWB1"»
-  «wire (17600,-500) (17800,-500) "PWM_BH1"»
-  «wire (17600,-700) (17800,-700) "PWM_BL1"»
-  «wire (15600,-1800) (15700,-1800) "gBB1"»
-  «wire (15700,-1700) (15700,-1900) "gBB1"»
-  «wire (16800,-1700) (16100,-1700) "ohBB1"»
-  «wire (16800,-1900) (16100,-1900) "olBB1"»
-  «wire (17200,-1500) (17200,-1300) "VREG1"»
-  «wire (17200,-2100) (17200,-2300) "PV3P"»
-  «wire (17600,-1700) (17800,-1700) "PWM_BL1"»
-  «wire (17600,-1900) (17800,-1900) "PWM_BH1"»
-  «wire (10100,-1200) (12000,-1200) "SWA1"»
-  «wire (12000,-1200) (12000,-1100) "SWA1"»
-  «wire (12000,-1100) (12300,-1100) "SWA1"»
-  «wire (15300,-1200) (13400,-1200) "SWB1"»
-  «wire (13400,-1200) (13400,-1300) "SWB1"»
-  «wire (13400,-1300) (13100,-1300) "SWB1"»
-  «wire (12500,-100) (12500,600) "PV2P"»
-  «wire (12900,-100) (12900,600) "PV2P"»
-  «wire (12500,600) (12900,600) "PV2P"»
+  «wire (3000,-7600) (3000,-7900) "GND"»
+  «wire (8300,0) (8300,300) "PV1P"»
+  «wire (8900,0) (9200,0) "T1"»
+  «wire (8300,-2400) (8300,-2700) "PV3P"»
+  «wire (8900,-2400) (9200,-2400) "B1"»
+  «wire (9200,0) (10100,0) "T1"»
+  «wire (10100,0) (10800,0) "T1"»
+  «wire (10800,0) (12200,0) "T1"»
+  «wire (13200,0) (14600,0) "T1"»
+  «wire (14600,0) (15300,0) "T1"»
+  «wire (15300,0) (16200,0) "T1"»
+  «wire (9200,-2400) (10100,-2400) "B1"»
+  «wire (10100,-2400) (10800,-2400) "B1"»
+  «wire (10800,-2400) (14600,-2400) "B1"»
+  «wire (14600,-2400) (15300,-2400) "B1"»
+  «wire (15300,-2400) (16200,-2400) "B1"»
+  «wire (9800,-600) (9600,-600) "gTA1"»
+  «wire (8900,-600) (9000,-600) "giTA1"»
+  «wire (8900,-500) (8900,-700) "giTA1"»
+  «wire (8000,-500) (8500,-500) "ohTA1"»
+  «wire (8000,-700) (8500,-700) "olTA1"»
+  «wire (7600,-300) (7600,-100) "BOOTA1"»
+  «wire (7600,-900) (7600,-1100) "SWA1"»
+  «wire (7200,-500) (7000,-500) "PWM_AH1"»
+  «wire (7200,-700) (7000,-700) "PWM_AL1"»
+  «wire (9800,-1800) (9600,-1800) "gBA1"»
+  «wire (8900,-1800) (9000,-1800) "giBA1"»
+  «wire (8900,-1700) (8900,-1900) "giBA1"»
+  «wire (8000,-1700) (8500,-1700) "ohBA1"»
+  «wire (8000,-1900) (8500,-1900) "olBA1"»
+  «wire (7600,-1500) (7600,-1300) "VREG1"»
+  «wire (7600,-2100) (7600,-2300) "B1"»
+  «wire (7200,-1700) (7000,-1700) "PWM_AL1"»
+  «wire (7200,-1900) (7000,-1900) "PWM_AH1"»
+  «wire (15600,-600) (15800,-600) "gTB1"»
+  «wire (16500,-600) (16400,-600) "giTB1"»
+  «wire (16500,-500) (16500,-700) "giTB1"»
+  «wire (17600,-500) (16900,-500) "ohTB1"»
+  «wire (17600,-700) (16900,-700) "olTB1"»
+  «wire (18000,-300) (18000,-100) "BOOTB1"»
+  «wire (18000,-900) (18000,-1100) "SWB1"»
+  «wire (18400,-500) (18600,-500) "PWM_BH1"»
+  «wire (18400,-700) (18600,-700) "PWM_BL1"»
+  «wire (15600,-1800) (15800,-1800) "gBB1"»
+  «wire (16500,-1800) (16400,-1800) "giBB1"»
+  «wire (16500,-1700) (16500,-1900) "giBB1"»
+  «wire (17600,-1700) (16900,-1700) "ohBB1"»
+  «wire (17600,-1900) (16900,-1900) "olBB1"»
+  «wire (18000,-1500) (18000,-1300) "VREG1"»
+  «wire (18000,-2100) (18000,-2300) "B1"»
+  «wire (18400,-1700) (18600,-1700) "PWM_BL1"»
+  «wire (18400,-1900) (18600,-1900) "PWM_BH1"»
+  «wire (10100,-1200) (11300,-1200) "SWA1"»
+  «wire (11900,-1200) (12000,-1200) "SWAL1"»
+  «wire (12000,-1200) (12000,-1100) "SWAL1"»
+  «wire (12000,-1100) (12300,-1100) "SWAL1"»
+  «wire (15300,-1200) (14100,-1200) "SWB1"»
+  «wire (13500,-1200) (13400,-1200) "SWBL1"»
+  «wire (13400,-1200) (13400,-1300) "SWBL1"»
+  «wire (13400,-1300) (13100,-1300) "SWBL1"»
+  «wire (12500,500) (12500,600) "M1"»
+  «wire (12900,500) (12900,600) "M1"»
+  «wire (12500,600) (12900,600) "M1"»
+  «wire (12900,600) (13200,600) "M1"»
+  «wire (13800,600) (14100,600) "PV2P"»
   «wire (4400,-1000) (4400,-800) "VREG1"»
-  «wire (4400,-1400) (4400,-1600) "PV3P"»
+  «wire (4400,-1400) (4400,-1600) "B1"»
   «wire (4800,-1000) (4800,-800) "VREG1"»
-  «wire (4800,-1400) (4800,-1600) "PV3P"»
+  «wire (4800,-1400) (4800,-1600) "B1"»
   «wire (5200,-1000) (5200,-800) "VREG1"»
-  «wire (5200,-1400) (5200,-1600) "PV3P"»
-  «wire (6600,0) (6600,200) "BOOTA1"»
-  «wire (6600,-800) (6600,-1000) "VREG1"»
-  «wire (6200,0) (6200,200) "BOOTA1"»
-  «wire (6200,-400) (6200,-600) "SWA1"»
-  «wire (5800,0) (5800,200) "BOOTA1"»
-  «wire (5800,-400) (5800,-600) "SWA1"»
+  «wire (5200,-1400) (5200,-1600) "B1"»
+  «wire (6000,0) (6000,200) "BOOTA1"»
+  «wire (6000,-800) (6000,-1000) "VREG1"»
+  «wire (5600,0) (5600,200) "BOOTA1"»
+  «wire (5600,-400) (5600,-600) "SWA1"»
+  «wire (5200,0) (5200,200) "BOOTA1"»
+  «wire (5200,-400) (5200,-600) "SWA1"»
   «wire (20600,0) (20600,200) "BOOTB1"»
   «wire (20600,-800) (20600,-1000) "VREG1"»
   «wire (20200,0) (20200,200) "BOOTB1"»
@@ -2443,78 +3565,86 @@
   «wire (5200,-3400) (5200,-3600) "GND"»
   «wire (5600,-3000) (5600,-2800) "PWM_BL1"»
   «wire (5600,-3400) (5600,-3600) "GND"»
-  «wire (9200,-4600) (10100,-4600) "PV2P"»
-  «wire (10100,-4600) (10800,-4600) "PV2P"»
-  «wire (10800,-4600) (12200,-4600) "PV2P"»
-  «wire (13200,-4600) (14600,-4600) "PV2P"»
-  «wire (14600,-4600) (15300,-4600) "PV2P"»
-  «wire (15300,-4600) (16200,-4600) "PV2P"»
-  «wire (9200,-7000) (10100,-7000) "GND"»
-  «wire (10100,-7000) (10800,-7000) "GND"»
-  «wire (10800,-7000) (14600,-7000) "GND"»
-  «wire (14600,-7000) (15300,-7000) "GND"»
-  «wire (15300,-7000) (16200,-7000) "GND"»
-  «wire (10100,-4600) (10100,-5000) "PV2P"»
-  «wire (10100,-5400) (10100,-5800) "SWA2"»
-  «wire (10100,-5800) (10100,-6200) "SWA2"»
-  «wire (10100,-6600) (10100,-7000) "GND"»
-  «wire (9800,-5200) (9700,-5200) "gTA2"»
-  «wire (9700,-5100) (9700,-5300) "gTA2"»
-  «wire (8600,-5100) (9300,-5100) "ohTA2"»
-  «wire (8600,-5300) (9300,-5300) "olTA2"»
-  «wire (8200,-4900) (8200,-4700) "BOOTA2"»
-  «wire (8200,-5500) (8200,-5700) "SWA2"»
-  «wire (7800,-5100) (7600,-5100) "PWM_AH2"»
-  «wire (7800,-5300) (7600,-5300) "PWM_AL2"»
-  «wire (9800,-6400) (9700,-6400) "gBA2"»
-  «wire (9700,-6300) (9700,-6500) "gBA2"»
-  «wire (8600,-6300) (9300,-6300) "ohBA2"»
-  «wire (8600,-6500) (9300,-6500) "olBA2"»
-  «wire (8200,-6100) (8200,-5900) "VREG2"»
-  «wire (8200,-6700) (8200,-6900) "GND"»
-  «wire (7800,-6300) (7600,-6300) "PWM_AL2"»
-  «wire (7800,-6500) (7600,-6500) "PWM_AH2"»
-  «wire (15300,-4600) (15300,-5000) "PV2P"»
-  «wire (15300,-5400) (15300,-5800) "SWB2"»
-  «wire (15300,-5800) (15300,-6200) "SWB2"»
-  «wire (15300,-6600) (15300,-7000) "GND"»
-  «wire (15600,-5200) (15700,-5200) "gTB2"»
-  «wire (15700,-5100) (15700,-5300) "gTB2"»
-  «wire (16800,-5100) (16100,-5100) "ohTB2"»
-  «wire (16800,-5300) (16100,-5300) "olTB2"»
-  «wire (17200,-4900) (17200,-4700) "BOOTB2"»
-  «wire (17200,-5500) (17200,-5700) "SWB2"»
-  «wire (17600,-5100) (17800,-5100) "PWM_BH2"»
-  «wire (17600,-5300) (17800,-5300) "PWM_BL2"»
-  «wire (15600,-6400) (15700,-6400) "gBB2"»
-  «wire (15700,-6300) (15700,-6500) "gBB2"»
-  «wire (16800,-6300) (16100,-6300) "ohBB2"»
-  «wire (16800,-6500) (16100,-6500) "olBB2"»
-  «wire (17200,-6100) (17200,-5900) "VREG2"»
-  «wire (17200,-6700) (17200,-6900) "GND"»
-  «wire (17600,-6300) (17800,-6300) "PWM_BL2"»
-  «wire (17600,-6500) (17800,-6500) "PWM_BH2"»
-  «wire (10100,-5800) (12000,-5800) "SWA2"»
-  «wire (12000,-5800) (12000,-5700) "SWA2"»
-  «wire (12000,-5700) (12300,-5700) "SWA2"»
-  «wire (15300,-5800) (13400,-5800) "SWB2"»
-  «wire (13400,-5800) (13400,-5900) "SWB2"»
-  «wire (13400,-5900) (13100,-5900) "SWB2"»
-  «wire (12500,-4700) (12500,-4000) "PV3P"»
-  «wire (12900,-4700) (12900,-4000) "PV3P"»
-  «wire (12500,-4000) (12900,-4000) "PV3P"»
+  «wire (21800,-600) (21800,-400) "T1"»
+  «wire (21800,-1400) (21800,-1600) "B1"»
+  «wire (22800,-600) (22800,-400) "T1"»
+  «wire (22800,-1400) (22800,-1600) "B1"»
+  «wire (8300,-4600) (8300,-4300) "PV2P"»
+  «wire (8900,-4600) (9200,-4600) "T2"»
+  «wire (8300,-7000) (8300,-7300) "GND"»
+  «wire (8900,-7000) (9200,-7000) "B2"»
+  «wire (9200,-4600) (10100,-4600) "T2"»
+  «wire (10100,-4600) (10800,-4600) "T2"»
+  «wire (10800,-4600) (12200,-4600) "T2"»
+  «wire (13200,-4600) (14600,-4600) "T2"»
+  «wire (14600,-4600) (15300,-4600) "T2"»
+  «wire (15300,-4600) (16200,-4600) "T2"»
+  «wire (9200,-7000) (10100,-7000) "B2"»
+  «wire (10100,-7000) (10800,-7000) "B2"»
+  «wire (10800,-7000) (14600,-7000) "B2"»
+  «wire (14600,-7000) (15300,-7000) "B2"»
+  «wire (15300,-7000) (16200,-7000) "B2"»
+  «wire (9800,-5200) (9600,-5200) "gTA2"»
+  «wire (8900,-5200) (9000,-5200) "giTA2"»
+  «wire (8900,-5100) (8900,-5300) "giTA2"»
+  «wire (8000,-5100) (8500,-5100) "ohTA2"»
+  «wire (8000,-5300) (8500,-5300) "olTA2"»
+  «wire (7600,-4900) (7600,-4700) "BOOTA2"»
+  «wire (7600,-5500) (7600,-5700) "SWA2"»
+  «wire (7200,-5100) (7000,-5100) "PWM_AH2"»
+  «wire (7200,-5300) (7000,-5300) "PWM_AL2"»
+  «wire (9800,-6400) (9600,-6400) "gBA2"»
+  «wire (8900,-6400) (9000,-6400) "giBA2"»
+  «wire (8900,-6300) (8900,-6500) "giBA2"»
+  «wire (8000,-6300) (8500,-6300) "ohBA2"»
+  «wire (8000,-6500) (8500,-6500) "olBA2"»
+  «wire (7600,-6100) (7600,-5900) "VREG2"»
+  «wire (7600,-6700) (7600,-6900) "B2"»
+  «wire (7200,-6300) (7000,-6300) "PWM_AL2"»
+  «wire (7200,-6500) (7000,-6500) "PWM_AH2"»
+  «wire (15600,-5200) (15800,-5200) "gTB2"»
+  «wire (16500,-5200) (16400,-5200) "giTB2"»
+  «wire (16500,-5100) (16500,-5300) "giTB2"»
+  «wire (17600,-5100) (16900,-5100) "ohTB2"»
+  «wire (17600,-5300) (16900,-5300) "olTB2"»
+  «wire (18000,-4900) (18000,-4700) "BOOTB2"»
+  «wire (18000,-5500) (18000,-5700) "SWB2"»
+  «wire (18400,-5100) (18600,-5100) "PWM_BH2"»
+  «wire (18400,-5300) (18600,-5300) "PWM_BL2"»
+  «wire (15600,-6400) (15800,-6400) "gBB2"»
+  «wire (16500,-6400) (16400,-6400) "giBB2"»
+  «wire (16500,-6300) (16500,-6500) "giBB2"»
+  «wire (17600,-6300) (16900,-6300) "ohBB2"»
+  «wire (17600,-6500) (16900,-6500) "olBB2"»
+  «wire (18000,-6100) (18000,-5900) "VREG2"»
+  «wire (18000,-6700) (18000,-6900) "B2"»
+  «wire (18400,-6300) (18600,-6300) "PWM_BL2"»
+  «wire (18400,-6500) (18600,-6500) "PWM_BH2"»
+  «wire (10100,-5800) (11300,-5800) "SWA2"»
+  «wire (11900,-5800) (12000,-5800) "SWAL2"»
+  «wire (12000,-5800) (12000,-5700) "SWAL2"»
+  «wire (12000,-5700) (12300,-5700) "SWAL2"»
+  «wire (15300,-5800) (14100,-5800) "SWB2"»
+  «wire (13500,-5800) (13400,-5800) "SWBL2"»
+  «wire (13400,-5800) (13400,-5900) "SWBL2"»
+  «wire (13400,-5900) (13100,-5900) "SWBL2"»
+  «wire (12500,-4100) (12500,-4000) "M2"»
+  «wire (12900,-4100) (12900,-4000) "M2"»
+  «wire (12500,-4000) (12900,-4000) "M2"»
+  «wire (12900,-4000) (13200,-4000) "M2"»
+  «wire (13800,-4000) (14100,-4000) "PV3P"»
   «wire (4400,-5600) (4400,-5400) "VREG2"»
-  «wire (4400,-6000) (4400,-6200) "GND"»
+  «wire (4400,-6000) (4400,-6200) "B2"»
   «wire (4800,-5600) (4800,-5400) "VREG2"»
-  «wire (4800,-6000) (4800,-6200) "GND"»
+  «wire (4800,-6000) (4800,-6200) "B2"»
   «wire (5200,-5600) (5200,-5400) "VREG2"»
-  «wire (5200,-6000) (5200,-6200) "GND"»
-  «wire (6600,-4600) (6600,-4400) "BOOTA2"»
-  «wire (6600,-5400) (6600,-5600) "VREG2"»
-  «wire (6200,-4600) (6200,-4400) "BOOTA2"»
-  «wire (6200,-5000) (6200,-5200) "SWA2"»
-  «wire (5800,-4600) (5800,-4400) "BOOTA2"»
-  «wire (5800,-5000) (5800,-5200) "SWA2"»
+  «wire (5200,-6000) (5200,-6200) "B2"»
+  «wire (6000,-4600) (6000,-4400) "BOOTA2"»
+  «wire (6000,-5400) (6000,-5600) "VREG2"»
+  «wire (5600,-4600) (5600,-4400) "BOOTA2"»
+  «wire (5600,-5000) (5600,-5200) "SWA2"»
+  «wire (5200,-4600) (5200,-4400) "BOOTA2"»
+  «wire (5200,-5000) (5200,-5200) "SWA2"»
   «wire (20600,-4600) (20600,-4400) "BOOTB2"»
   «wire (20600,-5400) (20600,-5600) "VREG2"»
   «wire (20200,-4600) (20200,-4400) "BOOTB2"»
@@ -2529,6 +3659,10 @@
   «wire (5200,-8000) (5200,-8200) "GND"»
   «wire (5600,-7600) (5600,-7400) "PWM_BL2"»
   «wire (5600,-8000) (5600,-8200) "GND"»
+  «wire (21800,-5200) (21800,-5000) "T2"»
+  «wire (21800,-6000) (21800,-6200) "B2"»
+  «wire (22800,-5200) (22800,-5000) "T2"»
+  «wire (22800,-6000) (22800,-6200) "B2"»
   «wire (8000,-11800) (8000,-11600) "HSA1R"»
   «wire (8000,-12200) (8000,-12400) "GND"»
   «wire (8250,-11100) (8250,-10900) "HSA1"»

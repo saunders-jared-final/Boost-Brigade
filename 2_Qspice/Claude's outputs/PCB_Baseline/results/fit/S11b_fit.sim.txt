@@ -1,0 +1,5 @@
+C:\Users\jazsa\Documents\Boost-Brigade\2_Qspice\Claude's outputs\PCB_Baseline\stages\S11b.cir
+XC: shuffler_ctrl_dll2: M singular - gains unchanged
+XC: shuffler_ctrl_dll2: gains KSCALE=1 MSEL=0 FILT=0 FC=2000 (M00=-20.2837, M22=17.5687)
+
+Total elapsed time: 14.0653 seconds.

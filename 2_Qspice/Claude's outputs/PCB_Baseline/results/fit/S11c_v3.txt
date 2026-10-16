@@ -1,0 +1,7 @@
+S11c: 1 step(s)
+node       metric         target               v3 values
+v(swa1)    overshoot         5.7                 5.18 ok
+v(swa1)    ring_f_MHz        4.5                 2.04 --
+
+all metrics per node (median over edges):
+  v3 values {'v(swa1)': {'burst_f_MHz': 20.02, 'burst_pk': 23.241, 'decay_us': 1.975, 'level': 22.134, 'overshoot': 5.18, 'ring_Q': 7.96, 'ring_f_MHz': 2.037, 'ring_neg': -0.619, 'ring_pos': 0.417}, 'v(pv1p)': {'burst_f_MHz': 44.922, 'burst_pk': 2.529, 'decay_us': 1.962, 'ring_Q': 4.606, 'ring_f_MHz': 1.98, 'ring_neg': -2.136, 'ring_pos': 2.513}}

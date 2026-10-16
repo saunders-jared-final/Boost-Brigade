@@ -68,11 +68,18 @@ TSW = 1 / FSW
 FSW_CTRL = 100e3              # S9: PWM as flashed on the Nucleo then (HW_PWM_HZ); build() sets it per stage
 TSW_CTRL = 1 / FSW_CTRL
 # S10 family (Gate 4, fw-0.3.0): 200 kHz, bench NGE103 source / DL3021 CV load, shuffler_ctrl_dll2
-S10_STAGES = ("S10c", "S10i", "S10", "S10n", "S10p", "S10xb", "S10xp")   # S10x*: overnight report matrix
-S10_FSW = {"S10c": 100e3}                 # S10c = the 13 Oct bench run (100 kHz); the rest 200 kHz
+S11_STAGES = ("S11a", "S11b", "S11c", "S11a_est")   # edge calibration against the scope (paras + snubbers)
+S10_STAGES = ("S10c", "S10i", "S10", "S10n", "S10p", "S10xb", "S10xp") + S11_STAGES   # S10x*: overnight matrix
+S10_FSW = {"S10c": 100e3, "S11a": 100e3, "S11b": 100e3, "S11c": 100e3, "S11a_est": 100e3}   # bench captures: 100 kHz
 BENCH_ILIM = (0.8, 1.0, 1.3)              # NGE103 current limits [A] (user, 15 Oct); VSET 25 V each
 S1OFF_PARAM = None                        # S10c: converter-1 gates held low (only shuffler 2 switched on 13 Oct)
 HALL_BW = None                            # S10*: TMCS1126 500 kHz output pole on the hall signals
+MOS_MODEL = "STD45N10F7"                  # S11a_est: "STD45N10F7_EST" for the MOSFET A/B
+KNOBS = False                             # S10/S11 with parasitics: copper / ESL / ESR as {K*value} fit expressions
+PV_PARAMS = {}                            # per-module subcircuit parameters, e.g. {0: "VS=1k"} (S11: modules absent)
+CLI_SET = {}                              # --set=NAME=VALUE: override a stage .param (S10/S11 fits)
+CLI_STEP = []                             # --step="NAME list a b c": extra .step lines (S10/S11 fits)
+S10_PARAS = False                         # S10 control stages with the full switching parasitics (Step 3 decides)
 CAP_IC = None                             # S10*: initial module voltages (v1, v2, v3) on every capacitor: with uic,
                                           # .ic only reaches the first .step run
 VLOGIC = 3.3
@@ -102,6 +109,20 @@ def lump(name):
     if d is None:
         return 1.0, 2.0
     return d["R_mOhm"], d["L_nH"]
+
+
+def kx(knob, value_si):
+    """Fit-knob expression {KNOB*value} (S10/S11) or the plain SI value."""
+    return f"{{{knob}*{value_si:.4g}}}" if KNOBS else f"{value_si:.4g}"
+
+
+def lump_knob(name):
+    """Which fit knob scales a copper lump's inductance."""
+    if name[:1] in ("T", "M", "B") and name[1:].isdigit():
+        return "KLRAIL"
+    if name.startswith(("SW", "LA", "LB")):
+        return "KLSW"
+    return None
 
 
 # When PARAM_REG is a dict (report layout), every parasitic / setting is emitted as {NAME} and the
@@ -188,9 +209,9 @@ X1 A K E pvmi {PANEL80}
 *
 * ---- R&S NGE103 channel as a bench "module" (S10): current limit V(E)/1000 A (node E carries the limit in mA),
 *      voltage clamp at VSET through RCLAMP (the CV regulator), i.e. the rectangular I-V of a PSU ----
-.subckt nge_ch A K E
+.subckt nge_ch A K E VS=25
 B1 K A I=max(V(E),0)*1m
-B2 A K I=max(V(A,K)-VSET,0)/RCLAMP
+B2 A K I=max(V(A,K)-VS,0)/RCLAMP
 Re E 0 10Meg
 .ends nge_ch
 *
@@ -208,10 +229,11 @@ Lk2 N04 N03 2.05u
 Lm N03 3 5.85u
 .ends ERUC23-4R1K
 *
-* ---- STMicro STD45N10F7 (100 V, 18 mOhm max, Qg 25 nC, Ciss 1640 pF, Coss 360 pF) ----
-*      ESTIMATED VDMOS from datasheet headline numbers.  Replace with the model made by
-*      C:\\Program Files\\QSPICE\\MOSFET.exe (or ST's PSpice model) for higher fidelity.
-.model STD45N10F7 VDMOS(Rg=1.5 Vto=3.5 Kp=22 Lambda=0.005 Rd=6m Rs=2m Rb=4m Cgdmax=0.8n Cgdmin=30p a=0.5 Cgs=1.6n Cjo=1.8n m=0.5 Vj=0.8 Is=3e-12 N=1.3 tt=50n ksubthres=0.1 mfg=STMicro Vds=100 Ron=15m Qg=25n)
+* ---- STMicro STD45N10F7: the hand-built model from "Buck Boost Full Bridge - v3.qsch" (QSPICE MOSFET.exe fit
+*      to the ST datasheet by the power-electronics designer) ----
+.model STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+* ---- earlier datasheet-headline ESTIMATE, kept for A/B only (S1-S10 used it) ----
+.model STD45N10F7_EST VDMOS(Rg=1.5 Vto=3.5 Kp=22 Lambda=0.005 Rd=6m Rs=2m Rb=4m Cgdmax=0.8n Cgdmin=30p a=0.5 Cgs=1.6n Cjo=1.8n m=0.5 Vj=0.8 Is=3e-12 N=1.3 tt=50n ksubthres=0.1 mfg=STMicro Vds=100 Ron=15m Qg=25n)
 *
 * ---- Vishay VSSA210 bootstrap Schottky (100 V, 2 A) ----
 .model VSSA210 D(Is=6u N=1.08 Rs=40m Cjo=60p Vj=0.55 m=0.42 BV=100 Ibv=50u)
@@ -369,6 +391,8 @@ def pv_string(c, x0, y0, prefix, nets, load_ref, with_cpv, with_cables, sense_pr
             Lc = comp("cable_L_nH_per_m", 500) * comp("cable_len_m", 1.5)
             cab = (f"R={pval('Rcab', Rc, 'm', 'module cable, one lead: 1.5 m of 4 mm2 + XT60 contact', '.2f')} "
                    f"L={pval('Lcab', Lc, 'n', 'module cable, one lead (about 1 uH/m loop)', '.0f')} RP=50")
+            if KNOBS and PV_SUB == "nge_ch" and sense_prefix == "":
+                cab = f"R={Rc * 1e-3:.4g} L={{LLEAD}} RP=50"      # bench: NGE103 lead, fitted (S11a)
             c.X(f"Xcab{prefix}{k+1}p", TRACE_SYM, [top_term, n_top], "trace", x0, yt - 300, rot=2,
                 params=cab)                                    # A (module) at yt-600, B (board) at yt
             c.stub((x0, yt), n_top, "left", 400)
@@ -383,7 +407,8 @@ def pv_string(c, x0, y0, prefix, nets, load_ref, with_cpv, with_cables, sense_pr
             y_top_rail, y_bot_rail = yt, yt - 2800
         # sense source: "+" at the module side (rot 4 puts + at the bottom) -> I(Vi) = module current
         c.V(f"Vi{sense_prefix}{k+1}", a_node, top_term, "0", x0, yt - 800, rot=4)
-        c.X(f"Xpv{sense_prefix}{k+1}", PV_SYM, [a_node, bot_term, e_node], PV_SUB, x0, yt - 1500)
+        c.X(f"Xpv{sense_prefix}{k+1}", PV_SYM, [a_node, bot_term, e_node], PV_SUB, x0, yt - 1500,
+            params=PV_PARAMS.get(k, "") if sense_prefix == "" else "")
         c.stub((x0 - 300, yt - 1500), e_node, "left", 300)
         # bypass diode (K at top) and module capacitance between the module terminals
         c.D(f"Dbp{sense_prefix}{k+1}", bot_term, top_term, "dbypass", x0 + 600, yt - 1300)
@@ -424,6 +449,9 @@ def bulk_caps(c, x0, y0, with_esl):
     """C1: PV1P-PV2P, C2/C3: PV2P-PV3P, C4: PV3P-GND (as on the board)."""
     esr = "RSER=" + pval("ESR130", comp('C130_ESR_mOhm', 28), "m", "TDK B40910A0137M000 130 uF: ESR")
     esl = pval("ESL130", comp('C130_ESL_nH', 15), "n", "130 uF radial can: ESL")
+    if KNOBS:
+        esr = "RSER=" + kx("KESR", comp('C130_ESR_mOhm', 28) * 1e-3)
+        esl = kx("KESL", comp('C130_ESL_nH', 15) * 1e-9)
     caps = [("C1", "PV1P", "PV2P", x0, y0 - 1400), ("C2", "PV2P", "PV3P", x0, y0 - 4200),
             ("C3", "PV2P", "PV3P", x0 + 500, y0 - 4200), ("C4", "PV3P", "GND", x0, y0 - 7000)]
     for ref, nt, nb, x, y in caps:
@@ -469,6 +497,8 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
     # ---- MOSFET legs
     Ld = pval("Ld_pkg", comp('TO252_Ld_nH', 1.5), "n", "TO-252 drain tab inductance")
     Ls = pval("Ls_pkg", comp('TO252_Ls_nH', 3), "n", "TO-252 source lead inductance (common-source)")
+    if KNOBS:
+        Ld, Ls = kx("KLSW", comp('TO252_Ld_nH', 1.5) * 1e-9), kx("KLSW", comp('TO252_Ls_nH', 3) * 1e-9)
     for leg, xl, rot, sw in (("A", xa, 0, swa), ("B", xb, 8, swb)):
         xp = xl + 100 if rot == 0 else xl - 100          # D/S pin x
         xg = xl - 200 if rot == 0 else xl + 200          # gate pin x
@@ -488,8 +518,8 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
             c.wire([(xp, Y0 - 800), (xp, Y0 - 1200)], sw)
             c.wire([(xp, Y0 - 1200), (xp, Y0 - 1600)], sw)
             c.wire([(xp, Y0 - 2000), (xp, Y0 - 2400)], Bn)
-        c.M(qt, dT, gT, sT, "STD45N10F7", xl, Y0 - 600, rot=rot)
-        c.M(qb, dB, gB, sB, "STD45N10F7", xl, Y0 - 1800, rot=rot)
+        c.M(qt, dT, gT, sT, MOS_MODEL, xl, Y0 - 600, rot=rot)
+        c.M(qb, dB, gB, sB, MOS_MODEL, xl, Y0 - 1800, rot=rot)
         # gate networks
         for pos, g, y, src_ref in (("T", gT, Y0 - 600, qt), ("B", gB, Y0 - 1800, qb)):
             ref_src = "SW" if pos == "T" else "B"
@@ -541,7 +571,15 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
                 c.stub(p.pin["INP"], inp, "left" if rot == 0 else "right", 200)
                 c.stub(p.pin["INN"], inn, "left" if rot == 0 else "right", 200)
         # snubber placeholders (S8): R in series with C across each FET; labels face away from the inductor
-        if snub:
+        if snub and KNOBS and paras:
+            # as fitted on the board (and drawn in v3): 4.7 R + 470 pF across each FET die, inside the leads
+            xs = xsnA if rot == 0 else xsnB
+            srot = 0 if rot == 0 else 8
+            c.R(f"RsnT{leg}{s}", dT, f"snT{leg}{s}", "{Rsn}", xs, Y0 - 600, rot=srot)
+            c.C(f"CsnT{leg}{s}", f"snT{leg}{s}", sT, "{Csn}", xs, Y0 - 1000, rot=srot)
+            c.R(f"RsnB{leg}{s}", dB, f"snB{leg}{s}", "{Rsn}", xs, Y0 - 1400, rot=srot)
+            c.C(f"CsnB{leg}{s}", f"snB{leg}{s}", sB, "{Csn}", xs, Y0 - 1800, rot=srot)
+        elif snub:
             xs = xsnA if rot == 0 else xsnB
             srot = 0 if rot == 0 else 8
             c.R(f"RsnT{leg}{s}", Tn, f"snT{leg}{s}", "{Rsn}", xs, Y0 - 600, rot=srot)
@@ -620,9 +658,10 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
             c.stub(p.pin["K"], boot, "up", 200)
             c.R(f"Rb{leg}{s}", dn, vreg, pval("Rboot", 10, "", "bootstrap series resistor"), xbs, Y0 - 600)
             c.stub((xbs, Y0 - 800), vreg, "down", 200)
-            p = c.C(f"Cb{leg}{s}", boot, sw, "100n", xbs - 400, Y0 - 200, extra=(f"RSER={comp('C100n_ESR_mOhm', 20):g}m",))
+            bic = " IC=11.5" if CAP_IC else ""     # uic starts (S10/S11): bootstrap already charged (12 V - diode)
+            p = c.C(f"Cb{leg}{s}", boot, sw, "100n", xbs - 400, Y0 - 200, extra=(f"RSER={comp('C100n_ESR_mOhm', 20):g}m{bic}",))
             c.stub(p.pin["1"], boot, "up", 200); c.stub(p.pin["2"], sw, "down", 200)
-            p = c.C(f"Cb2{leg}{s}", boot, sw, "10u", xbs - 800, Y0 - 200, extra=(f"RSER={comp('C10u_ESR_mOhm', 5):g}m",))
+            p = c.C(f"Cb2{leg}{s}", boot, sw, "10u", xbs - 800, Y0 - 200, extra=(f"RSER={comp('C10u_ESR_mOhm', 5):g}m{bic}",))
             c.stub(p.pin["1"], boot, "up", 200); c.stub(p.pin["2"], sw, "down", 200)
         # PWM sources (NUCLEO timer outputs, 3.3 V logic, dead time from the PWM)
         for i, (pos, leg) in enumerate((("T", "A"), ("B", "A"), ("T", "B"), ("B", "B"))):
@@ -644,8 +683,17 @@ def converter(c, k, X0, Y0, T, M, B, drive, paras, snub, ctrl=False):
                 p = c.V(f"Vp{pos}{leg}{s}", inp, "GND", pulse_expr(pos, leg, k, logic=True), xv + 400 * i, Y0 - 3200)
             c.stub(p.pin["+"], inp, "up", 200)
             c.stub(p.pin["-"], "GND", "down", 200)
+    # HF decoupling as fitted (S10/S11): 2 x 100 nF per converter across the half-bridge rails (v3 C5/C6 position)
+    if snub and KNOBS:
+        for j, xh in enumerate((X0 + 13800, X0 + 14800)):
+            hn = f"hf{j}{s}"
+            p = c.C(f"Chf{j}{s}", Tn, hn, "{Chf}", xh, Y0 - 800,
+                    extra=("RSER=" + kx("KHF", comp('C100n_ESR_mOhm', 20) * 1e-3),))
+            c.stub(p.pin["1"], Tn, "up", 200)
+            c.Lel(f"Lhf{j}{s}", hn, Bn, kx("KHF", comp('C100n_ESL_nH', 0.8) * 1e-9), xh, Y0 - 1200)
+            c.stub((xh, Y0 - 1400), Bn, "down", 200)
     # HF decoupling placeholders (S8): 3 x Chf per leg between the FET rails (C91..C96 positions)
-    if snub:
+    elif snub:
         for leg, xh in (("A", X0 + 13800), ("B", X0 + 14800)):   # 1000 apart so the RSER texts do not touch
             hn = f"hf{leg}{s}"
             p = c.C(f"Chf{leg}{s}", Tn, hn, "{3*Chf}", xh, Y0 - 800, extra=(f"RSER={comp('C100n_ESR_mOhm', 20)/3:g}m",))
@@ -791,6 +839,7 @@ def bench_sources(c, x0, y0, ilim3_expr):
         c.stub(p.pin["-"], "GND", "down", 200)
 
 
+S11_SAVE = ".save V(PV1P) V(PV2P) V(PV3P) V(SWA1) V(SWB1) V(SWA2) V(SWB2) I(VsA2) I(VsB2) I(VsA1) I(VsB1)"
 S10_SAVE = (".save V(PV1P) V(PV2P) V(PV3P) I(VsA1) I(VsB1) I(VsA2) I(VsB2) V(DA1) V(DB1) V(DA2) V(DB2) "
             "V(BETA) V(STRESS) V(RV1) V(RV2) V(IM1R) V(IM2R) I(Bload) I(Vi1) I(Vi2) I(Vi3) V(VREF2) V(HSA2) V(HSB2) V(SWA2)")
 
@@ -865,6 +914,9 @@ def pulse_expr(pos, leg, k, logic=False):
 
 def lump_params(name, R, L):
     """'R=.. L=..' for a trace lump; in report mode as {R_name} {L_name} parameters."""
+    kn = lump_knob(name)
+    if KNOBS and kn:
+        return f"R={kx('KR', R * 1e-3)} L={kx(kn, L * 1e-9)}"
     src = LUMP.get(name, {}).get("from", "")
     return (f"R={pval('R_' + name, R, 'm', f'copper lump {name} (KiCad net {src})' if src else None, '.3g')} "
             f"L={pval('L_' + name, L, 'n', None, '.3g')}")
@@ -951,24 +1003,34 @@ def build(stage):
         "S10p": "S10p - CLOSED LOOP 200 kHz carpark: 3 x KAUSSP80, DL3021 CV, VREF2 step, shade step",
         "S10xb": "S10xb - MATRIX bench: FILT {IIR2k, MA4} x VM1SRC {INA, CV} x KBERR {1, 4} x KSCALE {0.3, 1}, noise on",
         "S10xp": "S10xp - MATRIX carpark 3 x KAUSSP80: FILT {IIR2k, MA4} x VM1SRC {INA, CV} x KBERR {1, 4} x KSCALE {0.3, 1}, noise on",
+        "S11a": "S11a - EDGE CALIBRATION (7 Oct): NGE103 27 V on the bottom input only, shuffler 2 at 50 % 100 kHz, output open",
+        "S11a_est": "S11a_est - as S11a with the earlier datasheet-estimate MOSFET (A/B)",
+        "S11b": "S11b - EDGE CALIBRATION (13 Oct): full bench string, DL3021 CV 70 V, shuffler 2 at 50 % 100 kHz, shuffler 1 off",
+        "S11c": "S11c - EDGE CALIBRATION (13 Oct SCR03): full bench string, both shufflers at 50 % 100 kHz",
     }
     order = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
-    global PV_SUB, FSW_CTRL, TSW_CTRL, S1OFF_PARAM, HALL_BW, CAP_IC
+    global PV_SUB, FSW_CTRL, TSW_CTRL, S1OFF_PARAM, HALL_BW, CAP_IC, KNOBS, MOS_MODEL, PV_PARAMS
     PV_SUB = "pvmi_150w" if stage in ("S9", "S9i") else "pvmi_aiko"
     s10 = stage in S10_STAGES
     FSW_CTRL = S10_FSW.get(stage, 200e3) if s10 else 100e3
     TSW_CTRL = 1 / FSW_CTRL
-    S1OFF_PARAM = "S1OFF" if stage == "S10c" else None
+    S1OFF_PARAM = "S1OFF" if stage in ("S10c", "S11a", "S11a_est", "S11b", "S11c") else None
+    s11 = stage in S11_STAGES
+    KNOBS = s11 or (s10 and S10_PARAS)
+    MOS_MODEL = "STD45N10F7_EST" if stage == "S11a_est" else "STD45N10F7"
+    PV_PARAMS = {0: "VS=1k", 1: "VS=1k", 2: "VS=27"} if stage in ("S11a", "S11a_est") else {}
     HALL_BW = 500e3 if s10 else None
     if s10:
         vcv0 = 61.5 if stage in ("S10p", "S10xp") else 70.0
-        CAP_IC = (22.4, 23.8, 23.8) if stage == "S10c" else (vcv0 / 3,) * 3
+        CAP_IC = (22.4, 23.8, 23.8) if stage in ("S10c", "S11b", "S11c") else (vcv0 / 3,) * 3
+        if stage in ("S11a", "S11a_est"):
+            CAP_IC = (0.0, 27.0, 27.0)
     else:
         CAP_IC = None
     if s10:
         PV_SUB = "pvmi_80w" if stage in ("S10p", "S10xp") else "nge_ch"
     if stage in ("S9", "S9i") or s10:
-        stage_flags = dict(cpv=True, bulk=True, conv=[1, 2], drive="driver", paras=False, snub=False, full_meas=False)
+        stage_flags = dict(cpv=True, bulk=True, conv=[1, 2], drive="driver", paras=KNOBS, snub=KNOBS, full_meas=False)
         idx = order.index("S5")
     else:
         stage_flags = None
@@ -1043,16 +1105,27 @@ def build(stage):
                  VSTEP2=2, DU=0, RUN=1, D2=0.5, S1OFF=0)
         P.update({"S10c": dict(S1OFF=1, TSHADE=1), "S10i": dict(DU=0.02, TSHADE=1),
                   "S10n": dict(NOISE=1, MSEL=2, KSCALE=1),
-                  "S10xb": dict(NOISE=0.22), "S10xp": dict(NOISE=0.22), "S10p": dict(NOISE=0.22)}.get(stage, {}))
+                  "S10xb": dict(NOISE=0.22), "S10xp": dict(NOISE=0.22), "S10p": dict(NOISE=0.22),
+                  "S11a": dict(S1OFF=1, ILIM1=0, ILIM2=0, ILIM3=3, LOADSEL=1, Icc=0, TSHADE=1),
+                  "S11a_est": dict(S1OFF=1, ILIM1=0, ILIM2=0, ILIM3=3, LOADSEL=1, Icc=0, TSHADE=1),
+                  "S11b": dict(S1OFF=1, ILIM1=0.95, ILIM2=0.95, ILIM3=0.95, TSHADE=1),
+                  "S11c": dict(S1OFF=0, ILIM1=0.95, ILIM2=0.95, ILIM3=0.95, TSHADE=1)}.get(stage, {}))
+        if KNOBS:   # switching parasitics: fit knobs (1 = v3 values), fitted snubber and HF decoupling
+            P.update(KLSW=1, KLRAIL=1, KESL=1, KESR=1, KHF=1, KR=1, LLEAD="750n", Csn="470p", Rsn=4.7, Chf="100n")
+        P.update(CLI_SET)
         items = [f"{k}={v:g}" if isinstance(v, (int, float)) else f"{k}={v}" for k, v in P.items()]
         for i in range(0, len(items), 8):
             c.directive(".param " + " ".join(items[i:i + 8]))
-        c.directive(S10_SAVE)
+        c.directive(S11_SAVE if s11 else S10_SAVE)
         # no DC operating point (it hangs with the PSU clamps + CV load + static switch state): start from the
         # string split the bench showed (13 Oct: 22.4 / 23.8 / 23.8 V at CV 70 V) and let the switching settle
-        v3 = 23.8 if stage == "S10c" else vcv / 3
-        c.directive(f".ic V(PV1P)={vcv:g} V(PV2P)={2 * v3:g} V(PV3P)={v3:g}")
-        if stage == "S10c":
+        c.directive(f".ic V(PV1P)={sum(CAP_IC):g} V(PV2P)={CAP_IC[1] + CAP_IC[2]:g} V(PV3P)={CAP_IC[2]:g}")
+        for st_line in CLI_STEP:
+            c.directive(".step param " + st_line)
+        if s11:
+            # 200 us from the initial conditions, last 30 us saved at 1 ns resolution for edge_metrics.py
+            c.directive(".tran 0 200u 170u 1n uic")
+        elif stage == "S10c":
             c.directive(".step param D2 list 0.49 0.5 0.51")
             c.directive(".tran 0 3m 0 250n uic")
         elif stage == "S10i":
@@ -1093,7 +1166,9 @@ def build(stage):
         c.directive(".param Csn=470p Rsn=4.7")
         c.directive(".step param Chf list 1p 100n 470n 1u")
     # ---- measurements
-    if stage in ("S10c", "S10i"):
+    if s11:
+        pass        # edge_metrics.py reads the .qraw directly
+    elif stage in ("S10c", "S10i"):
         a, b = (2.5e-3, 3e-3) if stage == "S10c" else (2e-3, 3e-3)
         c.measure(f".meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM {a:g} TO {b:g}")
         c.measure(f".meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM {a:g} TO {b:g}")
@@ -1132,7 +1207,7 @@ def build(stage):
         Bn = ("PV3P" if k == 1 else "GND") if not S["paras"] else f"B{k}"
         if not ctrl:
             converter_measurements(c, k, S["drive"], S["paras"], Bn)
-    if S["snub"]:
+    if S["snub"] and not KNOBS:
         for k in S["conv"]:
             s = str(k)
             c.measure(f".meas tran psnta{s} AVG P(RsnTA{s})")
@@ -1419,6 +1494,15 @@ def main():
     stages = sys.argv[1:] if len(sys.argv) > 1 and not sys.argv[1].startswith("--") else \
         ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
     do_verify = "--verify" in sys.argv
+    global S10_PARAS
+    for a in sys.argv[1:]:
+        if a.startswith("--set="):
+            k, v = a[6:].split("=", 1)
+            CLI_SET[k] = float(v) if re.fullmatch(r"[-+0-9.eE]+", v) else v
+        elif a.startswith("--step="):
+            CLI_STEP.append(a[7:])
+        elif a == "--paras":
+            S10_PARAS = True
     stages = [s for s in stages if not s.startswith("--")]
     for st in stages:
         c = build(st)

@@ -1,0 +1,11 @@
+S11a_est: 1 step(s)
+node       metric         target               v3 values
+v(pv3p)    ring_f_MHz        3.5                 2.75 --
+v(pv3p)    ring_pos          1.6                 1.28 ok
+v(pv3p)    ring_neg           -1               -0.829 ok
+v(pv3p)    decay_us         1.75                 1.43 ok
+v(pv3p)    burst_pk          1.5                 1.29 ok
+v(pv3p)    burst_f_MHz        55                 51.3 ok
+
+all metrics per node (median over edges):
+  v3 values {'v(pv3p)': {'burst_f_MHz': 51.27, 'burst_pk': 1.289, 'decay_us': 1.433, 'ring_Q': 2.938, 'ring_f_MHz': 2.755, 'ring_neg': -0.829, 'ring_pos': 1.276}, 'v(pv2p)': {'burst_f_MHz': 45.654, 'burst_pk': 1.799, 'decay_us': 1.445, 'ring_Q': 2.068, 'ring_f_MHz': 2.347, 'ring_neg': -1.108, 'ring_pos': 1.783}}

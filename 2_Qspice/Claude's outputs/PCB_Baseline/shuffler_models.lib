@@ -65,9 +65,9 @@ X1 A K E pvmi avoc=0.00216126 bvoc=22.9087 aisc=0.00434999 bisc=0 avm=0.00062298
 *
 * ---- R&S NGE103 channel as a bench "module" (S10): current limit V(E)/1000 A (node E carries the limit in mA),
 *      voltage clamp at VSET through RCLAMP (the CV regulator), i.e. the rectangular I-V of a PSU ----
-.subckt nge_ch A K E
+.subckt nge_ch A K E VS=25
 B1 K A I=max(V(E),0)*1m
-B2 A K I=max(V(A,K)-VSET,0)/RCLAMP
+B2 A K I=max(V(A,K)-VS,0)/RCLAMP
 Re E 0 10Meg
 .ends nge_ch
 *
@@ -85,10 +85,11 @@ Lk2 N04 N03 2.05u
 Lm N03 3 5.85u
 .ends ERUC23-4R1K
 *
-* ---- STMicro STD45N10F7 (100 V, 18 mOhm max, Qg 25 nC, Ciss 1640 pF, Coss 360 pF) ----
-*      ESTIMATED VDMOS from datasheet headline numbers.  Replace with the model made by
-*      C:\Program Files\QSPICE\MOSFET.exe (or ST's PSpice model) for higher fidelity.
-.model STD45N10F7 VDMOS(Rg=1.5 Vto=3.5 Kp=22 Lambda=0.005 Rd=6m Rs=2m Rb=4m Cgdmax=0.8n Cgdmin=30p a=0.5 Cgs=1.6n Cjo=1.8n m=0.5 Vj=0.8 Is=3e-12 N=1.3 tt=50n ksubthres=0.1 mfg=STMicro Vds=100 Ron=15m Qg=25n)
+* ---- STMicro STD45N10F7: the hand-built model from "Buck Boost Full Bridge - v3.qsch" (QSPICE MOSFET.exe fit
+*      to the ST datasheet by the power-electronics designer) ----
+.model STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+* ---- earlier datasheet-headline ESTIMATE, kept for A/B only (S1-S10 used it) ----
+.model STD45N10F7_EST VDMOS(Rg=1.5 Vto=3.5 Kp=22 Lambda=0.005 Rd=6m Rs=2m Rb=4m Cgdmax=0.8n Cgdmin=30p a=0.5 Cgs=1.6n Cjo=1.8n m=0.5 Vj=0.8 Is=3e-12 N=1.3 tt=50n ksubthres=0.1 mfg=STMicro Vds=100 Ron=15m Qg=25n)
 *
 * ---- Vishay VSSA210 bootstrap Schottky (100 V, 2 A) ----
 .model VSSA210 D(Is=6u N=1.08 Rs=40m Cjo=60p Vj=0.55 m=0.42 BV=100 Ibv=50u)
