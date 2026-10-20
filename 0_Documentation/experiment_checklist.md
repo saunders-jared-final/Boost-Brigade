@@ -1,7 +1,7 @@
 # Carpark experiment — pre-flight checklist and procedure
 
 Date: ______  Weather / irradiance: ______  Panels: 3 × KickAss KAUSSP80 (80 W, Voc 25.07 V, Isc 4.35 A; string Voc 75.2 V)
-Load: Rigol DL3021 e-load in CV (also the bench load; no EcoFlow, no string MPPT). Firmware fw-0.3.0 (200 kHz, protocol 2).
+Load: Rigol DL3021 e-load in CV (also the bench load; no EcoFlow, no string MPPT). Firmware fw-0.4.1 (200 kHz PWM, 10 kHz control, protocol 2; a 300 kHz image is staged but not cleared for closed loop).
 
 Controls: IR remote / LCD, web page `http://<pi>:8080`, Grafana `http://<pi>:3000`, `podctl.py` over SSH.
 Presets are the same everywhere (`7_Pi/pod/actions.py`): 0 init check · 1 open loop · 2 closed loop · 3 load on ·
@@ -19,7 +19,7 @@ POWER = E-stop, FUNC/STOP = stop. Both shufflers always run together (hard-wired
 - [ ] E-load: USB to the Pi, `E,STATUS` shows link ok, CV level set (about 3 × Vmp ≈ 61 V, under the 200 W rating), input OFF, LOAD REMOTE
 - [ ] 15 A fuse in the string (panel max series fuse 15 A); XT60 polarity checked twice
 - [ ] Pi on battery/inverter, Grafana reachable from the laptop, `pod`, `eload`, `params_web` services running (LED blue = idle, safe)
-- [ ] Firmware flashed from `7_Pi/firmware/shuffler.bin`; banner shows `fw-0.3.0 … pwm=200000Hz` and the intended `PARAMS_VERSION`; `Push params.yaml` done after the reset (values are RAM-only)
+- [ ] Firmware flashed from `7_Pi/firmware/shuffler.bin`; banner shows `fw-0.4.1 … pwm=200000Hz` and the intended `PARAMS_VERSION`; `Push params.yaml` done after the reset (values are RAM-only)
 
 ## B. Power-up order
 

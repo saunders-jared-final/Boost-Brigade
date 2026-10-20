@@ -1,3 +1,5 @@
-firmware: shuffler-fw-0.3.3  built 2026-10-16T05:42Z
-git: 815de13+dirty
-sha256: 24741c142f7d93e4142653b92f7ccf17801d2b2456ff8d42daef034e225ea975
+firmware: shuffler-fw-0.4.1  built 2026-10-16T07:59Z
+git: 32c63ee+dirty
+sha256: 0a86c317e532b8bb515c5dfae295cee5c594ba364844873966e4bfe87923be97
+400k: shuffler-fw-0.4.1 HW_PWM_KHZ=400 dead time 100 ns, M400 (sps-params-2.20261016-1751-3mod-qspice400-bench, identified at 200 ns) sha256 6dbf423c9dc1fb84 built 2026-10-16T08:00Z
+400k: shuffler-fw-0.4.1 HW_PWM_KHZ=400 dead time 100 ns, M400d1 (sps-params-2.20261016-1804-3mod-qspice400d1-bench) sha256 10382fd8165fe192 built 2026-10-16T08:04Z

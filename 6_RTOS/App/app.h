@@ -31,6 +31,7 @@ typedef enum { MODE_IDLE = 0, MODE_OL, MODE_CL, MODE_OL1, MODE_CL1, MODE_OL2, MO
 #define FLT_STRING_OV  0x400U   /* sum of module voltages (or e-load readback) above vstr_ov */
 #define FLT_COMMS_WDG  0x800U   /* closed loop with no command / C,PING for wdg_s seconds */
 #define FLT_VSTR_STALE 0x1000U  /* vm1_src = VSTR_PI and the Pi stopped pushing vstr_pi (> 2 s) */
+#define FLT_MAIN_STALL 0x2000U  /* main loop stopped running while switching (caught by the 1 ms tick in 20 ms) */
 
 #define APP_SOFTSTART_MS   150U    /* duty ramp from the pre-bias d0 = Vbot/(Vtop+Vbot) to the mode's duty */
 #define APP_VM_OV_V        30.0f   /* per-module over-voltage envelope */

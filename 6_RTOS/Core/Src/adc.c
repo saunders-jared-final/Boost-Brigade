@@ -21,6 +21,12 @@
 #include "adc.h"
 
 /* USER CODE BEGIN 0 */
+#include "shuffler_hw.h"
+#if HW_PWM_KHZ >= 400
+#define HALL_ADC_CLOCK ADC_CLOCK_ASYNC_DIV1      /* PLL P 56.7 MHz: two ranks in 0.53 us against 0.625 us triggers */
+#else
+#define HALL_ADC_CLOCK ADC_CLOCK_SYNC_PCLK_DIV4  /* 42.5 MHz: 0.71 us against 1.25 / 0.83 us triggers */
+#endif
 
 /* USER CODE END 0 */
 
@@ -45,7 +51,7 @@ void MX_ADC1_Init(void)
   /** Common config
   */
   hadc1.Instance = ADC1;
-  hadc1.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc1.Init.ClockPrescaler = HALL_ADC_CLOCK;
   hadc1.Init.Resolution = ADC_RESOLUTION_12B;
   hadc1.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc1.Init.GainCompensation = 0;
@@ -107,7 +113,7 @@ void MX_ADC2_Init(void)
   /** Common config
   */
   hadc2.Instance = ADC2;
-  hadc2.Init.ClockPrescaler = ADC_CLOCK_SYNC_PCLK_DIV4;
+  hadc2.Init.ClockPrescaler = HALL_ADC_CLOCK;
   hadc2.Init.Resolution = ADC_RESOLUTION_12B;
   hadc2.Init.DataAlign = ADC_DATAALIGN_RIGHT;
   hadc2.Init.GainCompensation = 0;

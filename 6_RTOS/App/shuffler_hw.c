@@ -166,11 +166,11 @@ void hw_init(void)
      * on this HAL the macro that encodes DTPRSC = 000 is ..._MUL8 */
     HRTIM_DeadTimeCfgTypeDef dt = {0};
     dt.Prescaler = HRTIM_TIMDEADTIME_PRESCALERRATIO_MUL8;
-    dt.RisingValue = 272U;
+    dt.RisingValue = HW_DEADTIME_STEPS;
     dt.RisingSign = HRTIM_TIMDEADTIME_RISINGSIGN_POSITIVE;
     dt.RisingLock = HRTIM_TIMDEADTIME_RISINGLOCK_WRITE;
     dt.RisingSignLock = HRTIM_TIMDEADTIME_RISINGSIGNLOCK_WRITE;
-    dt.FallingValue = 272U;
+    dt.FallingValue = HW_DEADTIME_STEPS;
     dt.FallingSign = HRTIM_TIMDEADTIME_FALLINGSIGN_POSITIVE;
     dt.FallingLock = HRTIM_TIMDEADTIME_FALLINGLOCK_WRITE;
     dt.FallingSignLock = HRTIM_TIMDEADTIME_FALLINGSIGNLOCK_WRITE;

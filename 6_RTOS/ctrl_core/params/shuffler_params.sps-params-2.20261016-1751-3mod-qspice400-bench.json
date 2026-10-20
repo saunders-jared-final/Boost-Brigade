@@ -1,0 +1,70 @@
+{
+  "_comment": [
+    "Single source of truth for the control-stack constants. gen_params.py / export_params.m",
+    "turn this into params.h. N_MOD modules, N_MOD-1 shufflers, 2 legs per shuffler.",
+    "ctrl.M = inv(G)*diag(kI), G from QSPICE S10i (switching model, 200 kHz, 200 ns dead time, bench NGE103",
+    "operating point; qspice_ident.py --du 0.02). Chosen over the Simulink BENCH M (Gate 4, 15 Oct): the",
+    "u_diff->i_comm gain is 140 A/unit on the switching plant vs 742 averaged; M200 is stable on both.",
+    "Backups: shuffler_params.<version>.json (Simulink bench, QSPICE S9i 100 kHz). mppt: unused with the DL3021."
+  ],
+  "version": "sps-params-2.20261016-1751-3mod-qspice400-bench",
+  "n_mod": 3,
+  "ctrl": {
+    "ts": 0.0001,
+    "fc_lpf": 2000,
+    "dmin": 0.08,
+    "dmax": 0.92,
+    "kp_ratio_v": 0.000158,
+    "kp_ratio_i": 0.000108,
+    "M": [
+      [
+        -22.683478666118393,
+        0.6839542310317342,
+        -36.94175723538825,
+        -0.07597416010822441
+      ],
+      [
+        -0.30619274120333406,
+        -22.037663147817746,
+        -0.10586125919206411,
+        -40.27840164587864
+      ],
+      [
+        0.1520237416430656,
+        0.1967452126604279,
+        107.29262544875068,
+        -3.9028094327533687
+      ],
+      [
+        0.24566698179676455,
+        0.19072398312369,
+        -3.8376462669826203,
+        109.86590192532135
+      ]
+    ]
+  },
+  "sup": {
+    "ts": 0.001,
+    "tf": 0.005,
+    "i_rated": 10,
+    "s_hi": 0.9,
+    "s_lo": 0.7,
+    "kb": 60,
+    "krel": 6,
+    "bmax": 4,
+    "rvmax": 30
+  },
+  "mppt": {
+    "ts": 0.001,
+    "tp": 0.02,
+    "iref0": 8,
+    "imin": 2,
+    "imax": 8.5,
+    "db": 1,
+    "ka": 0.01,
+    "smin": 0.05,
+    "smax": 1,
+    "s0": 0.25,
+    "btol": 0.001
+  }
+}

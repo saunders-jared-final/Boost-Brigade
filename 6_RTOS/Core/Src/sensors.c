@@ -63,9 +63,9 @@ typedef struct
 static Sense_Cfg s_cfg[SENSE_COUNT] =
 {
   [SENSE_ILA_1] = { 0, 0,  100.0f, "ILA_1" },
-  [SENSE_ILB_1] = { 1, 0,   25.0f, "ILB_1" },
+  [SENSE_ILB_1] = { 1, 0,  100.0f, "ILB_1" },   /* B phases: TMCS1126B4 100 mV/A like A (bench 16 Oct: 25 read 4x A) */
   [SENSE_ILA_2] = { 0, 1,  100.0f, "ILA_2" },
-  [SENSE_ILB_2] = { 1, 1,   25.0f, "ILB_2" },
+  [SENSE_ILB_2] = { 1, 1,  100.0f, "ILB_2" },
 };
 
 static volatile uint16_t s_buf[2][SENSE_BUF_LEN];
@@ -78,6 +78,7 @@ static uint8_t           s_zero_ok[SENSE_COUNT];
 static uint8_t           s_oc_count[SENSE_COUNT];
 static uint8_t           s_rail_count[SENSE_COUNT];
 static uint8_t           s_stall_count;
+static uint32_t          s_nowrap_total;   /* ticks whose DMA buffers had not wrapped: the ADC not keeping up */
 static volatile float    s_oc_limit = SENSE_OC_LIMIT_A;
 static volatile uint8_t  s_running;
 static volatile uint8_t  s_fault;
@@ -232,6 +233,7 @@ void Sensors_Tick(void)
     s_avg[ch] = (float)acc[s_cfg[ch].adc][s_cfg[ch].rank] * (1.0f / (float)SENSE_SEQ_PER_TICK);
   }
   s_ticks++;
+  if (!wrapped && s_ticks > 2U) s_nowrap_total++;
   if (!s_running)
   {
     return;
@@ -345,6 +347,9 @@ void Sensors_SetOcLimit(float amps)
   if (!(amps > 0.0f)) return;
   s_oc_limit = (amps > SENSE_OC_LIMIT_A) ? SENSE_OC_LIMIT_A : amps;
 }
+
+uint32_t Sensors_Ticks(void) { return s_ticks; }
+uint32_t Sensors_NoWrapTicks(void) { return s_nowrap_total; }
 
 float Sensors_OcLimit(void)
 {

@@ -9,7 +9,7 @@
 
 #define COMMS_BAUD              921600U
 #define COMMS_PROTOCOL_VERSION  2   /* 2: T frame gains kscale,pset before pver; C,SET/SETM/GET/LIST/APPLY/REVERT */
-#define COMMS_FW_VERSION        "shuffler-fw-0.3.3"
+#define COMMS_FW_VERSION        "shuffler-fw-0.4.1"
 
 void comms_init(void);
 void comms_banner(void);

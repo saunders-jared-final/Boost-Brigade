@@ -9,9 +9,10 @@ GNU="$(dirname "$OBJCOPY")"; NINJA="$(ls -d "$B"/ninja/*/bin | tail -1)"
 export PATH="$PATH:$GNU:$NINJA"            # cmake.exe resolves the ARM compiler through the Windows PATH
 export WSLENV="${WSLENV:-}:PATH/l"
 cd "$ROOT/6_RTOS"
-cmake.exe --preset Debug >/dev/null
-cmake.exe --build --preset Debug
-"$OBJCOPY" -O binary build/Debug/Shuffler_1_Open_Loop.elf "$(wslpath -w "$ROOT/7_Pi/firmware")\\shuffler.bin"
+PRESET="${PRESET:-Release}"
+cmake.exe --preset "$PRESET" >/dev/null
+cmake.exe --build --preset "$PRESET"
+"$OBJCOPY" -O binary "build/$PRESET/Shuffler_1_Open_Loop.elf" "$(wslpath -w "$ROOT/7_Pi/firmware")\\shuffler.bin"
 {
   echo "firmware: $(grep -o 'shuffler-fw-[0-9.]*' App/comms.h | head -1)  built $(date -u +%Y-%m-%dT%H:%MZ)"
   echo "git: $(git -C "$ROOT" rev-parse --short HEAD)$(git -C "$ROOT" diff --quiet -- 6_RTOS || echo '+dirty')"

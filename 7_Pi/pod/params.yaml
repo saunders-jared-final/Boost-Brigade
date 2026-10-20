@@ -11,10 +11,11 @@ kp_v: 0.000158         # 0..0.01 s P/I ratio, voltage channels (VM1-VM2, VM2-VM3
 kp_i: 0.000108         # 0..0.01 s P/I ratio, circulating-current channels (ILA+ILB)
 fc_lpf: 2000           # 100..4000 Hz measurement LPF corner (controller side)
 filt_ma: 0             # 0..8  0 = first-order IIR at fc_lpf; N = moving average over N control ticks (N x 100 us)
-dmin: 0.08             # 0.05..0.45 duty clamp low (200 kHz: 0.05 = 250 ns on-time vs 200 ns dead time)
+dmin: 0.08             # 0.05..0.45 duty clamp low (200 kHz: 0.05 = 250 ns on-time vs 200 ns dead time; 300 kHz image floors at 0.08)
 dmax: 0.92             # 0.55..0.95 duty clamp high
-# M = inv(G)*diag(kI), rows/cols: [VM1-VM2, VM2-VM3, ic1, ic2]. QSPICE 200 kHz bench ident = params.h
-# (sps-params-2.20261015-1950-3mod-qspice200-bench). Stable in sim on both the switching (QSPICE) and averaged (Simulink) plants.
+# M = inv(G)*diag(kI), rows/cols: [VM1-VM2, VM2-VM3, ic1, ic2]. QSPICE 200 kHz bench ident = params.h (shuffler.bin)
+# (sps-params-2.20261015-1950-3mod-qspice200-bench). The 300 kHz set (S10i3, current rows 2.4x) is compiled into
+# firmware/shuffler_300k.bin: M rows for it are in 6_RTOS/ctrl_core/params/shuffler_params.sps-params-2.20261016-1628-3mod-qspice300-bench.json
 # Simulink BENCH alternative (current channels ~5x softer on the real plant), copy over the rows below to try it:
 #   - [-20.4772, 0.0097938, -0.0457161, 0.0914978]
 #   - [-0.00834409, -19.9026, -0.0889698, 0.0445129]

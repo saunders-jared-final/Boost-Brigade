@@ -120,12 +120,14 @@ static void trip_vm(uint32_t code, int8_t ch, float v)
 static void iwdg_start(void)
 {
 #if APP_USE_IWDG
-  /* LSI ~32 kHz / 32 = 1 kHz; reload 2000 -> 2 s. LSI starts with the IWDG. */
+  /* LSI ~32 kHz / 32 = 1 kHz; reload 300 -> 0.3 s (was 2 s until 16 Oct 2026: a hung firmware left the bridge
+   * switching unsupervised for 2 s). Kicked by the 100 Hz safety task; the longest main-loop stretch is a
+   * C,LIST burst (~70 ms of blocking UART). LSI starts with the IWDG. */
   DBGMCU->APB1FZR1 |= DBGMCU_APB1FZR1_DBG_IWDG_STOP;   /* freeze while halted in the debugger */
   IWDG->KR  = 0xCCCCU;
   IWDG->KR  = 0x5555U;
   IWDG->PR  = 3U;        /* /32 */
-  IWDG->RLR = 2000U;
+  IWDG->RLR = 300U;
   while (IWDG->SR != 0U) {}
   IWDG->KR  = 0xAAAAU;
 #endif
@@ -162,14 +164,42 @@ void app_estop_isr(void)
   trip(FLT_ESTOP);
 }
 
+/* ------------------------------------------------------------------ trace --- */
+/* Last code point reached, in RAM that the startup does not clear (.noinit, survives an IWDG reset):
+ * after a watchdog reset the boot banner says where the firmware was when it stopped kicking. */
+#define TRACE_MAGIC 0x7A5C0DEU
+__attribute__((section(".noinit"))) static volatile uint32_t s_trace_magic;
+__attribute__((section(".noinit"))) static volatile uint32_t s_trace_pt;      /* 0x1x = control ISR, 0x2x = main loop */
+__attribute__((section(".noinit"))) static volatile uint32_t s_trace_main;    /* last main-loop point */
+__attribute__((section(".noinit"))) static volatile uint32_t s_trace_st;
+#define TRACE(pt) do { s_trace_pt = (pt); if (((pt) & 0xF0U) == 0x20U) s_trace_main = (pt); \
+                       s_trace_st = ((uint32_t)s_state << 8) | (uint32_t)s_mode; } while (0)
+/* control ISR cost (DWT cycle counter): last / max since boot, and what was going on when the main loop stalled */
+static volatile uint32_t s_isr_cyc_last, s_isr_cyc_max;
+static volatile uint32_t s_stall_pt, s_stall_main, s_stall_isr_last, s_stall_isr_max, s_stall_ms, s_stall_resume_ms;
+static volatile uint8_t  s_stall_pending;
+uint32_t app_isr_us_max(void) { return s_isr_cyc_max / (SystemCoreClock / 1000000U); }
+uint32_t app_isr_us_last(void) { return s_isr_cyc_last / (SystemCoreClock / 1000000U); }
+
 /* ----------------------------------------------------------------- init --- */
 void app_init(void)
 {
   uint32_t boot_faults = 0U;
+  uint32_t wdg_pt = 0U, wdg_st = 0U;
   int i;
 
-  if (RCC->CSR & RCC_CSR_IWDGRSTF) boot_faults |= FLT_WDG_RESET;
+  if (RCC->CSR & RCC_CSR_IWDGRSTF)
+  {
+    boot_faults |= FLT_WDG_RESET;
+    if (s_trace_magic == TRACE_MAGIC) { wdg_pt = s_trace_pt; wdg_st = s_trace_st; }
+  }
   RCC->CSR |= RCC_CSR_RMVF;
+  s_trace_magic = TRACE_MAGIC;
+  s_trace_pt = 0U;
+  s_trace_main = 0U;
+  CoreDebug->DEMCR |= CoreDebug_DEMCR_TRCENA_Msk;     /* DWT cycle counter for the ISR cost */
+  DWT->CYCCNT = 0U;
+  DWT->CTRL |= DWT_CTRL_CYCCNTENA_Msk;
 
   for (i = 0; i < N_MOD; i++) { s_vm[i] = NAN; s_vm_isr[i] = 0.0f; s_imr[i] = 0.0f; }
   for (i = 0; i < N_SHUF; i++) s_vref[i] = 0.0f;
@@ -180,6 +210,13 @@ void app_init(void)
   set_state(ST_SELFTEST);
   comms_init();
   comms_banner();
+  if (boot_faults & FLT_WDG_RESET)
+  {
+    char b[96];
+    snprintf(b, sizeof b, "WDG RESET: last trace point 0x%02lx (main loop at 0x%02lx) state %lu mode %lu (0x1x = control ISR, 0x2x = main loop)",
+             (unsigned long)wdg_pt, (unsigned long)s_trace_main, (unsigned long)(wdg_st >> 8), (unsigned long)(wdg_st & 0xFFU));
+    comms_note(b);
+  }
 
   /* self test: sensor zero calibration plausibility, INA bus */
   for (i = 0; i < SENSE_COUNT; i++)
@@ -219,7 +256,10 @@ void app_ctrl_isr(void)
   uint8_t legs = mode_legs(md);
   int i;
 
+  uint32_t cyc0 = DWT->CYCCNT;
+  TRACE(0x10);
   Sensors_Tick();                       /* reads last conversions, OC latch, starts next */
+  TRACE(0x11);
   for (i = 0; i < N_LEG; i++) s_il[i] = Sensors_Current_A((Sense_Channel)i);
   if (Sensors_FaultLatched() && !(s_faults & FLT_OC_LATCH))
   {
@@ -229,6 +269,7 @@ void app_ctrl_isr(void)
 
   /* C,APPLY: swap the gain set at this tick boundary, integrators rebased on the applied duties */
   prt_isr_service(&s_stack.ctrl, s_d_applied);
+  TRACE(0x12);
 
   /* module voltages: latest task snapshot (written at 1 kHz) */
   for (i = 0; i < N_MOD; i++) s_vm_isr[i] = (float)s_vm[i];
@@ -253,6 +294,7 @@ void app_ctrl_isr(void)
     }
     if (s_ss_n < SS_TICKS) s_ss_n++;
     else s_ss_done = 1U;
+    TRACE(0x13);
     stack_init(&s_stack);               /* closed loop starts fresh when RUN begins */
   }
   else if (st == ST_RUN && mode_closed(md))
@@ -269,7 +311,9 @@ void app_ctrl_isr(void)
     for (i = 0; i < N_SHUF; i++) in.Vref[i] = s_vref[i];
     in.en_sup = s_sup_en ? 1.0f : 0.0f;
     in.en_mppt = 0.0f;                  /* the load (EcoFlow) does string MPPT */
+    TRACE(0x14);
     stack_step(&in, &s_stack, &s_stack_out);
+    TRACE(0x15);
     {
       /* duty slew limit: bounds the step a wrong gain or a sensor glitch can put on the bridge */
       float sl = prt.slew;
@@ -293,19 +337,35 @@ void app_ctrl_isr(void)
      * that is active when SOFTSTART switches the outputs on is already d0 */
     for (i = 0; i < N_LEG; i++) s_d_applied[i] = prebias_duty((uint8_t)(i / 2));
   }
+  TRACE(0x16);
   for (i = 0; i < N_LEG; i++)
   {
     if (st != ST_IDLE && st != ST_STOP && st != ST_FAULT && !(legs & (1U << i)))
       s_d_applied[i] = 0.5f;                          /* inactive legs parked (outputs are off anyway) */
     hw_set_duty((uint8_t)i, s_d_applied[i]);
   }
+  TRACE(0x17);
+  s_isr_cyc_last = DWT->CYCCNT - cyc0;
+  if (s_isr_cyc_last > s_isr_cyc_max) s_isr_cyc_max = s_isr_cyc_last;
 }
 
 /* ----------------------------------------------------------- 1 ms tick --- */
+static volatile uint32_t s_main_alive_ms;   /* last app_poll() pass */
+#define MAIN_STALL_MS 20U
+
 void app_tick_1ms(void)
 {
   s_ms++;
   s_flag_1ms = 1U;
+  /* main loop dead while switching (hung in a HAL wait, hard fault with IRQs still running): outputs off now,
+   * not after the IWDG period. A hang inside the control ISR itself can only be caught by the IWDG. */
+  if ((s_state == ST_RUN || s_state == ST_SOFTSTART) && (s_ms - s_main_alive_ms) > MAIN_STALL_MS)
+  {
+    s_stall_pt = s_trace_pt; s_stall_main = s_trace_main;
+    s_stall_isr_last = s_isr_cyc_last; s_stall_isr_max = s_isr_cyc_max;
+    s_stall_ms = s_ms; s_stall_resume_ms = 0U; s_stall_pending = 1U;
+    trip(FLT_MAIN_STALL);
+  }
 }
 
 /* U10 (INA CS3) is wired with its VBUS/GND the other way round on the Version 0 board: the magnitude is right,
@@ -460,6 +520,17 @@ void app_task_safety(void)
   {
     s_fault_reported = 1U;
     comms_send_fault();
+    if (s_stall_pending)
+    {
+      char b[160];
+      uint32_t mhz = SystemCoreClock / 1000000U;
+      s_stall_pending = 0U;
+      snprintf(b, sizeof b, "MAIN STALL: main loop at 0x%02lx, last point 0x%02lx, ISR last %lu us max %lu us (budget 100), "
+               "main loop back after %lu ms, isr count ok",
+               (unsigned long)s_stall_main, (unsigned long)s_stall_pt, (unsigned long)(s_stall_isr_last / mhz),
+               (unsigned long)(s_stall_isr_max / mhz), (unsigned long)(s_stall_resume_ms - s_stall_ms));
+      comms_note(b);
+    }
   }
 }
 
@@ -477,11 +548,19 @@ void app_poll(void)
 {
   if (!s_flag_1ms) return;
   s_flag_1ms = 0U;
+  if (s_stall_pending && s_stall_resume_ms == 0U) s_stall_resume_ms = s_ms;
+  s_main_alive_ms = s_ms;
+  TRACE(0x20);
   app_task_sense_v();
+  TRACE(0x21);
   if (++s_safety_div >= 10U)   { s_safety_div = 0U;   app_task_safety(); }
+  TRACE(0x22);
   if (++s_telemetry_div >= 20U){ s_telemetry_div = 0U; app_task_telemetry(); }
+  TRACE(0x23);
   if (++s_status_div >= 1000U) { s_status_div = 0U;    comms_send_status(); }
+  TRACE(0x24);
   app_task_cmd();
+  TRACE(0x25);
 }
 
 /* ----------------------------------------------------- IC init check --- */
@@ -497,7 +576,7 @@ static void init_line(const char *name, bool ok, const char *detail)
 /* Main loop only, switching stopped. Re-probes the INAs, re-reads their config, checks halls at rest. */
 static bool init_check(void)
 {
-  char d[80];
+  char d[120];
   int fails = 0, i;
 
   comms_note("INIT check start (gates off)");
@@ -553,6 +632,12 @@ static bool init_check(void)
   init_line("firmware", s_faults == 0U, d);
   if (s_faults != 0U) fails++;
 
+  snprintf(d, sizeof d, "INIT note: control ISR last %lu us, max %lu us since boot (budget 100 us at 10 kHz)",
+           (unsigned long)app_isr_us_last(), (unsigned long)app_isr_us_max());
+  comms_note(d);
+  snprintf(d, sizeof d, "INIT note: hall sampling %lu of %lu ticks without a DMA wrap (0 = ADC keeps up with the %lu kHz triggers)",
+           (unsigned long)Sensors_NoWrapTicks(), (unsigned long)Sensors_Ticks(), (unsigned long)(HW_PWM_HZ * HW_ADC_TRIG_PER_PERIOD / 1000U));
+  comms_note(d);
   comms_note("INIT note: 1ED3140 gate drivers and ISO7762 have no read-back; check gate waveforms on the scope");
   snprintf(d, sizeof d, "INIT RESULT: %s (%d failing)", fails ? "FAIL" : "PASS", fails);
   comms_note(d);

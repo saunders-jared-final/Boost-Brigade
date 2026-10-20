@@ -26,6 +26,7 @@
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
 #include "app.h"
+#include "shuffler_hw.h"
 #include "comms.h"
 #include "ina2x9.h"
 #include "sensors.h"
@@ -162,6 +163,9 @@ void SystemClock_Config(void)
   RCC_OscInitStruct.PLL.PLLM = RCC_PLLM_DIV4;
   RCC_OscInitStruct.PLL.PLLN = 85;
   RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV2;
+#if HW_PWM_KHZ >= 400
+  RCC_OscInitStruct.PLL.PLLP = RCC_PLLP_DIV6;   /* 340 MHz VCO / 6 = 56.7 MHz for the hall ADCs (adc.c, async clock) */
+#endif
   RCC_OscInitStruct.PLL.PLLQ = RCC_PLLQ_DIV2;
   RCC_OscInitStruct.PLL.PLLR = RCC_PLLR_DIV2;
   if (HAL_RCC_OscConfig(&RCC_OscInitStruct) != HAL_OK)
@@ -182,6 +186,15 @@ void SystemClock_Config(void)
   {
     Error_Handler();
   }
+#if HW_PWM_KHZ >= 400
+  {
+    /* hand-added (CubeMX regeneration drops it): ADC1/2 on the PLL P output, see shuffler_hw.h */
+    RCC_PeriphCLKInitTypeDef pclk = {0};
+    pclk.PeriphClockSelection = RCC_PERIPHCLK_ADC12;
+    pclk.Adc12ClockSelection = RCC_ADC12CLKSOURCE_PLL;
+    if (HAL_RCCEx_PeriphCLKConfig(&pclk) != HAL_OK) Error_Handler();
+  }
+#endif
 }
 
 /* USER CODE BEGIN 4 */

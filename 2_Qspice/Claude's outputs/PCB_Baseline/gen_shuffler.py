@@ -69,8 +69,10 @@ FSW_CTRL = 100e3              # S9: PWM as flashed on the Nucleo then (HW_PWM_HZ
 TSW_CTRL = 1 / FSW_CTRL
 # S10 family (Gate 4, fw-0.3.0): 200 kHz, bench NGE103 source / DL3021 CV load, shuffler_ctrl_dll2
 S11_STAGES = ("S11a", "S11b", "S11c", "S11a_est")   # edge calibration against the scope (paras + snubbers)
-S10_STAGES = ("S10c", "S10i", "S10", "S10n", "S10p", "S10xb", "S10xp") + S11_STAGES   # S10x*: overnight matrix
-S10_FSW = {"S10c": 100e3, "S11a": 100e3, "S11b": 100e3, "S11c": 100e3, "S11a_est": 100e3}   # bench captures: 100 kHz
+S10_STAGES = ("S10c", "S10i", "S10i3", "S10i4", "S10i4d1", "S10", "S10n", "S10p", "S10xb", "S10xp") + S11_STAGES   # S10x*: overnight matrix
+S10_FSW = {"S10c": 100e3, "S11a": 100e3, "S11b": 100e3, "S11c": 100e3, "S11a_est": 100e3,     # bench captures: 100 kHz
+           "S10i3": 300e3, "S10i4": 400e3, "S10i4d1": 400e3}                                   # 300 / 400 kHz identification
+S10_TDEAD = {"S10i4d1": 100e-9}           # dead time per stage (default TDEAD = 200 ns); d1 = 100 ns firmware (16 Oct)
 BENCH_ILIM = (0.8, 1.0, 1.3)              # NGE103 current limits [A] (user, 15 Oct); VSET 25 V each
 S1OFF_PARAM = None                        # S10c: converter-1 gates held low (only shuffler 2 switched on 13 Oct)
 HALL_BW = None                            # S10*: TMCS1126 500 kHz output pole on the hall signals
@@ -998,6 +1000,9 @@ def build(stage):
         "S9i": "S9i - IDENTIFICATION of the S9 plant: open loop, baseline + 4 modal duty steps (RUN 1..5) -> G -> M (qspice_ident.py)",
         "S10c": "S10c - BENCH CALIBRATION: NGE103 sources, DL3021 CV 70 V, 100 kHz, shuffler 1 off, shuffler 2 at D2 (13 Oct run)",
         "S10i": "S10i - IDENTIFICATION at 200 kHz on the bench operating point (RUN 1..5, DU) -> G200 -> M200",
+        "S10i3": "S10i3 - IDENTIFICATION at 300 kHz on the bench operating point (RUN 1..5, DU) -> G300 -> M300",
+        "S10i4": "S10i4 - IDENTIFICATION at 400 kHz on the bench operating point (RUN 1..5, DU) -> G400 -> M400",
+        "S10i4d1": "S10i4d1 - IDENTIFICATION at 400 kHz, 100 ns dead time (RUN 1..5, DU) -> G400 -> M400",
         "S10": "S10 - CLOSED LOOP 200 kHz bench: MSEL x KSCALE grid, VREF2 step, shade step (shuffler_ctrl_dll2, comb sampling)",
         "S10n": "S10n - NOISE + FILTER A/B 200 kHz bench: bench-level sensor noise, IIR 2k / IIR 500 / MA4 / old sampling",
         "S10p": "S10p - CLOSED LOOP 200 kHz carpark: 3 x KAUSSP80, DL3021 CV, VREF2 step, shade step",
@@ -1009,7 +1014,8 @@ def build(stage):
         "S11c": "S11c - EDGE CALIBRATION (13 Oct SCR03): full bench string, both shufflers at 50 % 100 kHz",
     }
     order = ["S1", "S2", "S3", "S4", "S5", "S6", "S7", "S8", "S8b"]
-    global PV_SUB, FSW_CTRL, TSW_CTRL, S1OFF_PARAM, HALL_BW, CAP_IC, KNOBS, MOS_MODEL, PV_PARAMS
+    global PV_SUB, FSW_CTRL, TSW_CTRL, S1OFF_PARAM, HALL_BW, CAP_IC, KNOBS, MOS_MODEL, PV_PARAMS, TDEAD
+    TDEAD = S10_TDEAD.get(stage, 200e-9)
     PV_SUB = "pvmi_150w" if stage in ("S9", "S9i") else "pvmi_aiko"
     s10 = stage in S10_STAGES
     FSW_CTRL = S10_FSW.get(stage, 200e3) if s10 else 100e3
@@ -1103,7 +1109,7 @@ def build(stage):
                  IRR3=1000, SHADE=0.5, TSHADE="3m",
                  KSCALE=1, MSEL=0, FILT=0, FC=2000, NOISE=0, SAMP=1, KBERR=1, VM1SRC=0, VSTRP=vcv,
                  VSTEP2=2, DU=0, RUN=1, D2=0.5, S1OFF=0)
-        P.update({"S10c": dict(S1OFF=1, TSHADE=1), "S10i": dict(DU=0.02, TSHADE=1),
+        P.update({"S10c": dict(S1OFF=1, TSHADE=1), "S10i": dict(DU=0.02, TSHADE=1), "S10i3": dict(DU=0.02, TSHADE=1), "S10i4": dict(DU=0.02, TSHADE=1), "S10i4d1": dict(DU=0.02, TSHADE=1),
                   "S10n": dict(NOISE=1, MSEL=2, KSCALE=1),
                   "S10xb": dict(NOISE=0.22), "S10xp": dict(NOISE=0.22), "S10p": dict(NOISE=0.22),
                   "S11a": dict(S1OFF=1, ILIM1=0, ILIM2=0, ILIM3=3, LOADSEL=1, Icc=0, TSHADE=1),
@@ -1131,6 +1137,12 @@ def build(stage):
         elif stage == "S10i":
             c.directive(".step param RUN list 1 2 3 4 5")
             c.directive(".tran 0 3m 0 125n uic")
+        elif stage == "S10i3":
+            c.directive(".step param RUN list 1 2 3 4 5")
+            c.directive(".tran 0 3m 0 80n uic")      # same ~40 points per 3.33 us period as S10i at 200 kHz
+        elif stage in ("S10i4", "S10i4d1"):
+            c.directive(".step param RUN list 1 2 3 4 5")
+            c.directive(".tran 0 3m 0 60n uic")      # ~40 points per 2.5 us period
         elif stage == "S10":
             c.directive(".step param MSEL list 0 2")
             c.directive(".step param KSCALE list 0.3 1")
@@ -1168,7 +1180,7 @@ def build(stage):
     # ---- measurements
     if s11:
         pass        # edge_metrics.py reads the .qraw directly
-    elif stage in ("S10c", "S10i"):
+    elif stage in ("S10c", "S10i", "S10i3", "S10i4", "S10i4d1"):
         a, b = (2.5e-3, 3e-3) if stage == "S10c" else (2e-3, 3e-3)
         c.measure(f".meas tran y1 AVG V(PV1P,PV2P)-V(PV2P,PV3P) FROM {a:g} TO {b:g}")
         c.measure(f".meas tran y2 AVG V(PV2P,PV3P)-V(PV3P) FROM {a:g} TO {b:g}")

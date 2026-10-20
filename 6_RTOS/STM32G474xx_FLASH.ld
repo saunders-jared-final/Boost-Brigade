@@ -227,6 +227,14 @@ SECTIONS
   PROVIDE( __bss_size = __bss_end - __bss_start );
 
   /* User_heap_stack section, used to check that there is enough RAM left */
+  /* survives a system (IWDG) reset: app.c trace of the last code point reached */
+  .noinit (NOLOAD) :
+  {
+    . = ALIGN(4);
+    KEEP(*(.noinit*))
+    . = ALIGN(4);
+  } >RAM
+
   ._user_heap_stack (NOLOAD) :
   {
     . = ALIGN(8);

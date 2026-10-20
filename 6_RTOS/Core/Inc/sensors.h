@@ -53,6 +53,8 @@ float       Sensors_Cal_mVperA(Sense_Channel ch);
 int16_t     Sensors_Cal_Zero(Sense_Channel ch);
 void        Sensors_SetOcLimit(float amps);        /* clamped to (0, SENSE_OC_LIMIT_A] */
 float       Sensors_OcLimit(void);
+uint32_t Sensors_Ticks(void);          /* control ticks since boot */
+uint32_t Sensors_NoWrapTicks(void);    /* ticks in which the hall DMA had not completed a buffer: ADC too slow for the triggers */
 float       Sensors_RawAvg(Sense_Channel ch);      /* last tick-average ADC code (diagnostics) */
 
 #ifdef __cplusplus

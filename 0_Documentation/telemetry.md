@@ -17,7 +17,7 @@ T,<ms>,<state>,<fault>,<VM1>,<VM2>,<VM3>,<ILA1>,<ILB1>,<ILA2>,<ILB2>,<dA1>,<dB1>
 |---|---|---|
 | `ms` | ms | firmware uptime (HAL tick) |
 | `state` | enum | `BOOT, SELFTEST, IDLE, SOFTSTART, RUN_OL, RUN_CL, RUN_OL1, RUN_CL1, RUN_OL2, RUN_CL2, STOP, FAULT` (string) |
-| `fault` | hex | fault bitmask, `0` when none: 0x01 OC latch (hall tick average > `oc_a` for 2 ms, ADC rail, or hall sampling DMA stalled), 0x02 OC hardware (COMP, not implemented yet), 0x04 E-stop, 0x08 module OV (`vm_ov`), 0x10 module UV (`vm_uv`, closed loop); voltage faults need 3 consecutive 10 ms samples and VM1 takes part only with `vm1_prot`=1, 0x20 sensor zero-cal, 0x40 INA bus blocked / VM not readable for the mode, 0x80 over-temperature (INA die > 85 °C; the Pi sends `C,ESTOP` for the heatsink), 0x100 watchdog reset, 0x200 software E-stop, 0x400 string OV (`vstr_ov`), 0x800 comms watchdog (closed loop, no command for `wdg_s`), 0x1000 VM1 source stale (`vm1_src`=2 and no `vstr_pi` for 2 s) |
+| `fault` | hex | fault bitmask, `0` when none: 0x01 OC latch (hall tick average > `oc_a` for 2 ms, ADC rail, or hall sampling DMA stalled), 0x02 OC hardware (COMP, not implemented yet), 0x04 E-stop, 0x08 module OV (`vm_ov`), 0x10 module UV (`vm_uv`, closed loop); voltage faults need 3 consecutive 10 ms samples and VM1 takes part only with `vm1_prot`=1, 0x20 sensor zero-cal, 0x40 INA bus blocked / VM not readable for the mode, 0x80 over-temperature (INA die > 85 °C; the Pi sends `C,ESTOP` for the heatsink), 0x100 watchdog reset, 0x200 software E-stop, 0x400 string OV (`vstr_ov`), 0x800 comms watchdog (closed loop, no command for `wdg_s`), 0x1000 VM1 source stale (`vm1_src`=2 and no `vstr_pi` for 2 s), 0x2000 main loop stalled while switching (caught within 20 ms by the 1 ms tick; the IWDG is 0.3 s) |
 | `VM1..VM3` | V | module voltages (VM3 = U12, VM2 = U11−U12; VM1 = −U10−(U11−U12) for `vm1_src`=0 (U10 is wired reversed on the Version 0 board, sign flipped in firmware since fw 0.3.1), `vstr_param`−U11 for 1, `vstr_pi`−U11 for 2); `nan` when not readable |
 | `ILA1,ILB1,ILA2,ILB2` | A | phase inductor currents in the control-stack convention: A positive INTO the converter midpoint, B positive OUT of it (ILA+ILB = circulating, ILA−ILB = shuffled) |
 | `dA1..dB2` | – | applied duties |
@@ -84,12 +84,12 @@ duties do not jump. Effective gains: `M_eff = kscale·M`, `Mp = M_eff·diag(kp_v
 | `kp_v`, `kp_i` | 1.58e-4, 1.08e-4 s | 0–0.01 | STAGED | P/I ratios, voltage / current channels |
 | `fc_lpf` | 2000 Hz | 100–4000 | STAGED | controller measurement LPF corner |
 | `filt_ma` | 0 | 0–8 | STAGED | 0 = the IIR above; N = moving average of the last N ticks instead |
-| `dmin`, `dmax` | 0.08, 0.92 | 0.05–0.45, 0.55–0.95 | STAGED | controller duty clamp |
+| `dmin`, `dmax` | 0.08, 0.92 | 0.08–0.45, 0.55–0.95 | STAGED | controller duty clamp (0.08 = the hardware floor at 300 kHz) |
 | `m00`..`m33` | params.h | ±1000 | STAGED | base M (also `C,SETM`) |
 | `sup_en` | 1 | 0–1 | LIVE | governor on |
 | `sup_i_rated`, `sup_s_hi`, `sup_s_lo` | 10 A, 0.9, 0.7 | 1–12, 0.3–1, 0.1–0.95 | LIVE | governor stress scale and thresholds |
 | `vref1`, `vref2` | 0 | ±30 V | LIVE | manual offsets (= `C,VREF`) |
-| `hall_mva0..3` | 100, 25, 100, 25 | ±400, \|x\| ≥ 10 | LIVE | hall gain mV/A (sign = orientation) |
+| `hall_mva0..3` | 100, 100, 100, 100 (B phases 25 before fw 0.4.0) | ±400, \|x\| ≥ 10 | LIVE | hall gain mV/A (sign = orientation) |
 | `hall_zero0..3` | boot zero-cal | 1800–2300 | IDLE | ADC zero code |
 | `oc_a` | 12 A | 0.5–12 | LIVE | OC latch threshold (tick average, 2 ms) |
 | `vm_ov`, `vm_uv` | 30 V, 3 V | 5–32, 0–20 | LIVE | per-module envelope (UV in closed loop only) |
