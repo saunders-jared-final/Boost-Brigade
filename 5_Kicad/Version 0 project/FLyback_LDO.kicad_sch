@@ -1054,6 +1054,17 @@
 		)
 		(uuid "e8251574-eecf-4058-a84e-4711e9d32683")
 	)
+	(hierarchical_label "LDO 3v3"
+		(shape output)
+		(at 179.07 128.27 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "174f44f9-b035-49d0-820c-98a143b84635")
+	)
 	(hierarchical_label "Input_B"
 		(shape input)
 		(at 157.48 76.2 270)
@@ -1086,17 +1097,6 @@
 			(justify left)
 		)
 		(uuid "53ab01fe-8d16-4846-a845-dc2ed735a014")
-	)
-	(hierarchical_label "LDO 3v3"
-		(shape output)
-		(at 179.07 128.27 0)
-		(effects
-			(font
-				(size 1.27 1.27)
-			)
-			(justify left)
-		)
-		(uuid "71a7991e-f629-4219-bee8-7d40765ea171")
 	)
 	(hierarchical_label "Input_B"
 		(shape input)

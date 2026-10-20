@@ -760,145 +760,6 @@
 			)
 			(embedded_fonts no)
 		)
-		(symbol "power:+5V"
-			(power global)
-			(pin_numbers
-				(hide yes)
-			)
-			(pin_names
-				(offset 0)
-				(hide yes)
-			)
-			(exclude_from_sim no)
-			(in_bom yes)
-			(on_board yes)
-			(in_pos_files yes)
-			(duplicate_pin_numbers_are_jumpers no)
-			(property "Reference" "#PWR"
-				(at 0 -3.81 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Value" "+5V"
-				(at 0 3.556 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Footprint" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Datasheet" ""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "Description" "Power symbol creates a global label with name \"+5V\""
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(property "ki_keywords" "global power"
-				(at 0 0 0)
-				(show_name no)
-				(do_not_autoplace no)
-				(hide yes)
-				(effects
-					(font
-						(size 1.27 1.27)
-					)
-				)
-			)
-			(symbol "+5V_0_1"
-				(polyline
-					(pts
-						(xy -0.762 1.27) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 2.54) (xy 0.762 1.27)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-				(polyline
-					(pts
-						(xy 0 0) (xy 0 2.54)
-					)
-					(stroke
-						(width 0)
-						(type default)
-					)
-					(fill
-						(type none)
-					)
-				)
-			)
-			(symbol "+5V_1_1"
-				(pin power_in line
-					(at 0 0 90)
-					(length 0)
-					(name ""
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-					(number "1"
-						(effects
-							(font
-								(size 1.27 1.27)
-							)
-						)
-					)
-				)
-			)
-			(embedded_fonts no)
-		)
 		(symbol "power:GND"
 			(power global)
 			(pin_numbers
@@ -1251,7 +1112,7 @@
 	)
 	(wire
 		(pts
-			(xy 53.34 52.07) (xy 53.34 55.88)
+			(xy 53.34 27.94) (xy 53.34 55.88)
 		)
 		(stroke
 			(width 0)
@@ -1358,6 +1219,16 @@
 			(type default)
 		)
 		(uuid "1c3cca6e-6908-4d97-9526-a71fcf67e77d")
+	)
+	(wire
+		(pts
+			(xy 54.61 93.98) (xy 54.61 121.92)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "1e4812fc-3ac1-4002-be9e-fc595cd91fff")
 	)
 	(wire
 		(pts
@@ -1581,16 +1452,6 @@
 	)
 	(wire
 		(pts
-			(xy 54.61 115.57) (xy 54.61 121.92)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "4e1b0956-99ad-4c28-af4a-c1754b5d4264")
-	)
-	(wire
-		(pts
 			(xy 34.29 66.04) (xy 34.29 127)
 		)
 		(stroke
@@ -1721,6 +1582,16 @@
 	)
 	(wire
 		(pts
+			(xy 190.5 27.94) (xy 190.5 55.88)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(uuid "624ce669-d07e-4ad8-b6b2-01ba2b6d023a")
+	)
+	(wire
+		(pts
 			(xy 43.18 121.92) (xy 46.99 121.92)
 		)
 		(stroke
@@ -1761,7 +1632,7 @@
 	)
 	(wire
 		(pts
-			(xy 191.77 115.57) (xy 191.77 121.92)
+			(xy 191.77 93.98) (xy 191.77 121.92)
 		)
 		(stroke
 			(width 0)
@@ -1798,16 +1669,6 @@
 			(type default)
 		)
 		(uuid "7af40582-842f-410c-ad63-315c57fec859")
-	)
-	(wire
-		(pts
-			(xy 190.5 52.07) (xy 190.5 55.88)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "7b8dff6c-b583-4335-b345-a02db4ec1fd2")
 	)
 	(wire
 		(pts
@@ -2329,6 +2190,17 @@
 		)
 		(uuid "ff85b02d-2866-41c0-a8a5-dd7329689ab2")
 	)
+	(hierarchical_label "Gate Driver 3V3"
+		(shape input)
+		(at 191.77 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "1acc30a4-5eef-430f-a1e5-fe2930ce2745")
+	)
 	(hierarchical_label "M_B_Bph_G"
 		(shape output)
 		(at 271.78 132.08 0)
@@ -2395,6 +2267,17 @@
 		)
 		(uuid "6c860c05-6bf7-4221-aaaa-1dfe7e1b6416")
 	)
+	(hierarchical_label "Gate Driver 3V3"
+		(shape input)
+		(at 54.61 93.98 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "8a4ac767-6a0a-45ee-9aa9-50d6cf28cf1f")
+	)
 	(hierarchical_label "PWM_A_L"
 		(shape input)
 		(at 26.67 127 180)
@@ -2438,6 +2321,17 @@
 			(justify left)
 		)
 		(uuid "c9c80254-53d1-4a23-8820-6aba1dfe3596")
+	)
+	(hierarchical_label "Gate Driver 3V3"
+		(shape input)
+		(at 190.5 27.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "cbff4f5a-eae0-4342-ba68-298ced83b0fd")
 	)
 	(hierarchical_label "M_B_Aph_G"
 		(shape output)
@@ -2493,6 +2387,17 @@
 			(justify left)
 		)
 		(uuid "e39d9caa-194e-40a4-90a5-0371b5b36cf9")
+	)
+	(hierarchical_label "Gate Driver 3V3"
+		(shape input)
+		(at 53.34 27.94 0)
+		(effects
+			(font
+				(size 1.27 1.27)
+			)
+			(justify left)
+		)
+		(uuid "fec878fe-76f1-4519-b33b-db993ae166e2")
 	)
 	(symbol
 		(lib_id "power:GND")
@@ -3162,88 +3067,6 @@
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
 					(reference "C45")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 54.61 115.57 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "2bb1a7c2-cfc8-4c07-b4e7-b18a5eafb9da")
-		(property "Reference" "#PWR014"
-			(at 54.61 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 54.61 112.014 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 54.61 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 54.61 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 54.61 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "01fb5763-a8f4-444f-8b67-0284f45e7be5")
-		)
-		(instances
-			(project "Version 0 project"
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/56645a75-567d-4176-b6e5-2f1ef3c9e17c"
-					(reference "#PWR014")
-					(unit 1)
-				)
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
-					(reference "#PWR036")
 					(unit 1)
 				)
 			)
@@ -4054,88 +3877,6 @@
 		)
 	)
 	(symbol
-		(lib_id "power:+5V")
-		(at 190.5 52.07 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6815fcfc-08fa-4d22-b5ee-086c1987744d")
-		(property "Reference" "#PWR019"
-			(at 190.5 55.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 190.5 47.752 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 190.5 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 190.5 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 190.5 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "81d1856b-0e0b-41a3-86a7-46bdd73bcf04")
-		)
-		(instances
-			(project "Version 0 project"
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/56645a75-567d-4176-b6e5-2f1ef3c9e17c"
-					(reference "#PWR019")
-					(unit 1)
-				)
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
-					(reference "#PWR041")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
 		(lib_id "Device:D")
 		(at 91.44 40.64 0)
 		(unit 1)
@@ -4236,88 +3977,6 @@
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
 					(reference "D8")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 53.34 52.07 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "6f2a5edb-b9c6-442c-a708-bd241a83e177")
-		(property "Reference" "#PWR013"
-			(at 53.34 55.88 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 53.34 48.26 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 53.34 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 53.34 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 53.34 52.07 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "007271c8-be9e-43b2-ad0d-6bc2e22580a2")
-		)
-		(instances
-			(project "Version 0 project"
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/56645a75-567d-4176-b6e5-2f1ef3c9e17c"
-					(reference "#PWR013")
-					(unit 1)
-				)
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
-					(reference "#PWR035")
 					(unit 1)
 				)
 			)
@@ -4680,88 +4339,6 @@
 				)
 				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
 					(reference "R35")
-					(unit 1)
-				)
-			)
-		)
-	)
-	(symbol
-		(lib_id "power:+5V")
-		(at 191.77 115.57 0)
-		(unit 1)
-		(body_style 1)
-		(exclude_from_sim no)
-		(in_bom yes)
-		(on_board yes)
-		(in_pos_files yes)
-		(dnp no)
-		(uuid "8d9bec3b-2552-4e14-ba41-f849f0a93eee")
-		(property "Reference" "#PWR020"
-			(at 191.77 119.38 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Value" "+3V3"
-			(at 192.024 111.252 0)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-				(justify left)
-			)
-		)
-		(property "Footprint" ""
-			(at 191.77 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Datasheet" ""
-			(at 191.77 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(property "Description" "Power symbol creates a global label with name \"+5V\""
-			(at 191.77 115.57 0)
-			(hide yes)
-			(show_name no)
-			(do_not_autoplace no)
-			(effects
-				(font
-					(size 1.27 1.27)
-				)
-			)
-		)
-		(pin "1"
-			(uuid "cfd1c5e4-460f-467f-b3b9-b013aa1ccf4a")
-		)
-		(instances
-			(project "Version 0 project"
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/170eea8f-89d1-4bd5-8cdd-999a99f01ef1/56645a75-567d-4176-b6e5-2f1ef3c9e17c"
-					(reference "#PWR020")
-					(unit 1)
-				)
-				(path "/fda5f807-f7e7-4849-a340-166d7fbf31b8/bea4e463-3c24-4b47-9da1-f663c07e6ae1/dc537248-3dac-46a8-8ed9-519483d12be2"
-					(reference "#PWR042")
 					(unit 1)
 				)
 			)

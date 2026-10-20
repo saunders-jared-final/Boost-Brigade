@@ -6,4 +6,8 @@
 	(lib (name "Wurth Power Modules") (type "KiCad") (uri "${KIPRJMOD}/../libs/KiCad_WPME-FDSM (rev26d)/footprints/MagIC_THT_Wurth.pretty") (options "") (descr ""))
 	(lib (name "Hall effect IC") (type "KiCad") (uri "${KIPRJMOD}/../libs/Hall effect IC/KiCADv6/footprints.pretty") (options "") (descr ""))
 	(lib (name "STL115N10F7AG") (type "KiCad") (uri "${KIPRJMOD}/../libs/STL115N10F7AG/footprints.pretty") (options "") (descr ""))
+	(lib (name "TP Library") (type "KiCad") (uri "${KIPRJMOD}/../libs/TP Library.pretty") (options "") (descr "clean_slate test points"))
+	(lib (name "TMCS1126") (type "KiCad") (uri "${KIPRJMOD}/../libs/Hall effect IC/KiCADv6/footprints.pretty") (options "") (descr "nickname used by the clean_slate board"))
+	(lib (name "DP3T") (type "KiCad") (uri "${KIPRJMOD}/../libs/DP3T") (options "") (descr "L203011MS02Q switch"))
+	(lib (name "footprints") (type "KiCad") (uri "${KIPRJMOD}/../libs/SPST/footprints.pretty") (options "") (descr "SW_1MS02Q_CNK, nickname used by the clean_slate board"))
 )

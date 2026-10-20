@@ -1,0 +1,9 @@
+EESchema-DOCLIB  Version 2.0
+#
+$CMP L203011MS02Q
+D Slide Switch DP3T Through Hole, Voltage Rating - DC 28 V, 4A, -30C ~ 65C
+K
+F https://www.ckswitches.com/media/1423/l.pdf
+$ENDCMP
+#
+#End Doc Library

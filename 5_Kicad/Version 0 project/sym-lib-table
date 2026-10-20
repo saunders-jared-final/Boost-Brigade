@@ -7,4 +7,8 @@
 	(lib (name "Transformer 750318737") (type "KiCad") (uri "${KIPRJMOD}/../libs/Transformer/750318737.kicad_sym") (options "") (descr ""))
 	(lib (name "LM5180") (type "KiCad") (uri "${KIPRJMOD}/../libs/LM5180/LM5180QNGUTQ1/LM5180QNGUTQ1.kicad_sym") (options "") (descr ""))
 	(lib (name "Hall effect IC") (type "KiCad") (uri "${KIPRJMOD}/../libs/Hall effect IC/KiCADv6/2026-08-15_08-10-51.kicad_sym") (options "") (descr ""))
+	(lib (name "LM5180QNGUTQ1") (type "KiCad") (uri "${KIPRJMOD}/../libs/LM5180/LM5180QNGUTQ1/LM5180QNGUTQ1.kicad_sym") (options "") (descr "nickname used by the clean_slate schematic"))
+	(lib (name "2026-08-15_08-10-51") (type "KiCad") (uri "${KIPRJMOD}/../libs/Hall effect IC/KiCADv6/2026-08-15_08-10-51.kicad_sym") (options "") (descr "TMCS1126, nickname used by the clean_slate schematic"))
+	(lib (name "2026-09-17_12-48-23") (type "KiCad") (uri "${KIPRJMOD}/../libs/SPST/2026-09-17_12-48-23.kicad_sym") (options "") (descr "SPST switch"))
+	(lib (name "L203011MS02Q") (type "KiCad") (uri "${KIPRJMOD}/../libs/DP3T/L203011MS02Q.kicad_sym") (options "") (descr "DP3T switch"))
 )
