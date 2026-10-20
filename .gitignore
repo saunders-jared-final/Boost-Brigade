@@ -70,3 +70,6 @@ codegen/
 
 # Pi python venv
 7_Pi/.venv/
+
+# too large for GitHub (100 MB limit); keep locally or move to Git LFS
+0_Documentation/Photos/20261016_173330.mp4
