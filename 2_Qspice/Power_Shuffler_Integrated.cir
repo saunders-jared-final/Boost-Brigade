@@ -1,0 +1,246 @@
+* C:\Users\jazsa\Documents\Boost-Brigade\2_Qspice\Power_Shuffler_Integrated.qsch
+V15 N01 0 1K
+V16 N04 0 1K
+X1 N09 N08 N01 pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+X2 N06 N03 Vtest pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+X3 N05 N07 N04 pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+D4 PV2P T1 RF1501TF3S
+D5 B1 PV2P RF1501TF3S
+D6 0 B1 RF1501TF3S
+L1 N07 0 750n Rser=6.95m Rpar=50
+L2 PV3P N05 750n Rser=6.95m Rpar=50
+L3 N03 PV3P 750n Rser=6.95m Rpar=50
+L4 N02 N06 750n Rser=6.95m Rpar=50
+L5 N08 N02 750n Rser=6.95m Rpar=50
+L6 Out N09 750n Rser=6.95m Rpar=50
+L23 Out T1 2.4n Rser=0.518m Rpar=5
+L24 N02 PV2P 0.29n Rser=0.149m Rpar=5
+L25 PV3P B1 0.23n Rser=0.11m Rpar=5
+L26 T2 N02 0.29n Rser=0.149m Rpar=5
+L27 M2 PV3P 0.23n Rser=0.11m Rpar=5
+L28 B2 0 0.02n Rser=0.022m Rpar=5
+V1 Vtest 0 pulse 1K 200 15m 0.2 1n 1000 2000
+V2 Vtest2 0 pulse 1K 600 15m 0.5 1n 1000 2000
+V3 Vref 0 0
+V9 Vcc 0 10
+V10 N10 0 1K
+V11 N12 0 1K
+X11 N14 N11 N10 pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+X12 N11 N13 Vtest pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+X13 N13 0 N12 pvmi avoc=0.004013 bvoc=42.5365990991 aisc=0.0148652612 bisc=-0.0000000000 avm=0.00116836 bvm=37.2775900901 aim=0.0141475710 bim=0.0082493126 Rs=1m Rsh=1meg
+D1 N11 N14 RF1501TF3S
+D2 N13 N11 RF1501TF3S
+D3 0 N13 RF1501TF3S
+I2 N14 0 13 VSAT = 184.9
+I1 Out 0 PWL(0 0 200µ 13) VSAT = 137.4
+XS1 T1 PV2P B1 PWM_AH1 PWM_AL1 PWM_BH1 PWM_BL1 HS_A1 HS_B1 Shuffler_1
+XS2 T2 M2 B2 PWM_AH2 PWM_AL2 PWM_BH2 PWM_BL2 HS_A2 HS_B2 Shuffler_2
+XC Out PV2P PV3P HS_A1 HS_B1 HS_A2 HS_B2 PWM_AH1 PWM_AL1 PWM_BH1 PWM_BL1 PWM_AH2 PWM_AL2 PWM_BH2 PWM_BL2 Controller
+
+.subckt Controller PV1P PV2P PV3P HS_A1 HS_B1 HS_A2 HS_B2 PWM_AH1 PWM_AL1 PWM_BH1 PWM_BL1 PWM_AH2 PWM_AL2 PWM_BH2 PWM_BL2
+Ven CTRL_EN 0 PWL(0 0 {TEN} 0 {TEN+1u} 1)
+Vref1 VREF1 0 PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP1})
+Vref2 VREF2 0 PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP2})
+Vrampa RAMPA 0 PULSE(0 1 0 {Tsw-2n} 1n 1n {Tsw})
+Vrampb RAMPB 0 PULSE(0 1 {Tsw/2} {Tsw-2n} 1n 1n {Tsw})
+BtKSCALE KSCALE 0 V=KSCALE
+BtMSEL MSEL 0 V=MSEL
+BtFILT FILT 0 V=FILT
+BtFC FC 0 V=FC
+BtNOISE NOISE 0 V=NOISE
+BtSAMP SAMP 0 V=SAMP
+BtKBERR KBERR 0 V=KBERR
+BtFSWP FSWP 0 V=1/Tsw
+BtVM1SRC VM1SRC 0 V=VM1SRC
+BtVSTRP VSTRP 0 V=VSTRP
+Ø´Xc «PV1P´d PV2P´d PV3P´d HS_A1´d HS_B1´d HS_A2´d HS_B2´d CTRL_EN´d VREF1´d VREF2´d KSCALE´d MSEL´d FILT´d FC´d NOISE´d SAMP´d KBERR´d FSWP´d VM1SRC´d VSTRP´d» «DA1´d DB1´d DA2´d DB2´d RV1´d RV2´d BETA´d STRESS´d IM1R´d IM2R´d» «0»  shuffler_ctrl_dll2 Rout=1 Cout=1p
+BdDA1 DA1C 0 V=duty(V(CTRL_EN),V(DA1),D0A1)
+BdDB1 DB1C 0 V=duty(V(CTRL_EN),V(DB1),D0B1)
+BdDA2 DA2C 0 V=duty(V(CTRL_EN),V(DA2),D0A2)
+BdDB2 DB2C 0 V=duty(V(CTRL_EN),V(DB2),D0B2)
+XP1 RAMPA RAMPB DA1C DB1C PWM_AH1 PWM_AL1 PWM_BH1 PWM_BL1 PWM_Modulator
+XP2 RAMPA RAMPB DA2C DB2C PWM_AH2 PWM_AL2 PWM_BH2 PWM_BL2 PWM_Modulator
+ .subckt PWM_Modulator RAMPA RAMPB DA DB PWM_AH PWM_AL PWM_BH PWM_BL
+ BpTA PWM_AH 0 V=pwm_top(V(RAMPA),V(DA))
+ BpBA PWM_AL 0 V=pwm_bot(V(RAMPA),V(DA))
+ BpTB PWM_BH 0 V=pwm_top(V(RAMPB),V(DB))
+ BpBB PWM_BL 0 V=pwm_bot(V(RAMPB),V(DB))
+ .ends PWM_Modulator
+.ends Controller
+
+
+.subckt Shuffler_1 T M B PWM_AH PWM_AL PWM_BH PWM_BL HS_A HS_B
+C1 T N01 130µ RSER=28m Lser=15n
+V4 N06 N01 0
+C3 N01 B 130µ RSER=28m Lser=15n
+V13 N01 M 0
+L7 T N07 1.5n Rpar=5
+L8 N04 N02 3n Rpar=5
+L9 T N08 1.5n Rpar=5
+L10 N05 N03 3n Rpar=5
+L11 N02 N10 1.5n Rpar=5
+L12 N09 B 3n Rpar=5
+L13 N03 N12 1.5n Rpar=5
+L14 N11 B 3n Rpar=5
+V7 N13 N01 0
+L29 N15 N02 1.58n Rser=0.795m Rpar=5
+L30 N14 N03 5.58n Rser=1.563m Rpar=5
+.subckt X4•ERUC23-4R1K 1 2 3 4
+Rdc1 N01 1 1.85m
+Lk1 N01 N02 2.05µ
+Rdc2 N04 2 1.85m
+Lk2 N04 N03 2.05µ
+×1 «N03 3 N02 4» Turns=1 -1
+Lm N03 3 5.85µ
+.ends ERUC23-4R1K
+X4 N15 N14 N13 N06 X4•ERUC23-4R1K
+.model M1•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M1 N08 N18 N05 N05 M1•STD45N10F7 NMOS
+.model M2•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M2 N12 N19 N11 N11 M2•STD45N10F7 NMOS
+.model M3•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M3 N07 N16 N04 N04 M3•STD45N10F7 NMOS
+.model M4•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M4 N10 N17 N09 N09 M4•STD45N10F7 NMOS
+X6 PWM_AH PWM_AL N16 N04 N17 N09 HalfBridge_Driver
+X7 PWM_BH PWM_BL N18 N05 N19 N11 HalfBridge_Driver
+C5 T B 225n rser = 13m lser = 0.85n
+R1 N20 N07 4.7
+C7 N20 N04 470p
+R2 N21 N10 4.7
+C8 N21 N09 470p
+R3 N22 N08 4.7
+C9 N22 N05 470p
+R4 N23 N12 4.7
+C10 N23 N11 470p
+BhsA N24 0 V=hall(I(V4),0.1)
+RhsA N24 HS_A 1k
+ChsA HS_A 0 318.3p
+BhsB N25 0 V=hall(I(V7),-0.025)
+RhsB N25 HS_B 1k
+ChsB HS_B 0 318.3p
+ .subckt HalfBridge_Driver PWM_H PWM_L G_T S_T G_B S_B
+ ¥H_T VDD_T S_T N01 ¥0 PWM_H PWM_L VDD_T ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1.5 RSINK=1Meg
+ Ron_T G_T N01 10
+ ¥L_T VDD_T S_T N02 ¥1 PWM_H PWM_L VDD_T ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1Meg RSINK=1
+ Roff_T G_T N02 4.7
+ V_T VDD_T S_T 12
+ ¥H_B VDD_B S_B N03 ¥2 PWM_L PWM_H VDD_B ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1.5 RSINK=1Meg
+ Ron_B G_B N03 10
+ ¥L_B VDD_B S_B N04 ¥3 PWM_L PWM_H VDD_B ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1Meg RSINK=1
+ Roff_B G_B N04 4.7
+ V_B VDD_B S_B 12
+ .ends HalfBridge_Driver
+.ends Shuffler_1
+
+
+.subckt Shuffler_2 T M B PWM_AH PWM_AL PWM_BH PWM_BL HS_A HS_B
+C2 T M 130µ RSER=28m Lser=15n
+C4 M B 130µ RSER=28m Lser=15n
+L15 T N05 1.5n Rpar=5
+L16 N02 N03 3n Rpar=5
+L17 T N06 1.5n Rpar=5
+L18 N04 N01 3n Rpar=5
+L19 N03 N08 1.5n Rpar=5
+L20 N07 B 3n Rpar=5
+L21 N01 N10 1.5n Rpar=5
+L22 N09 B 3n Rpar=5
+V5 N11 M 0
+V6 N12 M 0
+L31 N01 N13 2.52n Rser=1.872m Rpar=5
+L32 N03 N14 1.04n Rser=1.132m Rpar=5
+.subckt X5•ERUC23-4R1K 1 2 3 4
+Rdc1 N01 1 1.85m
+Lk1 N01 N02 2.05µ
+Rdc2 N04 2 1.85m
+Lk2 N04 N03 2.05µ
+×1 «N03 3 N02 4» Turns=1 -1
+Lm N03 3 5.85µ
+.ends ERUC23-4R1K
+X5 N13 N14 N12 N11 X5•ERUC23-4R1K
+.model M5•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M5 N06 N17 N04 N04 M5•STD45N10F7 NMOS
+.model M6•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M6 N10 N18 N09 N09 M6•STD45N10F7 NMOS
+.model M7•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M7 N05 N15 N02 N02 M7•STD45N10F7 NMOS
+.model M8•STD45N10F7 VDMOS Rd=10.9m Rg=1.5 Vto=3.71 Kp=10.9 lambda=33.3m RonX=4.04 eta=75m Vtotc=-2m Is=46.5n N=1.58988 Rb=1.94m Eg=1.11 XTI=4.08312 trb1=4.33m Cgs=1.85n Cgdmin=64.5p Cgdmax=326p Cjo=1080p Vj=67 M=2.7 tt=1.49n Tnom=25 mfg="ST Microelectronics" Vds=100 Ids=45 Ron=14.5m Qg=25n
+M8 N08 N16 N07 N07 M8•STD45N10F7 NMOS
+X8 PWM_AH PWM_AL N15 N02 N16 N07 HalfBridge_Driver
+X9 PWM_BH PWM_BL N17 N04 N18 N09 HalfBridge_Driver
+C6 T B 225n rser = 13m lser = 0.85n
+R5 N19 N08 4.7
+C11 N19 N07 470p
+R6 N20 N05 4.7
+C12 N20 N02 470p
+R7 N21 N06 4.7
+C13 N21 N04 470p
+R8 N22 N10 4.7
+C14 N22 N09 470p
+BhsA N23 0 V=hall(I(V5),0.1)
+RhsA N23 HS_A 1k
+ChsA HS_A 0 318.3p
+BhsB N24 0 V=hall(I(V6),-0.025)
+RhsB N24 HS_B 1k
+ChsB HS_B 0 318.3p
+ .subckt HalfBridge_Driver PWM_H PWM_L G_T S_T G_B S_B
+ ¥H_T VDD_T S_T N01 ¥4 PWM_H PWM_L VDD_T ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1.5 RSINK=1Meg
+ Ron_T G_T N01 10
+ ¥L_T VDD_T S_T N02 ¥5 PWM_H PWM_L VDD_T ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1Meg RSINK=1
+ Roff_T G_T N02 4.7
+ V_T VDD_T S_T 12
+ ¥H_B VDD_B S_B N03 ¥6 PWM_L PWM_H VDD_B ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1.5 RSINK=1Meg
+ Ron_B G_B N03 10
+ ¥L_B VDD_B S_B N04 ¥7 PWM_L PWM_H VDD_B ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ ¥ HMITT VT=1.5 VH=0.2 TD=70n TRISE=10n TFALL=10n RSRC=1Meg RSINK=1
+ Roff_B G_B N04 4.7
+ V_B VDD_B S_B 12
+ .ends HalfBridge_Driver
+.ends Shuffler_2
+
+.param Tsw=5u
+.param Tdead=200n
+.param Vlogic=3.3
+.param TEN=1m
+.param D0A1=0.5 D0B1=0.5 D0A2=0.5 D0B2=0.5
+.param VSTEP1=0 VSTEP2=0 TSTEP=10m
+.param KSCALE=0.3
+.param MSEL=0
+.param FILT=0 FC=2000
+.param NOISE=0
+.param SAMP=1
+.param KBERR=1
+.param VM1SRC=0 VSTRP=0
+.param VT=0.009
+.tran 20m
+.culltime = 1n
+.plot I(I1)*V(Out)
+.save V(Out) V(PV2P) V(PV3P) V(T1) V(B1) V(HS_A1) V(HS_B1) V(HS_A2) V(HS_B2) I(I1)
+.save V(PWM_AH1) V(PWM_BH1) V(PWM_AH2) V(PWM_BH2) I(V4•XS1) I(V7•XS1) I(V5•XS2) I(V6•XS2)
+.save V(DA1•XC) V(DB1•XC) V(DA2•XC) V(DB2•XC) V(STRESS•XC) V(BETA•XC) V(RV1•XC) V(RV2•XC)
+.func hall(cur,gain) = 1.65+gain*cur
+.func duty(en,cmd,dflt) = if(en>0.5,cmd,dflt)
+.func pwm_top(rmp,dty) = if(time<1n,0,if(rmp<dty-Tdead/Tsw,Vlogic,0))
+.func pwm_bot(rmp,dty) = if(time<1n,0,if(rmp>dty,if(rmp<1-Tdead/Tsw,Vlogic,0),0))
+.meas tran vd1 AVG V(Out,PV2P)-V(PV2P,PV3P) FROM 18m TO 20m
+.meas tran vd2 AVG V(PV2P,PV3P)-V(PV3P) FROM 18m TO 20m
+.meas tran ic1 AVG I(V4•XS1)-I(V7•XS1) FROM 18m TO 20m
+.meas tran ic2 AVG I(V5•XS2)-I(V6•XS2) FROM 18m TO 20m
+.meas tran ish1 AVG I(V4•XS1)+I(V7•XS1) FROM 18m TO 20m
+.meas tran ish2 AVG I(V5•XS2)+I(V6•XS2) FROM 18m TO 20m
+.meas tran da1 AVG V(DA1•XC) FROM 18m TO 20m
+.meas tran db1 AVG V(DB1•XC) FROM 18m TO 20m
+.meas tran da2 AVG V(DA2•XC) FROM 18m TO 20m
+.meas tran db2 AVG V(DB2•XC) FROM 18m TO 20m
+.meas tran pout AVG I(I1)*V(Out) FROM 18m TO 20m
+.meas tran vout AVG V(Out) FROM 18m TO 20m
+.meas tran iout AVG I(I1) FROM 18m TO 20m
+.meas tran stressmax MAX V(STRESS•XC)
+.meas tran hsa1 AVG V(HS_A1) FROM 18m TO 20m
+.meas tran hsb1 AVG V(HS_B1) FROM 18m TO 20m
+.meas tran hsa2 AVG V(HS_A2) FROM 18m TO 20m
+.meas tran hsb2 AVG V(HS_B2) FROM 18m TO 20m
+.meas tran pwmah1 AVG V(PWM_AH1) FROM 18m TO 20m
+.meas tran pwmah2 AVG V(PWM_AH2) FROM 18m TO 20m
+.lib MyLibrary.lib
+.lib "C:\Program Files\QSPICE\Diode.txt"
+.end

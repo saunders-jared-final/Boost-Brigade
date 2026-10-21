@@ -1,0 +1,102 @@
+ÿØÿÛ«schematic
+  «text (0,4200) 1.4 7 1 0x1000000 -1 -1 "ï»¿PWM MODULATOR - HRTIM-style comparators of one converter"Â»
+  «text (0,3800) 1 7 1 0x1000000 -1 -1 "ï»¿Top FET on while RAMP < D - Tdead/Tsw, bottom FET on while D < RAMP < 1 - Tdead/Tsw: Tdead is cut from both edges of every pulse."Â»
+  «text (0,3600) 1 7 1 0x1000000 -1 -1 "ï»¿RAMPA / RAMPB are the 0..1 sawtooth ramps of leg A and leg B (leg B half a period later), DA / DB the commanded duties of the legs."Â»
+  «text (0,3400) 1 7 1 0x1000000 -1 -1 "ï»¿All outputs are low for t < 1 ns so the operating point is found with the FETs off (pwm_top / pwm_bot are .func on the top sheet)."Â»
+  «component (3000,2400) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTA"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=pwm_top(V(RAMPA),V(DA))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (3000,1200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBA"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=pwm_bot(V(RAMPA),V(DA))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (3000,0) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BpTB"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=pwm_top(V(RAMPB),V(DB))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «component (3000,-1200) 0 0
+    «symbol B
+      «type: B»
+      «description: Behavioral Source»
+      «shorted pins: false»
+      «line (0,-130) (0,-200) 0 0 0x1000000 -1 -1»
+      «line (0,200) (0,130) 0 0 0x1000000 -1 -1»
+      «ellipse (-130,130) (130,-130) 0 0 0 0x1000000 0x1000000 -1 -1»
+      «line (-60,-40) (-20,40) 0 0 0x1000000 -1 -1»
+      «line (-20,40) (20,-40) 0 0 0x1000000 -1 -1»
+      «line (20,-40) (60,40) 0 0 0x1000000 -1 -1»
+      «text (100,150) 1 7 0 0x1000000 -1 -1 "BpBB"»
+      «text (100,-150) 1 7 0 0x1000000 -1 -1 "V=pwm_bot(V(RAMPB),V(DB))"»
+      «pin (0,200) (0,0) 1 0 0 0x0 -1 "+"»
+      «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
+    »
+  »
+  «net (0,2400) 1 11 1 "RAMPA"»
+  «net (0,1600) 1 11 1 "RAMPB"»
+  «net (0,800) 1 11 1 "DA"»
+  «net (0,0) 1 11 1 "DB"»
+  «net (3000,2000) 1 13 0 "GND"»
+  «net (6000,2800) 1 7 1 "PWM_AH"»
+  «net (3000,800) 1 13 0 "GND"»
+  «net (6000,1600) 1 7 1 "PWM_AL"»
+  «net (3000,-400) 1 13 0 "GND"»
+  «net (6000,400) 1 7 1 "PWM_BH"»
+  «net (3000,-1600) 1 13 0 "GND"»
+  «net (6000,-800) 1 7 1 "PWM_BL"»
+  «wire (0,2400) (600,2400) "RAMPA"»
+  «wire (0,1600) (600,1600) "RAMPB"»
+  «wire (0,800) (600,800) "DA"»
+  «wire (0,0) (600,0) "DB"»
+  «wire (3000,2200) (3000,2000) "GND"»
+  «wire (3000,2600) (3000,2800) "PWM_AH"»
+  «wire (3000,2800) (6000,2800) "PWM_AH"»
+  «wire (3000,1000) (3000,800) "GND"»
+  «wire (3000,1400) (3000,1600) "PWM_AL"»
+  «wire (3000,1600) (6000,1600) "PWM_AL"»
+  «wire (3000,-200) (3000,-400) "GND"»
+  «wire (3000,200) (3000,400) "PWM_BH"»
+  «wire (3000,400) (6000,400) "PWM_BH"»
+  «wire (3000,-1400) (3000,-1600) "GND"»
+  «wire (3000,-1000) (3000,-800) "PWM_BL"»
+  «wire (3000,-800) (6000,-800) "PWM_BL"»
+»
