@@ -1,0 +1,17 @@
+8 cases
+  norr_f200_run1_du0         ok             56 s
+  norr_f200_run4_du0.01      ok             76 s
+  norr_f400_run1_du0         ok             39 s
+  norr_f400_run4_du0.01      ok             53 s
+  nocap_f200_run1_du0        ok             57 s
+  nocap_f200_run4_du0.01     ok             86 s
+  nocap_f400_run1_du0        ok             32 s
+  nocap_f400_run4_du0.01     ok             58 s
+  norr_f200_run1_du0         ic1    0.018 A  im1  -0.457  vd1  -0.133  ic1pp  8.40
+  norr_f200_run4_du0.01      ic1    1.474 A  im1  -0.462  vd1  -0.191  ic1pp  8.35
+  norr_f400_run1_du0         ic1   -0.004 A  im1  -0.464  vd1  -0.683  ic1pp  4.10
+  norr_f400_run4_du0.01      ic1    0.283 A  im1  -0.463  vd1  -0.755  ic1pp  4.08
+  nocap_f200_run1_du0        ic1   -0.015 A  im1  -0.460  vd1  -0.070  ic1pp  8.46
+  nocap_f200_run4_du0.01     ic1    2.390 A  im1  -0.461  vd1  -0.181  ic1pp  8.39
+  nocap_f400_run1_du0        ic1    0.119 A  im1  -0.491  vd1  -0.039  ic1pp  4.24
+  nocap_f400_run4_du0.01     ic1    1.136 A  im1  -0.465  vd1  -0.459  ic1pp  4.19

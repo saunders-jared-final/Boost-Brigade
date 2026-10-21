@@ -1,0 +1,21 @@
+bench_k0.1: tend 80.5 ms, events {'close': 0.0005, 'vref': 0.0405}, estimated 39 min
+bench_k0.3: tend 57.1 ms, events {'close': 0.0005, 'vref': 0.028794212105225838}, estimated 28 min
+bench_k1: tend 17.5 ms, events {'close': 0.0005, 'vref': 0.008988263631567753}, estimated 8 min
+pv80_k0.1: tend 120.5 ms, events {'close': 0.0005, 'vref': 0.0405, 'shade_on': 0.0805}, estimated 58 min
+pv80_k0.3: tend 85.4 ms, events {'close': 0.0005, 'vref': 0.028794212105225838, 'shade_on': 0.057088424210451676}, estimated 41 min
+pv80_k1: tend 26.0 ms, events {'close': 0.0005, 'vref': 0.008988263631567753, 'shade_on': 0.017476527263135505}, estimated 13 min
+bench_k0.1: ok (41.5 min)
+  tidy: 804 rows
+bench_k0.3: ok (32.8 min)
+  tidy: 570 rows
+bench_k1: ok (11.9 min)
+Traceback (most recent call last):
+  File "/mnt/c/Users/jazsa/Documents/Boost-Brigade/2_Qspice/Claude's outputs/run_scenarios.py", line 202, in <module>
+    with ThreadPoolExecutor(max_workers=a.parallel) as ex:
+  File "/mnt/c/Users/jazsa/Documents/Boost-Brigade/2_Qspice/Claude's outputs/run_scenarios.py", line 198, in main
+    os.remove(q)
+  File "/mnt/c/Users/jazsa/Documents/Boost-Brigade/2_Qspice/Claude's outputs/run_scenarios.py", line 127, in tidy_case
+    
+  File "/mnt/c/Users/jazsa/Documents/Boost-Brigade/2_Qspice/Claude's outputs/PCB_Baseline/s10_metrics.py", line 25, in read
+    with open(path, "rb") as f:
+FileNotFoundError: [Errno 2] No such file or directory: '/mnt/c/Users/jazsa/Documents/Boost-Brigade/8_Results/analysis/out/qspice/work/bench_k1/bench_k1.qraw'

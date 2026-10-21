@@ -1,0 +1,19 @@
+{
+ "case": "smoke_pv80_k1",
+ "base": "pv80",
+ "setup": "PV80",
+ "kscale": 1.0,
+ "params": {
+  "KSCALE": 1.0,
+  "VSTEP2": 1.0,
+  "SHADE": 0.667,
+  "TSHADE": 1.0
+ },
+ "events": {
+  "close": 0.0003,
+  "vref": 0.0008
+ },
+ "tend": 0.0015,
+ "vstep2": 1.0,
+ "shade": 0.667
+}

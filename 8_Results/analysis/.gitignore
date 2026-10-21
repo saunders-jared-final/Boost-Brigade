@@ -1,0 +1,4 @@
+out/tidy/
+out/qspice/work/
+__pycache__/
+*.qraw

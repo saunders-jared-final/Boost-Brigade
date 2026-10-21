@@ -1,12 +1,12 @@
 ÿØÿÛ«schematic
-  «text (0,6400) 1.6 7 1 0x1000000 -1 -1 "ï»¿CONTROLLER - shuffler_ctrl_dll2.dll: the firmware control stack (6_RTOS/ctrl_core) as a QSPICE C-block"Â»
-  «text (0,6000) 1 7 1 0x1000000 -1 -1 "ï»¿The DLL models the INA239 / hall sampling and quantisation, the 10 kHz control tick and the gain matrix M from params.h (MSEL = 0),"Â»
-  «text (0,5800) 1 7 1 0x1000000 -1 -1 "ï»¿the 100 kHz S9i M (MSEL = 1) or ctrl_M2.txt (MSEL = 2). shuffler_ctrl_dll2.dll and ctrl_M2.txt must sit next to the top sheet."Â»
-  «text (0,5600) 1 7 1 0x1000000 -1 -1 "ï»¿Open loop until TEN (CTRL_EN low: the duties D0A1 .. D0B2), closed loop after. Every test input of the DLL is a .param on the top sheet."Â»
-  «text (0,5400) 1 7 1 0x1000000 -1 -1 "ï»¿Inputs: PV1P / PV2P / PV3P = the string nodes the INA239s see, HS_* = hall outputs of the shufflers. Outputs: one PWM pair per leg."Â»
-  «text (0,5200) 1 7 1 0x1000000 -1 -1 "ï»¿Signal flow left to right: sources -> DLL -> duty override (duty() .func) -> PWM_Modulator XP1 (converter 1) and XP2 (converter 2)."Â»
-  «text (0,4600) 1.2 7 1 0x1000000 -1 -1 "ï»¿ENABLE, REFERENCE STEPS AND PWM RAMPS"Â»
-  «component (0,3800) 0 0
+  «text (0,6600) 1.6 7 1 0x1000000 -1 -1 "ï»¿CONTROLLER - shuffler_ctrl_dll2.dll: the firmware control stack (6_RTOS/ctrl_core) as a QSPICE C-block"Â»
+  «text (0,6200) 1 7 1 0x1000000 -1 -1 "ï»¿The DLL models the INA239 / hall sampling and quantisation, the 10 kHz control tick and the gain matrix M from params.h (MSEL = 0),"Â»
+  «text (0,6000) 1 7 1 0x1000000 -1 -1 "ï»¿the 100 kHz S9i M (MSEL = 1) or ctrl_M2.txt (MSEL = 2). shuffler_ctrl_dll2.dll and ctrl_M2.txt must sit next to the top sheet."Â»
+  «text (0,5800) 1 7 1 0x1000000 -1 -1 "ï»¿Open loop until TEN (CTRL_EN low: the duties D0A1 .. D0B2), closed loop after. Every test input of the DLL is a .param on the top sheet."Â»
+  «text (0,5600) 1 7 1 0x1000000 -1 -1 "ï»¿Inputs: PV1P / PV2P / PV3P = the string nodes the INA239s see, HS_* = hall outputs of the shufflers. Outputs: one PWM pair per leg."Â»
+  «text (0,5400) 1 7 1 0x1000000 -1 -1 "ï»¿Signal flow left to right: sources -> DLL -> duty override (duty() .func) -> PWM_Modulator XP1 (converter 1) and XP2 (converter 2)."Â»
+  «text (0,4900) 1.2 7 1 0x1000000 -1 -1 "ï»¿ENABLE, REFERENCE STEPS AND PWM RAMPS"Â»
+  «component (0,4100) 0 0
     «symbol V
       «type: V»
       «description: Independent Voltage Source»
@@ -23,7 +23,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (2800,3800) 0 0
+  «component (2600,4100) 0 0
     «symbol V
       «type: V»
       «description: Independent Voltage Source»
@@ -40,7 +40,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (5600,3800) 0 0
+  «component (5200,4100) 0 0
     «symbol V
       «type: V»
       «description: Independent Voltage Source»
@@ -57,7 +57,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (8400,3800) 0 0
+  «component (0,2500) 0 0
     «symbol V
       «type: V»
       «description: Independent Voltage Source»
@@ -74,7 +74,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (11200,3800) 0 0
+  «component (2600,2500) 0 0
     «symbol V
       «type: V»
       «description: Independent Voltage Source»
@@ -91,8 +91,8 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «text (0,2400) 1.2 7 1 0x1000000 -1 -1 "ï»¿DLL TEST INPUTS - each a .param of the top sheet"Â»
-  «component (0,1600) 0 0
+  «text (0,1300) 1.2 7 1 0x1000000 -1 -1 "ï»¿DLL TEST INPUTS - each a .param of the top sheet"Â»
+  «component (0,500) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -109,7 +109,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (1000,1600) 0 0
+  «component (1100,500) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -126,7 +126,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (2000,1600) 0 0
+  «component (2200,500) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -143,7 +143,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (3000,1600) 0 0
+  «component (3300,500) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -160,7 +160,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (4000,1600) 0 0
+  «component (4400,500) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -177,7 +177,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (5000,1600) 0 0
+  «component (0,-1100) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -194,7 +194,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (6000,1600) 0 0
+  «component (1100,-1100) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -211,7 +211,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (7000,1600) 0 0
+  «component (2200,-1100) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -228,7 +228,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (8000,1600) 0 0
+  «component (3300,-1100) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -245,7 +245,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (9000,1600) 0 0
+  «component (4400,-1100) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -262,7 +262,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (14500,0) 0 0
+  «component (11500,1200) 0 0
     «symbol shuffler_ctrl_dll2
       «type: Ø(.DLL)»
       «description: firmware control stack (6_RTOS/ctrl_core) as a QSPICE C-block»
@@ -270,7 +270,7 @@
       «rect (-800,2200) (800,-2200) 0 0 0 0xff0000 0x4000000 -1 0 -1»
       «text (0,2350) 1 0 0 0x1000000 -1 -1 "Xc"»
       «text (0,0) 1 0 0 0x1000000 -1 -1 "shuffler_ctrl_dll2"»
-      «text (0,-2350) 1 0 2 0x1000000 -1 -1 "Rout=1 Cout=1p"»
+      «text (700,-2350) 1 0 2 0x1000000 -1 -1 "Rout=1 Cout=1p"»
       «pin (-800,2000) (60,-40) 1 13 145 0x0 -1 "PV1P"»
       «pin (-800,1800) (60,-40) 1 13 145 0x0 -1 "PV2P"»
       «pin (-800,1600) (60,-40) 1 13 145 0x0 -1 "PV3P"»
@@ -304,9 +304,9 @@
       «pin (0,-2200) (0,60) 1 11 147 0x0 -1 "GND"»
     »
   »
-  «text (13100,2800) 1.2 7 1 0x1000000 -1 -1 "ï»¿shuffler_ctrl_dll2.dll - INA239 / hall sampling, 10 kHz control tick, M from params.h"Â»
-  «text (17500,3000) 1.2 7 1 0x1000000 -1 -1 "ï»¿COMMANDED DUTIES - DLL output when CTRL_EN, else D0*"Â»
-  «component (18500,2100) 0 0
+  «text (10000,4000) 1.2 7 1 0x1000000 -1 -1 "ï»¿shuffler_ctrl_dll2.dll - INA239 / hall sampling, 10 kHz control tick, M from params.h"Â»
+  «text (14000,4300) 1.2 7 1 0x1000000 -1 -1 "ï»¿COMMANDED DUTIES - DLL output when CTRL_EN, else D0*"Â»
+  «component (15000,3000) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -323,7 +323,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (18500,700) 0 0
+  «component (15000,1600) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -340,7 +340,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (18500,-700) 0 0
+  «component (15000,200) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -357,7 +357,7 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «component (18500,-2100) 0 0
+  «component (15000,-1200) 0 0
     «symbol B
       «type: B»
       «description: Behavioral Source»
@@ -374,8 +374,8 @@
       «pin (0,-200) (0,0) 1 0 0 0x0 -1 "-"»
     »
   »
-  «text (23800,3000) 1.2 7 1 0x1000000 -1 -1 "ï»¿PWM MODULATORS - one per converter (hierarchical sheet PWM_Modulator)"Â»
-  «component (25000,1500) 0 0
+  «text (19800,4300) 1.2 7 1 0x1000000 -1 -1 "ï»¿PWM MODULATORS - one per converter (hierarchical sheet PWM_Modulator)"Â»
+  «component (21000,2000) 0 0
     «symbol
       «type: »
       «shorted pins: false»
@@ -392,7 +392,7 @@
       «pin (1200,-600) (-60,-40) 1 14 0 0x0 -1 "PWM_BL"»
     »
   »
-  «component (25000,-1500) 0 0
+  «component (21000,-1000) 0 0
     «symbol
       «type: »
       «shorted pins: false»
@@ -409,174 +409,174 @@
       «pin (1200,-600) (-60,-40) 1 14 0 0x0 -1 "PWM_BL"»
     »
   »
-  «net (0,4200) 1 14 0 "CTRL_EN"»
-  «net (0,3400) 1 13 0 "GND"»
-  «net (2800,4200) 1 14 0 "VREF1"»
-  «net (2800,3400) 1 13 0 "GND"»
-  «net (5600,4200) 1 14 0 "VREF2"»
-  «net (5600,3400) 1 13 0 "GND"»
-  «net (8400,4200) 1 14 0 "RAMPA"»
-  «net (8400,3400) 1 13 0 "GND"»
-  «net (11200,4200) 1 14 0 "RAMPB"»
-  «net (11200,3400) 1 13 0 "GND"»
-  «net (0,2000) 1 14 0 "KSCALE"»
-  «net (0,1200) 1 13 0 "GND"»
-  «net (1000,2000) 1 14 0 "MSEL"»
-  «net (1000,1200) 1 13 0 "GND"»
-  «net (2000,2000) 1 14 0 "FILT"»
-  «net (2000,1200) 1 13 0 "GND"»
-  «net (3000,2000) 1 14 0 "FC"»
-  «net (3000,1200) 1 13 0 "GND"»
-  «net (4000,2000) 1 14 0 "NOISE"»
-  «net (4000,1200) 1 13 0 "GND"»
-  «net (5000,2000) 1 14 0 "SAMP"»
-  «net (5000,1200) 1 13 0 "GND"»
-  «net (6000,2000) 1 14 0 "KBERR"»
-  «net (6000,1200) 1 13 0 "GND"»
-  «net (7000,2000) 1 14 0 "FSWP"»
-  «net (7000,1200) 1 13 0 "GND"»
-  «net (8000,2000) 1 14 0 "VM1SRC"»
-  «net (8000,1200) 1 13 0 "GND"»
-  «net (9000,2000) 1 14 0 "VSTRP"»
-  «net (9000,1200) 1 13 0 "GND"»
-  «net (13100,2000) 1 11 1 "PV1P"»
-  «net (13100,1800) 1 11 1 "PV2P"»
-  «net (13100,1600) 1 11 1 "PV3P"»
-  «net (13100,1400) 1 11 1 "HS_A1"»
-  «net (13100,1200) 1 11 1 "HS_B1"»
-  «net (13100,1000) 1 11 1 "HS_A2"»
-  «net (13100,800) 1 11 1 "HS_B2"»
-  «net (13100,600) 1 11 0 "CTRL_EN"»
-  «net (13100,400) 1 11 0 "VREF1"»
-  «net (13100,200) 1 11 0 "VREF2"»
-  «net (13100,0) 1 11 0 "KSCALE"»
-  «net (13100,-200) 1 11 0 "MSEL"»
-  «net (13100,-400) 1 11 0 "FILT"»
-  «net (13100,-600) 1 11 0 "FC"»
-  «net (13100,-800) 1 11 0 "NOISE"»
-  «net (13100,-1000) 1 11 0 "SAMP"»
-  «net (13100,-1200) 1 11 0 "KBERR"»
-  «net (13100,-1400) 1 11 0 "FSWP"»
-  «net (13100,-1600) 1 11 0 "VM1SRC"»
-  «net (13100,-1800) 1 11 0 "VSTRP"»
-  «net (15900,2000) 1 7 0 "DA1"»
-  «net (15900,1800) 1 7 0 "DB1"»
-  «net (15900,1600) 1 7 0 "DA2"»
-  «net (15900,1400) 1 7 0 "DB2"»
-  «net (15900,1200) 1 7 0 "RV1"»
-  «net (15900,1000) 1 7 0 "RV2"»
-  «net (15900,800) 1 7 0 "BETA"»
-  «net (15900,600) 1 7 0 "STRESS"»
-  «net (15900,400) 1 7 0 "IM1R"»
-  «net (15900,200) 1 7 0 "IM2R"»
-  «net (14500,-2600) 1 13 0 "GND"»
-  «net (18500,2500) 1 14 0 "DA1C"»
-  «net (18500,1700) 1 13 0 "GND"»
-  «net (18500,1100) 1 14 0 "DB1C"»
-  «net (18500,300) 1 13 0 "GND"»
-  «net (18500,-300) 1 14 0 "DA2C"»
-  «net (18500,-1100) 1 13 0 "GND"»
-  «net (18500,-1700) 1 14 0 "DB2C"»
-  «net (18500,-2500) 1 13 0 "GND"»
-  «net (23200,2100) 1 11 0 "RAMPA"»
-  «net (23200,1700) 1 11 0 "RAMPB"»
-  «net (23200,1300) 1 11 0 "DA1C"»
-  «net (23200,900) 1 11 0 "DB1C"»
-  «net (26800,2100) 1 7 1 "PWM_AH1"»
-  «net (26800,1700) 1 7 1 "PWM_AL1"»
-  «net (26800,1300) 1 7 1 "PWM_BH1"»
-  «net (26800,900) 1 7 1 "PWM_BL1"»
-  «net (23200,-900) 1 11 0 "RAMPA"»
-  «net (23200,-1300) 1 11 0 "RAMPB"»
-  «net (23200,-1700) 1 11 0 "DA2C"»
-  «net (23200,-2100) 1 11 0 "DB2C"»
-  «net (26800,-900) 1 7 1 "PWM_AH2"»
-  «net (26800,-1300) 1 7 1 "PWM_AL2"»
-  «net (26800,-1700) 1 7 1 "PWM_BH2"»
-  «net (26800,-2100) 1 7 1 "PWM_BL2"»
-  «wire (0,4000) (0,4200) "CTRL_EN"»
-  «wire (0,3600) (0,3400) "GND"»
-  «wire (2800,4000) (2800,4200) "VREF1"»
-  «wire (2800,3600) (2800,3400) "GND"»
-  «wire (5600,4000) (5600,4200) "VREF2"»
-  «wire (5600,3600) (5600,3400) "GND"»
-  «wire (8400,4000) (8400,4200) "RAMPA"»
-  «wire (8400,3600) (8400,3400) "GND"»
-  «wire (11200,4000) (11200,4200) "RAMPB"»
-  «wire (11200,3600) (11200,3400) "GND"»
-  «wire (0,1800) (0,2000) "KSCALE"»
-  «wire (0,1400) (0,1200) "GND"»
-  «wire (1000,1800) (1000,2000) "MSEL"»
-  «wire (1000,1400) (1000,1200) "GND"»
-  «wire (2000,1800) (2000,2000) "FILT"»
-  «wire (2000,1400) (2000,1200) "GND"»
-  «wire (3000,1800) (3000,2000) "FC"»
-  «wire (3000,1400) (3000,1200) "GND"»
-  «wire (4000,1800) (4000,2000) "NOISE"»
-  «wire (4000,1400) (4000,1200) "GND"»
-  «wire (5000,1800) (5000,2000) "SAMP"»
-  «wire (5000,1400) (5000,1200) "GND"»
-  «wire (6000,1800) (6000,2000) "KBERR"»
-  «wire (6000,1400) (6000,1200) "GND"»
-  «wire (7000,1800) (7000,2000) "FSWP"»
-  «wire (7000,1400) (7000,1200) "GND"»
-  «wire (8000,1800) (8000,2000) "VM1SRC"»
-  «wire (8000,1400) (8000,1200) "GND"»
-  «wire (9000,1800) (9000,2000) "VSTRP"»
-  «wire (9000,1400) (9000,1200) "GND"»
-  «wire (13700,2000) (13100,2000) "PV1P"»
-  «wire (13700,1800) (13100,1800) "PV2P"»
-  «wire (13700,1600) (13100,1600) "PV3P"»
-  «wire (13700,1400) (13100,1400) "HS_A1"»
-  «wire (13700,1200) (13100,1200) "HS_B1"»
-  «wire (13700,1000) (13100,1000) "HS_A2"»
-  «wire (13700,800) (13100,800) "HS_B2"»
-  «wire (13700,600) (13100,600) "CTRL_EN"»
-  «wire (13700,400) (13100,400) "VREF1"»
-  «wire (13700,200) (13100,200) "VREF2"»
-  «wire (13700,0) (13100,0) "KSCALE"»
-  «wire (13700,-200) (13100,-200) "MSEL"»
-  «wire (13700,-400) (13100,-400) "FILT"»
-  «wire (13700,-600) (13100,-600) "FC"»
-  «wire (13700,-800) (13100,-800) "NOISE"»
-  «wire (13700,-1000) (13100,-1000) "SAMP"»
-  «wire (13700,-1200) (13100,-1200) "KBERR"»
-  «wire (13700,-1400) (13100,-1400) "FSWP"»
-  «wire (13700,-1600) (13100,-1600) "VM1SRC"»
-  «wire (13700,-1800) (13100,-1800) "VSTRP"»
-  «wire (15300,2000) (15900,2000) "DA1"»
-  «wire (15300,1800) (15900,1800) "DB1"»
-  «wire (15300,1600) (15900,1600) "DA2"»
-  «wire (15300,1400) (15900,1400) "DB2"»
-  «wire (15300,1200) (15900,1200) "RV1"»
-  «wire (15300,1000) (15900,1000) "RV2"»
-  «wire (15300,800) (15900,800) "BETA"»
-  «wire (15300,600) (15900,600) "STRESS"»
-  «wire (15300,400) (15900,400) "IM1R"»
-  «wire (15300,200) (15900,200) "IM2R"»
-  «wire (14500,-2200) (14500,-2600) "GND"»
-  «wire (18500,2300) (18500,2500) "DA1C"»
-  «wire (18500,1900) (18500,1700) "GND"»
-  «wire (18500,900) (18500,1100) "DB1C"»
-  «wire (18500,500) (18500,300) "GND"»
-  «wire (18500,-500) (18500,-300) "DA2C"»
-  «wire (18500,-900) (18500,-1100) "GND"»
-  «wire (18500,-1900) (18500,-1700) "DB2C"»
-  «wire (18500,-2300) (18500,-2500) "GND"»
-  «wire (23800,2100) (23200,2100) "RAMPA"»
-  «wire (23800,1700) (23200,1700) "RAMPB"»
-  «wire (23800,1300) (23200,1300) "DA1C"»
-  «wire (23800,900) (23200,900) "DB1C"»
-  «wire (26200,2100) (26800,2100) "PWM_AH1"»
-  «wire (26200,1700) (26800,1700) "PWM_AL1"»
-  «wire (26200,1300) (26800,1300) "PWM_BH1"»
-  «wire (26200,900) (26800,900) "PWM_BL1"»
-  «wire (23800,-900) (23200,-900) "RAMPA"»
-  «wire (23800,-1300) (23200,-1300) "RAMPB"»
-  «wire (23800,-1700) (23200,-1700) "DA2C"»
-  «wire (23800,-2100) (23200,-2100) "DB2C"»
-  «wire (26200,-900) (26800,-900) "PWM_AH2"»
-  «wire (26200,-1300) (26800,-1300) "PWM_AL2"»
-  «wire (26200,-1700) (26800,-1700) "PWM_BH2"»
-  «wire (26200,-2100) (26800,-2100) "PWM_BL2"»
+  «net (0,4500) 1 14 0 "CTRL_EN"»
+  «net (0,3700) 1 13 0 "GND"»
+  «net (2600,4500) 1 14 0 "VREF1"»
+  «net (2600,3700) 1 13 0 "GND"»
+  «net (5200,4500) 1 14 0 "VREF2"»
+  «net (5200,3700) 1 13 0 "GND"»
+  «net (0,2900) 1 14 0 "RAMPA"»
+  «net (0,2100) 1 13 0 "GND"»
+  «net (2600,2900) 1 14 0 "RAMPB"»
+  «net (2600,2100) 1 13 0 "GND"»
+  «net (0,900) 1 14 0 "KSCALE"»
+  «net (0,100) 1 13 0 "GND"»
+  «net (1100,900) 1 14 0 "MSEL"»
+  «net (1100,100) 1 13 0 "GND"»
+  «net (2200,900) 1 14 0 "FILT"»
+  «net (2200,100) 1 13 0 "GND"»
+  «net (3300,900) 1 14 0 "FC"»
+  «net (3300,100) 1 13 0 "GND"»
+  «net (4400,900) 1 14 0 "NOISE"»
+  «net (4400,100) 1 13 0 "GND"»
+  «net (0,-700) 1 14 0 "SAMP"»
+  «net (0,-1500) 1 13 0 "GND"»
+  «net (1100,-700) 1 14 0 "KBERR"»
+  «net (1100,-1500) 1 13 0 "GND"»
+  «net (2200,-700) 1 14 0 "FSWP"»
+  «net (2200,-1500) 1 13 0 "GND"»
+  «net (3300,-700) 1 14 0 "VM1SRC"»
+  «net (3300,-1500) 1 13 0 "GND"»
+  «net (4400,-700) 1 14 0 "VSTRP"»
+  «net (4400,-1500) 1 13 0 "GND"»
+  «net (10100,3200) 1 11 1 "PV1P"»
+  «net (10100,3000) 1 11 1 "PV2P"»
+  «net (10100,2800) 1 11 1 "PV3P"»
+  «net (10100,2600) 1 11 1 "HS_A1"»
+  «net (10100,2400) 1 11 1 "HS_B1"»
+  «net (10100,2200) 1 11 1 "HS_A2"»
+  «net (10100,2000) 1 11 1 "HS_B2"»
+  «net (10100,1800) 1 11 0 "CTRL_EN"»
+  «net (10100,1600) 1 11 0 "VREF1"»
+  «net (10100,1400) 1 11 0 "VREF2"»
+  «net (10100,1200) 1 11 0 "KSCALE"»
+  «net (10100,1000) 1 11 0 "MSEL"»
+  «net (10100,800) 1 11 0 "FILT"»
+  «net (10100,600) 1 11 0 "FC"»
+  «net (10100,400) 1 11 0 "NOISE"»
+  «net (10100,200) 1 11 0 "SAMP"»
+  «net (10100,0) 1 11 0 "KBERR"»
+  «net (10100,-200) 1 11 0 "FSWP"»
+  «net (10100,-400) 1 11 0 "VM1SRC"»
+  «net (10100,-600) 1 11 0 "VSTRP"»
+  «net (12900,3200) 1 7 0 "DA1"»
+  «net (12900,3000) 1 7 0 "DB1"»
+  «net (12900,2800) 1 7 0 "DA2"»
+  «net (12900,2600) 1 7 0 "DB2"»
+  «net (12900,2400) 1 7 0 "RV1"»
+  «net (12900,2200) 1 7 0 "RV2"»
+  «net (12900,2000) 1 7 0 "BETA"»
+  «net (12900,1800) 1 7 0 "STRESS"»
+  «net (12900,1600) 1 7 0 "IM1R"»
+  «net (12900,1400) 1 7 0 "IM2R"»
+  «net (11500,-1400) 1 13 0 "GND"»
+  «net (15000,3400) 1 14 0 "DA1C"»
+  «net (15000,2600) 1 13 0 "GND"»
+  «net (15000,2000) 1 14 0 "DB1C"»
+  «net (15000,1200) 1 13 0 "GND"»
+  «net (15000,600) 1 14 0 "DA2C"»
+  «net (15000,-200) 1 13 0 "GND"»
+  «net (15000,-800) 1 14 0 "DB2C"»
+  «net (15000,-1600) 1 13 0 "GND"»
+  «net (19200,2600) 1 11 0 "RAMPA"»
+  «net (19200,2200) 1 11 0 "RAMPB"»
+  «net (19200,1800) 1 11 0 "DA1C"»
+  «net (19200,1400) 1 11 0 "DB1C"»
+  «net (22800,2600) 1 7 1 "PWM_AH1"»
+  «net (22800,2200) 1 7 1 "PWM_AL1"»
+  «net (22800,1800) 1 7 1 "PWM_BH1"»
+  «net (22800,1400) 1 7 1 "PWM_BL1"»
+  «net (19200,-400) 1 11 0 "RAMPA"»
+  «net (19200,-800) 1 11 0 "RAMPB"»
+  «net (19200,-1200) 1 11 0 "DA2C"»
+  «net (19200,-1600) 1 11 0 "DB2C"»
+  «net (22800,-400) 1 7 1 "PWM_AH2"»
+  «net (22800,-800) 1 7 1 "PWM_AL2"»
+  «net (22800,-1200) 1 7 1 "PWM_BH2"»
+  «net (22800,-1600) 1 7 1 "PWM_BL2"»
+  «wire (0,4300) (0,4500) "CTRL_EN"»
+  «wire (0,3900) (0,3700) "GND"»
+  «wire (2600,4300) (2600,4500) "VREF1"»
+  «wire (2600,3900) (2600,3700) "GND"»
+  «wire (5200,4300) (5200,4500) "VREF2"»
+  «wire (5200,3900) (5200,3700) "GND"»
+  «wire (0,2700) (0,2900) "RAMPA"»
+  «wire (0,2300) (0,2100) "GND"»
+  «wire (2600,2700) (2600,2900) "RAMPB"»
+  «wire (2600,2300) (2600,2100) "GND"»
+  «wire (0,700) (0,900) "KSCALE"»
+  «wire (0,300) (0,100) "GND"»
+  «wire (1100,700) (1100,900) "MSEL"»
+  «wire (1100,300) (1100,100) "GND"»
+  «wire (2200,700) (2200,900) "FILT"»
+  «wire (2200,300) (2200,100) "GND"»
+  «wire (3300,700) (3300,900) "FC"»
+  «wire (3300,300) (3300,100) "GND"»
+  «wire (4400,700) (4400,900) "NOISE"»
+  «wire (4400,300) (4400,100) "GND"»
+  «wire (0,-900) (0,-700) "SAMP"»
+  «wire (0,-1300) (0,-1500) "GND"»
+  «wire (1100,-900) (1100,-700) "KBERR"»
+  «wire (1100,-1300) (1100,-1500) "GND"»
+  «wire (2200,-900) (2200,-700) "FSWP"»
+  «wire (2200,-1300) (2200,-1500) "GND"»
+  «wire (3300,-900) (3300,-700) "VM1SRC"»
+  «wire (3300,-1300) (3300,-1500) "GND"»
+  «wire (4400,-900) (4400,-700) "VSTRP"»
+  «wire (4400,-1300) (4400,-1500) "GND"»
+  «wire (10700,3200) (10100,3200) "PV1P"»
+  «wire (10700,3000) (10100,3000) "PV2P"»
+  «wire (10700,2800) (10100,2800) "PV3P"»
+  «wire (10700,2600) (10100,2600) "HS_A1"»
+  «wire (10700,2400) (10100,2400) "HS_B1"»
+  «wire (10700,2200) (10100,2200) "HS_A2"»
+  «wire (10700,2000) (10100,2000) "HS_B2"»
+  «wire (10700,1800) (10100,1800) "CTRL_EN"»
+  «wire (10700,1600) (10100,1600) "VREF1"»
+  «wire (10700,1400) (10100,1400) "VREF2"»
+  «wire (10700,1200) (10100,1200) "KSCALE"»
+  «wire (10700,1000) (10100,1000) "MSEL"»
+  «wire (10700,800) (10100,800) "FILT"»
+  «wire (10700,600) (10100,600) "FC"»
+  «wire (10700,400) (10100,400) "NOISE"»
+  «wire (10700,200) (10100,200) "SAMP"»
+  «wire (10700,0) (10100,0) "KBERR"»
+  «wire (10700,-200) (10100,-200) "FSWP"»
+  «wire (10700,-400) (10100,-400) "VM1SRC"»
+  «wire (10700,-600) (10100,-600) "VSTRP"»
+  «wire (12300,3200) (12900,3200) "DA1"»
+  «wire (12300,3000) (12900,3000) "DB1"»
+  «wire (12300,2800) (12900,2800) "DA2"»
+  «wire (12300,2600) (12900,2600) "DB2"»
+  «wire (12300,2400) (12900,2400) "RV1"»
+  «wire (12300,2200) (12900,2200) "RV2"»
+  «wire (12300,2000) (12900,2000) "BETA"»
+  «wire (12300,1800) (12900,1800) "STRESS"»
+  «wire (12300,1600) (12900,1600) "IM1R"»
+  «wire (12300,1400) (12900,1400) "IM2R"»
+  «wire (11500,-1000) (11500,-1400) "GND"»
+  «wire (15000,3200) (15000,3400) "DA1C"»
+  «wire (15000,2800) (15000,2600) "GND"»
+  «wire (15000,1800) (15000,2000) "DB1C"»
+  «wire (15000,1400) (15000,1200) "GND"»
+  «wire (15000,400) (15000,600) "DA2C"»
+  «wire (15000,0) (15000,-200) "GND"»
+  «wire (15000,-1000) (15000,-800) "DB2C"»
+  «wire (15000,-1400) (15000,-1600) "GND"»
+  «wire (19800,2600) (19200,2600) "RAMPA"»
+  «wire (19800,2200) (19200,2200) "RAMPB"»
+  «wire (19800,1800) (19200,1800) "DA1C"»
+  «wire (19800,1400) (19200,1400) "DB1C"»
+  «wire (22200,2600) (22800,2600) "PWM_AH1"»
+  «wire (22200,2200) (22800,2200) "PWM_AL1"»
+  «wire (22200,1800) (22800,1800) "PWM_BH1"»
+  «wire (22200,1400) (22800,1400) "PWM_BL1"»
+  «wire (19800,-400) (19200,-400) "RAMPA"»
+  «wire (19800,-800) (19200,-800) "RAMPB"»
+  «wire (19800,-1200) (19200,-1200) "DA2C"»
+  «wire (19800,-1600) (19200,-1600) "DB2C"»
+  «wire (22200,-400) (22800,-400) "PWM_AH2"»
+  «wire (22200,-800) (22800,-800) "PWM_AL2"»
+  «wire (22200,-1200) (22800,-1200) "PWM_BH2"»
+  «wire (22200,-1600) (22800,-1600) "PWM_BL2"»
 »

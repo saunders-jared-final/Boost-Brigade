@@ -487,51 +487,53 @@ def build_modulator():
 
 def build_controller():
     s = Schematic()
-    notes(s, 0, 6400, "CONTROLLER - shuffler_ctrl_dll2.dll: the firmware control stack (6_RTOS/ctrl_core) as a QSPICE C-block", [
+    notes(s, 0, 6600, "CONTROLLER - shuffler_ctrl_dll2.dll: the firmware control stack (6_RTOS/ctrl_core) as a QSPICE C-block", [
         "The DLL models the INA239 / hall sampling and quantisation, the 10 kHz control tick and the gain matrix M from params.h (MSEL = 0),",
         "the 100 kHz S9i M (MSEL = 1) or ctrl_M2.txt (MSEL = 2). shuffler_ctrl_dll2.dll and ctrl_M2.txt must sit next to the top sheet.",
         "Open loop until TEN (CTRL_EN low: the duties D0A1 .. D0B2), closed loop after. Every test input of the DLL is a .param on the top sheet.",
         "Inputs: PV1P / PV2P / PV3P = the string nodes the INA239s see, HS_* = hall outputs of the shufflers. Outputs: one PWM pair per leg.",
         "Signal flow left to right: sources -> DLL -> duty override (duty() .func) -> PWM_Modulator XP1 (converter 1) and XP2 (converter 2).",
     ])
-    # band 1: enable, references, ramps
-    s.comment(0, 4600, "ENABLE, REFERENCE STEPS AND PWM RAMPS", size=1.2)
-    for i, (ref, val, net) in enumerate((("Ven", "PWL(0 0 {TEN} 0 {TEN+1u} 1)", "CTRL_EN"),
-                                         ("Vref1", "PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP1})", "VREF1"),
-                                         ("Vref2", "PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP2})", "VREF2"),
-                                         ("Vrampa", "PULSE(0 1 0 {Tsw-2n} 1n 1n {Tsw})", "RAMPA"),
-                                         ("Vrampb", "PULSE(0 1 {Tsw/2} {Tsw-2n} 1n 1n {Tsw})", "RAMPB"))):
-        p = s.add(sym_V(), 2800 * i, 3800, ref, val)
+    # enable, references and ramps: two rows (the PWL / PULSE texts are about 2300 units wide)
+    s.comment(0, 4900, "ENABLE, REFERENCE STEPS AND PWM RAMPS", size=1.2)
+    for (x, y, ref, val, net) in ((0, 4100, "Ven", "PWL(0 0 {TEN} 0 {TEN+1u} 1)", "CTRL_EN"),
+                                  (2600, 4100, "Vref1", "PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP1})", "VREF1"),
+                                  (5200, 4100, "Vref2", "PWL(0 0 {TSTEP} 0 {TSTEP+1u} {VSTEP2})", "VREF2"),
+                                  (0, 2500, "Vrampa", "PULSE(0 1 0 {Tsw-2n} 1n 1n {Tsw})", "RAMPA"),
+                                  (2600, 2500, "Vrampb", "PULSE(0 1 {Tsw/2} {Tsw-2n} 1n 1n {Tsw})", "RAMPB")):
+        p = s.add(sym_V(), x, y, ref, val)
         s.stub(p.pin["+"], net, "up", 200)
         s.stub(p.pin["-"], "GND", "down", 200)
-    # band 2: test inputs from .param
-    s.comment(0, 2400, "DLL TEST INPUTS - each a .param of the top sheet", size=1.2)
+    # test inputs from .param: two rows of five
+    s.comment(0, 1300, "DLL TEST INPUTS - each a .param of the top sheet", size=1.2)
     for i, pin in enumerate(CTRL_INS[10:]):
-        p = s.add(sym_B(), 1000 * i, 1600, "Bt" + pin, "V=" + ("1/Tsw" if pin == "FSWP" else pin))
+        p = s.add(sym_B(), 1100 * (i % 5), 500 - 1600 * (i // 5), "Bt" + pin, "V=" + ("1/Tsw" if pin == "FSWP" else pin))
         s.stub(p.pin["+"], pin, "up", 200)
         s.stub(p.pin["-"], "GND", "down", 200)
     # the DLL
-    xd = 14500
-    p = s.add(ctrl_sym(), xd, 0, "Xc", "shuffler_ctrl_dll2", extra=("Rout=1 Cout=1p",))
+    xd, yd = 11500, 1200
+    sym = ctrl_sym()
+    sym.extra_pos = (700, -2350)                 # parameter text beside the GND stub, not across it
+    p = s.add(sym, xd, yd, "Xc", "shuffler_ctrl_dll2", extra=("Rout=1 Cout=1p",))
     ports_in = dict(zip(CTRL_INS[:7], CONTROLLER_PORTS[:7]))
     for n in CTRL_INS:
         s.stub(p.pin[n], ports_in.get(n, n), "left", 600)
     for n in CTRL_OUTS:
         s.stub(p.pin[n], n, "right", 600)
     s.stub(p.pin["GND"], "GND", "down", 400)
-    s.comment(xd - 1400, 2800, "shuffler_ctrl_dll2.dll - INA239 / hall sampling, 10 kHz control tick, M from params.h", size=1.2)
+    s.comment(xd - 1500, yd + 2800, "shuffler_ctrl_dll2.dll - INA239 / hall sampling, 10 kHz control tick, M from params.h", size=1.2)
     # duty override
-    s.comment(17500, 3000, "COMMANDED DUTIES - DLL output when CTRL_EN, else D0*", size=1.2)
+    s.comment(14000, 4300, "COMMANDED DUTIES - DLL output when CTRL_EN, else D0*", size=1.2)
     for i, (dn, d0) in enumerate((("DA1", "D0A1"), ("DB1", "D0B1"), ("DA2", "D0A2"), ("DB2", "D0B2"))):
-        b = s.add(sym_B(), 18500, 2100 - 1400 * i, "Bd" + dn, f"V=duty(V(CTRL_EN),V({dn}),{d0})")
+        b = s.add(sym_B(), 15000, 3000 - 1400 * i, "Bd" + dn, f"V=duty(V(CTRL_EN),V({dn}),{d0})")
         s.stub(b.pin["+"], dn + "C", "up", 200)
         s.stub(b.pin["-"], "GND", "down", 200)
     # the two modulators
-    s.comment(23800, 3000, "PWM MODULATORS - one per converter (hierarchical sheet PWM_Modulator)", size=1.2)
+    s.comment(19800, 4300, "PWM MODULATORS - one per converter (hierarchical sheet PWM_Modulator)", size=1.2)
     for k in (1, 2):
         nets = {"RAMPA": "RAMPA", "RAMPB": "RAMPB", "DA": f"DA{k}C", "DB": f"DB{k}C"}
         nets.update({n: n + str(k) for n in MODULATOR_PORTS[4:]})
-        block(s, sym_modulator(), 25000, 1500 if k == 1 else -1500, f"XP{k}", nets)
+        block(s, sym_modulator(), 21000, 2000 if k == 1 else -1000, f"XP{k}", nets)
     return emit("Controller", [], s, ports=CONTROLLER_PORTS)
 
 
@@ -569,10 +571,10 @@ def build_top(recs, geo, used):
     s.comment(3300, -1900, "SHUFFLER 2 - converter 2 on PV2+ / PV3+ / GND (Shuffler_2.qsch)", size=1.2)
     block(s, sym_shuffler(2), 4500, -4500, "XS2", {"T": "T2", "M": "M2", "B": "B2", "PWM_AH": "PWM_AH2", "PWM_AL": "PWM_AL2",
                                                     "PWM_BH": "PWM_BH2", "PWM_BL": "PWM_BL2", "HS_A": "HS_A2", "HS_B": "HS_B2"})
-    s.comment(10000, 1100, "CONTROLLER - firmware control stack, DLL + PWM modulators (Controller.qsch)", size=1.2)
+    s.comment(9000, 1100, "CONTROLLER - firmware control stack, DLL + PWM modulators (Controller.qsch)", size=1.2)
     nets = {n: n for n in CONTROLLER_PORTS}
     nets["PV1P"] = "Out"
-    block(s, sym_controller(), 11500, -1500, "XC", nets)
+    block(s, sym_controller(), 10500, -1500, "XC", nets)
     # text columns
     titled_column(s, -12000, -8000, "PARAMETERS - edit values here (units: m = milli, u = micro, n = nano, p = pico)", PARAM_ROWS, cx=4000)
     titled_column(s, -2500, -8000, "SIMULATION", SIM_ROWS, cx=2200)

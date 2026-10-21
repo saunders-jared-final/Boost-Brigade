@@ -1,0 +1,22 @@
+4 cases
+[Warning: duty constant power_shuffler_sim/Power Shuffler1/dA1_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+[Warning: duty constant power_shuffler_sim/Power Shuffler1/dB1_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+[Warning: duty constant power_shuffler_sim/Power Shuffler2/dA2_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+[Warning: duty constant power_shuffler_sim/Power Shuffler2/dB2_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+[Warning: duty constant power_shuffler_sim/Power Shuffler3/dA3_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+[Warning: duty constant power_shuffler_sim/Power Shuffler3/dB3_const not found: open-loop cases of this model use the block as saved] 
+[> In run_scenarios (line 68)] 
+
+=== S4_vref_k1
+{Error using run_scenarios (line 106)
+The signal connected to the input port of 'power_shuffler_sim/Supervisor/Bus Selector1' is not a bus signal. The input to the Bus Selector block must be a virtual or nonvirtual
+bus signal.
+A possible cause of this error is the use of a bus-capable block (such as Merge or Unit Delay) that in this current situation is unable to propagate the bus downstream to the
+block reported in this error. Please see Simulink documentation for further information on composite (i.e. bus) signals and their proper usage.
+} 
+ERROR: MATLAB error Exit Status: 0x00000001

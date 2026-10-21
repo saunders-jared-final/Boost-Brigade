@@ -613,7 +613,7 @@
       «pin (1200,-200) (-60,-40) 1 14 0 0x0 -1 "HS_B"»
     »
   »
-  «component (11500,-1500) 0 0
+  «component (10500,-1500) 0 0
     «symbol
       «type: »
       «shorted pins: false»
@@ -683,21 +683,21 @@
   «net (2700,-5300) 1 11 0 "PWM_BL2"»
   «net (6300,-4300) 1 7 0 "HS_A2"»
   «net (6300,-4700) 1 7 0 "HS_B2"»
-  «net (9400,-300) 1 11 0 "Out"»
-  «net (9400,-700) 1 11 0 "PV2P"»
-  «net (9400,-1100) 1 11 0 "PV3P"»
-  «net (9400,-1500) 1 11 0 "HS_A1"»
-  «net (9400,-1900) 1 11 0 "HS_B1"»
-  «net (9400,-2300) 1 11 0 "HS_A2"»
-  «net (9400,-2700) 1 11 0 "HS_B2"»
-  «net (13600,-100) 1 7 0 "PWM_AH1"»
-  «net (13600,-500) 1 7 0 "PWM_AL1"»
-  «net (13600,-900) 1 7 0 "PWM_BH1"»
-  «net (13600,-1300) 1 7 0 "PWM_BL1"»
-  «net (13600,-1700) 1 7 0 "PWM_AH2"»
-  «net (13600,-2100) 1 7 0 "PWM_AL2"»
-  «net (13600,-2500) 1 7 0 "PWM_BH2"»
-  «net (13600,-2900) 1 7 0 "PWM_BL2"»
+  «net (8400,-300) 1 11 0 "Out"»
+  «net (8400,-700) 1 11 0 "PV2P"»
+  «net (8400,-1100) 1 11 0 "PV3P"»
+  «net (8400,-1500) 1 11 0 "HS_A1"»
+  «net (8400,-1900) 1 11 0 "HS_B1"»
+  «net (8400,-2300) 1 11 0 "HS_A2"»
+  «net (8400,-2700) 1 11 0 "HS_B2"»
+  «net (12600,-100) 1 7 0 "PWM_AH1"»
+  «net (12600,-500) 1 7 0 "PWM_AL1"»
+  «net (12600,-900) 1 7 0 "PWM_BH1"»
+  «net (12600,-1300) 1 7 0 "PWM_BL1"»
+  «net (12600,-1700) 1 7 0 "PWM_AH2"»
+  «net (12600,-2100) 1 7 0 "PWM_AL2"»
+  «net (12600,-2500) 1 7 0 "PWM_BH2"»
+  «net (12600,-2900) 1 7 0 "PWM_BL2"»
   «junction (-800,3500)»
   «junction (-800,100)»
   «junction (-800,-2900)»
@@ -813,21 +813,21 @@
   «wire (3300,-5300) (2700,-5300) "PWM_BL2"»
   «wire (5700,-4300) (6300,-4300) "HS_A2"»
   «wire (5700,-4700) (6300,-4700) "HS_B2"»
-  «wire (10000,-300) (9400,-300) "Out"»
-  «wire (10000,-700) (9400,-700) "PV2P"»
-  «wire (10000,-1100) (9400,-1100) "PV3P"»
-  «wire (10000,-1500) (9400,-1500) "HS_A1"»
-  «wire (10000,-1900) (9400,-1900) "HS_B1"»
-  «wire (10000,-2300) (9400,-2300) "HS_A2"»
-  «wire (10000,-2700) (9400,-2700) "HS_B2"»
-  «wire (13000,-100) (13600,-100) "PWM_AH1"»
-  «wire (13000,-500) (13600,-500) "PWM_AL1"»
-  «wire (13000,-900) (13600,-900) "PWM_BH1"»
-  «wire (13000,-1300) (13600,-1300) "PWM_BL1"»
-  «wire (13000,-1700) (13600,-1700) "PWM_AH2"»
-  «wire (13000,-2100) (13600,-2100) "PWM_AL2"»
-  «wire (13000,-2500) (13600,-2500) "PWM_BH2"»
-  «wire (13000,-2900) (13600,-2900) "PWM_BL2"»
+  «wire (9000,-300) (8400,-300) "Out"»
+  «wire (9000,-700) (8400,-700) "PV2P"»
+  «wire (9000,-1100) (8400,-1100) "PV3P"»
+  «wire (9000,-1500) (8400,-1500) "HS_A1"»
+  «wire (9000,-1900) (8400,-1900) "HS_B1"»
+  «wire (9000,-2300) (8400,-2300) "HS_A2"»
+  «wire (9000,-2700) (8400,-2700) "HS_B2"»
+  «wire (12000,-100) (12600,-100) "PWM_AH1"»
+  «wire (12000,-500) (12600,-500) "PWM_AL1"»
+  «wire (12000,-900) (12600,-900) "PWM_BH1"»
+  «wire (12000,-1300) (12600,-1300) "PWM_BL1"»
+  «wire (12000,-1700) (12600,-1700) "PWM_AH2"»
+  «wire (12000,-2100) (12600,-2100) "PWM_AL2"»
+  «wire (12000,-2500) (12600,-2500) "PWM_BH2"»
+  «wire (12000,-2900) (12600,-2900) "PWM_BL2"»
   «text (-12000,9600) 2 7 1 0x1000000 -1 -1 "ï»¿POWER SHUFFLER - the hand-drawn v3 string and converters with the firmware control stack, as hierarchical sheets"»
   «text (-12000,9200) 1 7 1 0x1000000 -1 -1 "ï»¿Blocks: XS1 / XS2 = Shuffler_1.qsch / Shuffler_2.qsch (the drawn converters with their hall sensors), XC = Controller.qsch (the DLL, its sources,"»
   «text (-12000,9000) 1 7 1 0x1000000 -1 -1 "ï»¿and two PWM_Modulator.qsch comparator sheets). Right-click a block and open its schematic to look inside; every sheet carries its own notes."»
@@ -841,7 +841,7 @@
   «text (-2500,6700) 1.2 7 1 0x1000000 -1 -1 "ï»¿LOAD I1 on Out (13 A ramp, VSAT 137.4 V)"»
   «text (3300,4100) 1.2 7 1 0x1000000 -1 -1 "ï»¿SHUFFLER 1 - converter 1 on PV1+ / PV2+ / PV3+ (Shuffler_1.qsch)"»
   «text (3300,-1900) 1.2 7 1 0x1000000 -1 -1 "ï»¿SHUFFLER 2 - converter 2 on PV2+ / PV3+ / GND (Shuffler_2.qsch)"»
-  «text (10000,1100) 1.2 7 1 0x1000000 -1 -1 "ï»¿CONTROLLER - firmware control stack, DLL + PWM modulators (Controller.qsch)"»
+  «text (9000,1100) 1.2 7 1 0x1000000 -1 -1 "ï»¿CONTROLLER - firmware control stack, DLL + PWM modulators (Controller.qsch)"»
   «text (-12000,-7750) 1.4 7 1 0x1000000 -1 -1 "ï»¿PARAMETERS - edit values here (units: m = milli, u = micro, n = nano, p = pico)"»
   «text (-12000,-8000) 1 7 1 0x1000000 -1 -1 "ï»¿* PWM"»
   «text (-12000,-8150) 1 7 0 0x1000000 -1 -1 "ï»¿.param Tsw=5u"»

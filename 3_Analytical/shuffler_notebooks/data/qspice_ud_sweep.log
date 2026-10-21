@@ -1,0 +1,32 @@
+15 cases, parallel 4
+  f200_run1_du0          ok             62 s
+  f200_run2_du0.04       ok            107 s
+  f400_run1_du0          ok             49 s
+  f200_run4_du0.0025     ok             83 s
+  f200_run4_du0.005      ok             92 s
+  f200_run4_du0.01       ok             96 s
+  f200_run4_du0.02       ok             99 s
+  f200_run4_du0.04       ok             98 s
+  f200_run4_du0.08       ok             98 s
+  f400_run4_du0.0025     ok             57 s
+  f400_run4_du0.005      ok             58 s
+  f400_run4_du0.01       ok             68 s
+  f400_run4_du0.02       ok             75 s
+  f400_run4_du0.04       ok             74 s
+  f400_run4_du0.08       ok             76 s
+wrote data/qspice_ud_sweep.json and .npz
+  f200_run1_du0          ic1   -0.001 A  im1  -0.460  vd1  -0.135  iA1pp  4.25  ic1pp  8.39  im1pp  0.19
+  f200_run2_du0.04       ic1   -0.002 A  im1  -0.458  vd1  -1.942  iA1pp  5.08  ic1pp  8.02  im1pp  2.26
+  f400_run1_du0          ic1    0.005 A  im1  -0.463  vd1  -0.677  iA1pp  2.18  ic1pp  4.09  im1pp  0.39
+  f200_run4_du0.0025     ic1    0.429 A  im1  -0.463  vd1  -0.136  iA1pp  4.27  ic1pp  8.40  im1pp  0.31
+  f200_run4_du0.005      ic1    0.814 A  im1  -0.464  vd1  -0.149  iA1pp  4.30  ic1pp  8.38  im1pp  0.40
+  f200_run4_du0.01       ic1    1.478 A  im1  -0.461  vd1  -0.191  iA1pp  4.38  ic1pp  8.35  im1pp  0.67
+  f200_run4_du0.02       ic1    2.236 A  im1  -0.462  vd1  -0.410  iA1pp  4.55  ic1pp  8.26  im1pp  1.20
+  f200_run4_du0.04       ic1    2.844 A  im1  -0.465  vd1  -1.046  iA1pp  4.78  ic1pp  8.12  im1pp  2.30
+  f200_run4_du0.08       ic1    5.272 A  im1  -0.481  vd1  -0.028  iA1pp  6.21  ic1pp  7.80  im1pp  4.68
+  f400_run4_du0.0025     ic1    0.073 A  im1  -0.467  vd1  -0.684  iA1pp  2.20  ic1pp  4.09  im1pp  0.49
+  f400_run4_du0.005      ic1    0.142 A  im1  -0.462  vd1  -0.702  iA1pp  2.22  ic1pp  4.09  im1pp  0.51
+  f400_run4_du0.01       ic1    0.283 A  im1  -0.463  vd1  -0.771  iA1pp  2.25  ic1pp  4.09  im1pp  0.61
+  f400_run4_du0.02       ic1    0.477 A  im1  -0.458  vd1  -0.958  iA1pp  2.30  ic1pp  4.06  im1pp  0.79
+  f400_run4_du0.04       ic1    0.663 A  im1  -0.445  vd1  -1.627  iA1pp  2.51  ic1pp  3.99  im1pp  1.28
+  f400_run4_du0.08       ic1    1.039 A  im1  -0.303  vd1  -2.764  iA1pp  2.68  ic1pp  3.88  im1pp  2.15

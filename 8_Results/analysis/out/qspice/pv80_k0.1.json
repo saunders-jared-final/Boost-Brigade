@@ -1,0 +1,20 @@
+{
+ "case": "pv80_k0.1",
+ "base": "pv80",
+ "setup": "PV80",
+ "kscale": 0.1,
+ "params": {
+  "KSCALE": 0.1,
+  "VSTEP2": 1.0,
+  "SHADE": 0.667,
+  "TSHADE": 0.0805
+ },
+ "events": {
+  "close": 0.0005,
+  "vref": 0.0405,
+  "shade_on": 0.0805
+ },
+ "tend": 0.1205,
+ "vstep2": 1.0,
+ "shade": 0.667
+}

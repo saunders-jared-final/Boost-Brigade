@@ -20,7 +20,7 @@ verify_power_shuffler.py - checks for the hierarchical sheets written by build_p
      move by the same amount under a mere reordering as under the hierarchy, so they are reported but not judged.
      Pass / fail rests on the well-conditioned measurements (duties, PWM averages, string power / voltage /
      current, supervisor stress), which must agree to 0.5 %.
-  4. Every sheet is rendered to figures/<sheet>.svg and .png (ImageMagick convert).
+  4. Every sheet is rendered to figures/<sheet>.svg and .png and the slide crops to figures/slides/ (render_figures.py).
 """
 import os
 import re
@@ -285,18 +285,8 @@ def find_library():
 
 # ----------------------------------------------------------------------------- figures
 def render_all():
-    os.makedirs(FIG, exist_ok=True)
-    scales = {TOP: 0.07, "Shuffler_1": 0.1, "Shuffler_2": 0.1, "Controller": 0.09, "PWM_Modulator": 0.14}
-    for name, scale in scales.items():
-        path = os.path.join(QDIR, name + ".qsch")
-        comps, wires, nets, juncs, texts = qsch_render.parse_schematic(path, want_texts=True)
-        xs = [c["x"] for c in comps] + [w[0][0] for w in wires] + [w[0][2] for w in wires] + [t["x"] for t in texts] + [n["x"] for n in nets]
-        ys = [c["y"] for c in comps] + [w[0][1] for w in wires] + [w[0][3] for w in wires] + [t["y"] for t in texts] + [n["y"] for n in nets]
-        crop = (min(xs) - 600, min(ys) - 600, max(xs) + 8000, max(ys) + 600)
-        svg = os.path.join(FIG, name + ".svg")
-        open(svg, "w", encoding="utf-8").write(qsch_render.render(path, crop, scale))
-        subprocess.run(["convert", "-density", "96", "-background", "white", svg, os.path.join(FIG, name + ".png")], check=False)
-    return sorted(os.listdir(FIG))
+    import render_figures
+    return render_figures.render_sheets() + render_figures.render_slides()
 
 
 # ----------------------------------------------------------------------------- main

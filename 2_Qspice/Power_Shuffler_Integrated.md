@@ -20,7 +20,9 @@ another name. `Claude's outputs/verify_power_shuffler.py` checks the result (bel
 | `HalfBridge_Driver.qsch` | X6-X9 | the 1ED3140 driver sheet the v3 drawing already used |
 
 Right-click a block in QSPICE and open its schematic to look inside; every sheet carries its own title and notes.
-Renders of every sheet: `Claude's outputs/figures/<sheet>.svg` / `.png` (made by the verify script).
+Renders of every sheet: `Claude's outputs/figures/<sheet>.svg` / `.png`, and slide-ready crops (system diagram without the
+text columns, string, blocks, directives, each converter, controller halves, modulator) in `Claude's outputs/figures/slides/`,
+both made by `Claude's outputs/render_figures.py` (the verify script calls it).
 
 ## Files that must sit next to the top sheet
 

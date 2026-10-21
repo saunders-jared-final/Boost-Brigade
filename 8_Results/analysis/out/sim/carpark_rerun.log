@@ -1,0 +1,599 @@
+6 cases
+
+=== S1_close_BENCH_k0.1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should explicitly specify the sample time of sources.
+You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration
+Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly specify the sample time of sources. You can
+disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration
+Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly specify the sample time of sources. You can
+disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration
+Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_BENCH_k0.1.csv (1662 rows, 24 columns, sim 108.4 s)
+
+=== S1_close_BENCH_k0.3
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_BENCH_k0.3.csv (901 rows, 24 columns, sim 50.3 s)
+
+=== S1_close_BENCH_k1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'BENCH'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_BENCH_k1.csv (901 rows, 24 columns, sim 52.0 s)
+
+=== S1_close_PV80_k0.1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_PV80_k0.1.csv (1662 rows, 24 columns, sim 71.9 s)
+
+=== S1_close_PV80_k0.3
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_PV80_k0.3.csv (901 rows, 24 columns, sim 41.5 s)
+
+=== S1_close_PV80_k1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 91)] 
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S1_close_PV80_k1.csv (901 rows, 24 columns, sim 36.7 s)
+3 cases
+
+=== S3_shade_OL_PV80_k0.1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S3_shade_OL_PV80_k0.1.csv (1662 rows, 24 columns, sim 62.3 s)
+
+=== S3_shade_OL_PV80_k0.3
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S3_shade_OL_PV80_k0.3.csv (901 rows, 24 columns, sim 32.3 s)
+
+=== S3_shade_OL_PV80_k1
+
+ans = 
+
+  struct with fields:
+
+          setup: 'PV80'
+            mdl: 'carpark_shuffler_sim'
+              N: 3
+             NS: 2
+             NL: 4
+      ctrl_mode: 1
+    params_json: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\6_RTOS\ctrl_core\params\shuffler_params.json'
+     golden_dir: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\2_SIL_Software_In_The_Loop\firmware\test\golden'
+    qspice_meas: 'C:\Users\jazsa\Documents\Boost-Brigade\4_Simulink\3_Carpark_3mod\..\..\2_Qspice\Claude's outputs\PCB_Baseline\results\S9i.meas.json'
+           path: [11 struct]
+            sig: [11 struct]
+            src: [11 struct]
+             pv: [11 struct]
+           load: [11 struct]
+          plant: [11 struct]
+          sense: [11 struct]
+           ctrl: [11 struct]
+            sup: [11 struct]
+           mppt: [11 struct]
+           test: [11 struct]
+
+[Warning: Source 'carpark_shuffler_sim/Power Circuit/Irradiance 3' specifies that its sample time (-1) is back-inherited. You should
+explicitly specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time'
+diagnostic to 'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref1' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+[Warning: Source 'carpark_shuffler_sim/Supervisor/Vref2' specifies that its sample time (-1) is back-inherited. You should explicitly
+specify the sample time of sources. You can disable this diagnostic by setting the 'Source block specifies -1 sample time' diagnostic to
+'none' in the Sample Time group on the Diagnostics pane of the Configuration Parameters dialog box.] 
+[> In run_scenarios (line 106)] 
+wrote C:\Users\jazsa\Documents\Boost-Brigade\8_Results\analysis\out\sim\carpark\S3_shade_OL_PV80_k1.csv (901 rows, 24 columns, sim 34.9 s)
