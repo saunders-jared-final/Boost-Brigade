@@ -129,6 +129,11 @@ def tidy_case(d, name, dt=config.TS):
     names, D = read_qraw(os.path.join(d, name + ".qraw"))
     col = {n.lower(): i for i, n in enumerate(names)}
     t = np.asarray(D[:, 0], float)
+    ok = np.isfinite(t) & (t >= 0) & (t <= 10.0)         # a file cut short by QSPICE ends in garbage rows: keep the valid head
+    if not ok.all():
+        n_ok = int(np.argmin(ok)) if (~ok).any() else len(t)
+        print(f"  {name}: {len(t) - n_ok} invalid tail rows dropped", flush=True)
+        t, D = t[:n_ok], D[:n_ok]
     starts = np.nonzero(np.diff(t) < 0)[0]
     if len(starts):                                      # should not happen (no .step), keep the last run
         a = starts[-1] + 1

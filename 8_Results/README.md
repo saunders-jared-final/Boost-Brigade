@@ -1,5 +1,11 @@
 # Results: CSV exports behind the Grafana screenshots
 
+> **Analysis of the presentation's raw-data slides:** `TestCases/` holds a fresh export of every slide window
+> (all firmware states, e-load, pod logs; `analysis/influx_pull.py --cases`), and `analysis/` turns them into the
+> metrics, figures and `analysis/REPORT.md` (see `analysis/README.md`). Regenerated figures: `analysis/out/figures/`
+> (one overview per slide in `hardware/`, event zooms in `events/`, simulations, comparisons, energy).
+
+
 Every PNG here is a Grafana panel screenshot of the pod's InfluxDB. The CSVs next to them are the data for the
 same window, exported with `7_Pi/tools/influx_export.py` (standard-library Python; it reads the Pi's InfluxDB
 over the network). Times are Australia/Brisbane (AEST, UTC+10). The e-load CSVs are the DL3021 poll log for the

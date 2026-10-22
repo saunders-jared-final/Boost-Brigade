@@ -43,24 +43,50 @@ def derive(tel):
     return tel
 
 
-def load_window(name):
-    folder, start_s, _e, _n = config.WINDOWS[name]
+def _load(folder, name, start_s=None):
+    """Telemetry (every state) + e-load + pod records of one export. Adds vd/ic/id, the e-load's v/i/p joined within
+    300 ms (Vel/Istr/Pstr), the same linearly interpolated onto the telemetry clock (Vel_i/Istr_i/Pstr_i, NaN outside
+    the e-load's coverage) and its forward-filled settings (el_mode, el_setpoint, el_set_cv, el_set_cc, el_input_on)."""
     d = os.path.join(config.RESULTS, folder)
     tel = pd.read_csv(os.path.join(d, name + ".csv"), low_memory=False)
-    tel["t_utc"] = pd.to_datetime(tel["time_utc"])
+    tel["t_utc"] = pd.to_datetime(tel["time_utc"], utc=True, format="ISO8601")
+    tel = tel.sort_values("t_utc").reset_index(drop=True)
     tel = derive(tel)
     out = {"name": name, "folder": folder, "tel": tel}
-    for key, suffix in (("eload", " eload"), ("cmd", " cmd"), ("params", " params"), ("fault", " fault"), ("status", " status")):
+    for key, suffix in (("eload", " eload"), ("cmd", " cmd"), ("params", " params"), ("fault", " fault"), ("status", " status"), ("note", " note")):
         p = os.path.join(d, name + suffix + ".csv")
         df = pd.read_csv(p, low_memory=False) if os.path.exists(p) and os.path.getsize(p) > 0 else pd.DataFrame()
         if len(df):
-            df["t_utc"] = pd.to_datetime(df["time_utc"])
+            df["t_utc"] = pd.to_datetime(df["time_utc"], utc=True, format="ISO8601")
+            df = df.sort_values("t_utc").reset_index(drop=True)
         out[key] = df
     el = out["eload"]
     if len(el) and "p" in el:
         fast = el.dropna(subset=["p"])[["t_utc", "v", "i", "p"]].rename(columns={"v": "Vel", "i": "Istr", "p": "Pstr"})
         tel = pd.merge_asof(tel.sort_values("t_utc"), fast.sort_values("t_utc"), on="t_utc", tolerance=pd.Timedelta("300ms"))
+        ti = tel["t_utc"].astype("int64").to_numpy()
+        te = fast["t_utc"].astype("int64").to_numpy()
+        for c, src in (("Vel_i", "Vel"), ("Istr_i", "Istr"), ("Pstr_i", "Pstr")):
+            tel[c] = np.interp(ti, te, fast[src].astype(float).to_numpy(), left=np.nan, right=np.nan)
+        sets = [c for c in ("mode", "setpoint", "set_cv", "set_cc", "input_on") if c in el]
+        if sets:
+            slow = el.dropna(subset=["setpoint"] if "setpoint" in el else sets[:1])[["t_utc", *sets]]
+            slow = slow.rename(columns={c: "el_" + c for c in sets})
+            tel = pd.merge_asof(tel, slow.sort_values("t_utc"), on="t_utc", direction="backward")
         out["tel"] = tel
+    return out
+
+
+def load_window(name):
+    folder, start_s, _e, _n = config.WINDOWS[name]
+    return _load(folder, name, start_s)
+
+
+def load_case(cid):
+    """One presentation test case (config.TEST_CASES) exported by influx_pull.py --cases."""
+    spec = config.TEST_CASES[cid]
+    out = _load(config.CASES_FOLDER, config.case_name(cid), spec["start"])
+    out["cid"], out["spec"] = cid, spec
     return out
 
 
@@ -121,13 +147,34 @@ def cmd_events(cmd):
         elif line.startswith("C,VREF") or re.match(r"C,SET,vref", line):
             ev.append(_ev(r["t_utc"], "vref", line, source="cmd"))
         elif line.startswith("C,DUTYS") or line.startswith("C,DUTY,"):
-            ev.append(_ev(r["t_utc"], "dutys", line, source="cmd"))
+            vals = [float(v) for v in re.findall(r"[-+]?\d*\.\d+|\d+", line.split(",", 1)[1])] if "," in line else []
+            ev.append(_ev(r["t_utc"], "duty_step", line, vals[0] if vals else np.nan, "cmd"))
         elif line.startswith("C,MODE"):
             ev.append(_ev(r["t_utc"], "mode", line, source="cmd"))
         elif line.startswith("C,EN"):
             ev.append(_ev(r["t_utc"], "en", line, source="cmd"))
         elif line.startswith(("C,SET,", "C,SUP", "C,SETM", "C,ESTOP", "C,CLEAR")):
             ev.append(_ev(r["t_utc"], "cmd", line, source="cmd"))
+    return ev
+
+
+def eload_setting_events(el):
+    """Changes of the DL3021 set-point / mode / input while logging: a load step for the string (1 Hz rows)."""
+    ev = []
+    if not len(el) or "setpoint" not in el:
+        return ev
+    slow = el.dropna(subset=["setpoint"]).reset_index(drop=True)
+    for c in ("setpoint", "mode", "input_on"):
+        if c not in slow:
+            continue
+        v = slow[c]
+        idx = slow.index[v.ne(v.shift()) & v.notna()][1:]
+        for i in idx:
+            prev, new = v.iat[i - 1], v.iat[i]
+            if c == "setpoint" and isinstance(new, (int, float)) and isinstance(prev, (int, float)) and abs(float(new) - float(prev)) < 1e-6:
+                continue
+            ev.append(_ev(slow.at[i, "t_utc"], "load_step", f"e-load {c} {prev} -> {new}" + (f" ({slow.at[i, 'mode']})" if "mode" in slow else ""),
+                          float(new) if c == "setpoint" else np.nan, "eload"))
     return ev
 
 
@@ -258,6 +305,30 @@ def build(name, plot=False):
     return w, ev, seg
 
 
+def build_case(cid, plot=False):
+    """Events and segments (every state) of one presentation test case -> out/events/<cid>_<label>.{events,segments}.csv."""
+    w = load_case(cid)
+    tel = w["tel"]
+    name = w["name"]
+    ev = state_transitions(tel) + cmd_events(w["cmd"]) + kscale_changes(tel) + eload_setting_events(w["eload"]) + annotations(name)
+    shade = shade_events(tel)
+    if w["spec"]["setup"] == "BENCH":                       # no shading on the bench: those level shifts are PSU / load changes
+        for e in shade:
+            e["kind"] = "load_step"
+            e["source"] = "detector"
+    ev += shade
+    ev = pd.DataFrame(ev).sort_values("time_utc").reset_index(drop=True)
+    t0 = tel["t_utc"].iat[0]
+    ev["t_s"] = (ev["time_utc"] - t0).dt.total_seconds().round(3)
+    seg = segments(tel)
+    os.makedirs(EV_DIR, exist_ok=True)
+    ev.to_csv(os.path.join(EV_DIR, name + ".events.csv"), index=False)
+    seg.to_csv(os.path.join(EV_DIR, name + ".segments.csv"), index=False)
+    if plot:
+        overview_plot(w, ev, seg, os.path.join(EV_DIR, name + ".png"))
+    return w, ev, seg
+
+
 def overview_plot(w, ev, seg, path):
     import matplotlib
     matplotlib.use("Agg")
@@ -293,10 +364,10 @@ def overview_plot(w, ev, seg, path):
             ax[4].plot(tm, m[c], lw=1, label=c)
     ax[4].set_ylabel("duty"); ax[4].legend(loc="upper right", fontsize=8, ncol=4); ax[4].set_xlabel("minutes since window start (%s local)" % t0.tz_convert(config.LOCAL_TZ).strftime("%H:%M:%S"))
     for _, e in ev.iterrows():
-        if e["kind"] in ("close", "fault", "shade_on", "shade_off", "transient_on", "transient_off", "kscale_apply", "dutys", "vref"):
+        if e["kind"] in ("close", "fault", "shade_on", "shade_off", "transient_on", "transient_off", "kscale_apply", "duty_step", "vref", "load_step"):
             x = e["t_s"] / 60.0
             col = {"close": "green", "fault": "red", "shade_on": "purple", "shade_off": "violet", "transient_on": "orange",
-                   "transient_off": "orange", "kscale_apply": "gray", "dutys": "brown", "vref": "black"}[e["kind"]]
+                   "transient_off": "orange", "kscale_apply": "gray", "duty_step": "brown", "vref": "black", "load_step": "#9467bd"}[e["kind"]]
             for axis in ax[1:]:
                 axis.axvline(x, color=col, lw=0.8, ls="--", alpha=0.7)
             ax[1].text(x, ax[1].get_ylim()[1], e["kind"], rotation=90, fontsize=6, va="top", ha="right", color=col)
@@ -311,7 +382,16 @@ def main():
     ap.add_argument("--window", help="substring filter")
     ap.add_argument("--plot", action="store_true")
     ap.add_argument("--print", action="store_true")
+    ap.add_argument("--cases", action="store_true", help="the presentation test cases (config.TEST_CASES) instead of config.WINDOWS")
     a = ap.parse_args()
+    if a.cases:
+        for cid in config.TEST_CASES:
+            if a.window and a.window not in cid:
+                continue
+            w, ev, seg = build_case(cid, a.plot)
+            runs = seg[seg["state"].isin(RUN_STATES)]
+            print(f"{cid}: {len(ev)} events, {len(seg)} segments ({len(runs)} runs, {runs['duration_s'].sum():.0f} s in RUN)")
+        return
     for name in config.WINDOWS:
         if a.window and a.window not in name:
             continue
@@ -321,7 +401,7 @@ def main():
         if a.print:
             cols = ["state", "kscale", "start_local", "duration_s", "ended_by", "fault_code", "vd2_mean", "vd2_std", "ic2_mean", "ic2_std", "Pstr_mean"]
             print(runs[[c for c in cols if c in runs]].to_string(index=False))
-            print(ev[ev["kind"].isin(("close", "fault", "shade_on", "shade_off", "transient_on", "transient_off", "vref", "dutys"))][["time_local", "kind", "detail"]].to_string(index=False, max_colwidth=70))
+            print(ev[ev["kind"].isin(("close", "fault", "shade_on", "shade_off", "transient_on", "transient_off", "vref", "duty_step", "load_step"))][["time_local", "kind", "detail"]].to_string(index=False, max_colwidth=70))
 
 
 if __name__ == "__main__":

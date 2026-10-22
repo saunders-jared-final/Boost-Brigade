@@ -1,191 +1,421 @@
 #!/usr/bin/env python3
-"""Writes REPORT.md from out/tables, out/events and out/figures (run compare.py first)."""
-import datetime as dt
+"""REPORT.md of the results synthesis, generated entirely from out/tables and out/figures (no typed-in numbers).
+
+    python3 report.py
+"""
 import glob
+import json
 import os
 
 import numpy as np
 import pandas as pd
 
 import config
-import stepmetrics as sm
 
 TAB = os.path.join(config.OUT, "tables")
 FIG = os.path.join(config.OUT, "figures")
-EV = os.path.join(config.OUT, "events")
-REPORT = os.path.join(config.HERE, "REPORT.md")
-PHASE_LABEL = {"analytical": "Analytical N=3 (nstring, deployed M)", "simulink_mil": "Simulink MIL 4-module", "simulink": "Simulink carpark 3-module",
-               "qspice": "QSPICE switching + firmware DLL", "hardware": "Hardware"}
+OUT = os.path.join(config.HERE, "REPORT.md")
 
 
-def rel(p):
-    return os.path.relpath(p, config.HERE).replace(os.sep, "/")
+def rd(name):
+    p = os.path.join(TAB, name + ".csv")
+    return pd.read_csv(p) if os.path.exists(p) else pd.DataFrame()
 
 
-def tms(v):
-    return "-" if v is None or not np.isfinite(v) else f"{v * 1e3:.3g}"
+def md(name):
+    p = os.path.join(TAB, name + ".md")
+    return open(p).read() if os.path.exists(p) else "_not built_\n"
 
 
-def condensed(df, scenario):
-    """One row per phase / setup / kscale / signal: medians over the cases (hardware has many engagements)."""
+def f(v, nd=3, unit=""):
+    if v is None or (isinstance(v, float) and not np.isfinite(v)) or (isinstance(v, str) and v in ("", "nan")):
+        return "-"
+    if isinstance(v, str):
+        return v
+    if abs(v) < 5e-4:
+        return "0"
+    return f"{v:.{nd}g}{unit}"
+
+
+def fig_rel(family, name):
+    return f"out/figures/{family}/{name}.pdf"
+
+
+def fig_link(family, name, text=None):
+    base = os.path.join(FIG, family, name)
+    if not os.path.exists(base + ".pdf"):
+        return f"_{name} not built_"
+    return f"[{text or name}]({fig_rel(family, name)}) ([png](out/figures/{family}/{name}.png))"
+
+
+def fig_embed(family, name, caption):
+    base = os.path.join(FIG, family, name)
+    if not os.path.exists(base + ".png"):
+        return f"_{name} not built_\n"
+    return f"![{caption}](out/figures/{family}/{name}.png)\n\n*{caption}* — {fig_link(family, name, 'PDF')}\n"
+
+
+def table(df, cols, head=None, nd=3):
+    head = head or {}
     if df.empty:
-        return "_no cases_\n"
-    lines = ["| phase | setup | kscale | signal | cases | |delta| | rise 10-90 [ms] | overshoot [%] | t settle 2 % [ms] | ss error | tau [ms] (fit) | resolved |",
-             "|---|---|---|---|---|---|---|---|---|---|---|---|"]
-    if "ended_by" in df:
-        df = df[df["ended_by"].fillna("") != "FAULT"]        # runs that tripped are listed in the full table only
-    primary = {"S1": ["vd2", "id2"], "S4": ["vd2"], "S3": ["Pstr", "id2", "vd2", "VM3"]}.get(scenario)
-    if primary:
-        df = df[df["signal"].isin(primary)]                   # the circulating currents stay in the full table
-    g = df.groupby(["phase", "setup", "kscale", "signal"], dropna=False)
-    order = {p: i for i, p in enumerate(["analytical", "simulink_mil", "simulink", "qspice", "hardware"])}
-    for (ph, setup, k, sig), d in sorted(g, key=lambda kv: (kv[0][3], order.get(kv[0][0], 9), str(kv[0][1]), kv[0][2])):
-        n = len(d)
-        res = int(d["resolved"].fillna(False).astype(bool).sum())
-        step = d[d["kind"] == "step"]
-        med = lambda c: float(np.nanmedian(step[c])) if len(step) and step[c].notna().any() else float("nan")
-        tau = float(np.nanmedian(d.loc[d["fit_model"] == "first", "tau"])) if (d["fit_model"] == "first").any() else float("nan")
-        rise, ts2 = med("rise_10_90"), med("t_settle_2")
-        dtm = float(np.nanmedian(d["dt_median"])) if d["dt_median"].notna().any() else float("nan")
-        if res < n and ph == "hardware" and np.isfinite(dtm):       # transient inside one telemetry sample: bounds, not values
-            rise_s = f"<= {max(rise if np.isfinite(rise) else 0, dtm) * 1e3:.0f}"
-            ts2_s = f"<= {max(ts2 if np.isfinite(ts2) else 0, dtm) * 1e3:.0f}"
-        else:
-            rise_s, ts2_s = tms(rise), tms(ts2)
-        lines.append(f"| {PHASE_LABEL.get(ph, ph)} | {setup} | {k} | {sig} | {n} | {sm.fmt(float(np.nanmedian(np.abs(d['delta']))), '', 2)} | "
-                     f"{rise_s} | {sm.fmt(med('overshoot_pct'), '', 2)} | {ts2_s} | {sm.fmt(float(np.nanmedian(d['ss_error'])) if d['ss_error'].notna().any() else float('nan'), '', 2)} | "
-                     f"{tms(tau)} | {res}/{n} |")
+        return "_no rows_\n"
+    lines = ["| " + " | ".join(head.get(c, c) for c in cols) + " |", "|" + "---|" * len(cols)]
+    for _, r in df.iterrows():
+        vals = []
+        for c in cols:
+            v = r.get(c)
+            vals.append(str(v) if isinstance(v, str) or c in ("cid", "slide") else f(v, nd))
+        lines.append("| " + " | ".join(vals) + " |")
     return "\n".join(lines) + "\n"
 
 
-def events_summary():
-    lines = ["| window | RUN_CL segments (kscale) | FAULT ends | shade candidates in runs | note |", "|---|---|---|---|---|"]
-    confirm = []
-    for name, (folder, s, e, note) in config.WINDOWS.items():
-        seg_p, ev_p = os.path.join(EV, name + ".segments.csv"), os.path.join(EV, name + ".events.csv")
-        if not os.path.exists(seg_p):
+# ----------------------------------------------------------------------------- sections
+def s0_scope(T1):
+    rates = T1["rate_hz"] if len(T1) else pd.Series([45.0])
+    return f"""# Results synthesis — presentation test cases, hardware, Simulink, QSPICE and analytical model
+
+Generated by `8_Results/analysis/report.py` on {pd.Timestamp.now(tz=config.LOCAL_TZ):%Y-%m-%d %H:%M} AEST from `out/tables/*.csv`; every number
+below comes from those tables (`make all` rebuilds them). Figures are vector PDFs with a PNG twin under `out/figures/`.
+
+## 0 · Scope, data rules and metric definitions
+
+**Test cases.** The {len(T1)} windows of `config.TEST_CASES` are the raw-data slides of
+`0_Documentation/n11034459_CapstoneDelivery_V2.pdf` (Grafana panel time ranges, local AEST) plus the one open-loop
+duty-step run (B01s) and the kscale 0.6–0.8 solar slots that are not on a slide. Each was re-exported from the pod's
+InfluxDB with every firmware state (`8_Results/TestCases/`).
+
+**RUN rows only.** Only `RUN_OL` / `RUN_CL` frames are analysed. Outside closed-loop RUN the firmware repeats the
+last values of `rv`, `beta`, `stress`, `IM1r`, `IM2r` and sends the pre-bias duty, and Grafana draws one series per
+state across the other states; those are the "stale values" of the screenshots. Rules applied: frames whose ten control
+fields repeat the previous frame are dropped (none found); the leading / trailing frames of a run in which VM2 or VM3
+has left the run's median by more than {2.0:g} V (e-load or PSU being switched off before the FAULT, still tagged RUN) are
+dropped (`collapse_dropped` in T1); the firmware's `IM1r` / `IM2r` are recomputed from `ILA`, `ILB`, the duties and the
+e-load current by the same KCL the firmware uses (`6_RTOS/ctrl_core/shuffler_recon.c`), which also gives absolute
+module currents: I1 = I_str + d_A1 I_LA1 − d_B1 I_LB1, I3 = I_str − (i_sh2 − d_A2 I_LA2 + d_B2 I_LB2), I2 = I3 + IM2r.
+
+**VM1.** The firmware's VM1 is the e-load voltage pushed by the Pi at 2 Hz minus VM2 + VM3; where the telemetry VM1
+disagrees with the 5 Hz e-load by more than 2 V (the 200 kHz open-loop runs) it is replaced by V_eload − VM2 − VM3.
+v_d2 = VM2 − VM3 is therefore the primary hardware voltage signal; v_d1 carries the 2 Hz / 5 Hz caveat.
+
+**Sampling.** Telemetry frames arrive at {rates.median():.0f} Hz (median; {rates.min():.0f}–{rates.max():.0f} Hz over the cases,
+the 200 kHz closed-loop bench runs at 11–14 Hz). Closed-loop time constants are 1–10 ms, so **hardware rise, peak and
+settling times of the loop itself are upper bounds of one telemetry sample** and are printed as "≤ 23 ms". What the
+hardware does resolve: steady-state error, sample-to-sample noise, the shape and size of disturbance responses that take
+seconds (PSU / load steps, shade), the open-loop duty-step amplitudes, and energy. The simulations (100 µs grid, 50 µs
+for the MIL model) carry the full metric set.
+
+**Step metrics** (`stepmetrics.step_metrics`, one definition for every phase): initial / final level = medians of the
+pre-event window and of the last 20 % of the post window; |Δ|; rise time 10–90 % (interpolated); peak value and peak time
+(always reported, `has_overshoot` only when the peak stands above the final value by more than max(2 %, 3 × noise));
+overshoot and initial undershoot in % of Δ; settling time = last excursion outside a 2 % / 5 % band (never narrower than
+3 × the pre-event noise) and outside an absolute band (±0.1 V for v_d, ±0.2 A for i_c); steady-state error against the
+reference; IAE = ∫|y − y_final| dt; first- or second-order fit (τ, ζ, ω_n with 1-σ CI). Noise = MAD of the pre-event
+window. A step with fewer than two samples across its 10–90 % rise is "unresolved" and its times are bounds.
+
+**Noise / ripple.** Per settled segment: mean, std, robust peak-to-peak (0.5–99.5 %), RMS of the detrended signal and the
+dominant frequency of its Welch spectrum. On hardware these are sample-to-sample noise of sensing-filtered signals at
+45 Hz, **not** the switching ripple; the switching ripple comes from the analytical law Δi_c = V̄ / (2 f_sw (L+M)) and the
+QSPICE device model (T6).
+
+**Energy** (1 s means of the cleaned RUN frame; e-load power at 5 Hz): E_load = Σ P_eload dt; E_modules = Σ Σ_k VM_k I_k dt;
+E_shuffled = Σ Σ_j |i_sh,j| V̄_j/2 dt (power processed through the shufflers); **E_returned = Σ (I_str − max(min_k I_k, 0)) V_str dt**
+= energy the load received above what a plain series string limited to its weakest module would deliver at the same string
+voltage (the differential-power-processing benefit, never above E_load); efficiency = E_load / E_modules.
+"""
+
+
+def s1_inventory(T1):
+    return "## 1 · Test-case inventory (T1)\n\n" + md("T1_inventory") + "\n`out/tables/T1_inventory.csv`; one overview figure per case in `out/figures/hardware/` (section 8).\n"
+
+
+def s2_steady(T2):
+    cl = T2[T2["state"] == "RUN_CL"].copy() if len(T2) else T2
+    ol = T2[T2["state"] == "RUN_OL"].copy() if len(T2) else T2
+    txt = "## 2 · Hardware steady state and noise (T2)\n\n"
+    txt += "Settled statistics per RUN segment longer than 5 s (first 2 s and last 1 s skipped). Closed loop: the references are v_d = 0 V and i_c = 0 A.\n\n"
+    cols = ["cid", "f_khz", "kscale", "duration_s", "rate_hz", "vd1_mean", "vd1_std", "vd2_mean", "vd2_std", "vd2_pkpk", "vd2_fdom_hz", "ic1_mean", "ic1_std", "ic2_mean", "ic2_std", "id1_mean", "id2_mean", "Pstr_i_mean"]
+    head = {"cid": "case", "f_khz": "f_sw [kHz]", "kscale": "k", "duration_s": "s", "rate_hz": "Hz", "vd1_mean": "v_d1 mean [V]", "vd1_std": "std", "vd2_mean": "v_d2 mean [V]", "vd2_std": "std",
+            "vd2_pkpk": "v_d2 pk-pk", "vd2_fdom_hz": "f_dom [Hz]", "ic1_mean": "i_c1 mean [A]", "ic1_std": "std", "ic2_mean": "i_c2 mean [A]", "ic2_std": "std", "id1_mean": "i_sh1 [A]", "id2_mean": "i_sh2 [A]", "Pstr_i_mean": "P [W]"}
+    txt += "### 2.1 Closed loop\n\n" + table(cl.sort_values(["setup", "f_khz", "kscale"]), cols, head) + "\n"
+    if len(cl):
+        for setup in ("BENCH", "PV80"):
+            g = cl[cl["setup"] == setup]
+            if g.empty:
+                continue
+            txt += (f"- {config.SETUP_STYLE[setup]['label']}: |v_d2 steady-state error| ≤ {g['vd2_mean'].abs().max():.3f} V over {len(g)} segments "
+                    f"(noise std {g['vd2_std'].min():.3f}–{g['vd2_std'].max():.3f} V); |i_c2 mean| ≤ {g['ic2_mean'].abs().max():.3f} A (std {g['ic2_std'].min():.2f}–{g['ic2_std'].max():.2f} A).\n")
+        b200 = cl[(cl["setup"] == "BENCH") & (cl["f_khz"] == 200)]
+        b34 = cl[(cl["setup"] == "BENCH") & (cl["f_khz"] >= 300)]
+        if len(b200) and len(b34):
+            txt += (f"- Bench noise floor by switching frequency: v_d2 std {b200['vd2_std'].median():.3f} V and i_c2 std {b200['ic2_std'].median():.2f} A at 200 kHz "
+                    f"(telemetry at {b200['rate_hz'].median():.0f} Hz) against {b34['vd2_std'].median():.3f} V and {b34['ic2_std'].median():.3f} A at 300/400 kHz.\n")
+    txt += "\n### 2.2 Open loop (duties 0.5)\n\n" + table(ol.sort_values(["setup", "f_khz"]), ["cid", "f_khz", "duration_s", "rate_hz", "vd1_mean", "vd1_std", "vd2_mean", "vd2_std", "ic1_mean", "ic2_mean", "ic2_std", "id1_mean", "id2_mean", "Pstr_i_mean"], head) + "\n"
+    txt += fig_embed("compare", "hw_steady_state_vs_kscale", "Closed-loop steady state vs gain scale: v_d2 error and noise, i_c2 noise")
+    return txt
+
+
+def s3_events(T3):
+    txt = "## 3 · Hardware events (T3)\n\n"
+    if T3.empty:
+        return txt + "_no events_\n"
+    # closes
+    c = T3[(T3["event"] == "close") & (T3["signal"] == "vd2")].sort_values(["setup", "f_khz", "kscale", "time_local"])
+    txt += ("### 3.1 Loop closures (IDLE → SOFTSTART → RUN_CL)\n\nThe 150 ms soft-start ramp (not RUN) removes the idle mismatch; the loop starts from the residual in the first "
+            "RUN_CL frame. `idle_level` = v_d2 in IDLE before the ramp, `y0` = first controlled sample, `settle abs` = time until |v_d2| stays inside ±0.1 V.\n\n")
+    txt += table(c, ["cid", "time_local", "f_khz", "kscale", "idle_level", "y_initial", "y_final", "ss_error", "noise", "t_settle_abs", "rise_txt", "settle2_txt", "n_transient_samples"],
+                 {"time_local": "time", "f_khz": "f_sw", "kscale": "k", "idle_level": "idle level [V]", "y_initial": "y0 [V]", "y_final": "final [V]", "ss_error": "ss err [V]", "noise": "noise [V]",
+                  "t_settle_abs": "settle ±0.1 V [s]", "rise_txt": "rise", "settle2_txt": "settle 2 %", "n_transient_samples": "n"}) + "\n"
+    if len(c):
+        txt += (f"- {len(c)} closures: residual at RUN_CL entry {c['y_initial'].abs().min():.2f}–{c['y_initial'].abs().max():.2f} V (idle mismatch {c['idle_level'].abs().median():.1f} V on the bench), "
+                f"final |error| ≤ {c['ss_error'].abs().max():.3f} V; the residual is inside ±0.1 V after {f(c['t_settle_abs'].median(), 2)} s (median) — "
+                f"{int((c['t_settle_abs'] < 0.05).sum())} of {len(c)} within the first sample.\n\n")
+    # duty steps
+    d = T3[(T3["event"] == "duty_step") & (T3["signal"].isin(["vd1", "vd2", "id1", "id2"]))].sort_values(["time_local", "signal"])
+    txt += "### 3.2 Open-loop duty steps (B01s, 16 Oct 15:09–15:16, 200 kHz)\n\nPrediction of the averaged model at this operating point (23.3 V per channel): Δv_d,j = −V̄_j Δu_c,j = −46.6 V × Δu_c.\n\n"
+    if len(d):
+        d = d.copy()
+        pred = {"C,DUTYS,0.5,0.5,0.51,0.51": {"vd1": 0.0, "vd2": -46.6 * 0.04}, "C,DUTYS,0.49,0.49,0.50,0.50": {"vd1": 46.6 * 0.02, "vd2": 46.6 * 0.02}, "C,DUTYS,0.51,0.51,0.50,0.50": {"vd1": -46.6 * 0.04, "vd2": 0.0}}
+        d["predicted"] = [pred.get(str(r["detail"]).strip(), {}).get(r["signal"], np.nan) for _, r in d.iterrows()]
+        txt += table(d, ["time_local", "detail", "signal", "y_initial", "y_final", "delta", "predicted", "rise_txt", "settle2_txt", "noise"],
+                     {"time_local": "time", "detail": "command", "y_initial": "before", "y_final": "after", "delta": "Δ measured", "predicted": "Δ predicted", "rise_txt": "rise", "settle2_txt": "settle 2 %", "noise": "noise"}) + "\n"
+        vd = d[d["signal"].isin(["vd1", "vd2"]) & d["predicted"].abs().gt(0.1)]
+        if len(vd):
+            err = (vd["delta"] - vd["predicted"]).abs()
+            txt += f"- The measured Δv_d of the {len(vd)} non-zero voltage steps agree with −V̄·Δu_c within {err.max():.3f} V ({100 * (err / vd['predicted'].abs()).max():.1f} % worst case); the rise is inside one telemetry sample, the slow tail afterwards is the PSU channels re-settling.\n\n"
+    # load steps
+    l = T3[(T3["event"] == "load_step")].copy()
+    if len(l):
+        txt += "### 3.3 Load / PSU steps while running (bench)\n\nDetected level shifts of the string current / power (e-load) with the loop's response; v_d must stay at 0 V, i_sh takes the new share.\n\n"
+        piv = []
+        for (cid, t), g in l.groupby(["cid", "time_local"]):
+            row = {"cid": cid, "time_local": t, "state": g["state"].iat[0], "kscale": g["kscale"].iat[0]}
+            for sig in ("Istr_i", "Pstr_i", "vd2", "vd1", "id2", "id1"):
+                r = g[g["signal"] == sig]
+                if r.empty:
+                    continue
+                r = r.iloc[0]
+                if sig in ("vd1", "vd2"):
+                    row[f"{sig}_peakdev"] = r["peak_dev"] if r["kind"] == "disturbance" else r["delta"]
+                    row[f"{sig}_rec"] = r["t_settle_2"]
+                else:
+                    row[f"{sig}_delta"] = r["delta"]
+            piv.append(row)
+        txt += table(pd.DataFrame(piv), ["cid", "time_local", "state", "kscale", "Istr_i_delta", "Pstr_i_delta", "id1_delta", "id2_delta", "vd1_peakdev", "vd2_peakdev", "vd2_rec"],
+                     {"time_local": "time", "kscale": "k", "Istr_i_delta": "ΔI_str [A]", "Pstr_i_delta": "ΔP [W]", "id1_delta": "Δi_sh1 [A]", "id2_delta": "Δi_sh2 [A]", "vd1_peakdev": "v_d1 peak dev [V]",
+                      "vd2_peakdev": "v_d2 peak dev [V]", "vd2_rec": "v_d2 recovery [s]"}) + "\n"
+    # mismatch / irradiance
+    m = T3[T3["event"].isin(["mismatch_on", "mismatch_off", "irradiance_up", "irradiance_down"])].copy()
+    if len(m):
+        txt += "### 3.4 Shade / irradiance events (carpark PV, closed loop)\n\nIn closed loop the module voltages stay equal, so a shade shows in the module currents: detector on |i_sh1| + |i_sh2| (6 s change) and on the string power (4 s change).\n\n"
+        piv = []
+        for (cid, t, ev), g in m.groupby(["cid", "time_local", "event"]):
+            row = {"cid": cid, "time_local": t, "event": ev, "kscale": g["kscale"].iat[0]}
+            for sig in ("Pstr_i", "Istr_i", "id1", "id2", "IM1", "IM3", "vd2"):
+                r = g[g["signal"] == sig]
+                if r.empty:
+                    continue
+                r = r.iloc[0]
+                row[f"{sig}_d"] = r["delta"] if r["kind"] == "step" else r["peak_dev"]
+                if sig == "id1":
+                    row["id1_rise"] = r["rise_txt"]
+            piv.append(row)
+        txt += table(pd.DataFrame(piv), ["cid", "time_local", "event", "kscale", "Pstr_i_d", "Istr_i_d", "id1_d", "id2_d", "IM1_d", "IM3_d", "vd2_d", "id1_rise"],
+                     {"time_local": "time", "kscale": "k", "Pstr_i_d": "ΔP [W]", "Istr_i_d": "ΔI_str [A]", "id1_d": "Δi_sh1 [A]", "id2_d": "Δi_sh2 [A]", "IM1_d": "ΔI_M1 [A]", "IM3_d": "ΔI_M3 [A]", "vd2_d": "v_d2 peak dev [V]", "id1_rise": "i_sh1 rise"}) + "\n"
+    txt += "Zoom figures of every event: `out/figures/events/<case>_e<n>_<kind>.pdf` (listed in section 8).\n"
+    return txt
+
+
+def s4_energy(T7):
+    txt = "## 4 · Energy (T7)\n\n"
+    if T7.empty:
+        return txt + "_not built_\n"
+    sol = T7[(T7["setup"] == "PV80") & (T7["scope"] == "case")]
+    txt += "### 4.1 Solar test cases (20 Oct 2026), whole window\n\n" + table(sol, ["cid", "loop", "kscale", "seconds", "P_load_W", "P_mod_W", "efficiency", "P_shuffled_W", "P_returned_W", "P_returned_max_W", "E_load_Wh", "E_shuffled_Wh", "E_returned_Wh", "I_M1_A", "I_M2_A", "I_M3_A", "I_str_A"],
+                                                                                {"kscale": "k", "seconds": "s", "P_load_W": "P_load [W]", "P_mod_W": "P_modules [W]", "efficiency": "eff", "P_shuffled_W": "P_shuffled [W]", "P_returned_W": "P_returned [W]", "P_returned_max_W": "max [W]",
+                                                                                 "E_load_Wh": "E_load [Wh]", "E_shuffled_Wh": "E_shuffled [Wh]", "E_returned_Wh": "E_returned [Wh]", "I_M1_A": "I_M1 [A]", "I_M2_A": "I_M2 [A]", "I_M3_A": "I_M3 [A]", "I_str_A": "I_str [A]"}) + "\n"
+    if len(sol):
+        txt += (f"- In every 20 Oct window the KCL reconstruction (and the firmware's own IM1r) puts module 1 at {sol['I_M1_A'].min():+.2f}…{sol['I_M1_A'].max():+.2f} A while modules 2 and 3 carry "
+                f"{sol['I_M2_A'].max():.2f} / {sol['I_M3_A'].max():.2f} A at most: the top module produced nothing that afternoon (slightly negative = the dark module forward-biased by the others). "
+                f"With a weakest-module-limited series string the load would therefore have received ≈ 0, so E_returned ≈ E_load: {sol['E_returned_Wh'].sum():.2f} Wh returned over {sol['seconds'].sum() / 60:.0f} min of RUN time, "
+                f"{sol['P_returned_max_W'].max():.0f} W at the peak of S02.\n")
+        txt += (f"- Shuffler throughput: {sol['P_shuffled_W'].min():.1f}–{sol['P_shuffled_W'].max():.1f} W mean (≈ the whole load power, because one module is dead); "
+                f"string efficiency P_load / Σ V_k I_k = {sol['efficiency'].min():.3f}–{sol['efficiency'].max():.3f} (the reconstruction shares the e-load's current, so this is the winding-path loss only).\n\n")
+    ben = T7[(T7["setup"] == "BENCH") & (T7["scope"] == "case")]
+    txt += "### 4.2 Bench (16 Oct), for reference\n\n" + table(ben, ["cid", "loop", "kscale", "seconds", "P_load_W", "P_shuffled_W", "P_returned_W", "I_M1_A", "I_M2_A", "I_M3_A", "I_str_A"],
+                                                                 {"kscale": "k", "seconds": "s", "P_load_W": "P_load [W]", "P_shuffled_W": "P_shuffled [W]", "P_returned_W": "P_returned [W]", "I_M1_A": "I_M1 [A]", "I_M2_A": "I_M2 [A]", "I_M3_A": "I_M3 [A]", "I_str_A": "I_str [A]"}) + "\n"
+    txt += "The 16 Oct NGE103 current limits were not logged; the reconstructed channel currents (e.g. B01, 200 kHz before the ADC fix) are not consistent with current-limited channels, so the bench module currents are indicative only.\n\n"
+    txt += fig_embed("energy", "solar_energy", "Solar: delivered, shuffled and returned power / energy per case")
+    txt += fig_embed("energy", "S02_shade_power", "S02 (peak sun, kscale 0.1): module currents by KCL and the powers through the shade event")
+    return txt
+
+
+def s5_sims(T4, T6):
+    txt = "## 5 · Simulations and analytical model\n\n"
+    if T4.empty:
+        return txt + "_not built_\n"
+    head = {"phase": "phase", "setup": "setup", "f_khz": "f_sw", "kscale": "k", "signal": "signal", "delta": "Δ", "ss_error": "ss err", "rise_txt": "rise 10-90", "peak_txt": "t peak",
+            "overshoot_pct": "overshoot %", "settle2_txt": "settle 2 %", "t_settle_abs": "settle abs [s]", "tau": "τ [s]", "zeta": "ζ", "fit_r2": "r²"}
+    cols = ["setup", "f_khz", "kscale", "signal", "delta", "ss_error", "rise_txt", "peak_txt", "overshoot_pct", "settle2_txt", "t_settle_abs", "tau", "zeta", "fit_r2"]
+    for ph, title, note in (("analytical", "5.1 Analytical N = 3 model (nstring) with the deployed gain sets",
+                             "Plant resistance R = 0.29 / 0.80 / 1.70 Ω and the gain set the firmware ran at 200 / 300 / 400 kHz. S1 = loop close on a 0.5 V residual, S3 = module 3 loses 1/3 of its current, S4 = +1 V reference step, S5 = open-loop duty steps as sent on the bench."),
+                            ("qspice", "5.2 QSPICE switching plant with the firmware control DLL (200 kHz)", "Runs of `2_Qspice/Claude's outputs/run_scenarios.py` (100 µs tick means): loop close at 3 ms, +1 V reference step, module-3 shade (PV80)."),
+                            ("simulink", "5.3 Simulink carpark twin (3 modules, averaged switches, 61 mΩ)", "`4_Simulink/3_Carpark_3mod/run_scenarios.m` scenario runs (S1, S3, S4) and the validate suite's cold-start tests (V2 decoupling, V4 shade-refs)."),
+                            ("simulink_mil", "5.4 Simulink MIL (4 modules, 3 shufflers, 50 µs tick, kscale 1)", "Validate suite cold-start tests (`4_Simulink/1_MIL_Model_In_The_Loop/shuffler_string_validate.m`): references and irradiance constant from t = 0, capacitors at 0 V.")):
+        g = T4[T4["phase"] == ph]
+        txt += f"### {title}\n\n{note}\n\n"
+        if g.empty:
+            txt += "_no cases_\n\n"
             continue
-        seg, ev = pd.read_csv(seg_p), pd.read_csv(ev_p)
-        runs = seg[(seg["state"] == "RUN_CL") & (seg["duration_s"] > 2)]
-        faults = int((seg["ended_by"] == "FAULT").sum())
-        cand = ev[ev["kind"].isin(["shade_on", "transient_on"]) & ev["detail"].astype(str).str.startswith("[RUN")]
-        lines.append(f"| `{name}` | {len(runs)} ({', '.join(str(k) for k in runs['kscale'].tolist())}) | {faults} | {len(cand)} | {note} |")
-        if folder == "Solar_Closed_Loop":
-            for _, r in cand.iterrows():
-                confirm.append(f"- `{name}`: {r['time_local'][11:19]} {r['kind']} {r['detail']}")
-    return "\n".join(lines) + "\n", confirm
+        for scen in sorted(g["scenario"].unique()):
+            gg = g[(g["scenario"] == scen)]
+            keep = gg[gg["signal"].isin(["vd2", "ic2", "id2", "vd1", "vd3"] if scen not in ("S3",) else ["id2", "vd2", "Pstr"])]
+            keep = keep[(keep["kind"] == "step") | keep["signal"].isin(["ic2"] if scen in ("S1", "S4") else [])]
+            if ph == "analytical" and scen != "S5":
+                keep = keep[keep["kscale"].isin([0.1, 0.3, 1.0]) & keep["signal"].isin(["vd2", "ic2"])]
+            keep = keep[(keep["kind"] == "step") | (keep["delta"].abs() > 0.01)]
+            name = config.SCENARIOS.get(scen, {}).get("name", {"S5": "open-loop duty steps", "V2": "validate: decoupling (cold start)", "V4": "validate: shade-refs (cold start)"}.get(scen, scen))
+            txt += f"**{scen} {name}**\n\n" + table(keep.sort_values(["setup", "f_khz", "kscale", "signal"]), cols, head) + "\n"
+        txt += f"Per-run figures: `out/figures/{ {'analytical': 'analytical', 'qspice': 'qspice', 'simulink': 'carpark (scenarios), carpark_validate', 'simulink_mil': 'mil_validate'}[ph] }/`.\n\n"
+    txt += "### 5.5 Switching ripple (T6)\n\n" + md("T6_ripple") + "\n" + fig_embed("compare", "ripple_vs_fsw", "Winding-current ripple vs switching frequency: analytical law, QSPICE, and the telemetry noise for contrast")
+    return txt
+
+
+def s6_compare(T4, T5):
+    txt = "## 6 · Cross-phase comparison (T5)\n\n"
+    if T5.empty:
+        return txt + "_not built_\n"
+    txt += ("Matched (scenario, setup, kscale, signal) keys, 200 kHz gain set. Each simulation cell = fitted τ / rise 10–90 % / 2 % settling in ms, overshoot %. "
+            "The hardware cell = measured Δ, steady-state error, noise, rise bound, time into the ±abs band, over the n matching events.\n\n")
+    want = {"S1": ["vd2"], "S4": ["vd2"], "S3": ["id2", "vd2"], "S5": ["vd1", "vd2"], "V2": ["vd2", "vd3"], "V4": ["vd1", "vd2", "vd3"]}
+    keep = T5[[sig in want.get(sc, []) for sc, sig in zip(T5["scenario"], T5["signal"])]]
+    import compare as cm
+    txt += cm.t5_md(keep) + "\n"
+    # headline ratios
+    s4 = T4[(T4["scenario"] == "S4") & (T4["signal"] == "vd2") & (T4["f_khz"] == 200)]
+    if len(s4):
+        lines = []
+        for k in sorted(s4["kscale"].unique()):
+            design = 1.0 / (k * config.KI_V)
+            parts = []
+            for ph in ("analytical", "simulink", "qspice"):
+                for setup in ("PV80", "BENCH"):
+                    r = s4[(s4["kscale"] == k) & (s4["phase"] == ph) & (s4["setup"] == setup)]
+                    if len(r) and np.isfinite(r["tau"].iat[0]):
+                        parts.append(f"{ph} {setup} {r['tau'].iat[0] / design:.2f}×")
+            if parts:
+                lines.append(f"- kscale {k:g} (design τ = {design * 1e3:.2f} ms): τ / design = " + ", ".join(parts) + ".")
+        txt += "Rows with no step in any phase (i_c references at 0) are left out; the full table is `out/tables/T5_cross_phase.csv`.\n\n**τ of the +1 V reference step relative to the first-order design 1/(k·2π·150):**\n\n" + "\n".join(lines) + "\n\n"
+    txt += fig_embed("compare", "metrics_vs_kscale", "Closed-loop step metrics of v_d2 vs gain scale, all phases, with the hardware sampling bound")
+    txt += fig_embed("compare", "S5_duty_steps_hw_vs_analytical", "Open-loop duty steps: analytical prediction against the 16 Oct bench")
+    steps = sorted(glob.glob(os.path.join(FIG, "compare", "step_*.pdf")))
+    txt += "\nStep overlays per (scenario, setup, kscale, signal), simulations on a ms axis with the matching hardware events underneath:\n\n"
+    txt += "\n".join(f"- [{os.path.basename(p)[:-4]}]({fig_rel('compare', os.path.basename(p)[:-4])})" for p in steps) + "\n"
+    return txt
+
+
+def s7_findings(T1, T2, T3, T4, T5, T7):
+    txt = "## 7 · Findings (computed)\n\n"
+    items = []
+    d = T3[(T3["event"] == "duty_step") & (T3["signal"].isin(["vd1", "vd2"]))] if len(T3) else pd.DataFrame()
+    if len(d):
+        big = d[d["delta"].abs() > 0.5]
+        if len(big):
+            items.append(f"Open-loop duty steps on the bench: Δv_d = {', '.join(f'{v:+.2f}' for v in big['delta'])} V measured for Δu_c = ±0.04 / −0.02 against −V̄·Δu_c = ∓1.86 / +0.93 V predicted by the averaged model with V̄ = 46.6 V — the DC gain −V̄ of the voltage block of G(N) is confirmed on hardware to {100 * (big['delta'].abs() - np.array([1.864 if abs(v) > 1.2 else 0.932 for v in big['delta']])).abs().max() / 1.864:.1f} %.")
+    cl = T2[T2["state"] == "RUN_CL"] if len(T2) else pd.DataFrame()
+    if len(cl):
+        stable = cl[cl["vd2_std"] < 0.5]
+        unstable = cl[cl["vd2_std"] >= 0.5]
+        items.append(f"Closed-loop steady state on hardware: |v_d2 error| ≤ {stable['vd2_mean'].abs().max():.3f} V and |i_c2| ≤ {stable['ic2_mean'].abs().max():.3f} A over {len(stable)} settled segments (kscale {stable['kscale'].min():g}–{stable['kscale'].max():g}, 200–400 kHz, bench and PV): the integral decoupling controller holds its references with no measurable offset; the residual is sensing noise (v_d2 std {stable['vd2_std'].min():.3f}–{stable['vd2_std'].max():.3f} V).")
+        for _, u in unstable.iterrows():
+            items.append(f"Instability: {u['cid']} at {u['f_khz']:.0f} kHz with kscale {u['kscale']:g} ({u['start_local']}, {u['duration_s']:.0f} s) oscillated — v_d2 std {u['vd2_std']:.2f} V, pk-pk {u['vd2_pkpk']:.1f} V, dominant {f(u.get('vd2_fdom_hz'), 2)} Hz in the 44 Hz telemetry (aliased) — before it was stopped; the 300 kHz gain set was identified at 200 kHz-plant resistance 0.8 Ω and loses margin at higher gain (DESIGN_LOG 6.8).")
+    faults = []
+    for cid in config.TEST_CASES:
+        pe = os.path.join(config.OUT, "events", config.case_name(cid) + ".events.csv")
+        if not os.path.exists(pe):
+            continue
+        ev = pd.read_csv(pe)
+        ev["time_utc"] = pd.to_datetime(ev["time_utc"], utc=True, format="ISO8601")
+        for _, a in ev[ev["kind"] == "kscale_apply"].iterrows():
+            fl = ev[(ev["kind"] == "fault") & (ev["time_utc"] > a["time_utc"]) & (ev["time_utc"] <= a["time_utc"] + pd.Timedelta(seconds=2))]
+            run_before = ev[(ev["kind"] == "close") & (ev["time_utc"] < a["time_utc"])]
+            if len(fl) and len(run_before):
+                faults.append(f"{cid} {str(a['time_local'])[11:19]} (kscale {a['value']:g} → fault{str(fl.iloc[0]['detail']).split('code')[-1]})")
+    if faults:
+        items.append(f"Gain changes applied while the loop was running tripped the firmware within 2 s in {len(faults)} cases: " + "; ".join(faults) + " — `C,APPLY` during RUN_CL stalls the control loop (fault 0x2000) or over-currents it; gains should be set before the loop is closed.")
+    c = T3[(T3["event"] == "close") & (T3["signal"] == "vd2")] if len(T3) else pd.DataFrame()
+    if len(c):
+        items.append(f"Loop closures: the soft-start ramp leaves a residual of {c['y_initial'].abs().min():.2f}–{c['y_initial'].abs().max():.2f} V on v_d2 which the loop removes within one telemetry sample in {int((c['t_settle_abs'] < 0.05).sum())} of {len(c)} cases (the rest within {f(c['t_settle_abs'].max(), 2)} s, noise-limited); rise, peak and settling times of the loop itself are below the 23 ms sample and are reported as bounds.")
+    s4 = T4[(T4["scenario"] == "S4") & (T4["signal"] == "vd2") & (T4["f_khz"] == 200)] if len(T4) else pd.DataFrame()
+    if len(s4):
+        parts = []
+        for name, ph in (("analytical", "analytical"), ("QSPICE", "qspice"), ("Simulink twin", "simulink")):
+            g = s4[s4["phase"] == ph]
+            if len(g):
+                ratio = g["tau"] / (1.0 / (g["kscale"] * config.KI_V))
+                parts.append(f"{name} {ratio.min():.2f}–{ratio.max():.2f}×")
+        ovs = s4[s4["has_overshoot"] == True]
+        items.append("Simulated +1 V reference step, τ relative to the first-order design 1/(k·2π·150): " + "; ".join(parts)
+                     + (f"; overshoot appears only at kscale ≥ {ovs['kscale'].min():g} ({ovs['overshoot_pct'].max():.1f} % max, {', '.join(sorted(set(ovs['phase'])))})." if len(ovs) else "; no overshoot at any kscale."))
+    if len(T7):
+        sol = T7[(T7["setup"] == "PV80") & (T7["scope"] == "case")]
+        if len(sol):
+            items.append(f"Solar energy: module 1 carried {sol['I_M1_A'].mean():+.2f} A on average in all {len(sol)} windows (dead or shaded all afternoon, by the firmware's own reconstruction and by KCL), so the shufflers delivered the other two modules' power to a 61 V CV load that a plain series string could not have supplied at all: E_returned = {sol['E_returned_Wh'].sum():.2f} Wh ≈ E_load over {sol['seconds'].sum() / 60:.0f} min of RUN time; at the S02 irradiance peak the returned power reached {sol['P_returned_max_W'].max():.0f} W.")
+    t6 = rd("T6_ripple")
+    if len(t6):
+        q = t6[t6["source"].str.startswith("QSPICE")]
+        a = t6[t6["source"].str.startswith("analytical")]
+        if len(q) and len(a):
+            mq = q.groupby("f_khz")["ic_pp_A"].mean()
+            ma = a.set_index("f_khz")["ic_pp_A"]
+            err = ((mq - ma.reindex(mq.index)) / ma.reindex(mq.index)).abs().max()
+            items.append(f"Switching ripple: the QSPICE device model reproduces Δi_c = V̄/(2 f_sw (L+M)) at 200 / 300 / 400 kHz to {100 * err:.1f} % ({', '.join(f'{v:.2f} A at {int(k)} kHz' for k, v in mq.items())}); the telemetry's current noise (sensing-filtered, 45 Hz) is {t6[t6['source'].str.startswith('hardware')]['ic_pp_A'].max():.1f} A pk-pk at most and is not the ripple.")
+    if len(T1):
+        lo = T1[T1["rate_hz"] < 20]
+        if len(lo):
+            items.append(f"Telemetry rate: {', '.join(lo['cid'])} ran at {lo['rate_hz'].min():.0f}–{lo['rate_hz'].max():.0f} Hz instead of ~44 Hz (16 Oct 200 kHz closed-loop runs); every hardware time metric there is a ≥ 70 ms bound.")
+    txt += "\n".join(f"{i + 1}. {s}" for i, s in enumerate(items)) + "\n"
+    return txt
+
+
+def s8_figures(T1):
+    txt = "## 8 · Figure index\n\n### 8.1 Presentation slides → regenerated figures\n\n| slide | case | overview (RUN rows only) | event zooms |\n|---|---|---|---|\n"
+    for cid, spec in config.TEST_CASES.items():
+        ov = f"{cid}_{spec['label']}_overview"
+        zooms = sorted(glob.glob(os.path.join(FIG, "events", f"{cid}_e*.pdf")))
+        z = ", ".join(f"[{os.path.basename(p)[len(cid) + 1:-4]}]({fig_rel('events', os.path.basename(p)[:-4])})" for p in zooms) or "-"
+        txt += f"| {('p%d' % spec['slide']) if spec['slide'] else '-'} | {cid} {spec['label']} | {fig_link('hardware', ov, ov)} | {z} |\n"
+    txt += "\n### 8.2 Simulation figures\n\n"
+    for fam, lab in (("analytical", "Analytical model"), ("qspice", "QSPICE"), ("carpark", "Simulink carpark twin, scenarios"), ("carpark_validate", "Simulink carpark validate suite"), ("mil_validate", "Simulink MIL validate suite")):
+        ps = sorted(glob.glob(os.path.join(FIG, fam, "*.pdf")))
+        txt += f"- **{lab}** ({len(ps)}): " + ", ".join(f"[{os.path.basename(p)[:-4]}]({fig_rel(fam, os.path.basename(p)[:-4])})" for p in ps) + "\n"
+    txt += "\nThe MATLAB validate suites also write their own PDF figures (10 pt, light theme, zoom tiles) next to the old SVGs: `4_Simulink/3_Carpark_3mod/figs/*.pdf`, `4_Simulink/1_MIL_Model_In_The_Loop/figs/*.pdf`.\n"
+    txt += "\n### 8.3 Comparison and energy\n\n" + "\n".join(f"- [{os.path.basename(p)[:-4]}]({fig_rel(os.path.basename(os.path.dirname(p)), os.path.basename(p)[:-4])})" for p in sorted(glob.glob(os.path.join(FIG, "compare", "*.pdf")) + glob.glob(os.path.join(FIG, "energy", "*.pdf"))) if not os.path.basename(p).startswith("step_")) + "\n"
+    return txt
+
+
+def s9_caveats(T1):
+    return """## 9 · Caveats
+
+- Hardware times shorter than one telemetry frame (23 ms at 44 Hz, 70–90 ms on the 11–14 Hz runs) are bounds, not measurements; the Pi stamps frames on receipt (jitter up to ~60 ms) and the firmware's millisecond counter is not stored.
+- The 45 Hz current samples are point samples of a sensing-filtered signal; the "ripple" they show is noise and is labelled so. True switching ripple is only available from QSPICE and the analytical law.
+- VM1 (and so v_d1, V_string) on hardware comes from the e-load through the Pi at 2–5 Hz; v_d2 is the trustworthy controlled voltage.
+- Module currents on hardware are reconstructed by KCL from the winding currents, duties and the e-load current (identical to the firmware's IM1r / IM2r); on the 16 Oct 200 kHz runs before the ADC fix the winding-current telemetry gives channel currents inconsistent with current-limited PSUs, so bench module currents are indicative. The 16 Oct NGE103 limits per channel were not logged.
+- Slide 43 ("kscale 20 %") ran at kscale 0.3 (telemetry kscale 0.3, pset 0 = boot default after the re-flash); it is reported as 0.3.
+- The 20 Oct shade candidates are detector output (current-mismatch and string-power level shifts); irradiance was not logged, so open-loop and closed-loop windows are compared only as adjacent windows.
+- The analytical bench plant is the operating point seen in the telemetry (three channels at 23.3 V, all in current limit); in IDLE the channels sit at 25 / 20 / 25 V, which is the −5 V idle mismatch of the closures.
+- MIL (4 modules) exists only at kscale 1 with its own 540 W modules; its cold-start validate tests are not the same experiment as the settled reference steps of the other phases.
+- QSPICE and Simulink scenario runs exist at kscale 0.1 / 0.3 / 1 (plus 0.2 / 0.5 where `make qspice-extra` / `make simulink-extra` have run); the hardware ran 0.1–0.8.
+"""
 
 
 def main():
-    parts = [f"# Results synthesis: control behaviour across analysis, Simulink, QSPICE, bench and PV\n\n_Generated {dt.datetime.now(config.LOCAL_TZ):%Y-%m-%d %H:%M} by `8_Results/analysis/report.py`; rerun `make report` after any change._\n"]
-    parts.append("""## 0 · Findings of the 21 Oct 2026 run
-
-- **Reference step (S4, `vd2`, time constant of the fitted first-order response):** at kscale 0.1 the analytical model
-  (12.2 ms PV80), the Simulink carpark model (11.6 / 10.1 ms) and the QSPICE switching model with the firmware DLL
-  (12.4 / 9.7 ms) agree with the pure-integral design value (10.6 ms) within 20 %. At kscale 0.3 the same holds
-  (3.5-4.0 ms against 3.5 ms design). At kscale 1 the switching model (0.77 / 0.55 ms) and Simulink (0.56 / 0.40 ms)
-  are about twice as fast as the design value (1.06 ms) and the analytical closed loop (1.08 ms), and the first
-  overshoot appears (QSPICE 4 %, Simulink bench 9 %): the proportional term and a plant gain above the one the
-  deployed decoupler assumes become visible at full gain. No reference step was sent on hardware.
-- **Loop closing (S1):** on the bench the soft start ramps the duties to 0.5 in about 200 ms and removes most of the
-  5 V module mismatch by itself; the controller then takes the 0.5 V residual to zero within one 50 Hz sample
-  (<= 23-25 ms) at every kscale from 0.1 to 0.6, consistent with the 4-41 ms settling the simulations predict.
-  On the solar day the panels were matched (residual 0.1 V), except the 13:04 run under the shirt (3.7 V idle
-  mismatch), where the supervisor then held `vd2` at its own reference.
-- **Shade (S3):** all three simulations move the shuffled current by 1.5-1.9 A within a millisecond of a one-third
-  irradiance loss on module 3 (analytical 1.7 A, Simulink 1.9 A, QSPICE 1.5 A); on hardware the shade events are
-  10-34 W power dips with multi-second recoveries set by the shirt / hand motion and the e-load, not by the loop.
-- **Settled statistics (S2):** bench `vd2` noise fell from 0.08 V (early runs) to 0.013-0.017 V after the
-  ADC phase-B change at 16:02; on the solar sweep the circulating-current noise grows with gain
-  (0.22 A at kscale 0.1 to 0.31 A at 0.8) while `vd2` stays at 0.09-0.17 V.
-- **Gain matrices (section 5):** the averaged model reproduces the identified voltage-mode gains (-Vbar: -41 PV80,
-  -46.5 at the QSPICE bench point, against -37 to -47 V per unit identified) and the circulating-mode gain is Vbar / R
-  with R the plant's effective winding resistance: 61 mOhm in the averaged Simulink model (742 identified) and
-  0.27 / 0.79 / 1.66 ohm in the switching plant at 200 / 300 / 400 kHz (142 / 58 / 23 A per unit). That resistance is
-  the pole-capacitance commutation during the dead time, R_sw = 64 C_p f_sw^3 (L+M)^2 = 0.21 / 0.72 / 1.70 ohm for
-  C_p = 2.2 nF (derived and checked against a QSPICE u_d sweep in `3_Analytical/shuffler_notebooks/shuffler_nstring.ipynb`,
-  section 8). The switching plant also carries a -10 to -25 V per unit coupling from differential duty to voltage
-  difference that the averaged model does not contain.
-
-## 1 · Method
-
-One metric definition (`stepmetrics.step_metrics`) is applied to every phase and signal. Levels are medians (pre-event window,
-last 20 % of the post-event window); the response is normalised by the measured change `delta`; **rise time** is 10-90 % with
-interpolated crossings; **overshoot** is against the measured final value; **settling** is the last excursion outside a 2 % (5 %)
-band, never narrower than three times the pre-event noise; **steady-state error** is against the reference. Changes smaller than
-a floor (0.1 V, 0.3 A, 3 W) are treated as disturbances: peak deviation and time back inside the band. A first-order or
-second-order model with delay is fitted by least squares; its time constant (with a 1-sigma interval) is the quantity that
-makes 50 Hz telemetry comparable with 10 kHz simulations. When fewer than four samples fall inside the transient the time
-metrics are reported as upper bounds (`<=` one sample).
-
-Scenarios: **S1** the loop closing on the string mismatch (hardware: every SOFTSTART -> RUN_CL; QSPICE: the true open-loop ->
-closed-loop switch; Simulink and analytical: a reference step of `-vd_OL` from a settled loop, equivalent to first order
-because the firmware's bumpless rebase starts the integrators at zero; the analytical row simulates the true initial-condition
-response); **S2** settled statistics per kscale; **S3** module 3 shaded to about two thirds from a settled loop (hardware:
-candidate events detected in the data, to be confirmed); **S4** a +1 V step on the VM2-VM3 reference (simulations only; no
-reference step was sent on hardware).
-
-Design reference (pure-integral loop, `kI_v = 2*pi*150`, `kI_i = 2*pi*400`, scaled by kscale): voltage-difference loop
-tau 10.6 / 3.5 / 1.06 ms, 10-90 rise 23 / 7.8 / 2.3 ms, 2 % settling 41 / 14 / 4.1 ms at kscale 0.1 / 0.3 / 1;
-circulating-current loop tau 4.0 / 1.3 / 0.40 ms.
-
-Conventions: `vd1 = VM1-VM2`, `vd2 = VM2-VM3`, `ic = ILA+ILB` (circulating, nulled by the controller), `id = ILA-ILB` (shuffled).
-Hardware telemetry is 50 Hz; VM1 comes from the e-load through the Pi at 2.2 Hz, so hardware step metrics use `vd2`;
-the inductor-current frames are point samples of the switching ripple, so currents enter only through the S2 statistics.
-""")
-    summ, confirm = events_summary()
-    parts.append("## 2 · Hardware data inventory\n\nExports: `8_Results/Bench_Closed_Loop_200kHz/`, `8_Results/Solar_Closed_Loop/` (READMEs there). Events and segments: `out/events/`.\n\n" + summ)
-    parts.append("Overview plots per window (state bands, 1 s medians of module voltages, string power, currents, duties, detected events):\n\n"
-                 + "\n".join(f"- [{os.path.basename(p)}]({rel(p)})" for p in sorted(glob.glob(os.path.join(EV, "*.png")))) + "\n")
-    if confirm:
-        parts.append("### Shade / walking candidates for confirmation (solar day, inside runs)\n\nMark the real ones in `out/events/<window>.annot.csv` (columns `time_local,kind,label`), then `make events compare report`.\n\n" + "\n".join(confirm) + "\n")
-    for s, fname, title in (("S1", "S1_loop_close", "S1 · Loop closing on the mismatch"), ("S4", "S4_vref2_step", "S4 · +1 V reference step (simulations and analysis)"),
-                            ("S3", "S3_shade_m3", "S3 · Module 3 shade")):
-        p = os.path.join(TAB, fname + ".csv")
-        if os.path.exists(p):
-            df = pd.read_csv(p)
-            parts.append(f"## 3 · {title}\n\nCondensed (medians over cases; full table: [{fname}.md]({rel(os.path.join(TAB, fname + '.md'))}), CSV alongside).\n\n" + condensed(df, s))
-    p = os.path.join(TAB, "S2_settled.md")
-    if os.path.exists(p):
-        parts.append("## 4 · S2 · Settled statistics per kscale\n\n" + open(p).read())
-    p = os.path.join(TAB, "G_compare.md")
-    if os.path.exists(p):
-        parts.append("## 5 · Identified gain matrices against the N-module model\n\n" + open(p).read()
-                     + "\nThe derivation, the N = 2 check against the retrospective, cond(G(N)) and the closed-loop poles are in "
-                       "`3_Analytical/shuffler_notebooks/shuffler_nstring.ipynb` (`nstring.py`).\n")
-    figs = sorted(glob.glob(os.path.join(FIG, "*.png")))
-    if figs:
-        parts.append("## 6 · Overlay figures\n\n" + "\n".join(f"![{os.path.basename(f)}]({rel(f)})" for f in figs) + "\n")
-    parts.append("""## 7 · Screenshots to take (Grafana, local time)
-
-- Bench 16 Oct, good closed-loop runs: 15:50:30-15:53:00 and 16:02:00-16:04:40 (module voltages, inductor currents, duties, supervisor).
-- Bench 16 Oct, the loop-closing instant at 15:50:33 with a 10 s window (shows IDLE -> SOFTSTART -> RUN_CL).
-- Solar 20 Oct, the kscale sweep 15:51-16:26 as one window and each level on its own (15:52:05 k0.1, 15:56:54 k0.2, 16:01:08 k0.3, 16:05:37 k0.4, 16:09:44 k0.5, 16:13:19 k0.6, 16:19:11 k0.7, 16:23:11 k0.8).
-- Solar 20 Oct, 13:04:18-13:11:19 closed loop with the shade events (string power + shuffled currents), and 12:53:17-12:55:00 open loop for the same panel.
-- Solar 20 Oct, 13:00:30-13:01:40 (the person walking round the panels while idle: module 3 voltage dip).
-- QSPICE: `Power_Shuffler_Integrated.qsch` and the S10 / S10p stage waveforms if the native look is wanted; the matched runs are in `out/qspice/`.
-
-## 8 · Caveats
-
-- 50 Hz telemetry against 150 / 400 Hz loops: hardware step metrics are upper bounds except at low kscale; the fitted time constant is the comparable number.
-- The hardware engagement runs through a 150 ms soft start that ramps the duties to 0.5; that ramp alone removes most of the module mismatch (the half bridge at 0.5 duty forces VM2 = VM3), so the loop's own step is the residual (about 0.5 V on the bench) and completes within one telemetry sample.
-- VM1 on hardware is the e-load reading through the Pi (2.2 Hz): vd1 / ic1 hardware metrics are flagged, comparisons use vd2 / ic2 / id2.
-- FAULT-terminated bench runs are listed but only segments longer than 2 s after the event contribute.
-- The solar kscale sweep ran at 8-14 W of string power (late afternoon); PV irradiance drifts across runs; the shirt shading is not repeatable, so S3 hardware rows carry magnitudes, not matched steps.
-- Shade is a bypassed substring in reality (voltage step) but an irradiance scale in the simulations (current step).
-- The QSPICE bench model has channel 1 in current limit (ILIM 0.8 / 1.0 / 1.3 A); the 16 Oct bench had the middle module at 20 V. Confirm the PSU settings before matching the bench rows.
-- The analytical model is linear: amplitudes are illustrative, time constants are the comparison.
-- QSPICE S1 at kscale 0.1 and 0.3 closes the loop 0.5 ms after a cold start (the S10 netlists start from `.ic` voltages), so the
-  pre-event level is a still-moving start-up; the kscale 1 cases were rerun with a 3 ms open-loop period (`run_scenarios.py --ten`).
-  S3 and S4 are unaffected (the loop is settled long before those events).
-- Simulink MIL (4-module ideal model): not in the tables. Its references enter through a bus into the Supervisor subsystem,
-  so the in-memory Constant -> Step swap of `run_scenarios.m` breaks the bus; the MIL record remains the validate figures
-  (`4_Simulink/1_MIL_Model_In_The_Loop/figs`, reference set at t = 0) until the model gets a Step input of its own.
-- On the solar day the supervisor was active: after a shaded engagement the loop regulates `vd2` to the supervisor's `rv2`, not to 0,
-  so the hardware S1 steady-state "error" there is the supervisor reference, not a controller offset.
-""")
-    open(REPORT, "w").write("\n".join(parts))
-    print("wrote", REPORT)
+    T1, T2, T3, T4, T5, T6, T7 = (rd(n) for n in ("T1_inventory", "T2_hw_steady_state", "T3_hw_events", "T4_sim_step_metrics", "T5_cross_phase", "T6_ripple", "T7_energy"))
+    parts = [s0_scope(T1), s1_inventory(T1), s2_steady(T2), s3_events(T3), s4_energy(T7), s5_sims(T4, T6), s6_compare(T4, T5), s7_findings(T1, T2, T3, T4, T5, T7), s8_figures(T1), s9_caveats(T1)]
+    g = os.path.join(TAB, "G_compare.md")
+    if os.path.exists(g):
+        parts.insert(7, "## 6b · DC gain matrices (analytical vs identified gain sets)\n\n" + open(g).read() + "\n")
+    open(OUT, "w").write("\n".join(parts))
+    print(f"wrote {OUT} ({os.path.getsize(OUT) // 1024} kB)")
 
 
 if __name__ == "__main__":

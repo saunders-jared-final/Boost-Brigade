@@ -1,0 +1,19 @@
+{
+ "case": "bench_k0.2",
+ "base": "bench",
+ "setup": "BENCH",
+ "kscale": 0.2,
+ "params": {
+  "KSCALE": 0.2,
+  "VSTEP2": 1.0,
+  "SHADE": 1.0,
+  "TSHADE": 1.0
+ },
+ "events": {
+  "close": 0.003,
+  "vref": 0.043000000000000003
+ },
+ "tend": 0.083,
+ "vstep2": 1.0,
+ "shade": null
+}

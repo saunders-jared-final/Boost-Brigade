@@ -29,7 +29,12 @@ def read(path):
     nv = int(re.search(r"No\. Variables:\s*(\d+)", hdr).group(1))
     npt = int(re.search(r"No\. Points:\s*(\d+)", hdr).group(1))
     names = [m.group(2) for m in re.finditer(r"^\t(\d+)\t(\S+)\t(\S+)", hdr, re.M)]
-    data = np.memmap(path, dtype="<f8", mode="r", offset=i + len(b"Binary:\n"), shape=(npt, nv))
+    off = i + len(b"Binary:\n")
+    avail = (os.path.getsize(path) - off) // (8 * nv)      # QSPICE may write fewer rows than the header announces
+    if avail < npt:
+        print(f"  {os.path.basename(path)}: header says {npt} points, file holds {avail}; using {avail}", file=sys.stderr)
+        npt = avail
+    data = np.memmap(path, dtype="<f8", mode="r", offset=off, shape=(npt, nv))
     return names, data
 
 

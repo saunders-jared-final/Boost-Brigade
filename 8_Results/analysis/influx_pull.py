@@ -3,6 +3,7 @@
 e-load log, and the command / parameter / fault / status / note records that influx_export.py does not export).
 
     python3 influx_pull.py [--only NAME] [--force] [--list]
+    python3 influx_pull.py --cases [--only ID] [--force]      # the presentation's raw-data slides (config.TEST_CASES)
 
 Windows are defined in config.WINDOWS (local AEST). Each window is widened by config.MARGIN_S. Existing CSVs
 are kept unless --force. Writes <name>.csv, <name> eload.csv, <name> <measurement>.csv and a README.md per folder.
@@ -53,13 +54,14 @@ def count_rows(path):
         return max(0, sum(1 for _ in fh) - 1)
 
 
-def pull_window(name, folder, start_s, stop_s, force=False):
+def pull_window(name, folder, start_s, stop_s, force=False, margin_s=None):
+    margin_s = config.MARGIN_S if margin_s is None else margin_s
     out = os.path.join(config.RESULTS, folder)
     os.makedirs(out, exist_ok=True)
-    start = ie.parse_time(start_s) - dt.timedelta(seconds=config.MARGIN_S)
-    stop = ie.parse_time(stop_s) + dt.timedelta(seconds=config.MARGIN_S)
+    start = ie.parse_time(start_s) - dt.timedelta(seconds=margin_s)
+    stop = ie.parse_time(stop_s) + dt.timedelta(seconds=margin_s)
     main_csv = os.path.join(out, name + ".csv")
-    info = {"name": name, "folder": folder, "start": start, "stop": stop, "rows": {}}
+    info = {"name": name, "folder": folder, "start": start, "stop": stop, "rows": {}, "margin_s": margin_s}
     if os.path.exists(main_csv) and not force:
         print(f"{name}: exists, skipped (use --force)")
         info["rows"]["telemetry"] = count_rows(main_csv)
@@ -114,12 +116,47 @@ def write_readme(folder, infos):
         fh.write("\n".join(lines))
 
 
+def write_cases_readme(infos):
+    out = os.path.join(config.RESULTS, config.CASES_FOLDER)
+    lines = ["# Test cases of the presentation (raw-data slides), exported from the pod's InfluxDB", "",
+             "Each raw-data slide of `0_Documentation/n11034459_CapstoneDelivery_V2.pdf` shows four Grafana panels over one time",
+             "range; those ranges (read off the panel headers, local AEST) are the test cases in `8_Results/analysis/config.py`",
+             f"(`TEST_CASES`). Exports are widened by {config.CASE_MARGIN_S} s and keep **every firmware state** (`state` column) so the",
+             "RUN_OL / RUN_CL rows can be cut out exactly (`8_Results/analysis/phases/hardware.py`). Per case: `<id>_<label>.csv`",
+             "telemetry (T frames, ~45 Hz), `<id>_<label> eload.csv` (DL3021, 5 Hz), `... cmd/params/fault/status/note.csv` (pod records).", "",
+             "| id | slide | day | f_sw | loop | kscale | window (local) | telemetry rows | e-load rows | note |", "|---|---|---|---|---|---|---|---|---|---|"]
+    by = {i["name"]: i for i in infos}
+    for cid, c in config.TEST_CASES.items():
+        i = by.get(config.case_name(cid), {"rows": {}})
+        lines.append(f"| {cid} | {('p%d' % c['slide']) if c['slide'] else '-'} | {c['day']} | {c['f_khz']} kHz | {c['loop']} | {c['kscale'] if c['kscale'] is not None else '-'} | "
+                     f"{c['start'][11:]}-{c['stop'][11:]} | {i['rows'].get('telemetry', '?')} | {i['rows'].get('eload', '?')} | {c['note']} |")
+    lines += ["", "Regenerate: `python3 8_Results/analysis/influx_pull.py --cases --force` (needs the Pi's InfluxDB reachable).", ""]
+    with open(os.path.join(out, "README.md"), "w") as fh:
+        fh.write("\n".join(lines))
+
+
+def pull_cases(only=None, force=False):
+    infos = []
+    for cid, c in config.TEST_CASES.items():
+        if only and only not in cid and only not in c["label"]:
+            continue
+        infos.append(pull_window(config.case_name(cid), config.CASES_FOLDER, c["start"], c["stop"], force, margin_s=config.CASE_MARGIN_S))
+    if not only:
+        write_cases_readme(infos)
+    return infos
+
+
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--only", help="substring of the window names to pull")
     ap.add_argument("--force", action="store_true")
     ap.add_argument("--list", action="store_true")
+    ap.add_argument("--cases", action="store_true", help="pull the presentation test cases (config.TEST_CASES) instead of config.WINDOWS")
     a = ap.parse_args()
+    if a.cases:
+        pull_cases(a.only, a.force)
+        print("done")
+        return
     if a.list:
         for n, (f, s, e, note) in config.WINDOWS.items():
             print(f"{n:45s} {f:26s} {s[11:]}..{e[11:]}  {note}")

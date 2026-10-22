@@ -73,3 +73,8 @@ codegen/
 
 # too large for GitHub (100 MB limit); keep locally or move to Git LFS
 0_Documentation/Photos/20261016_173330.mp4
+
+# 8_Results/analysis: generated figures keep the vector PDFs; PNG twins (~100 MB), logs and QSPICE work dirs are rebuilt by make
+8_Results/analysis/out/figures/**/*.png
+8_Results/analysis/out/logs/
+8_Results/analysis/out/qspice/work/

@@ -1,4 +1,5 @@
-function run_scenarios(which, outdir, filter)
+function run_scenarios(which, outdir, filter, kscales_in)
+%  Optional 4th argument: the kscale list to run (default [0.1 0.3 1] for 'carpark').
 %RUN_SCENARIOS  Headless scenario runs of the Simulink models for the results synthesis (8_Results/analysis).
 %
 %   run_scenarios('carpark', outdir, filter)   3-module carpark model (this folder)
@@ -27,6 +28,7 @@ if strcmp(which, 'mil')
     setups = {''};  kscales = 1;
 else
     setups = {'BENCH', 'PV80'};  kscales = [0.1 0.3 1];
+    if nargin >= 4 && ~isempty(kscales_in), kscales = kscales_in; end
 end
 
 % ---- scenario list

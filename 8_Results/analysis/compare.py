@@ -1,31 +1,34 @@
 #!/usr/bin/env python3
-"""Matched-scenario comparison across phases: tables (CSV + markdown) and overlay figures in out/tables, out/figures.
+"""Cross-phase comparison: one metric definition (stepmetrics) on every matched case -> out/tables/T4_sim_step_metrics,
+T5_cross_phase (+ G_compare) and the comparison figures (figures.compare_*).
 
-    python3 compare.py [--phases hardware,qspice,simulink,analytical] [--scenarios S1,S2,S3,S4] [--no-figures]
+    python3 compare.py [--no-figures]
 
-Every phase module exposes cases(scenario) -> list of tidy frames (phases/*.py); each frame carries attrs
-(phase, setup, kscale, scenario, event ...). One metric definition (stepmetrics.step_metrics) is applied to every
-frame and signal.
+Scenarios (config.SCENARIOS): S1 loop close on the residual, S3 module-3 shade, S4 +1 V vref2 step, S5 open-loop
+common-duty step; V2 / V4 = the validate suites' cold-start reference tests (decoupling, shade-refs).
+Hardware rows come from out/tables/T3_hw_events.csv (hwmetrics.py): close -> S1, mismatch_on -> S3, duty_step -> S5.
 """
 import argparse
 import importlib
 import math
 import os
+import sys
 
 import numpy as np
 import pandas as pd
-
-import sys
 
 import config
 import stepmetrics as sm
 import tidy
 
 TAB = os.path.join(config.OUT, "tables")
-FIG = os.path.join(config.OUT, "figures")
 PHASE_ORDER = ["analytical", "simulink_mil", "simulink", "qspice", "hardware"]
-PHASE_LABEL = {"analytical": "Analytical N=3", "simulink_mil": "Simulink MIL (4 mod, ideal)", "simulink": "Simulink carpark (3 mod)",
-               "qspice": "QSPICE switching + DLL", "hardware": "Hardware"}
+SIGNALS = {"S1": ["vd2", "vd1", "ic2", "ic1", "id2"], "S3": ["id2", "vd2", "Pstr", "IM3", "id1"], "S4": ["vd2", "ic2", "id2", "vd1"],
+           "S5": ["vd1", "vd2", "id1", "id2"], "V2": ["vd1", "vd2", "vd3", "ic1", "ic2"], "V4": ["vd1", "vd2", "vd3", "ic1", "ic2"]}
+REF = {"S1": {"vd1": 0.0, "vd2": 0.0, "ic1": 0.0, "ic2": 0.0}, "S4": {"vd1": 0.0, "vd2": 1.0, "ic1": 0.0, "ic2": 0.0}}
+BAND_FLOOR = {"vd1": 0.05, "vd2": 0.05, "vd3": 0.05, "ic1": 0.1, "ic2": 0.1, "id1": 0.1, "id2": 0.1, "Pstr": 2.0, "IM3": 0.1}
+ABS_BAND = {"vd1": 0.1, "vd2": 0.1, "vd3": 0.1, "ic1": 0.2, "ic2": 0.2}
+HW_EVENT_SCEN = {"close": "S1", "mismatch_on": "S3", "duty_step": "S5"}
 
 
 def load_phase(name):
@@ -35,256 +38,185 @@ def load_phase(name):
         return None
 
 
-# ----------------------------------------------------------------------------- case providers
-def hardware_cases(scenario):
-    hw = load_phase("hardware")
+def sim_frames():
+    """Every simulation / analytical case with its scenario tag."""
     out = []
-    for name in config.WINDOWS:
-        if scenario == "S1":
-            out += hw.close_cases(name)
-        elif scenario == "S3":
-            out += hw.shade_cases(name)
+    an = load_phase("analytical")
+    for scen in ("S1", "S3", "S4"):
+        out += an.cases(scen, f_khz=(200, 300, 400))
+    out += an.cases("S5", f_khz=(200,))
+    for name in ("qspice", "simulink"):
+        mod = load_phase(name)
+        for scen in ("S1", "S3", "S4"):
+            try:
+                out += mod.cases(scen)
+            except FileNotFoundError:
+                pass
+    va = load_phase("validate")
+    for which in ("carpark", "mil"):
+        for f in va.tests(which):
+            if f.attrs.get("test") in ("decoupling", "shade-refs"):
+                f.attrs["scenario"] = "V2" if f.attrs["test"] == "decoupling" else "V4"
+                out.append(f)
     return out
 
 
-def sim_cases(phase, scenario):
-    mod = load_phase(phase)
-    if mod is None or not hasattr(mod, "cases"):
-        return []
-    try:
-        return mod.cases(scenario)
-    except FileNotFoundError:
-        return []
-
-
-HW_SIGNALS = {"S1": ["vd2", "vd1"],                 # currents at 50 Hz are point samples of switching ripple: S2 statistics only
-              "S3": ["Pstr", "id2", "VM3", "vd2"]}
-
-
-def cases_for(scenario, phases):
-    out, seen = [], set()
-    for p in phases:
-        for f in (hardware_cases(scenario) if p == "hardware" else sim_cases(p, scenario)):
-            key = (f.attrs.get("phase"), f.attrs.get("setup"), f.attrs.get("event_utc") or id(f), round(float(f.attrs.get("kscale") or 0), 3))
-            if key in seen:                                  # overlapping hardware windows hold the same engagement
-                continue
-            seen.add(key)
-            if f.attrs.get("phase") == "hardware" and scenario == "S3" and f.attrs.get("setup") != "PV80":
-                continue                                     # no shading on the bench: those candidates are PSU / load changes
-            out.append(f)
-    return out
-
-
-# ----------------------------------------------------------------------------- metrics per case
-def metrics_rows(scenario, frames):
+def metrics_of(f):
+    a = f.attrs
+    scen = a.get("scenario")
     rows = []
-    spec = config.SCENARIOS[scenario]
-    for f in frames:
-        a = f.attrs
-        hw = a.get("phase") == "hardware"
-        signals = HW_SIGNALS.get(scenario, spec["signals"]) if hw else spec["signals"]
-        for sig in signals:
-            if sig not in f or f[sig].notna().sum() < 4:
-                continue
-            ref = spec.get("ref") if sig in ("vd1", "vd2", "ic1", "ic2") else None
-            if scenario == "S3":
-                ref = None
-            band_floor = {"vd1": 0.1, "vd2": 0.1, "ic1": 0.3, "ic2": 0.3, "id1": 0.3, "id2": 0.3, "VM3": 0.3, "Pstr": 3.0, "dA2": 0.005}.get(sig, 0.1)
-            # hardware S1: the level the controller starts from is the last sample before RUN_CL (the soft-start ramp
-            # to 0.5 duty has already removed most of the idle mismatch, kept in idle_level)
-            pre = ((-0.03, 0.0) if scenario == "S1" else (-0.5, 0.0)) if hw else (-0.02, 0.0)
-            if a.get("phase") == "qspice" and scenario == "S1":
-                pre = (-0.0003, 0.0)          # the open loop had 0.5 ms of start-up before TEN: take the level at the closing instant
-            m = sm.step_metrics(f["t"].to_numpy(), f[sig].to_numpy(float), 0.0, ref=ref, pre=pre, band_floor=band_floor,
-                                filt=("median", 3) if hw else None)
-            row = {"scenario": scenario, "phase": a.get("phase"), "setup": a.get("setup"), "kscale": a.get("kscale"),
-                   "signal": sig, "source": a.get("source"), "event": a.get("event_utc", a.get("event", "")),
-                   "ended_by": a.get("ended_by", ""), "run_duration_s": a.get("run_duration_s"),
-                   "quality": ("VM1 via e-load 2.2 Hz" if hw and sig in ("vd1",) else "")}
-            if hw and scenario == "S1":
-                row["idle_level"] = a.get("idle_levels", {}).get(sig)
-            row.update({k: m.get(k) for k in sm.KEYS})
-            rows.append(row)
-    return pd.DataFrame(rows)
+    phase = a.get("phase")
+    for sig in SIGNALS.get(scen, []):
+        if sig not in f or f[sig].notna().sum() < 4:
+            continue
+        ref = REF.get(scen, {}).get(sig)
+        if scen in ("V2", "V4") and sig.startswith("vd"):
+            j = int(sig[2]) - 1
+            rv = a.get("rv", [])
+            ref = float(rv[j]) if j < len(rv) else None
+        kw = dict(band_floor=BAND_FLOOR.get(sig, 0.1), abs_band=ABS_BAND.get(sig))
+        if scen in ("V2", "V4"):
+            kw.update(y_initial=0.0, pre=(0.0, 0.0))
+        elif phase == "qspice" and scen == "S1":
+            kw["pre"] = (-0.0003, 0.0)
+        else:
+            kw["pre"] = (-0.002, 0.0)
+        m = sm.step_metrics(f["t"].to_numpy(), f[sig].to_numpy(float), 0.0, ref=ref, **kw)
+        row = {"scenario": scen, "phase": phase, "setup": a.get("setup"), "f_khz": a.get("f_khz", 200), "kscale": a.get("kscale"),
+               "signal": sig, "source": a.get("source"), "event": a.get("event", ""), "test": a.get("test", ""), "ref": ref}
+        row.update({k: m.get(k) for k in sm.KEYS})
+        row["rise_txt"], row["peak_txt"] = sm.bound(m, "rise_10_90"), sm.peak_text(m)
+        row["settle2_txt"] = sm.bound(m, "t_settle_2")
+        rows.append(row)
+    return rows
 
 
-def md_table(df, scenario):
-    if df.empty:
-        return "_no cases_\n"
-    cols = ["phase", "setup", "kscale", "signal"]
-    if scenario == "S1" and "idle_level" in df:
-        cols.append("idle_level")
-    lines = ["| " + " | ".join(cols + ["y0", "y_final", "delta", "ss err", "rise 10-90", "t peak", "overshoot", "t settle 2%", "t settle 5%", "n", "model", "tau / zeta, wn", "fit r2"]) + " |",
-             "|" + "---|" * (len(cols) + 13)]
-    for _, r in df.sort_values(["scenario", "signal", "phase", "setup", "kscale"]).iterrows():
-        fitv = "-"
-        if r.get("fit_model") == "first":
-            fitv = f"tau {sm.fmt(r['tau'] * 1e3, ' ms')} +- {sm.fmt((r['tau_ci'] or 0) * 1e3, '', 2)}"
-        elif r.get("fit_model") == "second":
-            fitv = f"zeta {sm.fmt(r['zeta'], '', 2)}, wn {sm.fmt(r['wn'] / (2 * math.pi), ' Hz', 3)}"
-        vals = [str(r.get(c, "")) if c != "idle_level" else sm.fmt(r.get(c)) for c in cols]
-        vals += [sm.fmt(r["y_initial"]), sm.fmt(r["y_final"]), sm.fmt(r["delta"]), sm.fmt(r["ss_error"]),
-                 sm.bound(r, "rise_10_90"), sm.bound(r, "t_peak"),
-                 (sm.fmt(r["overshoot_pct"], " %", 3) if r["kind"] == "step" else f"peak dev {sm.fmt(r['peak_dev'])}"),
-                 sm.bound(r, "t_settle_2"), sm.bound(r, "t_settle_5"), str(int(r["n_transient_samples"])) if np.isfinite(r["n_transient_samples"]) else "-",
-                 str(r.get("fit_model") or "-"), fitv, sm.fmt(r.get("fit_r2"), "", 2)]
+def hardware_rows():
+    p = os.path.join(TAB, "T3_hw_events.csv")
+    if not os.path.exists(p):
+        return pd.DataFrame()
+    t3 = pd.read_csv(p)
+    t3 = t3[t3["event"].isin(HW_EVENT_SCEN)].copy()
+    t3["scenario"] = t3["event"].map(HW_EVENT_SCEN)
+    t3["phase"] = "hardware"
+    t3["signal"] = t3["signal"].replace({"Pstr_i": "Pstr"})
+    t3 = t3[t3["signal"].isin(sum(SIGNALS.values(), []))]
+    return t3
+
+
+# ----------------------------------------------------------------------------- tables
+def _f(v, nd=3):
+    if v is None or (isinstance(v, float) and not np.isfinite(v)):
+        return "-"
+    if isinstance(v, str):
+        return v
+    return f"{v:.{nd}g}"
+
+
+def t4_md(df):
+    cols = ["scenario", "phase", "setup", "f_khz", "kscale", "signal", "y_initial", "y_final", "delta", "ss_error", "rise_txt", "peak_txt", "overshoot_pct",
+            "undershoot_pct", "settle2_txt", "t_settle_abs", "iae", "tau", "zeta", "fit_r2"]
+    head = {"y_initial": "y0", "y_final": "y_final", "delta": "delta", "ss_error": "ss err", "rise_txt": "rise 10-90", "peak_txt": "t peak", "overshoot_pct": "overshoot %",
+            "undershoot_pct": "undershoot %", "settle2_txt": "settle 2 %", "t_settle_abs": "settle abs [s]", "iae": "IAE", "tau": "tau [s]", "zeta": "zeta", "fit_r2": "fit r2"}
+    lines = ["| " + " | ".join(head.get(c, c) for c in cols) + " |", "|" + "---|" * len(cols)]
+    for _, r in df.sort_values(["scenario", "signal", "setup", "kscale", "phase", "f_khz"]).iterrows():
+        lines.append("| " + " | ".join(str(r.get(c, "")) if c in ("scenario", "phase", "setup", "signal", "rise_txt", "peak_txt", "settle2_txt") else _f(r.get(c)) for c in cols) + " |")
+    return "\n".join(lines) + "\n"
+
+
+def t5_rows(T4, HW):
+    """Side-by-side per (scenario, setup, kscale, signal): one column group per phase."""
+    keys = ["scenario", "setup", "kscale", "signal"]
+    sims = T4[(T4["f_khz"] == 200) | T4["f_khz"].isna()]
+    rows = {}
+    for _, r in sims.iterrows():
+        if r.get("kind") != "step" or abs(r.get("delta") or 0) < 2 * BAND_FLOOR.get(r["signal"], 0.1):
+            continue                                     # no real step in this signal (reference at 0, or a disturbance target): nothing to compare
+        k = (r["scenario"], r["setup"], round(float(r["kscale"]) if np.isfinite(float(r["kscale"] or np.nan)) else 0.0, 3), r["signal"])
+        d = rows.setdefault(k, {"scenario": k[0], "setup": k[1], "kscale": k[2], "signal": k[3]})
+        ph = r["phase"]
+        d[f"{ph}_tau_ms"] = (r["tau"] * 1e3) if np.isfinite(r.get("tau", np.nan) or np.nan) else np.nan
+        d[f"{ph}_rise_ms"] = r["rise_10_90"] * 1e3 if np.isfinite(r.get("rise_10_90", np.nan) or np.nan) else np.nan
+        d[f"{ph}_settle2_ms"] = r["t_settle_2"] * 1e3 if np.isfinite(r.get("t_settle_2", np.nan) or np.nan) else np.nan
+        d[f"{ph}_peak_ms"] = r["t_peak"] * 1e3 if r.get("has_overshoot") else np.nan
+        d[f"{ph}_overshoot_pct"] = r["overshoot_pct"] if r.get("has_overshoot") else 0.0
+        d[f"{ph}_sse"] = r["ss_error"]
+        d[f"{ph}_delta"] = r["delta"]
+    if len(HW):
+        for _, r in HW.iterrows():
+            if r["scenario"] == "S5":
+                continue                                 # the three open-loop duty steps are compared one by one in REPORT section 3.2 / the S5 figure
+            k = (r["scenario"], r["setup"], round(float(r["kscale"]) if np.isfinite(float(r["kscale"] or np.nan)) else 0.0, 3), r["signal"])
+            d = rows.setdefault(k, {"scenario": k[0], "setup": k[1], "kscale": k[2], "signal": k[3]})
+            n = d.get("hardware_n", 0)
+            # several hardware events per key: keep medians, count them
+            for src, dst in (("delta", "hardware_delta"), ("ss_error", "hardware_sse"), ("noise", "hardware_noise"), ("t_settle_abs", "hardware_settle_abs_s"), ("peak_dev", "hardware_peak_dev")):
+                v = r.get(src)
+                if v is not None and np.isfinite(v):
+                    d[dst] = v if n == 0 else (d.get(dst, v) * n + v) / (n + 1)
+            d["hardware_rise_txt"] = r.get("rise_txt", "")
+            d["hardware_settle2_txt"] = r.get("settle2_txt", "")
+            d["hardware_dt_ms"] = r.get("dt_median", np.nan) * 1e3 if np.isfinite(r.get("dt_median", np.nan) or np.nan) else np.nan
+            d["hardware_n"] = n + 1
+            d["hardware_cases"] = (d.get("hardware_cases", "") + " " + str(r["cid"])).strip()
+    out = pd.DataFrame(list(rows.values()))
+    return out.sort_values(["scenario", "signal", "setup", "kscale"]) if len(out) else out
+
+
+def t5_md(T5):
+    if T5.empty:
+        return "_no rows_\n"
+    phases = [p for p in ("analytical", "simulink", "simulink_mil", "qspice") if any(c.startswith(p + "_") for c in T5.columns)]
+    cols = ["scenario", "setup", "kscale", "signal"]
+    head = cols + [f"{config.PHASE_STYLE[p]['label'].split(' (')[0]} tau / rise / settle2 [ms], os %" for p in phases] + ["hardware: delta, ss err, noise, rise, settle abs [s] (n cases)"]
+    lines = ["| " + " | ".join(head) + " |", "|" + "---|" * len(head)]
+    for _, r in T5.iterrows():
+        vals = [str(r[c]) for c in cols]
+        for p in phases:
+            if np.isfinite(r.get(f"{p}_tau_ms", np.nan) or np.nan) or np.isfinite(r.get(f"{p}_rise_ms", np.nan) or np.nan):
+                vals.append(f"{_f(r.get(f'{p}_tau_ms'))} / {_f(r.get(f'{p}_rise_ms'))} / {_f(r.get(f'{p}_settle2_ms'))}, {_f(r.get(f'{p}_overshoot_pct'), 2)}")
+            else:
+                vals.append("-")
+        hn = r.get("hardware_n")
+        if hn is not None and np.isfinite(hn) and hn > 0:
+            vals.append(f"{_f(r.get('hardware_delta'))}, {_f(r.get('hardware_sse'))}, {_f(r.get('hardware_noise'), 2)}, {r.get('hardware_rise_txt', '')}, {_f(r.get('hardware_settle_abs_s'), 2)} ({int(r['hardware_n'])}: {r.get('hardware_cases', '')})")
+        else:
+            vals.append("-")
         lines.append("| " + " | ".join(vals) + " |")
     return "\n".join(lines) + "\n"
 
 
-# ----------------------------------------------------------------------------- S2: settled statistics
-def s2_rows(phases):
-    rows = []
-    if "hardware" in phases:
-        hw = load_phase("hardware")
-        seen = set()
-        for name in config.WINDOWS:
-            seg = hw.segment_stats(name)
-            for _, s in seg.iterrows():
-                if (s["start_utc"], s["state"]) in seen:          # overlapping windows
-                    continue
-                seen.add((s["start_utc"], s["state"]))
-                rows.append({"phase": "hardware", "setup": s["setup"], "state": s["state"], "kscale": s["kscale"], "pver": s["pver"],
-                             "window": name, "start_local": s["start_local"], "duration_s": s["duration_s"], "ended_by": s["ended_by"],
-                             **{k: s.get(k) for k in ("vd1_mean", "vd1_std", "vd2_mean", "vd2_std", "ic1_mean", "ic1_std", "ic2_mean", "ic2_std",
-                                                      "id1_mean", "id2_mean", "dA1_std", "dA2_std", "dB2_std", "stress_mean", "Pstr_mean", "Vstr_mean")}})
-    for p in phases:
-        mod = load_phase(p) if p != "hardware" else None
-        if mod is not None and hasattr(mod, "settled_stats"):
-            rows += mod.settled_stats()
-    return pd.DataFrame(rows)
-
-
-def s2_md(df):
-    if df.empty:
-        return "_no segments_\n"
-    cols = ["phase", "setup", "state", "kscale", "duration_s", "ended_by", "vd2_mean", "vd2_std", "ic2_mean", "ic2_std", "id1_mean", "id2_mean", "dA2_std", "stress_mean", "Pstr_mean"]
-    lines = ["| " + " | ".join(cols) + " |", "|" + "---|" * len(cols)]
-    for _, r in df.sort_values(["phase", "setup", "state", "kscale", "start_local"]).iterrows():
-        lines.append("| " + " | ".join(sm.fmt(r.get(c)) if isinstance(r.get(c), float) else str(r.get(c, "")) for c in cols) + " |")
-    return "\n".join(lines) + "\n"
-
-
-# ----------------------------------------------------------------------------- figures
-def _label(f):
-    a = f.attrs
-    lab = f"{PHASE_LABEL.get(a.get('phase'), a.get('phase'))} {a.get('setup', '')} k={a.get('kscale')}"
-    if a.get("phase") == "hardware":
-        ev = str(a.get("event_utc", ""))
-        if ev:
-            try:
-                lab += " " + pd.Timestamp(ev).tz_convert(config.LOCAL_TZ).strftime("%d %H:%M:%S")
-            except Exception:                  # noqa: BLE001
-                pass
-        if a.get("ended_by") == "FAULT":
-            lab += " (FAULT)"
-    return lab
-
-
-def overlay(scenario, frames, sig, path):
-    """Simulations on a ms axis in <path>; hardware cases (soft start + closing, seconds) in <path>_hw."""
-    import matplotlib
-    matplotlib.use("Agg")
-    import matplotlib.pyplot as plt
-    palette = {"analytical": "#555555", "simulink_mil": "#8e6bbf", "simulink": "#1f6b46", "qspice": "#1b2d55"}
-    sims = [f for f in frames if f.attrs.get("phase") != "hardware"]
-    hw = [f for f in frames if f.attrs.get("phase") == "hardware"]
-    if sims:
-        fig, ax = plt.subplots(figsize=(9, 4.5))
-        for f in sims:
-            a = f.attrs
-            ls = "--" if a.get("setup") == "BENCH" else "-"
-            ax.plot(f["t"] * 1e3, f[sig], ls, lw=1.2, color=palette.get(a.get("phase"), "k"), alpha=0.9, label=_label(f))
-        ax.axvline(0, color="k", lw=0.8, ls="--")
-        ax.set_xlabel("ms from event")
-        ax.set_ylabel(tidy.SIGNAL_LABELS.get(sig, sig))
-        ax.set_title(f"{scenario} {config.SCENARIOS[scenario]['name']}: {sig} (simulations and analysis)")
-        ax.grid(alpha=0.3)
-        ax.legend(fontsize=7, loc="best")
-        fig.tight_layout()
-        fig.savefig(path, dpi=120)
-        plt.close(fig)
-    if hw:
-        fig, ax = plt.subplots(figsize=(9, 4.5))
-        cmap = plt.get_cmap("tab10")
-        for i, f in enumerate(hw[:10]):
-            a = f.attrs
-            g = f if scenario != "S1" else f[(f["t"] >= -0.4) & (f["t"] <= 1.0)]
-            ax.plot(g["t"], g[sig], ".", ms=4, color=cmap(i % 10), alpha=0.8 if a.get("ended_by") != "FAULT" else 0.35, label=_label(f))
-        ax.axvline(0, color="k", lw=0.8, ls="--")
-        ax.set_xlabel("s from event")
-        ax.set_ylabel(tidy.SIGNAL_LABELS.get(sig, sig))
-        ax.set_title(f"{scenario} {config.SCENARIOS[scenario]['name']}: {sig} (hardware, 50 Hz telemetry)")
-        ax.grid(alpha=0.3)
-        ax.legend(fontsize=6, loc="best")
-        fig.tight_layout()
-        fig.savefig(path.replace(".png", "_hw.png"), dpi=120)
-        plt.close(fig)
-
-
-# ----------------------------------------------------------------------------- G matrices
 def g_tables():
-    """Identified G of every gain set against the analytical G(3) -> out/tables/G_compare.md."""
-    sys.path.insert(0, config.NOTEBOOKS)
-    import nstring
+    from compare_legacy import g_tables as g
+    return g()
+
+
+def build(figures=True):
     os.makedirs(TAB, exist_ok=True)
-    rows = ["| source | vd1/uc1 | vd2/uc2 | ic1/ud1 | ic2/ud2 | vd1/ud1 (cross) | cond(G) | note |", "|---|---|---|---|---|---|---|---|"]
-
-    def row(name, G, note=""):
-        G = np.asarray(G, float)
-        return f"| {name} | {G[0, 0]:.1f} | {G[1, 1]:.1f} | {G[2, 2]:.1f} | {G[3, 3]:.1f} | {G[0, 2]:.1f} | {np.linalg.cond(G):.1f} | {note} |"
-
-    for label, p in (("analytical PV80, averaged R 61 mOhm (Simulink)", nstring.pv80()), ("analytical PV80, switching R 0.29 ohm (200 kHz)", nstring.pv80(R_w=0.29)),
-                     ("analytical PV80, switching R 1.72 ohm (400 kHz)", nstring.pv80(R_w=1.72)),
-                     ("analytical BENCH QSPICE point (all CC), R 0.29 ohm", nstring.bench_qspice(R_w=0.29)), ("analytical BENCH ch1 CC / ch2,3 CV, R 0.29 ohm", nstring.bench(R_w=0.29))):
-        rows.append(row(label, nstring.dc_gain(p), f"modes {[(f'{f:.0f} Hz', f'z {z:.2f}') for f, z, k in nstring.modes(p) if k == 'oscillatory'][:2]}"))
-    for name, G in nstring.identified_G().items():
-        if isinstance(G, str):
-            continue
-        rows.append(row(f"identified {name}", G, "diag(kI) M^-1 of the gain set"))
-    md = "\n".join(rows) + "\n\nRows [vd1 vd2 ic1 ic2], columns [uc1 uc2 ud1 ud2]; V per unit modal duty, A per unit modal duty.\n"
-    open(os.path.join(TAB, "G_compare.md"), "w").write(md)
-    return md
-
-
-# ----------------------------------------------------------------------------- main
-def build(scenarios, phases, figures=True):
-    os.makedirs(TAB, exist_ok=True)
-    os.makedirs(FIG, exist_ok=True)
-    report = {}
-    if "G" in scenarios:
-        g_tables()
-        scenarios = [s for s in scenarios if s != "G"]
-    for s in scenarios:
-        if s == "S2":
-            df = s2_rows(phases)
-            df.to_csv(os.path.join(TAB, "S2_settled.csv"), index=False)
-            open(os.path.join(TAB, "S2_settled.md"), "w").write(s2_md(df))
-            report[s] = df
-            print(f"S2: {len(df)} segments")
-            continue
-        frames = cases_for(s, phases)
-        df = metrics_rows(s, frames)
-        df.to_csv(os.path.join(TAB, f"{s}_{config.SCENARIOS[s]['name']}.csv"), index=False)
-        open(os.path.join(TAB, f"{s}_{config.SCENARIOS[s]['name']}.md"), "w").write(md_table(df, s))
-        report[s] = df
-        print(f"{s}: {len(frames)} cases, {len(df)} metric rows")
-        if figures and frames:
-            for sig in config.SCENARIOS[s]["signals"][:3]:
-                for ks in sorted({round(float(f.attrs.get("kscale") or 0), 2) for f in frames}):
-                    sel = [f for f in frames if round(float(f.attrs.get("kscale") or 0), 2) == ks and sig in f and f[sig].notna().sum() > 3]
-                    if sel:
-                        overlay(s, sel[:8], sig, os.path.join(FIG, f"{s}_k{ks:g}_{sig}.png"))
-    return report
+    frames = sim_frames()
+    rows = []
+    for f in frames:
+        rows += metrics_of(f)
+    T4 = pd.DataFrame(rows)
+    T4.to_csv(os.path.join(TAB, "T4_sim_step_metrics.csv"), index=False)
+    open(os.path.join(TAB, "T4_sim_step_metrics.md"), "w").write(t4_md(T4))
+    HW = hardware_rows()
+    T5 = t5_rows(T4, HW)
+    T5.to_csv(os.path.join(TAB, "T5_cross_phase.csv"), index=False)
+    open(os.path.join(TAB, "T5_cross_phase.md"), "w").write(t5_md(T5))
+    g_tables()
+    print(f"T4: {len(T4)} rows from {len(frames)} frames; T5: {len(T5)} matched keys")
+    if figures:
+        import figures as fg
+        fg.compare_all(frames, T4, T5)
+    return frames, T4, T5
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--phases", default="hardware,qspice,simulink,simulink_mil,analytical")
-    ap.add_argument("--scenarios", default="S1,S2,S3,S4,G")
     ap.add_argument("--no-figures", action="store_true")
     a = ap.parse_args()
-    build(a.scenarios.split(","), a.phases.split(","), not a.no_figures)
+    build(not a.no_figures)
 
 
 if __name__ == "__main__":
