@@ -1,0 +1,37 @@
+\section{Risk Register}
+\label{app:risk}
+Likelihood and consequence are rated Low (L), Medium (M), High (H) or Critical (C); the overall rating is the higher of the two. The register is the proposal's, with a \emph{Status} column recording what happened.
+
+\begin{landscape}
+\begin{longtable}{c p{3.0cm} l c c c p{6.4cm} p{6.2cm}}
+\caption{Project risk register with outcome.}\label{tab:risk}\\
+\toprule
+\# & Risk & Category & L & C & Rating & Mitigation / monitoring & Status at delivery\\
+\midrule\endfirsthead
+\toprule
+\# & Risk & Category & L & C & Rating & Mitigation / monitoring & Status at delivery\\
+\midrule\endhead
+\bottomrule\endfoot
+1 & Scope creep & Project & H & H & H & Strict change control; new requirements deferred to the next revision; supervisor sign-off for additions & Materialised: one PCB revision only, MPPT deferred to the load, features compromised (slide: ``had to compromise on PCB revisions and features'')\\
+2 & No PV hardware available & Resource & M & C & H & Procure panels early; fallback QSPICE validation & Mitigated: 3 $\times$ KAUSSP80 80\,W panels, DL3021 load; EcoFlow not used ($V_{oc}$ 75\,V $>$ 60\,V input)\\
+3 & Electronics failure & Hardware & M & H & H & Overload protection; spares; one-month buffer & Partly: U10 (top INA239) unusable (isolator wired reversed); worked around with $V_{M1}$ from the e-load\\
+4 & Firmware failure & Control sys. & M & H & H & Simulation first (SIL, QSPICE DLL); unit tests; fault latching & Materialised in a contained way: 3 trips on live gain changes (UV, main-loop stall), all latched safely; E-stop and state telemetry worked\\
+5 & Monitoring software inaccuracy & Software & L & M & L & Sensor noise filtering; cross-validate against known points & Telemetry at 44\,Hz is noise-limited; rise/settle reported as bounds; B02--B04 logged at 11--14\,Hz\\
+6 & Data loss & Data & L & H & M & GitHub, OneDrive, local backups & No loss; every window re-exportable from InfluxDB\\
+7 & Unable to access data & Data & L & M & L & Shared cloud repositories, two admins & OK\\
+8 & Electrical hazard (50\,V DC class) & Safety & M & C & C & QUT HSE protocols, PPE, isolation, formal risk assessment & No incident; 15\,A fuse, OC/OV/UV envelopes, hardware + software E-stop\\
+9 & Sunburn (outdoor testing) & Safety & H & L & M & Sunscreen; sessions outside 10--14\,h where practical & Carpark session 12:30--16:30 with shade for the operators\\
+10 & Fire risk & Safety & L & C & H & Extinguisher; rated fuses; never unattended & No incident; heatsink and INA die temperatures logged (over-temperature trip at 85\,$^\circ$C, Pi E-stop at 80\,$^\circ$C)\\
+11 & Assignment deadline collision & Project & H & M & H & One-month buffer; weekly review & Buffer consumed by the PCB deferral; delivery on time\\
+12 & Skill gap between team members & Team & M & M & M & Division by domain; knowledge transfer at reviews & Worked: control vs power electronics split; QSPICE as the hand-over interface\\
+13 & Control--hardware integration failure & Control sys. & M & H & H & QSPICE validates firmware--hardware interaction first & Mitigated: the firmware control DLL in QSPICE caught the $5\times$ current-gain error of the averaged model before hardware\\
+14 & MPPT fails to track global MPP & Control sys. & M & H & H & Validate across all shading scenarios in simulation & Descoped: string MPPT delegated to the load; equalisation (the enabling condition) validated\\
+15 & Intellectual property dispute & Legal & L & H & M & Timestamped GitHub; monitor IP Australia & No issue\\
+16 & Poor commercial adoption & Strategic & L & L & L & Outside scope & --\\
+17 & Data breach / cybersecurity & Data & L & M & L & No personal data; private repos; credentials excluded & Pi services local-only; params page has no authentication (note for future work)\\
+18 & Team member illness & Team & M & M & M & Buffer; control work proceeds in isolation & No impact\\
+19 & Safe outdoor testing (rain, wind) & Safety & M & M & M & Weather check; enclosure; abort criteria & Dry day; minimal sun after 15:48 limited the closed-loop stress test\\
+20 & Inaccurate model & Control sys. & M & H & H & Identify the plant at each $\fsw$; compare three models & Materialised and resolved: $R_{sw}$ found (0.29 / 0.80 / 1.70\,$\Omega$), gain sets re-identified per $\fsw$\\
+21 & Sensor faults & Hardware & M & M & M & Zero-cal at boot; plausibility checks; redundancy via KCL & U10 unusable; ADC phase-B fix on 16 Oct; KCL reconstruction cross-checks the module currents\\
+\end{longtable}
+\end{landscape}

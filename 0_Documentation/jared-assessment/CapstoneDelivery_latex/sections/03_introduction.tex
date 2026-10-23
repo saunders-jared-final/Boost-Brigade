@@ -1,0 +1,21 @@
+\section{Introduction}
+\label{sec:intro}
+
+% ---- Rework of your draft (your version: 03_introduction_draft.tex).
+
+Photovoltaic (PV) solar is the fastest-growing energy source globally \cite{noauthor_world_2025} and Australia's leading renewable resource. Rooftop and large-scale solar together supplied 19.6\,\% of Australia's electricity in 2024, more than wind (13.4\,\%) or hydro (5.5\,\%) \cite{clean_energy_council_clean_2025}. Australia added 6.8\,GW of renewables in 2025, and renewables now supply 43.7\,\% of generation in the National Electricity Market (NEM) \cite{noauthor_quarterly_2026}. To collect as much energy as possible, PV arrays are paired with maximum power point trackers (MPPTs), which adjust the power converter so that the array operates at its maximum power point (MPP). When a series string of PV modules is partially shaded, the bypass diodes of the shaded modules conduct, the MPP drops and the power--voltage curve develops multiple local maxima, turning MPPT into a global optimisation problem. The power shuffler addresses this by creating new paths for current to move up and down the string, equalising the module voltages so that the whole string is pinned to a single MPP. Because shufflers are partial power processors, they only need to be rated for the mismatch power rather than the full string power \cite{kasper_classification_2014,olalla_performance_2014}. This project revives QUT's earlier work on the shuffler \cite{walker_pv_2003}.
+
+The aim of this project is to design and implement a controller for the power shuffler. The research question that guided the work is: how can a controller capture the coupled dynamics of multiple interleaved buck-boost converters and command their currents so that the module voltages are balanced and maximum power is extracted despite shading?
+
+The project has two parts. A sister report covers the electrical design of the shuffler, including the converter topology, QSPICE hardware simulations, circuit board design, manufacturing and hardware validation. In contrast, this report covers all aspects of the control system architecture: analytical solutions, Simulink models, controller component selection, gain refinement, firmware deployment and finally validation of the closed loop on the bench and out in the field. The final product is a single board carrying two shufflers, tested with a three-module string.
+
+The report begins with a literature review of partial shading, shuffler concepts and their control (\cref{sec:lit}), which identifies the gap this project addresses. The methodology (\cref{sec:method}) follows the design pipeline from power-system modelling, including a dynamics model that applies to any string of $N$ PV modules, to a fully integrated system working in the field. The raw results from real-time telemetry and simulation are then analysed and synthesised (\cref{sec:results}) to quantify the performance of the controller and the energy it returns. \\
+
+\textbf{Objectives.}
+\begin{itemize}
+  \item Derive an analytical model of the interleaved buck-boost converter dynamics (\cref{sec:analytical} and \cref{app:analytical}).
+  \item Design a control system architecture (\cref{sec:mil,sec:gainpipe}).
+  \item Select the controller's sensors and microcontroller (\cref{sec:components}).
+  \item Validate the controller experimentally on a real PV system (\cref{sec:bench,sec:solar}).
+  \item Create a self-contained product that showcases the controller's autonomy (\cref{sec:firmware}).
+\end{itemize}

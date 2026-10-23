@@ -1,0 +1,1301 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo)) (./preamble.tex
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/makecell/makecell.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.de
+f)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
+tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet
+ric.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
+thmetics.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
+code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
+s.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.
+tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
+.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
+.sty)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarytopaths.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.
+code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarypositioning.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryshapes.geometric.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshape
+s.geometric.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarycalc.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryfit.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybackgrounds.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarychains.code.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/circuitikz/circuitikz.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybending.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulebending.code.te
+x
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulenonlineartransf
+ormations.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibrarycurvilinear.
+code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryfpu.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex
+)) (/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirc.defines.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircutils.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircpath.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircshapes.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmonopoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircbipoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirctripoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircquadpoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmultipoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircvoltage.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirccurrent.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircflow.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.sty
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.def)
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(build/main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-ptm.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+(build/main.out) (build/main.out) (./titlepage.tex
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{/var/lib/texm
+f/fonts/map/pdftex/updmap/pdftex.map}]) (build/main.toc) (build/main.lof)
+(build/main.lot) [1] (./sections/01_executive_summary.tex
+
+LaTeX Warning: Reference `app:journey' on page 1 undefined on input line 14.
+
+pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
+been already used, duplicate ignored
+<to be read again> 
+                   \relax 
+l.23   \item W
+              hat was not resolvable on hardware: the loop's own 1--10\,ms t...
+[1]) (./sections/02_abstract.tex [2]
+
+LaTeX Warning: Reference `tab:T2cl' on page 3 undefined on input line 15.
+
+) (./sections/03_introduction.tex
+
+LaTeX Warning: Citation `noauthor_world_2025' on page 3 undefined on input line
+ 7.
+
+
+LaTeX Warning: Citation `noauthor_quarterly_2026' on page 3 undefined on input 
+line 7.
+
+
+LaTeX Warning: Citation `song_energy_2025' on page 3 undefined on input line 7.
+
+
+
+LaTeX Warning: Citation `kasper_classification_2014' on page 3 undefined on inp
+ut line 8.
+
+
+LaTeX Warning: Citation `olalla_performance_2014' on page 3 undefined on input 
+line 8.
+
+
+LaTeX Warning: Citation `walker_pv_2003' on page 3 undefined on input line 8.
+
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd))
+(./sections/04_literature_review.tex
+
+LaTeX Warning: Citation `walker_pv_2003' on page 3 undefined on input line 6.
+
+
+LaTeX Warning: Citation `walker_pv_2003' on page 3 undefined on input line 6.
+
+
+LaTeX Warning: Citation `jeong_segmented_2020' on page 3 undefined on input lin
+e 7.
+
+
+LaTeX Warning: Citation `jeong_segmented_2020' on page 3 undefined on input lin
+e 7.
+
+
+Overfull \hbox (85.00697pt too wide) in paragraph at lines 8--8
+ [][] 
+
+LaTeX Warning: Citation `batzelis_state-space_2018' on page 3 undefined on inpu
+t line 8.
+
+
+LaTeX Warning: Citation `batzelis_state-space_2018' on page 3 undefined on inpu
+t line 8.
+
+
+Overfull \hbox (28.22942pt too wide) in paragraph at lines 9--9
+ [][] 
+
+LaTeX Warning: Citation `milasi_robust_2024' on page 3 undefined on input line 
+9.
+
+
+LaTeX Warning: Citation `milasi_robust_2024' on page 3 undefined on input line 
+9.
+
+
+Overfull \hbox (13.65959pt too wide) in paragraph at lines 10--10
+ [][] 
+
+LaTeX Warning: Citation `kabalci_highly_2022' on page 3 undefined on input line
+ 10.
+
+
+LaTeX Warning: Citation `kabalci_highly_2022' on page 3 undefined on input line
+ 10.
+
+
+LaTeX Warning: Citation `hui_development_2020' on page 3 undefined on input lin
+e 11.
+
+
+LaTeX Warning: Citation `hui_development_2020' on page 3 undefined on input lin
+e 11.
+
+
+LaTeX Warning: Citation `esram_comparison_2007' on page 3 undefined on input li
+ne 18.
+
+
+LaTeX Warning: Citation `sarvi_comprehensive_2022' on page 3 undefined on input
+ line 18.
+
+
+LaTeX Warning: Citation `belhaouas_pv_2017' on page 3 undefined on input line 1
+9.
+
+
+LaTeX Warning: Citation `bingol_analysis_2018' on page 3 undefined on input lin
+e 19.
+
+
+LaTeX Warning: Citation `mehedi_critical_2021' on page 3 undefined on input lin
+e 19.
+
+
+LaTeX Warning: Reference `fig:pvmismatch' on page 1 undefined on input line 19.
+
+
+
+LaTeX Warning: Citation `rao_maximum_2014' on page 3 undefined on input line 20
+.
+
+
+LaTeX Warning: Citation `riquelme-dominguez_systematic_2022' on page 3 undefine
+d on input line 20.
+
+
+LaTeX Warning: Citation `kasper_classification_2014' on page 3 undefined on inp
+ut line 24.
+
+
+LaTeX Warning: Citation `jeong_segmented_2020' on page 3 undefined on input lin
+e 24.
+
+[3]
+
+LaTeX Warning: Citation `walker_pv_2003' on page 4 undefined on input line 26.
+
+
+LaTeX Warning: Citation `kasper_classification_2014' on page 4 undefined on inp
+ut line 26.
+
+
+LaTeX Warning: Citation `kasper_impact_2014' on page 4 undefined on input line 
+26.
+
+
+LaTeX Warning: Citation `olalla_modeling_2014' on page 4 undefined on input lin
+e 26.
+
+
+LaTeX Warning: Citation `olalla_performance_2014' on page 4 undefined on input 
+line 26.
+
+
+LaTeX Warning: Citation `jeong_review_2018' on page 4 undefined on input line 2
+6.
+
+
+LaTeX Warning: Citation `jeong_segmented_2020' on page 4 undefined on input lin
+e 26.
+
+
+LaTeX Warning: Citation `li_classification_2021' on page 4 undefined on input l
+ine 26.
+
+
+LaTeX Warning: Citation `dos_santos_two-switch_2021' on page 4 undefined on inp
+ut line 26.
+
+
+LaTeX Warning: Citation `milasi_robust_2024' on page 4 undefined on input line 
+33.
+
+
+LaTeX Warning: Citation `kabalci_highly_2022' on page 4 undefined on input line
+ 33.
+
+
+LaTeX Warning: Citation `huang_high-frequency_2015' on page 4 undefined on inpu
+t line 33.
+
+
+LaTeX Warning: Citation `guacci_experimental_2019' on page 4 undefined on input
+ line 33.
+
+
+LaTeX Warning: Citation `batzelis_state-space_2018' on page 4 undefined on inpu
+t line 34.
+
+
+LaTeX Warning: Citation `lin_state-space_2021' on page 4 undefined on input lin
+e 34.
+
+
+LaTeX Warning: Citation `khan_state-space_2024' on page 4 undefined on input li
+ne 34.
+
+
+LaTeX Warning: Citation `assabaa_enhancing_2025' on page 4 undefined on input l
+ine 34.
+
+
+LaTeX Warning: Citation `hui_development_2020' on page 4 undefined on input lin
+e 36.
+
+[4 <./figures/slides//img-005-006.png (PNG copy)> <./figures/slides//img-005-00
+4.png (PNG copy)> <./figures/slides//img-005-005.png (PNG copy)> <./figures/sli
+des//img-005-007.png (PNG copy)> <./figures/slides//img-005-008.png (PNG copy)>
+ <./figures/slides//img-005-003.png (PNG copy)>])
+(./sections/05_methodology.tex
+
+LaTeX Warning: Citation `seal_system_2018' on page 5 undefined on input line 10
+.
+
+(./figures/tikz/pipeline_vmodel.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd)
+
+LaTeX Warning: Reference `tab:T1' on page 1 undefined on input line 33.
+
+
+LaTeX Warning: Reference `tab:T1' on page 1 undefined on input line 34.
+
+(./figures/tikz/shuffler_circuit.tex) [5] (./figures/tikz/nstring.tex) [6]
+[7 <./figures/slides//img-007-011.png (PNG copy)>] [8 <./figures/slides//img-01
+1-012.png (PNG copy)> <./figures/slides//img-013-015.png (PNG copy)> <./figures
+/slides//img-014-016.png (PNG copy)> <./figures/slides//img-015-017.png (PNG co
+py)> <./figures/slides//img-015-018.png (PNG copy)> <./figures/slides//img-015-
+019.png (PNG copy)>] (./figures/tikz/system_arch.tex)
+
+LaTeX Warning: Citation `mb1367_schematic' on page 9 undefined on input line 13
+4.
+
+
+LaTeX Warning: Citation `tmcs1126_ds' on page 9 undefined on input line 134.
+
+
+LaTeX Warning: Citation `ina239_ds' on page 9 undefined on input line 134.
+
+
+LaTeX Warning: Citation `rpi4_datasheet' on page 9 undefined on input line 134.
+
+
+
+LaTeX Warning: Citation `mb1367_schematic' on page 9 undefined on input line 13
+4.
+
+
+LaTeX Warning: Citation `tmcs1126_ds' on page 9 undefined on input line 134.
+
+
+LaTeX Warning: Citation `ina239_ds' on page 9 undefined on input line 134.
+
+
+LaTeX Warning: Citation `rpi4_datasheet' on page 9 undefined on input line 134.
+
+
+(./figures/tikz/gain_pipeline.tex)
+Underfull \hbox (badness 7326) in paragraph at lines 170--170
+[]\T1/ptm/b/n/10.95 (+20) Figure 9: |\T1/ptm/m/n/10.95 (+20) Gain pipeline: ide
+n-ti-fi-ca-tion in Simulink or QSPICE $\OMS/ztmcm/m/n/10.95 !$
+
+Overfull \hbox (212.82779pt too wide) in paragraph at lines 176--176
+ [][][] 
+[9] [10 <./figures/slides//img-018-026.png (PNG copy)> <./figures/slides//img-0
+18-028.png (PNG copy)>] [11 <./figures/slides//img-020-036.png (PNG copy)> <./f
+igures/slides//img-020-038.png (PNG copy)> <./figures/slides//img-020-039.png (
+PNG copy)> <./figures/slides//img-021-041.png (PNG copy)> <./figures/slides//im
+g-022-045.png (PNG copy)>]
+Overfull \hbox (20.75018pt too wide) in paragraph at lines 186--187
+[]\T1/ptm/m/n/10.95 (-20) How to run the sims and change the switch-ing fre-que
+ncy: \T1/cmtt/m/n/10.95 run_scenarios.m \T1/ptm/m/n/10.95 (-20) (Simulink) and 
+\T1/cmtt/m/n/10.95 run_scenarios.py
+(./figures/tikz/state_machine.tex) (./figures/tikz/control_loop.tex) [12]
+
+LaTeX Warning: Reference `fig:scope' on page 1 undefined on input line 210.
+
+(./figures/tikz/adc_timing.tex) (./figures/tikz/test_setup.tex)
+
+LaTeX Warning: Reference `app:journey' on page 1 undefined on input line 232.
+
+
+LaTeX Warning: Reference `app:journey' on page 1 undefined on input line 232.
+
+
+LaTeX Warning: Reference `tab:T1' on page 1 undefined on input line 238.
+
+
+Overfull \hbox (160.81029pt too wide) in paragraph at lines 238--239
+[]\T1/ptm/m/n/10.95 (-20) Test ma-trix: [] (21 win-dows); the pre-flight check-
+list and power-up or-der are in the repos-i-tory (\T1/cmtt/m/n/10.95 0_Document
+ation/experiment_checklist.md\T1/ptm/m/n/10.95 (-20) ). 
+[13 <./figures/photos//20261016_143219.jpg> <./figures/photos//20261016_143227.
+jpg> <./figures/photos//20261020_132132.jpg>]
+
+LaTeX Warning: Reference `tab:T3kscale' on page 1 undefined on input line 246.
+
+
+LaTeX Warning: Reference `app:thermal' on page 1 undefined on input line 262.
+
+) (./sections/06_results.tex (./tables/G_compare.tex) [14] [15 <./figures/slide
+s//img-001-000.png (PNG copy)> <./figures/photos//20261020_112730.jpg> <./figur
+es/slides//img-012-014.png (PNG copy)> <./figures/slides//img-012-013.png (PNG 
+copy)>]
+
+LaTeX Warning: Reference `tab:T5s4i' on page 1 undefined on input line 50.
+
+
+LaTeX Warning: Reference `tab:T5s3' on page 1 undefined on input line 51.
+
+(./tables/T6_ripple.tex)
+Overfull \hbox (4.47974pt too wide) in paragraph at lines 66--67
+[]\T1/ptm/m/n/10.95 (-20) Raw QSPICE data: 25 runs (S1 clo-sure, S3 shade, S4 r
+ef-er-ence step; bench and PV80; $\OML/ztmcm/m/it/10.95 k \OT1/ztmcm/m/n/10.95 
+= 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 1\OML/ztmcm/m/it/10.95 =\OT1/ztm
+cm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 2\OML/ztmcm/m/it/10.9
+5 =\OT1/ztmcm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 3\OML/ztmc
+m/m/it/10.95 =\OT1/ztmcm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95
+ 5\OML/ztmcm/m/it/10.95 =\OT1/ztmcm/m/n/10.95 1$\T1/ptm/m/n/10.95 (-20) ). 
+[16 <./figures//sim/carpark_matlab/00_summary.pdf>]
+
+LaTeX Warning: Reference `app:thermal' on page 1 undefined on input line 74.
+
+
+LaTeX Warning: Reference `app:bench' on page 1 undefined on input line 79.
+
+
+LaTeX Warning: Reference `app:bench' on page 1 undefined on input line 79.
+
+(./tables/T3_duty_steps.tex [17 <./figures//pipeline/qspice/S4_BENCH_k0p3.pdf> 
+<./figures//pipeline/qspice/S3_PV80_k0p3.pdf>])
+
+LaTeX Warning: Reference `tab:T2ol' on page 1 undefined on input line 90.
+
+
+LaTeX Warning: Reference `tab:T2cl' on page 1 undefined on input line 91.
+
+
+LaTeX Warning: Reference `tab:T3close' on page 1 undefined on input line 92.
+
+
+LaTeX Warning: Reference `app:solar' on page 1 undefined on input line 107.
+
+
+LaTeX Warning: Reference `app:solar' on page 1 undefined on input line 107.
+
+(./tables/T7_energy_solar.tex)
+
+LaTeX Warning: Reference `tab:T2cl' on page 1 undefined on input line 120.
+
+[18] [19 <./figures//pipeline/hardware/B06_bench_300k_CL_k0p3_overview.pdf> <./
+figures//pipeline/compare/S5_duty_steps_hw_vs_analytical.pdf>] [20 <./figures//
+pipeline/hardware/S02_solar_200k_CL_k0p1_peak_overview.pdf> <./figures//pipelin
+e/energy/S02_shade_power.pdf> <./figures//pipeline/energy/solar_energy.pdf>]
+
+LaTeX Warning: Reference `tab:T3shade' on page 1 undefined on input line 122.
+
+(./tables/T5_S4_vd2.tex
+
+LaTeX Warning: Reference `tab:T2cl' on page 21 undefined on input line 23.
+
+)
+
+LaTeX Warning: Reference `app:synth' on page 1 undefined on input line 140.
+
+
+LaTeX Warning: Reference `app:synth' on page 1 undefined on input line 140.
+
+[21 <./figures//pipeline/compare/metrics_vs_kscale.pdf>])
+(./sections/07_conclusion.tex [22 <./figures//pipeline/compare/step_S4_PV80_k0p
+3_vd2.pdf> <./figures//pipeline/compare/hw_steady_state_vs_kscale.pdf>])
+[23]
+No file main.bbl.
+(./appendices/A_timeline.tex (./figures/tikz/timeline.tex)
+Underfull \hbox (badness 5652) in paragraph at lines 20--21
+\T1/ptm/m/n/10.95 (+20) lib-rium, lin-eari-sa-tion, cas-caded PI;
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
+[]|\T1/ptm/m/n/10.95 (+20) STM32G474 Nu-cleo, TMCS1126,
+
+Underfull \hbox (badness 5119) in paragraph at lines 23--24
+\T1/ptm/m/n/10.95 (+20) INA239, Rasp-berry Pi 4B; Ki-Cad
+
+LaTeX Warning: Reference `tab:T1' on page 1 undefined on input line 28.
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[]|\T1/ptm/m/n/10.95 (+20) Results pipeline (\T1/cmtt/m/n/10.95 make all\T1/ptm
+/m/n/10.95 (+20) ), RE-
+) (./appendices/B_risk_register.tex [24] [25]
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]|\T1/ptm/m/n/12 (+20) Electronics
+
+Underfull \hbox (badness 2460) in paragraph at lines 17--17
+[]|\T1/ptm/m/n/12 (+20) Overload pro-tec-tion; spares; one-
+
+Underfull \hbox (badness 1147) in paragraph at lines 17--18
+\T1/ptm/m/n/12 (+20) (iso-la-tor wired re-versed); worked
+
+Underfull \hbox (badness 3977) in paragraph at lines 19--19
+[]|\T1/ptm/m/n/12 (+20) Monitoring soft-
+
+Underfull \hbox (badness 3792) in paragraph at lines 24--25
+[]|\T1/ptm/m/n/12 (+20) No in-ci-dent; heatsink and INA
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T1/ptm/m/n/12 (+20) die tem-per-a-tures logged (over-
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[]|\T1/ptm/m/n/12 (+20) Control--
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+\T1/ptm/m/n/12 (+20) hardware in-
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\T1/ptm/m/n/12 (+20) MPPT fails to
+[26] [27] [28]) (./appendices/C_analytical.tex
+
+LaTeX Warning: Citation `tdk_eruc23_ds' on page 29 undefined on input line 13.
+
+
+LaTeX Warning: Citation `tdk_eruc23_ds' on page 29 undefined on input line 13.
+
+[29 <./figures/slides//img-051-119.png (PNG copy)> <./figures/slides//img-052-1
+23.png (PNG copy)>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 57.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 57.
+
+[30 <./figures/slides//img-051-121.png (PNG copy)> <./figures/slides//img-052-1
+25.png (PNG copy)> <./figures/slides//img-051-120.png (PNG copy)>]
+Overfull \hbox (16.91069pt too wide) in paragraph at lines 90--91
+[]\T1/ptm/b/n/12 (-20) Plants used in the anal-y-sis. \T1/ptm/m/n/12 (-20) PV80
+ ($\OML/ztmcm/m/it/12 N \OT1/ztmcm/m/n/12 = 3$\T1/ptm/m/n/12 (-20) ): $\OML/ztm
+cm/m/it/12 V \OT1/ztmcm/m/n/12 = 20\OML/ztmcm/m/it/12 :\OT1/ztmcm/m/n/12 5 V$\T
+1/ptm/m/n/12 (-20) , $\OML/ztmcm/m/it/12 g \OT1/ztmcm/m/n/12 = 0\OML/ztmcm/m/it
+/12 :\OT1/ztmcm/m/n/12 19$\T1/ptm/m/n/12 (-20) S per mod-ule, $\OML/ztmcm/m/it/
+12 C \OT1/ztmcm/m/n/12 = [130\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 260\OML/ztm
+cm/m/it/12 ; \OT1/ztmcm/m/n/12 130] \OML/ztmcm/m/it/12 ^^V\OT1/ztmcm/m/n/12 F$\
+T1/ptm/m/n/12 (-20) ,
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 94.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 94.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 94.
+
+) (./appendices/D_pseudocode.tex [31] [32] [33]) (./appendices/E_firmware.tex
+Overfull \hbox (146.0061pt too wide) in paragraph at lines 8--22
+ [][] 
+[34]
+Overfull \hbox (9.94978pt too wide) in paragraph at lines 46--59
+ [][] 
+
+Overfull \hbox (10.95155pt too wide) in paragraph at lines 67--68
+\T1/ptm/m/n/12 (-20) States: \T1/cmtt/m/n/12 BOOT, SELFTEST, IDLE, SOFTSTART, R
+UN_OL, RUN_CL, RUN_OL1, RUN_CL1, RUN_OL2,
+
+Overfull \hbox (11.79767pt too wide) in paragraph at lines 69--70
+[]\T1/ptm/m/n/12 (-20) Commands (Pi $\OMS/ztmcm/m/n/12 !$ \T1/ptm/m/n/12 (-20) 
+Nu-cleo): \T1/cmtt/m/n/12 C,MODE,<IDLE|OL|CL|OL1|CL1|OL2|CL2>\T1/ptm/m/n/12 (-2
+0) ; \T1/cmtt/m/n/12 C,TEST,0..3\T1/ptm/m/n/12 (-20) ; \T1/cmtt/m/n/12 C,EN,0|1
+\T1/ptm/m/n/12 (-20) ;
+
+Overfull \hbox (14.7326pt too wide) in paragraph at lines 69--70
+\T1/cmtt/m/n/12 vm_uv\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vstr_ov\T1/ptm/m/n/
+12 (-20) , \T1/cmtt/m/n/12 vstr_param\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vst
+r_pi\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vm1_prot\T1/ptm/m/n/12 (-20) , \T1/c
+mtt/m/n/12 slew\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 wdg_s\T1/ptm/m/n/12 (-20)
+ ); IDLE-only (\T1/cmtt/m/n/12 hall_zero*\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12
+ vm1_src\T1/ptm/m/n/12 (-20) ).
+
+Overfull \hbox (50.77666pt too wide) in paragraph at lines 75--84
+ [][] 
+
+Overfull \hbox (86.18658pt too wide) in paragraph at lines 87--88
+\T1/ptm/m/n/12 (-20) Docker: \T1/cmtt/m/n/12 influxdb:2.7 \T1/ptm/m/n/12 (-20) 
+on :8086 (org \T1/cmtt/m/n/12 boost\T1/ptm/m/n/12 (-20) , bucket \T1/cmtt/m/n/1
+2 shuffler\T1/ptm/m/n/12 (-20) , in-fi-nite re-ten-tion) and \T1/cmtt/m/n/12 gr
+afana/grafana-oss:11.2.0
+[35] [36]) (./appendices/F_gain_sets.tex
+Overfull \hbox (5.20137pt too wide) in paragraph at lines 8--43
+ [][] 
+) (./appendices/G_simulink_figures.tex [37]
+Overfull \hbox (91.6015pt too wide) in paragraph at lines 8--21
+ [][] 
+[38 <./figures//sim/mil_matlab/00_summary.pdf>] [39 <./figures//sim/mil_matlab/
+01_uniform-zero_control.pdf> <./figures//sim/mil_matlab/01_uniform-zero_string.
+pdf> <./figures//sim/mil_matlab/01_uniform-zero_supervisory.pdf>] [40 <./figure
+s//sim/mil_matlab/02_decoupling_control.pdf> <./figures//sim/mil_matlab/02_deco
+upling_string.pdf> <./figures//sim/mil_matlab/02_decoupling_supervisory.pdf>]
+[41 <./figures//sim/mil_matlab/03_shade-balanced_control.pdf> <./figures//sim/m
+il_matlab/03_shade-balanced_string.pdf> <./figures//sim/mil_matlab/03_shade-bal
+anced_supervisory.pdf>] [42 <./figures//sim/mil_matlab/04_shade-refs_control.pd
+f> <./figures//sim/mil_matlab/04_shade-refs_string.pdf> <./figures//sim/mil_mat
+lab/04_shade-refs_supervisory.pdf>] [43 <./figures//sim/mil_matlab/05_shade-dee
+p_control.pdf> <./figures//sim/mil_matlab/05_shade-deep_string.pdf> <./figures/
+/sim/mil_matlab/05_shade-deep_supervisory.pdf>] [44 <./figures//sim/mil_matlab/
+06_mppt-uniform_control.pdf> <./figures//sim/mil_matlab/06_mppt-uniform_string.
+pdf> <./figures//sim/mil_matlab/06_mppt-uniform_supervisory.pdf>] [45 <./figure
+s//sim/mil_matlab/07_mppt-shade_control.pdf> <./figures//sim/mil_matlab/07_mppt
+-shade_string.pdf> <./figures//sim/mil_matlab/07_mppt-shade_supervisory.pdf>]
+[46 <./figures//sim/carpark_matlab/01_uniform-zero_control.pdf> <./figures//sim
+/carpark_matlab/01_uniform-zero_string.pdf> <./figures//sim/carpark_matlab/01_u
+niform-zero_supervisory.pdf>] [47 <./figures//sim/carpark_matlab/02_decoupling_
+control.pdf> <./figures//sim/carpark_matlab/02_decoupling_string.pdf> <./figure
+s//sim/carpark_matlab/02_decoupling_supervisory.pdf>] [48 <./figures//sim/carpa
+rk_matlab/03_shade-balanced_control.pdf> <./figures//sim/carpark_matlab/03_shad
+e-balanced_string.pdf> <./figures//sim/carpark_matlab/03_shade-balanced_supervi
+sory.pdf>] [49 <./figures//sim/carpark_matlab/04_shade-refs_control.pdf> <./fig
+ures//sim/carpark_matlab/04_shade-refs_string.pdf> <./figures//sim/carpark_matl
+ab/04_shade-refs_supervisory.pdf>] [50 <./figures//sim/carpark_matlab/05_shade-
+deep_control.pdf> <./figures//sim/carpark_matlab/05_shade-deep_string.pdf> <./f
+igures//sim/carpark_matlab/05_shade-deep_supervisory.pdf>])
+(./appendices/H_simulation_figures.tex
+Overfull \hbox (89.2602pt too wide) in paragraph at lines 55--1
+\T1/ptm/m/n/12 (-20) The Python pipeline re-plots ev-ery val-i-date test on the
+ com-mon axes used for the hard-ware (\T1/cmtt/m/n/12 out/figures/mil_validate\
+T1/ptm/m/n/12 (-20) ,
+
+LaTeX Warning: Reference `app:synth' on page 1 undefined on input line 3.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+[51 <./figures//pipeline/mil_validate/04_shade-refs.pdf> <./figures//pipeline/c
+arpark_validate/04_shade-refs.pdf> <./figures//pipeline/analytical/S1_BENCH_f20
+0k_k0p1.pdf> <./figures//pipeline/analytical/S1_BENCH_f200k_k0p3.pdf> <./figure
+s//pipeline/analytical/S1_BENCH_f200k_k1.pdf>] [52 <./figures//pipeline/analyti
+cal/S1_PV80_f200k_k0p1.pdf> <./figures//pipeline/analytical/S1_PV80_f200k_k0p3.
+pdf> <./figures//pipeline/analytical/S1_PV80_f200k_k1.pdf> <./figures//pipeline
+/analytical/S4_BENCH_f200k_k0p1.pdf> <./figures//pipeline/analytical/S4_BENCH_f
+200k_k0p3.pdf> <./figures//pipeline/analytical/S4_BENCH_f200k_k1.pdf> <./figure
+s//pipeline/analytical/S4_PV80_f200k_k0p1.pdf> <./figures//pipeline/analytical/
+S4_PV80_f200k_k0p3.pdf> <./figures//pipeline/analytical/S4_PV80_f200k_k1.pdf> <
+./figures//pipeline/analytical/S3_PV80_f200k_k0p1.pdf> <./figures//pipeline/ana
+lytical/S3_PV80_f200k_k0p3.pdf> <./figures//pipeline/analytical/S3_PV80_f200k_k
+1.pdf>] [53 <./figures//pipeline/analytical/S4_PV80_f300k_k0p3.pdf> <./figures/
+/pipeline/analytical/S4_PV80_f400k_k0p3.pdf> <./figures//pipeline/analytical/S5
+_BENCH_f200k_k0_uc2+0p04.pdf> <./figures//pipeline/analytical/S5_BENCH_f200k_k0
+_uc1uc2-0p02.pdf> <./figures//pipeline/analytical/S5_BENCH_f200k_k0_uc1+0p04.pd
+f>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 37.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 37.
+
+[54 <./figures//pipeline/qspice/S1_BENCH_k0p1.pdf> <./figures//pipeline/qspice/
+S1_BENCH_k0p3.pdf> <./figures//pipeline/qspice/S1_BENCH_k1.pdf> <./figures//pip
+eline/qspice/S1_PV80_k0p1.pdf> <./figures//pipeline/qspice/S1_PV80_k0p3.pdf> <.
+/figures//pipeline/qspice/S1_PV80_k1.pdf> <./figures//pipeline/qspice/S4_BENCH_
+k0p1.pdf> <./figures//pipeline/qspice/S4_BENCH_k1.pdf>] [55 <./figures//pipelin
+e/qspice/S4_PV80_k0p1.pdf> <./figures//pipeline/qspice/S4_PV80_k0p3.pdf> <./fig
+ures//pipeline/qspice/S4_PV80_k1.pdf> <./figures//pipeline/qspice/S3_PV80_k0p1.
+pdf> <./figures//pipeline/qspice/S3_PV80_k1.pdf> <./figures//pipeline/carpark/S
+1_BENCH_k0p1.pdf> <./figures//pipeline/carpark/S1_BENCH_k0p3.pdf> <./figures//p
+ipeline/carpark/S1_BENCH_k1.pdf>] [56 <./figures//pipeline/carpark/S1_PV80_k0p1
+.pdf> <./figures//pipeline/carpark/S1_PV80_k0p3.pdf> <./figures//pipeline/carpa
+rk/S1_PV80_k1.pdf> <./figures//pipeline/carpark/S4_BENCH_k0p1.pdf> <./figures//
+pipeline/carpark/S4_BENCH_k0p3.pdf> <./figures//pipeline/carpark/S4_BENCH_k1.pd
+f> <./figures//pipeline/carpark/S4_PV80_k0p1.pdf> <./figures//pipeline/carpark/
+S4_PV80_k0p3.pdf> <./figures//pipeline/carpark/S4_PV80_k1.pdf> <./figures//pipe
+line/carpark/S3_PV80_k0p1.pdf> <./figures//pipeline/carpark/S3_PV80_k0p3.pdf> <
+./figures//pipeline/carpark/S3_PV80_k1.pdf>]) (./appendices/I_bench_raw.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 8.
+
+[57 <./figures//pipeline/hardware/B01_bench_200k_OL_overview.pdf>] [58 <./figur
+es//pipeline/events/B01_e1_load_step.pdf> <./figures//pipeline/events/B01_e5_lo
+ad_step.pdf> <./figures//pipeline/hardware/B01s_bench_200k_OL_dutysteps_overvie
+w.pdf>] [59 <./figures//pipeline/events/B01s_e3_duty_step.pdf> <./figures//pipe
+line/events/B01s_e5_duty_step.pdf> <./figures//pipeline/events/B01s_e6_duty_ste
+p.pdf> <./figures//pipeline/events/B01s_e9_duty_step.pdf>] [60 <./figures//pipe
+line/hardware/B02_bench_200k_CL_k0p1_overview.pdf> <./figures//pipeline/events/
+B02_e1_close.pdf> <./figures//pipeline/events/B02_e2_close.pdf>] [61 <./figures
+//pipeline/hardware/B03_bench_200k_CL_k0p3b_overview.pdf> <./figures//pipeline/
+events/B03_e1_close.pdf> <./figures//pipeline/events/B03_e2_load_step.pdf>]
+[62 <./figures//pipeline/hardware/B04_bench_200k_CL_k0p3_overview.pdf> <./figur
+es//pipeline/events/B04_e1_close.pdf> <./figures//pipeline/events/B04_e2_kscale
+_apply.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 22.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 22.
+
+[63 <./figures//pipeline/hardware/B05_bench_300k_OL_overview.pdf>] [64 <./figur
+es//pipeline/events/B06_e1_close.pdf> <./figures//pipeline/events/B06_e2_load_s
+tep.pdf>] [65 <./figures//pipeline/events/B06_e4_load_step.pdf> <./figures//pip
+eline/events/B06_e6_load_step.pdf> <./figures//pipeline/hardware/B07_bench_300k
+_CL_k0p5_overview.pdf>] [66 <./figures//pipeline/events/B07_e8_close.pdf> <./fi
+gures//pipeline/events/B07_e9_kscale_apply.pdf> <./figures//pipeline/events/B07
+_e20_close.pdf> <./figures//pipeline/events/B07_e21_kscale_apply.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 32.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 32.
+
+[67 <./figures//pipeline/hardware/B08_bench_400k_OL_overview.pdf>] [68 <./figur
+es//pipeline/events/B08_e2_load_step.pdf> <./figures//pipeline/events/B08_e3_ks
+cale_apply.pdf> <./figures//pipeline/hardware/B09_bench_400k_CL_k0p3_overview.p
+df>] (./tables/T2_ol_steady.tex) (./tables/T3_closures.tex
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 18 on input line 58.
+
+[69 <./figures//pipeline/events/B09_e1_close.pdf> <./figures//pipeline/events/B
+09_e4_load_step.pdf>]) (./tables/T7_energy_bench.tex))
+(./appendices/J_solar_raw.tex [70] [71 <./figures//pipeline/hardware/S01_solar_
+200k_OL_peak_overview.pdf> <./figures//pipeline/events/S01_e2_mismatch_off.pdf>
+ <./figures//pipeline/events/S01_e3_irradiance_down.pdf>] [72 <./figures//pipel
+ine/events/S02_e1_close.pdf> <./figures//pipeline/events/S02_e2_mismatch_on.pdf
+>] [73 <./figures//pipeline/events/S02_e3_irradiance_up.pdf> <./figures//pipeli
+ne/events/S02_e5_mismatch_off.pdf>] [74 <./figures//pipeline/hardware/S03_solar
+_200k_OL_min_overview.pdf> <./figures//pipeline/events/S03_e2_mismatch_on.pdf> 
+<./figures//pipeline/events/S03_e3_mismatch_off.pdf>] [75 <./figures//pipeline/
+hardware/S04_solar_200k_CL_k0p1_min_overview.pdf> <./figures//pipeline/hardware
+/S05_solar_200k_CL_k0p2_min_overview.pdf>] [76 <./figures//pipeline/events/S05_
+e1_close.pdf> <./figures//pipeline/events/S05_e2_mismatch_on.pdf> <./figures//p
+ipeline/hardware/S06_solar_200k_CL_k0p3_min_overview.pdf>] [77 <./figures//pipe
+line/hardware/S07_solar_200k_CL_k0p4_min_overview.pdf> <./figures//pipeline/har
+dware/S08_solar_200k_CL_k0p5_min_overview.pdf>] [78 <./figures//pipeline/events
+/S08_e1_close.pdf> <./figures//pipeline/events/S08_e2_mismatch_on.pdf> <./figur
+es//pipeline/hardware/S09_solar_200k_CL_k0p6_min_overview.pdf>] [79 <./figures/
+/pipeline/hardware/S10_solar_200k_CL_k0p7_min_overview.pdf> <./figures//pipelin
+e/hardware/S11_solar_200k_CL_k0p8_min_overview.pdf>] (./tables/T3_shade.tex
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 20 on input line 61.
+
+)) (./appendices/K_synthesis_tables.tex
+Overfull \hbox (10.80191pt too wide) in paragraph at lines 3--4
+\T1/ptm/m/n/12 (-20) All ta-bles are gen-er-ated from \T1/cmtt/m/n/12 8_Results
+/analysis/out/tables/*.csv \T1/ptm/m/n/12 (-20) by \T1/cmtt/m/n/12 tools/make_t
+ables.py\T1/ptm/m/n/12 (-20) ;
+[80 <./figures//pipeline/events/S04_e1_close.pdf> <./figures//pipeline/events/S
+06_e1_close.pdf> <./figures//pipeline/events/S11_e1_close.pdf>]
+(./tables/T1_inventory.tex
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Overfull \hbox (28.37457pt too wide) in alignment at lines 11--33
+ [] [] [] [] [] [] [] [] [] [] 
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 21 on input line 33.
+
+) (./tables/T2_cl_steady.tex [81]
+
+Package longtable Warning: Column widths have changed
+(longtable)                in table 22 on input line 35.
+
+) (./tables/T5_S4_ic2.tex) (./tables/T5_S3.tex) [82] [83 <./figures//pipeline/c
+ompare/step_S4_BENCH_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S4_BENCH_k
+0p3_vd2.pdf> <./figures//pipeline/compare/step_S4_BENCH_k1_vd2.pdf> <./figures/
+/pipeline/compare/step_S4_BENCH_k0p1_ic2.pdf> <./figures//pipeline/compare/step
+_S4_BENCH_k0p3_ic2.pdf> <./figures//pipeline/compare/step_S4_BENCH_k1_ic2.pdf> 
+<./figures//pipeline/compare/step_S4_PV80_k0p1_vd2.pdf> <./figures//pipeline/co
+mpare/step_S4_PV80_k1_vd2.pdf> <./figures//pipeline/compare/step_S4_PV80_k0p1_i
+c2.pdf> <./figures//pipeline/compare/step_S4_PV80_k0p3_ic2.pdf> <./figures//pip
+eline/compare/step_S4_PV80_k1_ic2.pdf> <./figures//pipeline/compare/step_S1_BEN
+CH_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S1_BENCH_k0p3_vd2.pdf> <./fi
+gures//pipeline/compare/step_S1_BENCH_k0p5_vd2.pdf>] [84 <./figures//pipeline/c
+ompare/step_S1_PV80_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S1_PV80_k0p
+3_vd2.pdf> <./figures//pipeline/compare/step_S1_PV80_k0p5_vd2.pdf> <./figures//
+pipeline/compare/step_S3_PV80_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S
+3_PV80_k0p1_id2.pdf> <./figures//pipeline/compare/step_S3_PV80_k0p1_Pstr.pdf> <
+./figures//pipeline/compare/step_S3_PV80_k0p3_vd2.pdf> <./figures//pipeline/com
+pare/step_S3_PV80_k0p3_id2.pdf> <./figures//pipeline/compare/step_S3_PV80_k0p3_
+Pstr.pdf> <./figures//pipeline/compare/ripple_vs_fsw.pdf>])
+(./appendices/L_thermal_scope.tex) (./appendices/M_journey.tex) [85 <./figures/
+/misc/thermal_lab_16oct.png> <./figures//misc/thermal_solar_20oct.png> <./figur
+es//misc/thermal_100k.png>] [86 <./figures//misc/scope_200k.png> <./figures//mi
+sc/scope_300k.png> <./figures//misc/scope_400k.png> <./figures//misc/scr02.png>
+ <./figures//misc/scr04.png>] [87 <./figures/photos//20260828_075344.jpg> <./fi
+gures/photos//20260925_000522.jpg> <./figures/photos//20261004_141445.jpg> <./f
+igures/photos//20261004_162523.jpg> <./figures/photos//20261004_162616.jpg> <./
+figures/photos//20261006_102236.jpg> <./figures/photos//20261007_081025.jpg> <.
+/figures/photos//20261011_101108.jpg> <./figures/photos//20261014_100557.jpg>]
+[88 <./figures/photos//20261014_164518.jpg> <./figures/photos//20261014_212624.
+jpg> <./figures/photos//20261012_180815.jpg> <./figures/photos//20261016_143209
+.jpg> <./figures/photos//20261016_153331.jpg> <./figures/photos//IMG-20261014.j
+pg> <./figures/photos//20261020_131748.jpg> <./figures/photos//20261020_131809.
+jpg>]
+
+Package longtable Warning: Table widths have changed. Rerun LaTeX.
+
+(build/main.aux)
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ecit1000
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input ecit1000
+This is METAFONT, Version 2.71828182 (TeX Live 2022/dev/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ecit1000.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ecit.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/extextit.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exileast.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exilwest.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exruwest.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrueast.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbraces.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expunct.mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exsign.mf
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exilig.mf
+ Ok [25] [26] [27] [28] [29] [30] [31])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exitalp.mf
+ Ok [38] [63] [190])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrulett.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exillett.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exidigit.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exmligtb.mf
+ Ok) ) ) )
+Font metrics written on ecit1000.tfm.
+Output written on ecit1000.600gf (256 characters, 45820 bytes).
+Transcript written on ecit1000.log.
+mktexpk: /home/jared/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1000.600pk: successfully generated.
+
+
+LaTeX Warning: There were undefined references.
+
+
+LaTeX Warning: Label(s) may have changed. Rerun to get cross-references right.
+
+
+Package rerunfilecheck Warning: File `main.out' has changed.
+(rerunfilecheck)                Rerun to get outlines right
+(rerunfilecheck)                or use package `bookmark'.
+
+ )
+(see the transcript file for additional information) </home/jared/.texlive2021/
+texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1000.600pk>
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ectt1000
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input ectt1000
+This is METAFONT, Version 2.71828182 (TeX Live 2022/dev/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt1000.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exroman.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exruwest.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlwest.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrueast.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrleast.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbraces.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expunct.mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exsign.mf
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlig.mf
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exromp.mf
+ Ok [38] [63] [190])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrulett.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrllett.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrdigit.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exmligtb.mf
+ Ok) ) ) )
+Font metrics written on ectt1000.tfm.
+Output written on ectt1000.600gf (256 characters, 43832 bytes).
+Transcript written on ectt1000.log.
+mktexpk: /home/jared/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk: successfully generated.
+ </home/jared/.texlive2021
+/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk>
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ectt1200
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input ectt1200
+This is METAFONT, Version 2.71828182 (TeX Live 2022/dev/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt1200.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exroman.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exruwest.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlwest.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrueast.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrleast.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbraces.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expunct.mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exsign.mf
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlig.mf
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exromp.mf
+ Ok [38] [63] [190])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrulett.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrllett.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrdigit.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exmligtb.mf
+ Ok) ) ) )
+Font metrics written on ectt1200.tfm.
+Output written on ectt1200.600gf (256 characters, 51736 bytes).
+Transcript written on ectt1200.log.
+mktexpk: /home/jared/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1200.600pk: successfully generated.
+ </home/jared/.texlive202
+1/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1200.600pk>
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ectt0800
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input ectt0800
+This is METAFONT, Version 2.71828182 (TeX Live 2022/dev/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt0800.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exroman.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exruwest.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlwest.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrueast.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrleast.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbraces.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expunct.mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exsign.mf
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlig.mf
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exromp.mf
+ Ok [38] [63] [190])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrulett.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrllett.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrdigit.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exmligtb.mf
+ Ok) ) ) )
+Font metrics written on ectt0800.tfm.
+Output written on ectt0800.600gf (256 characters, 35488 bytes).
+Transcript written on ectt0800.log.
+mktexpk: /home/jared/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk: successfully generated.
+ </home/jared/.texlive20
+21/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk>
+kpathsea: Running mktexpk --mfmode / --bdpi 600 --mag 1+0/600 --dpi 600 ectt1095
+mktexpk: Running mf-nowin -progname=mf \mode:=ljfour; mag:=1+0/600; nonstopmode; input ectt1095
+This is METAFONT, Version 2.71828182 (TeX Live 2022/dev/Debian) (preloaded base=mf)
+
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt1095.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbase.mf)
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/ectt.mf
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exroman.mf
+ Ok (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccess.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expseudo.mf
+ Ok) (/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exruwest.mf
+ Ok [192] [193] [194] [195] [196] [197] [198] [199] [200] [201] [202] [203]
+[204] [205] [206] [207] [208] [209] [210] [211] [212] [213] [214] [215]
+[216] [217] [218] [219] [220] [221] [222] [223])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlwest.mf
+ Ok [224] [225] [226] [227] [228] [229] [230] [231] [232] [233] [234] [235]
+[236] [237] [238] [239] [240] [241] [242] [243] [244] [245] [246] [247]
+[248] [249] [250] [251] [252] [253] [254] [255])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrueast.mf
+ Ok [128] [129] [130] [131] [132] [133] [134] [135] [136] [137] [138] [139]
+[140] [141] [142] [143] [144] [145] [146] [147] [148] [149] [150] [151]
+[152] [153] [154] [155] [156] [157])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrleast.mf
+ Ok [158] [160] [161] [162] [163] [164] [165] [166] [167] [168] [169] [170]
+[171] [172] [173] [174] [175] [176] [177] [178] [179] [180] [181] [182]
+[183] [184] [185] [186] [187] [188])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exbraces.mf
+ Ok [94] [126] [23] [40] [41] [60] [124] [62] [91] [93] [92] [123] [125]
+[95] [127] [32])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/expunct.mf
+ Ok [14] [15] [19] [20] [13] [18] [33] [39] [42] [43] [44] [46] [47] [58]
+[59] [61] [96] [189] [17] [45] [16] [21] [22])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exaccent.mf
+ Ok [0] [1] [2] [3] [4] [5] [6] [7] [8] [9] [10] [11] [12])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exsign.mf
+ Ok [24] [34] [35] [36] [37] [64] [191] [159])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrlig.mf
+ Ok [25] [26] [28] [27] [29] [30] [31])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exromp.mf
+ Ok [38] [63] [190])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrulett.mf
+ Ok [65] [66] [67] [68] [69] [70] [71] [72] [73] [74] [75] [76] [77] [78]
+[79] [80] [81] [82] [83] [84] [85] [86] [87] [88] [89] [90])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrllett.mf
+ Ok [97] [98] [99] [100] [101] [102] [103] [104] [105] [106] [107] [108]
+[109] [110] [111] [112] [113] [114] [115] [116] [117] [118] [119] [120]
+[121] [122])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exrdigit.mf
+ Ok [48] [49] [50] [51] [52] [53] [54] [55] [56] [57])
+(/usr/share/texlive/texmf-dist/fonts/source/jknappen/ec/exmligtb.mf
+ Ok) ) ) )
+Font metrics written on ectt1095.tfm.
+Output written on ectt1095.600gf (256 characters, 47796 bytes).
+Transcript written on ectt1095.log.
+mktexpk: /home/jared/.texlive2021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk: successfully generated.
+ </home/jared/.texlive2
+021/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk>{/usr/share/texlive/te
+xmf-dist/fonts/enc/dvips/base/8r.enc}</usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
+mb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on build/main.pdf (90 pages, 35963825 bytes).
+Transcript written on build/main.log.

@@ -1,0 +1,58 @@
+% Title page in the style of the proposal / progress report: navy QUT banner
+% with the logo, blue title block, tinted people panel and version table.
+\definecolor{qutnavy}{RGB}{0,64,122}
+\definecolor{qutblue}{RGB}{15,82,150}
+\definecolor{qutpale}{RGB}{244,247,251}
+\definecolor{qutfoot}{RGB}{226,231,238}
+\begin{titlepage}
+\thispagestyle{empty}
+\sffamily
+\begin{tikzpicture}[remember picture,overlay]
+  % banner
+  \fill[qutnavy] (current page.north west) rectangle ([yshift=-38mm]current page.north east);
+  \node[anchor=north east,inner sep=0pt] at ([xshift=-20mm,yshift=-6mm]current page.north east)
+       {\includegraphics[height=26mm]{misc/qut_logo}};
+  \draw[white,line width=0.6pt] ([xshift=-20mm,yshift=-6mm]current page.north east) rectangle ++(-26mm,-26mm);
+  \node[anchor=west,text=white,align=left] at ([xshift=20mm,yshift=-16mm]current page.north west)
+       {\large\bfseries QUEENSLAND UNIVERSITY OF TECHNOLOGY\\[3pt]\normalsize\color{white!80!qutnavy}EGH490-2 \textperiodcentered{} Research Project 2};
+  % footer band
+  \fill[qutfoot] (current page.south west) rectangle ([yshift=16mm]current page.south east);
+  \fill[qutnavy] (current page.south west) rectangle ([yshift=2.2mm]current page.south east);
+  \node[anchor=west,text=qutnavy!70] at ([xshift=20mm,yshift=9mm]current page.south west) {\small October 23, 2026};
+  \node[anchor=east,text=qutnavy!70] at ([xshift=-20mm,yshift=9mm]current page.south east) {\small Jared Saunders \textperiodcentered{} n11034459};
+\end{tikzpicture}
+
+\vspace*{22mm}
+\begin{center}
+{\color{qutnavy!75}\large PROJECT DELIVERY REPORT}
+
+\vspace{9mm}
+{\color{qutblue}\fontsize{25}{31}\selectfont\bfseries Controlling Differential Power Processors\\[2pt] in Solar Powered Applications\par}
+
+\vspace{7mm}
+{\color{qutblue}\rule{22mm}{1.2pt}}
+
+\vspace{7mm}
+{\color{qutnavy!80}\large THE DESIGN AND IMPLEMENTATION OF MODERN STATE-SPACE\\[2pt] METHODS TO SERIAL PARTIAL POWER CONVERTERS\par}
+
+\vspace{6mm}
+\includegraphics[height=62mm]{img-001-000}
+
+\vspace{6mm}
+\colorbox{qutpale}{\begin{minipage}{0.92\linewidth}\vspace{4mm}\centering
+\begin{tabular}{p{0.38\linewidth}p{0.56\linewidth}}
+\centering{\color{qutnavy}\footnotesize\bfseries STUDENT ENGINEER} & \centering{\color{qutnavy}\footnotesize\bfseries SUPERVISOR}\tabularnewline[3pt]
+\centering\large Jared Saunders & \centering\large Assoc Prof Geoff Walker\tabularnewline[1pt]
+\centering{\color{qutblue}\small n11034459} & \centering{\color{qutblue}\small School of Electrical Engineering \& Robotics}\tabularnewline
+\end{tabular}\vspace{4mm}\end{minipage}}
+
+\vspace{7mm}
+{\small\renewcommand{\arraystretch}{1.35}%
+\begin{tabular}{>{\columncolor{qutpale}}p{14mm}>{\columncolor{qutpale}}p{20mm}>{\columncolor{qutpale}}p{30mm}>{\columncolor{qutpale}}p{58mm}}
+\rowcolor{qutnavy}\color{white}\scriptsize\bfseries Version & \color{white}\scriptsize\bfseries Date & \color{white}\scriptsize\bfseries Author & \color{white}\scriptsize\bfseries Changes / Comments\\
+1.0 & 17/04/26 & Jared Saunders & Project Proposal\\
+2.0 & 29/05/26 & Jared Saunders & Semester 1 Progress Report\\
+3.0 & 23/10/26 & Jared Saunders & Project Delivery Report\\
+\end{tabular}}
+\end{center}
+\end{titlepage}

@@ -1,0 +1,23 @@
+\section{Synthesis: Inventory and Metrics}
+\label{app:synth}
+{\sloppy All tables are generated from the pipeline CSVs (\code{8\_Results/analysis/out/tables}) by \code{tools/make\_tables.py}; \code{make all} in \code{8\_Results/analysis} rebuilds the CSVs from the exported test windows (the full set, including every event and every signal, is in \code{REPORT.md} and the CSVs). Only the tables the report cites are reproduced here.\par}
+
+\subsection{Metric definitions}
+Every metric has one definition for every phase (\code{stepmetrics.py}): initial and final levels (medians), step size, 10--90\,\% rise time, peak value and time, overshoot and undershoot, 2\,\%, 5\,\% and absolute-band settling times, steady-state error, IAE, and a fitted $\tau$ or $(\zeta, \omega_n)$. Noise is the median absolute deviation of the pre-event window; steady state is reported as mean, standard deviation, peak-to-peak, RMS and dominant frequency (Welch); and energy as $E_{load}$, $E_{shuffled}$ and $E_{returned} = \int (I_{str} - \max(\min_k I_k, 0))\,V_{str}\,\mathrm{d}t$.
+
+\subsection{Test-case inventory and data rules}
+\input{tables/T1_inventory}
+\begin{itemize}
+  \item Only RUN\_OL / RUN\_CL frames are analysed; frames repeating all ten control fields are dropped; leading/trailing frames where $V_{M2}$ or $V_{M3}$ left the run median by $>2\V$ (supply switched off before the FAULT) are dropped.
+  \item $I_{M1r}$ / $I_{M2r}$ are recomputed from $I_{LA}$, $I_{LB}$, the duties and the e-load current by the firmware's KCL (\cref{lst:recon}): $I_1 = I_{str} + d_{A1}I_{LA1} - d_{B1}I_{LB1}$, $I_3 = I_{str} - (i_{sh2} - d_{A2}I_{LA2} + d_{B2}I_{LB2})$, $I_2 = I_3 + I_{M2r}$.
+  \item $V_{M1}$: where the telemetry $V_{M1}$ disagrees with the 5\,Hz e-load by $>2\V$ (200\,kHz open-loop runs) it is replaced by $V_{eload} - V_{M2} - V_{M3}$; $\vd{}_{,2}$ is the primary hardware voltage signal.
+  \item Hardware times shorter than one telemetry frame (23\,ms at 44\,Hz; 70--90\,ms at 11--14\,Hz) are bounds, printed ``$\le$''.
+\end{itemize}
+
+\subsection{Hardware closed-loop steady state}
+\input{tables/T2_cl_steady}
+
+\subsection{Cross-phase step metrics}
+\input{tables/T5_S4_vd2}
+\input{tables/T5_S4_ic2}
+\input{tables/T5_S3}

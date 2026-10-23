@@ -1,0 +1,50 @@
+% One interleaved buck-boost power shuffler j between modules j and j+1 (layout after the
+% EGH490-1 progress report, Fig. 1), in the variables of the N-module model.  Print size.
+\begin{circuitikz}[american,font=\footnotesize,x=0.96cm,y=1cm,
+    pwm/.pic={\draw[thin] (0,0) -- (0,0.22) -- (0.16,0.22) -- (0.16,0) -- (0.32,0) -- (0.32,0.22) -- (0.48,0.22) -- (0.48,0);},
+    phbox/.style={draw,densely dashed,rounded corners=4pt,gray!70!black,inner sep=4pt}]
+  \def\yT{5}\def\yM{2.65}\def\yB{0}
+  % ---------------- phase B leg (x = 2.0) and phase A leg (x = 6.0)
+  \foreach \x/\p in {2.0/B,6.0/A}{
+    \draw (\x,\yT) node[nmos,bodydiode,anchor=D] (QH\p) {};
+    \draw (QH\p.S) -- (\x,3.15) coordinate (sw\p);
+    \draw (\x,2.2) node[nmos,bodydiode,anchor=D] (QL\p) {};
+    \draw (QL\p.S) -- (\x,\yB);
+    \draw (QH\p.G) -- ++(-0.35,0) coordinate (gH\p);
+    \draw (QL\p.G) -- ++(-0.35,0) coordinate (gL\p);
+    \pic at ($(gH\p)+(-0.62,-0.11)$) {pwm};
+    \pic at ($(gL\p)+(-0.62,-0.11)$) {pwm};
+    \draw (sw\p) -- (\x,2.2);
+  }
+  \node[left,font=\scriptsize] at ($(gHB)+(-0.65,0)$) {$d_B$};
+  \node[left,font=\scriptsize] at ($(gLB)+(-0.65,0)$) {$1-d_B$};
+  \node[left,font=\scriptsize] at ($(gHA)+(-0.65,0)$) {$d_A$};
+  \node[left,font=\scriptsize] at ($(gLA)+(-0.65,0)$) {$1-d_A$};
+  \node[phbox,fit={(-0.55,4.95) (2.45,0.25)},label={[font=\footnotesize\sffamily]below:Phase B}] {};
+  \node[phbox,fit={(3.45,4.95) (6.45,0.25)},label={[font=\footnotesize\sffamily]below:Phase A}] {};
+  % rails
+  \draw (2.0,\yT) -- (14.7,\yT);
+  \draw (2.0,\yB) -- (14.7,\yB);
+  \fill (6.0,\yT) circle (1.5pt) (6.0,\yB) circle (1.5pt);
+  % ---------------- coupled windings: switch nodes -> midpoint phi_{j+1}
+  \draw (swA) node[circ]{} -- (6.7,3.15) -- (6.7,3.6) to[short,i=$i_A$] (7.3,3.6) to[cute inductor,l=$L_A$] (8.9,3.6) -- (9.6,3.6) -- (9.6,\yM);
+  \draw (2.0,2.55) node[circ]{} -- (5.8,2.55) arc[start angle=180,end angle=0,radius=0.2] -- (6.7,2.55) -- (6.7,2.1)
+        to[short,i=$i_B$] (7.3,2.1) to[cute inductor,l_=$L_B$] (8.9,2.1) -- (9.6,2.1) -- (9.6,\yM);
+  % dots: anti-series (1:-1) coupling as built
+  \fill (7.45,3.95) circle (1.6pt);  \fill (8.75,1.75) circle (1.6pt);
+  \draw[<->,thin] (8.1,3.3) -- node[right=1pt,font=\scriptsize]{$M$} (8.1,2.4);
+  \node[font=\scriptsize,align=left,anchor=north west] at (6.6,0.95)
+       {$i_m = i_A + i_B$ (shuffled, into $\phi_{j+1}$)\\$i_c = i_A - i_B$ (circulating)};
+  % ---------------- midpoint, decoupling capacitors, modules
+  \draw (9.6,\yM) node[circ]{} -- (14.7,\yM);
+  \draw (10.7,\yT) to[C,l_=$C_j$,*-*] (10.7,\yM) to[C,l_=$C_{j+1}$,-*] (10.7,\yB);
+  \draw (12.2,\yM) to[pvsource,l_=$I_j$,*-*] (12.2,\yT);
+  \draw (12.2,\yB) to[pvsource,l_=$I_{j+1}$,*-*] (12.2,\yM);
+  \draw (13.95,\yT) to[open,v^>=$v_j$] (13.95,\yM);
+  \draw (13.95,\yM) to[open,v^>=$v_{j+1}$] (13.95,\yB);
+  \node[ocirc] at (14.7,\yT) {}; \node[ocirc] at (14.7,\yM) {}; \node[ocirc] at (14.7,\yB) {};
+  \node[right,align=left] at (14.75,\yT) {$\phi_j$\\[-1pt]{\scriptsize top rail}};
+  \node[right,align=left] at (14.75,\yM) {$\phi_{j+1}$\\[-1pt]{\scriptsize midpoint}};
+  \node[right,align=left] at (14.75,\yB) {$\phi_{j+2}$\\[-1pt]{\scriptsize bottom rail}};
+  \node[font=\scriptsize\sffamily] at (12.2,5.45) {modules $j$, $j+1$};
+\end{circuitikz}

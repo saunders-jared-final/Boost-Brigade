@@ -1,0 +1,30 @@
+% Deployed control architecture (10 kHz ISR forward path, feedback, 1 kHz supervisor).  Print size.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+    b/.style={draw,rounded corners=2pt,thick,minimum height=10mm,align=center,inner sep=3pt},
+    f/.style={-{Stealth[length=1.8mm]},semithick},
+    l/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt}]
+  % forward path
+  \node[b,fill=blue!6,minimum width=22mm]  (ref)  at (1.1,0)  {references\\$r = [V_{ref}+r_v,\,0]$};
+  \node[draw,circle,thick,inner sep=1.5pt] (sum)  at (3.15,0)  {$\Sigma$};
+  \node[b,fill=blue!6,minimum width=25mm]  (pi)   at (5.55,0)  {MIMO PI, 10 kHz\\$u = k\,(M_p e + M\xi)$};
+  \node[b,fill=blue!6,minimum width=19mm]  (map)  at (9.05,0)   {duty map\\+ limits};
+  \node[b,fill=orange!10,minimum width=19mm] (pwm) at (11.95,0) {HRTIM PWM\\4 legs};
+  \node[b,fill=yellow!15,minimum width=17mm] (pl)  at (14.85,0) {2 shufflers\\3 modules};
+  % feedback path
+  \node[b,fill=green!8,minimum width=27mm]  (sen)  at (13.3,-2.1) {TMCS1126 $\times$4 $\rightarrow$ ADC\\INA239 $\times$3 $\rightarrow$ SPI};
+  \node[b,fill=green!8,minimum width=27mm]  (lpf)  at (6.8,-2.1)  {reconstruction\\+ LPF $f_c = 2$ kHz};
+  % supervisor
+  \node[b,fill=red!8,minimum width=27mm]   (sup)  at (5.55,-3.7)  {supervisor, 1 kHz\\stress $\rightarrow\beta\rightarrow r_v$};
+  % wiring
+  \draw[f] (ref) -- (sum);
+  \draw[f] (sum) -- node[l,above]{$e$} (pi);
+  \draw[f] (pi) -- node[l,above]{$u_c, u_d$} (map);
+  \draw[f] (map) -- node[l,above]{$d_A, d_B$} (pwm);
+  \draw[f] (pwm) -- (pl);
+  \draw[f] (pl.south) |- node[l,pos=0.25,right]{$V_M$, $I_L$} (sen.east);
+  \draw[f] (sen) -- (lpf);
+  \draw[f] (lpf.west) -| node[l,pos=0.2,above]{$y = [v_d,\ i_c]$} node[l,pos=0.93,left]{$-$} (sum.south);
+  \draw[f] (sen.south) |- node[l,pos=0.75,below]{$I_L$, module currents} (sup.east);
+  \draw[f] ([xshift=-3mm]map.south) |- node[l,pos=0.6,above]{applied duties} ([yshift=2mm]sup.east);
+  \draw[f] (sup.west) -| node[l,pos=0.25,below]{$r_v$ (one-tick delay)} (ref.south);
+\end{tikzpicture}

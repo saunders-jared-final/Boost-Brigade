@@ -1,0 +1,54 @@
+% System architecture and data flow (after the presentation's controller data-flow diagram).
+% Print size.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+    bx/.style={draw,rounded corners=3pt,minimum width=20mm,minimum height=7.5mm,align=center,thick},
+    usr/.style={bx,draw=blue!55!black,fill=blue!8},
+    pi/.style={bx,draw=green!45!black,fill=green!8},
+    db/.style={bx,draw=orange!70!black,fill=orange!10},
+    mcu/.style={bx,draw=violet!60!black,fill=violet!8},
+    pl/.style={bx,draw=red!60!black,fill=red!8},
+    ld/.style={bx,draw=gray!60!black,fill=gray!8},
+    fl/.style={-{Stealth[length=1.8mm]},semithick},
+    bl/.style={{Stealth[length=1.8mm]}-{Stealth[length=1.8mm]},semithick},
+    l/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt}]
+  % main row
+  \node[usr] (user)  at (0,1.2)    {User};
+  \node[pi]  (pi)    at (4.9,1.2)  {Raspberry Pi 4B};
+  \node[mcu] (mcu)   at (9.8,1.2) {NUCLEO-G474RE};
+  \node[pl]  (plant) at (14.25,1.2) {Shuffler PCB\\+ 3 PV modules};
+  % Pi peripherals
+  \node[pi]  (ir)    at (2.45,2.75) {IR receiver};
+  \node[pi]  (led)   at (2.45,-0.35) {RGB LED};
+  \node[pi]  (lcd)   at (2.45,-1.55) {LCD screen};
+  % data services (Docker on the Pi)
+  \node[db]  (graf)  at (0,4.3)   {Grafana};
+  \node[db]  (infl)  at (4.9,4.3) {InfluxDB};
+  % sensing
+  \node[mcu] (cs)    at (12.0,-0.35) {TMCS1126 $\times$4};
+  \node[mcu] (vs)    at (12.0,-1.55) {INA239 $\times$3};
+  % electronic load
+  \node[ld]  (el)    at (9.8,3.15) {Rigol DL3021\\e-load (CV)};
+  % user interaction
+  \draw[fl] (user) -- node[l,above]{SSH, params} (pi);
+  \draw[fl] (user.north east) to[out=70,in=180] node[l,pos=0.3,left]{IR remote} (ir.west);
+  \draw[fl] (ir.east) to[out=0,in=110] node[l,pos=0.5,above right]{button} ([xshift=-4mm]pi.north);
+  \draw[fl] ([xshift=-4mm]pi.south) to[out=-100,in=0] node[l,pos=0.5,right]{colour = state} (led.east);
+  \draw[fl] ([xshift=2mm]pi.south) to[out=-80,in=0] node[l,pos=0.5,right]{menu / telemetry} (lcd.east);
+  \draw[fl] (led.west) to[out=180,in=-60] (user.south east);
+  \draw[fl] (lcd.west) to[out=180,in=-90] node[l,pos=0.55,below left]{system state} (user.south);
+  % logging
+  \draw[fl] (pi) -- node[l,right,pos=0.72]{store telemetry} (infl);
+  \draw[fl] (infl) -- node[l,above]{query} (graf);
+  \draw[fl] (graf) -- node[l,left]{dashboards} (user);
+  % control path
+  \draw[fl] ([yshift=1.5mm]pi.east) -- node[l,above]{flash, commands} ([yshift=1.5mm]mcu.west);
+  \draw[fl] ([yshift=-1.5mm]mcu.west) -- node[l,below]{telemetry 50 Hz} ([yshift=-1.5mm]pi.east);
+  \draw[fl] (mcu) -- node[l,above]{PWM $\times$8} (plant);
+  \draw[fl] ([xshift=4mm]plant.south) |- (cs.east);
+  \draw[fl] ([xshift=4mm]plant.south) |- (vs.east);
+  \draw[fl] (cs.west) -| node[l,pos=0.3,above]{ADC} ([xshift=-3mm]mcu.south);
+  \draw[fl] (vs.west) -| node[l,pos=0.2,above]{SPI} ([xshift=3mm]mcu.south);
+  % e-load
+  \draw[bl] (el.east) -| node[l,pos=0.75,right]{string} (plant.north);
+  \draw[bl] ([xshift=-2mm]pi.north east) |- node[l,pos=0.75,above]{USB-TMC (SCPI), 5 Hz} (el.west);
+\end{tikzpicture}

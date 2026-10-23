@@ -1,0 +1,38 @@
+% Controller design pipeline mapped onto the systems-engineering V-model.
+% Drawn at print size (text width 17 cm): include without \resizebox.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\scriptsize,
+    ph/.style={draw,rounded corners=2pt,minimum width=32mm,minimum height=8.5mm,align=center,inner sep=2pt},
+    arm/.style={-{Stealth[length=1.8mm]},thick,gray!70!black},
+    ver/.style={{Stealth[length=1.6mm]}-{Stealth[length=1.6mm]},densely dashed,gray!70!black},
+    vlab/.style={fill=white,inner sep=1pt,align=center,font=\sffamily\scriptsize\itshape,text=gray!40!black}]
+  % the V itself: a band through the box centres
+  \begin{scope}[on background layer]
+    \draw[line width=12mm,gray!9,line cap=round,line join=round] (1.75,4.4) -- (6.15,0) -- (10.85,0) -- (15.25,4.4);
+  \end{scope}
+  % left arm: definition and decomposition (45 degrees)
+  \node[ph,fill=blue!6]   (p0) at (1.75,4.4) {\textbf{0 Background research}\\\textit{Concept of operations}};
+  \node[ph,fill=blue!6]   (p1) at (2.85,3.3) {\textbf{1 Analytical solution}\\\textit{System requirements}};
+  \node[ph,fill=blue!6]   (p2) at (3.95,2.2) {\textbf{2 Model-in-the-loop}\\\textit{High-level design}};
+  \node[ph,fill=blue!6]   (p3) at (5.05,1.1) {\textbf{3 Component selection}\\\textit{Detailed design}};
+  % base of the V
+  \node[ph,fill=yellow!15] (p4) at (6.85,0)  {\textbf{4 Firmware / software}\\\textit{Development}};
+  \node[ph,fill=yellow!15] (p5) at (10.15,0) {\textbf{5 Software-in-the-loop}\\\textit{Unit verification}};
+  % right arm: integration and verification
+  \node[ph,fill=green!8]  (p6) at (11.95,1.1) {\textbf{6 QSPICE integration}\\\textit{Subsystem verification}};
+  \node[ph,fill=green!8]  (p7) at (13.05,2.2) {\textbf{7 Bench test}\\\textit{System verification}};
+  \node[ph,fill=green!8]  (p8) at (14.15,3.3) {\textbf{8 Solar test}\\\textit{System validation}};
+  \node[ph,fill=green!8]  (p9) at (15.25,4.4) {\textbf{9 Synthesis}\\\textit{Acceptance}};
+  % flow along the arms
+  \foreach \a/\b in {p0/p1,p1/p2,p2/p3,p6/p7,p7/p8,p8/p9}{\draw[arm] (\a) -- (\b);}
+  \draw[arm] (p3) -- (p4);
+  \draw[arm] (p4) -- (p5);
+  \draw[arm] (p5) -- (p6);
+  % arm labels
+  \node[rotate=-45,font=\sffamily\scriptsize\bfseries,text=blue!50!black] at (1.6,0.95) {definition and decomposition};
+  \node[rotate=45,font=\sffamily\scriptsize\bfseries,text=green!35!black] at (15.4,0.95) {integration and verification};
+  % verification pairs across the V
+  \draw[ver] (p0) -- node[vlab]{report against the objectives} (p9);
+  \draw[ver] (p1) -- node[vlab]{DC gain $G(N)$, $\tau$ vs $k$} (p8);
+  \draw[ver] (p2) -- node[vlab]{validation suite, step metrics} (p7);
+  \draw[ver] (p3) -- node[vlab]{sensing model,\\dead time, $R_{sw}$} (p6);
+\end{tikzpicture}

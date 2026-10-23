@@ -1,0 +1,68 @@
+% ===========================================================================
+%  EGH490-2 Project Delivery Report -- Jared Saunders (n11034459)
+%  Controlling Differential Power Processors in Solar Powered Applications
+%
+%  Open in Overleaf: upload the whole folder (zip), set the compiler to
+%  pdfLaTeX, main document = main.tex.  Bibliography: refs.bib (bibtex,
+%  IEEEtran style; falls back to ieeetr if IEEEtran.bst is missing).
+%
+%  Authoring conventions (see README.md):
+%    talking   environment  -> purple bullets: points to turn into prose
+%    \note{..}              -> orange: a decision for you / something to confirm
+%    \ev{..}                -> plain text (evidence colouring removed)
+%  Put \tpoff in this file to print talking points in black, \tphide to drop
+%  them from the PDF (e.g. for the submitted version).
+% ===========================================================================
+\documentclass[12pt,a4paper]{article}
+\input{preamble}
+\tphide
+
+\begin{document}
+
+\pagenumbering{alph}% unique anchor for the title page (avoids a duplicate page.1)
+\input{titlepage}
+
+% front matter: roman page numbers, unnumbered sections listed in the contents
+\pagenumbering{roman}
+\input{sections/01_executive_summary}
+\clearpage
+\input{sections/02_abstract}
+\clearpage
+{\hypersetup{linkcolor=black}
+\tableofcontents
+\listoffigures
+\listoftables
+}
+\clearpage
+\pagenumbering{arabic}
+
+\input{sections/03_introduction}
+\clearpage
+
+\input{sections/04_literature_review}
+\input{sections/05_methodology}
+\input{sections/06_results}
+\input{sections/07_conclusion}
+
+\clearpage
+\IfFileExists{IEEEtran.bst}{\bibliographystyle{IEEEtran}}{\bibliographystyle{ieeetr}}
+\bibliography{refs}
+
+\clearpage
+\appendix
+\sloppy
+\input{appendices/A_timeline}
+\input{appendices/B_risk_register}
+\input{appendices/C_analytical}
+\input{appendices/D_pseudocode}
+\input{appendices/E_firmware}
+\input{appendices/F_gain_sets}
+\input{appendices/G_simulink_figures}
+\input{appendices/H_simulation_figures}
+\input{appendices/I_bench_raw}
+\input{appendices/J_solar_raw}
+\input{appendices/K_synthesis_tables}
+\input{appendices/L_thermal_scope}
+\input{appendices/M_journey}
+
+\end{document}

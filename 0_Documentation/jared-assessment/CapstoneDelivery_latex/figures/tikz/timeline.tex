@@ -1,0 +1,25 @@
+% Two-semester timeline (weeks) with milestones; simple Gantt drawn in TikZ
+\begin{tikzpicture}[x=0.36cm,y=0.5cm,font=\sffamily\scriptsize]
+  % axes: semester 1 weeks 1-13, break, semester 2 weeks 1-13
+  \foreach \w in {1,...,13}{\node at (\w,0.5) {\w};}
+  \node at (7,1.2) {Semester 1};
+  \foreach \w in {1,...,13}{\node at (\w+15,0.5) {\w};}
+  \node at (22,1.2) {Semester 2};
+  \node at (14.5,1.2) {break};
+  \draw[gray!50] (0.5,0) -- (29,0);
+  \newcommand{\gbar}[5]{\fill[#5] (#1-0.4,-#3*1.0-0.35) rectangle (#2+0.4,-#3*1.0+0.35); \node[anchor=west] at (29.2,-#3) {#4};}
+  \gbar{1}{4}{1}{Problem identification, proposal (Wk 4)}{blue!25}
+  \gbar{3}{7}{2}{Literature: DPP / MPPT control strategies (Wk 7)}{blue!25}
+  \gbar{7}{10}{3}{Analytical solution, classical methods (Wk 10)}{blue!25}
+  \gbar{10}{13}{4}{Simulink plant model, progress report (Wk 13)}{blue!25}
+  \gbar{13.5}{15.5}{5}{Break: analytical rework (N-module MIMO), MIL, SIL}{green!25}
+  \gbar{16}{19}{6}{Component selection, KiCad (Wk 4)}{orange!30}
+  \gbar{19}{24}{7}{PCB order (Wk 9), assembly, enclosure (Wk 10)}{orange!30}
+  \gbar{23}{26}{8}{Firmware / software, pod (Wk 11)}{orange!30}
+  \gbar{25}{27}{9}{Theoretical integration, gain refinement, QSPICE (Wk 12)}{orange!30}
+  \gbar{26}{27}{10}{Bench test 16 Oct (Wk 12)}{red!25}
+  \gbar{27}{28}{11}{PV experiment 20 Oct (Wk 13)}{red!25}
+  \gbar{27}{28.5}{12}{Post-processing, report, presentation (Wk 13)}{red!25}
+  \draw[dashed,gray] (13.5,0) -- (13.5,-12.5);
+  \draw[dashed,gray] (15.5,0) -- (15.5,-12.5);
+\end{tikzpicture}

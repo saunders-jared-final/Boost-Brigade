@@ -1,0 +1,141 @@
+\section{Controller, Supervisor and Firmware Pseudocode}
+\label{app:pseudo}
+% Based on 6_RTOS/ctrl_core/*.c and 6_RTOS/App/app.c (the same C runs in SIL, the
+% QSPICE DLL and the firmware).  Simplified; see the sources for the exact code.
+
+\begin{lstlisting}[caption={MIMO decoupling PI, one 100\,$\mu$s tick (\code{shuffler\_ctrl.c}).},label={lst:ctrl}]
+function ctrl_step(VM[1..N], IL_A[1..NS], IL_B[1..NS], rv[1..NS], Vref[1..NS]):
+    # outputs: module-voltage differences and circulating currents
+    y = [VM[1]-VM[2], ..., VM[N-1]-VM[N],  IL_A[1]+IL_B[1], ..., IL_A[NS]+IL_B[NS]]
+    y_f += a * (y - y_f)                       # LPF, a = 2*pi*fc*Ts/(1+2*pi*fc*Ts), fc = 2 kHz
+    r   = [rv + Vref, 0 ... 0]  # supervisor relaxation + manual offsets; ic refs are zero
+    e   = r - y_f
+    xi_try = xi + Ts * e                       # integrator candidate
+    u   = kscale * (Mp @ e + M @ xi_try)       # u = [uc1..ucNS, ud1..udNS]; M = inv(G) diag(kI)
+    for each shuffler j:
+        dA[j] = clamp(0.5 + 0.5*(u[j] + u[NS+j]), dmin, dmax)
+        dB[j] = clamp(0.5 + 0.5*(u[j] - u[NS+j]), dmin, dmax)
+    u_act = [dA + dB - 1, dA - dB]             # what was actually applied
+    xi = Minv @ (u_act / kscale - Mp @ e)      # back-calculation anti-windup (every tick)
+    return dA, dB
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Feasibility governor / supervisor, 1\,ms (\code{shuffler\_supervisor.c}).},label={lst:sup}]
+function supervisor_step(IM[1..N], IL_A, IL_B, d[1..NL], en):
+    if not en: beta = 0; rv = 0; return rv
+    id   = IL_A - IL_B                          # shuffled current per shuffler
+    imf += alpha * (IM - imf);  idf += alpha * (id - idf)      # alpha = Ts3/TF = 0.2
+    dl   = max(imf) - imf                       # deficit of each module vs the strongest
+    stress = max( max|idf| / I_RATED,  max|d - 0.5| / 0.45 )  # I_RATED = 10 A
+    if   stress > S_HI: beta += Ts3 * KB   * (stress - S_HI)   # S_HI 0.9, KB 60
+    elif stress < S_LO: beta -= Ts3 * KREL * (S_LO - stress)   # S_LO 0.7, KREL 6
+    beta = clamp(beta, 0, BMAX)                                 # BMAX 4
+    for each shuffler k: rv[k] = clamp(beta * (dl[k+1] - dl[k]), -RVMAX, RVMAX)   # 30 V
+    return rv                                   # relaxes equalisation when a shuffler is stressed
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Module-current reconstruction by KCL (\code{shuffler\_recon.c}); the string current is unobservable so $I_N = 0$ is the reference.},label={lst:recon}]
+function recon(IL_A, IL_B, dA, dB):
+    for each shuffler k:
+        ia = IL_A[k]; ib = -IL_B[k]            # B sensor is reversed on the board
+        itop[k] = dA[k]*ia + dB[k]*ib          # averaged current drawn at the top rail
+        ic[k]   = ia + ib                      # injected at the midpoint
+        ibot[k] = ic[k] - itop[k]              # returned at the bottom rail
+    IM[N] = 0
+    for j = N-1 down to 1:
+        IM[j] = IM[j+1] + ic[j] - (j < NS ? itop[j+1] : 0) - (j >= 2 ? ibot[j-1] : 0)
+    return IM                                   # relative module currents (offset-free deficits)
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Adaptive-step perturb-and-observe MPPT, 1\,ms (\code{shuffler\_mppt.c}); compiled in but disabled on hardware because the load performs the string MPPT.},label={lst:mppt}]
+function mppt_step(Vstr, Istr, beta, en):
+    if not en: Iref = IREF0; dir = +1; boot = 1; return Iref      # IREF0 8 A
+    acc += Vstr * Istr; n += 1
+    if n == NWIN:                                                  # 20 ticks = 20 ms
+        P = acc / NWIN; acc = 0; n = 0
+        if |beta - beta0| > 1e-3: boot = 1          # governor moved: hold the reference
+        elif boot: Pprev = P; Iref += dir * S0; boot = 0           # S0 0.25 A
+        else:
+            dP = P - Pprev
+            step = clamp(KA * |dP|, SMIN, SMAX)                    # 0.01, 0.05 .. 1 A
+            if   dP >  DB: Iref += dir * step                      # DB 1 W
+            elif dP < -DB: dir = -dir; Iref += dir * step
+            Pprev = P
+        beta0 = beta; Iref = clamp(Iref, IMIN, IMAX)               # 2 .. 8.5 A
+    return Iref
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Control ISR, 10\,kHz (HRTIM master repetition interrupt, \code{app.c}).},label={lst:isr}]
+on HRTIM_master_repetition:                     # every 20 / 30 / 40 PWM periods
+    Sensors_Tick()  # 80-sample means per channel; OC / rail / DMA-stall latch
+    IL = Sensors_Current_A()                    # (code - zero) * 3300/4096 mV / (100 mV/A)
+    if Sensors_FaultLatched(): trip(FLT_OC_LATCH)
+    prt_isr_service()  # pending C,APPLY: swap gains, xi = Minv * u_act(d)
+    VM = snapshot of the 1 kHz INA task (VM1 from vstr_pi - VM2 - VM3 when vm1_src = 2)
+    if state == SOFTSTART:
+        d = ramp(d_start, target, n_tick / 1500)          # 150 ms linear ramp
+    elif state == RUN and mode is CL:
+        out = stack_step({VM, IL, Vstr = sum VM, Vref, en_sup, en_mppt = 0})
+        d = clamp(out.d, d_prev - slew, d_prev + slew)    # slew 0.01 per tick
+    elif state == RUN:  d = open-loop duties (C,DUTY / C,DUTYS)
+    else:               d[i] = Vbot / (Vtop + Vbot)       # pre-bias while idle (0.5 if unknown)
+    for each leg: hw_set_duty(leg, d)          # clamp to the f_sw limits, write CMP1 (preloaded)
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Stack scheduler (\code{stack.c}): controller every tick, supervisory layers every 10th.},label={lst:stack}]
+function stack_step(in):
+    if tick % STACK_DECIM == 0:                 # 10 -> 1 kHz
+        IM   = recon(in.IL_A, in.IL_B, dA, dB)
+        rv   = supervisor_step(IM, in.IL_A, in.IL_B, d, in.en_sup)
+        Iref = mppt_step(in.Vstr, in.Istr, beta, in.en_mppt)
+    dA, dB = ctrl_step(in.VM, in.IL_A, in.IL_B, rv_delayed, in.Vref)   # rv through a unit delay
+    tick += 1
+    return {dA, dB, rv, beta, stress, IM, Iref}
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Safety task and state machine, 100\,Hz (\code{app.c}); \code{trip()} may run from any context.},label={lst:fsm}]
+every 10 ms:
+    kick IWDG                                    # 0.3 s window
+    if state in {RUN, SOFTSTART}:
+        if E-stop pin low:                      trip(FLT_ESTOP)
+        OV / UV / string-OV counters: 3 consecutive samples -> trip(code)   # 30 V, 3 V (CL), 85 V
+        if CL and now - last_rx > wdg_s:        trip(FLT_COMMS_WDG)         # 5 s without a C line
+        if CL and vm1_src == 2 and VM1 stale:   trip(FLT_VSTR_STALE)
+        if any INA die > 85 C:                  trip(FLT_OVERTEMP)
+        if CL and a needed VM unreadable:       trip(FLT_INA)
+    switch state:
+        IDLE:      if enable and mode != IDLE: pins -> HRTIM; arm synchronised enable; state = SOFTSTART
+        SOFTSTART: if not enable: state = STOP;  elif ramp done: stack_init(); state = RUN
+        RUN:       if not enable or mode == IDLE: state = STOP
+        STOP:      legs off; enable = 0; state = IDLE
+        FAULT:     hw_outputs_off()             # every 10 ms until C,CLEAR
+    send S line on every state change; send F line once per latched fault
+
+function trip(code):
+    hw_outputs_off(); gates low                 # first, from any context
+    faults |= code; enable = 0; state = FAULT
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Soft start (\code{app.c} + \code{hw\_legs\_enable\_sync}).},label={lst:softstart}]
+while IDLE: every leg pair is held at d0 = Vbot / (Vtop + Vbot)    # matches the natural midpoint
+on enable: outputs switch on at master CMP1 = PER/4 (centred first pulse, 16-try fallback window)
+SS_TICKS = 150 ms * 10 kHz = 1500
+tick 0: d_start[i] = d_applied[i]
+each tick n: frac = min(n / SS_TICKS, 1)
+    target = 0.5 if CL else OL duty[i]
+    d[i] = d_start[i] + (target - d_start[i]) * frac
+n == SS_TICKS: ss_done -> safety task moves to RUN; stack_init() so the controller starts from zero integrators
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Pi pod main loops (\code{pod.py}, \code{eload.py}).},label={lst:pod}]
+pod.py:
+    RX thread: read line from /dev/ttyACM0 @ 921600 -> telemetry_parser.parse_line(line)
+               -> InfluxDB points (telemetry / status / fault / note / cmd), batched 200 pts / 500 ms
+    TX thread: one byte every 2 ms (firmware RX is one IRQ per byte); C,PING every 1 s (comms watchdog)
+    main loop (0.2 s): DS18B20 heatsink temperature -> Influx (C,ESTOP if > 80 C); LCD state/values; RGB LED by state
+    control socket 127.0.0.1:5017: podctl / params_web / remote.py send commands; IR keys -> presets (actions.py)
+eload.py:
+    5 Hz:  :MEAS:VOLT? :MEAS:CURR? :MEAS:POW?  -> Influx (source = eload)
+    1 Hz:  mode, levels, ranges, questionable status
+    2 Hz:  C,SET,vstr_pi,<V>  -> Nucleo (VM1 source when U10 is unreadable)
+\end{lstlisting}

@@ -1,0 +1,28 @@
+% Where the winding equations come from: averaged half-bridges driving the anti-series coupled
+% windings into the midpoint (left) and the two decoupled modes (right).  Print size.
+\begin{circuitikz}[american,font=\footnotesize,x=1cm,y=1cm]
+  % ------------------------------------------------ (a) averaged shuffler around the midpoint
+  \draw (0,0) to[V,l=$d_A\bar V_j$,invert] (0,2.6)
+        to[short,i=$i_A$] (0.6,2.6) to[R,l=$R_w$] (2.0,2.6) to[cute inductor,l=$L$] (3.4,2.6) -- (4.2,2.6) coordinate (M);
+  \draw (8.4,0) to[V,l_=$d_B\bar V_j$,invert] (8.4,2.6)
+        to[short,i_=$i_B$] (7.8,2.6) to[R,l_=$R_w$] (6.4,2.6) to[cute inductor,l_=$L$] (5.0,2.6) -- (M);
+  \draw (M) node[circ]{} node[above=2pt]{$\phi_{j+1}$} to[V,l=$v_{j+1}$] (4.2,0);
+  \draw (0,0) -- (8.4,0);
+  \node[below] at (4.2,0) {$\phi_{j+2}$ (bottom rail)};
+  \fill (2.15,2.95) circle (1.6pt);  \fill (5.15,2.95) circle (1.6pt);
+  \draw[<->,thin] (2.9,3.15) to[bend left=25] node[above,font=\scriptsize]{$M$, anti-series} (5.5,3.15);
+  \node[font=\sffamily\footnotesize] at (4.2,4.2) {(a) averaged legs and coupled windings};
+  \node[font=\scriptsize,align=center,text=gray!30!black] at (4.2,-1.15)
+       {each leg's switch node averages to $\phi_{j+2} + d\,\bar V_j$;\\$v_{A} = L\,\dot i_A - M\,\dot i_B$, \ $v_{B} = L\,\dot i_B - M\,\dot i_A$};
+  % ------------------------------------------------ (b) the two modes
+  \begin{scope}[shift={(10.6,2.0)}]
+    \draw (0,0) to[V,l_=$\bar V_j u_c + v_{d,j}$,invert] (0,1.8) to[short,i=$i_m$] (0.7,1.8)
+          to[R,l=$R_m$] (2.3,1.8) to[cute inductor,l=$L-M$] (4.0,1.8) -- (4.0,0) -- (0,0);
+    \node[font=\sffamily\footnotesize,anchor=west] at (-0.6,2.85) {(b) shuffled mode $i_m = i_A + i_B$};
+  \end{scope}
+  \begin{scope}[shift={(10.6,-1.45)}]
+    \draw (0,0) to[V,l_=$\bar V_j u_d$,invert] (0,1.8) to[short,i=$i_c$] (0.7,1.8)
+          to[R,l=$R_c$] (2.3,1.8) to[cute inductor,l=$L+M$] (4.0,1.8) -- (4.0,0) -- (0,0);
+    \node[font=\sffamily\footnotesize,anchor=west] at (-0.6,2.85) {(c) circulating mode $i_c = i_A - i_B$};
+  \end{scope}
+\end{circuitikz}

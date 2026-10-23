@@ -1,0 +1,33 @@
+% Small-signal nodal model of a 3-module string with two shufflers (the matrices of eq. nodal).
+% Print size.
+\begin{circuitikz}[american,font=\footnotesize,x=1cm,y=1cm,
+    shb/.style={draw,rounded corners=3pt,fill=orange!8,minimum width=12mm,align=center,font=\scriptsize\sffamily}]
+  \def\xa{0.6}\def\xb{1.9}\def\xc{3.2}
+  % node rails
+  \foreach \k/\y/\xs/\xe in {1/6/-1.6/5.65,2/4/-0.3/8.45,3/2/-0.3/8.45,4/0/-1.6/8.45}{
+    \draw (\xs,\y) -- (\xe,\y);
+    \node[left] at (\xs-0.1,\y) {$\phi_{\k}$};
+  }
+  \node[left,font=\scriptsize,text=gray!30!black] at (-1.7,-0.4) {(ground)};
+  % modules k between phi_k and phi_{k+1}: I_k || g_k || C_k
+  \foreach \k/\yt/\yb in {1/6/4,2/4/2,3/2/0}{
+    \draw (\xa,\yb) to[I,l=$I_{\k}$,*-*] (\xa,\yt);
+    \draw (\xb,\yt) to[R,l=$g_{\k}$,*-*] (\xb,\yb);
+    \draw (\xc,\yt) to[C,l=$C_{\k}$,*-*] (\xc,\yb);
+    \draw[decorate,decoration={brace,amplitude=4pt,mirror},thin] (4.25,\yb+0.1) -- node[right=4pt]{$v_{\k}$} (4.25,\yt-0.1);
+  }
+  % CV load across the string
+  \draw (-1.0,6) to[R,l_=$G_{load}$,*-*] (-1.0,0);
+  % shuffler 1: rails phi_1, phi_3, midpoint phi_2
+  \node[shb,minimum height=44mm] (S1) at (6.3,4) {shuffler\\1\\[2pt]$u_{c,1}$\\$u_{d,1}$};
+  \draw (S1.west |- 0,6) to[short,i<_=$\tfrac12 i_{m,1}$,-*] (5.0,6);
+  \draw (S1.west |- 0,4) to[short,i=$i_{m,1}$,-*] (5.0,4);
+  \draw (S1.west |- 0,2) to[short,i<=$\tfrac12 i_{m,1}$,-*] (5.0,2);
+  % shuffler 2: rails phi_2, phi_4, midpoint phi_3
+  \node[shb,minimum height=44mm] (S2) at (9.1,2) {shuffler\\2\\[2pt]$u_{c,2}$\\$u_{d,2}$};
+  \draw (S2.west |- 0,4) to[short,i<_=$\tfrac12 i_{m,2}$,-*] (7.8,4);
+  \draw (S2.west |- 0,2) to[short,i=$i_{m,2}$,-*] (7.8,2);
+  \draw (S2.west |- 0,0) to[short,i<=$\tfrac12 i_{m,2}$,-*] (7.8,0);
+  \node[font=\scriptsize,align=left,anchor=north west,text=gray!30!black] at (5.6,-0.45)
+       {rail currents $\tfrac12 i_m(1\pm u_c)\pm\tfrac12 i_c u_d$,\\linearised about $u_c = 0$: $-\tfrac12 i_m$ at each rail};
+\end{circuitikz}

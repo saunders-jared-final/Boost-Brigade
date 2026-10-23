@@ -1,0 +1,70 @@
+\contentsline {section}{\numberline {1}Executive Summary}{1}{section.1}%
+\contentsline {section}{\numberline {2}Abstract}{2}{section.2}%
+\contentsline {section}{\numberline {3}Introduction}{3}{section.3}%
+\contentsline {section}{\numberline {4}Literature Review}{3}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Partial shading and MPPT}{3}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Existing shuffler concepts: DPP and S-PPC}{5}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Controlling the interleaved buck-boost}{5}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}The gap}{5}{subsection.4.4}%
+\contentsline {section}{\numberline {5}Methodology}{5}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Controller Design Pipeline}{5}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Background}{6}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Analytical Solution}{7}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Model-in-the-Loop (MIL)}{9}{subsection.5.4}%
+\contentsline {subsection}{\numberline {5.5}Component Selection}{9}{subsection.5.5}%
+\contentsline {subsection}{\numberline {5.6}Gain Refinement Pipeline}{11}{subsection.5.6}%
+\contentsline {subsection}{\numberline {5.7}Firmware / Software}{13}{subsection.5.7}%
+\contentsline {subsubsection}{\numberline {5.7.1}Experimental setup and test plan}{13}{subsubsection.5.7.1}%
+\contentsline {subsection}{\numberline {5.8}Risks}{15}{subsection.5.8}%
+\contentsline {subsection}{\numberline {5.9}Ethics}{15}{subsection.5.9}%
+\contentsline {subsection}{\numberline {5.10}Sustainability}{15}{subsection.5.10}%
+\contentsline {section}{\numberline {6}Results, Analysis and Discussion}{15}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Proposed Solution}{15}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Analytical}{15}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Simulink}{17}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}QSPICE}{17}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Bench Testing}{19}{subsection.6.5}%
+\contentsline {paragraph}{Limitations.}{20}{paragraph*.27}%
+\contentsline {subsection}{\numberline {6.6}Solar Test}{20}{subsection.6.6}%
+\contentsline {subsection}{\numberline {6.7}Synthesising Results}{22}{subsection.6.7}%
+\contentsline {section}{\numberline {7}Conclusion}{24}{section.7}%
+\contentsline {section}{\numberline {A}Research Project Timeline}{28}{appendix.A}%
+\contentsline {section}{\numberline {B}Risk Register}{28}{appendix.B}%
+\contentsline {section}{\numberline {C}Analytical Solution}{33}{appendix.C}%
+\contentsline {subsection}{\numberline {C.1}Single shuffler averaged model (lead-up, Semester 1)}{33}{subsection.C.1}%
+\contentsline {subsection}{\numberline {C.2}$N$-module string model (deployed)}{34}{subsection.C.2}%
+\contentsline {subsection}{\numberline {C.3}Switching resistance $R_{sw}$}{35}{subsection.C.3}%
+\contentsline {subsection}{\numberline {C.4}Open items}{36}{subsection.C.4}%
+\contentsline {section}{\numberline {D}Controller, Supervisor and Firmware Pseudocode}{36}{appendix.D}%
+\contentsline {section}{\numberline {E}Firmware, Peripherals and Telemetry Contract}{38}{appendix.E}%
+\contentsline {subsection}{\numberline {E.1}Scheduling}{38}{subsection.E.1}%
+\contentsline {subsection}{\numberline {E.2}Peripherals}{39}{subsection.E.2}%
+\contentsline {subsection}{\numberline {E.3}Fault bits}{39}{subsection.E.3}%
+\contentsline {subsection}{\numberline {E.4}Telemetry and command contract}{39}{subsection.E.4}%
+\contentsline {subsection}{\numberline {E.5}Firmware images}{39}{subsection.E.5}%
+\contentsline {subsection}{\numberline {E.6}Raspberry Pi stack}{39}{subsection.E.6}%
+\contentsline {section}{\numberline {F}Gain Sets}{41}{appendix.F}%
+\contentsline {section}{\numberline {G}Simulink Validate Suites}{42}{appendix.G}%
+\contentsline {subsection}{\numberline {G.1}MIL (4 modules, 3 shufflers)}{42}{subsection.G.1}%
+\contentsline {subsection}{\numberline {G.2}Carpark twin (3 modules, 2 shufflers)}{50}{subsection.G.2}%
+\contentsline {subsection}{\numberline {G.3}Re-plotted in the common style}{55}{subsection.G.3}%
+\contentsline {section}{\numberline {H}Analytical, QSPICE and Simulink Scenario Runs}{55}{appendix.H}%
+\contentsline {subsection}{\numberline {H.1}Analytical $N=3$ model (deployed gain set per $\ensuremath {f_{sw}}$)}{55}{subsection.H.1}%
+\contentsline {subsection}{\numberline {H.2}QSPICE integrated model with the firmware DLL (200\,kHz)}{58}{subsection.H.2}%
+\contentsline {subsection}{\numberline {H.3}Simulink carpark twin (averaged switches, sensing model)}{59}{subsection.H.3}%
+\contentsline {section}{\numberline {I}Bench Test Raw Data (16 Oct 2026)}{61}{appendix.I}%
+\contentsline {subsection}{\numberline {I.1}200\,kHz}{61}{subsection.I.1}%
+\contentsline {subsection}{\numberline {I.2}300\,kHz}{67}{subsection.I.2}%
+\contentsline {subsection}{\numberline {I.3}400\,kHz}{71}{subsection.I.3}%
+\contentsline {subsection}{\numberline {I.4}Tables}{73}{subsection.I.4}%
+\contentsline {section}{\numberline {J}Solar Test Raw Data (20 Oct 2026)}{74}{appendix.J}%
+\contentsline {subsection}{\numberline {J.1}Peak sun}{74}{subsection.J.1}%
+\contentsline {subsection}{\numberline {J.2}Minimal sun}{78}{subsection.J.2}%
+\contentsline {subsection}{\numberline {J.3}Tables}{85}{subsection.J.3}%
+\contentsline {section}{\numberline {K}Synthesis: Inventory, Metrics and Cross-Phase Overlays}{85}{appendix.K}%
+\contentsline {subsection}{\numberline {K.1}Test-case inventory and data rules}{85}{subsection.K.1}%
+\contentsline {subsection}{\numberline {K.2}Hardware closed-loop steady state}{86}{subsection.K.2}%
+\contentsline {subsection}{\numberline {K.3}Cross-phase step metrics}{87}{subsection.K.3}%
+\contentsline {subsection}{\numberline {K.4}Overlays}{87}{subsection.K.4}%
+\contentsline {section}{\numberline {L}Thermal Data and Oscilloscope Captures}{90}{appendix.L}%
+\contentsline {section}{\numberline {M}The Journey}{90}{appendix.M}%

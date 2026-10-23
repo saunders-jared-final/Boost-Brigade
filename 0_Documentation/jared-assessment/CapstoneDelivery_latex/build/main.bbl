@@ -1,0 +1,201 @@
+\begin{thebibliography}{10}
+
+\bibitem{mb1367_schematic}
+{STMicroelectronics}, ``{MB1367} {NUCLEO}-{G474RE} schematic pack.''
+  \url{https://www.st.com/resource/en/schematic_pack/mb1367-g474re-d01-schematic.pdf},
+  2020.
+\newblock Accessed Oct. 22, 2026.
+
+\bibitem{tmcs1126_ds}
+{Texas Instruments}, ``{TMCS1126}-{Q1} {AEC}-{Q100}, precision 500 {kHz}
+  {Hall}-effect current sensor with reinforced working voltage, overcurrent
+  detection and ambient field rejection, datasheet rev. {C}.''
+  \url{https://www.ti.com/lit/ds/symlink/tmcs1126-q1.pdf}, 2024.
+\newblock Accessed Oct. 22, 2026.
+
+\bibitem{ina239_ds}
+{Texas Instruments}, ``{INA239}-{Q1} {AEC}-{Q100}, 85-{V}, 16-bit,
+  high-precision power monitor with {SPI} interface, datasheet rev. {A}.''
+  \url{https://www.ti.com/lit/ds/symlink/ina239-q1.pdf}, 2022.
+\newblock Accessed Oct. 22, 2026.
+
+\bibitem{rpi4_datasheet}
+{Raspberry Pi Ltd}, ``Raspberry {Pi} 4 {Model} {B} datasheet
+  ({RP}-008341-{DS}-1).''
+  \url{https://pip-assets.raspberrypi.com/categories/545-raspberry-pi-4-model-b/documents/RP-008341-DS-1-raspberry-pi-4-datasheet.pdf},
+  2024.
+\newblock Accessed Oct. 22, 2026.
+
+\bibitem{noauthor_world_2025}
+``World {Energy} {Outlook} 2025 – {Analysis},'' Nov. 2025.
+
+\bibitem{noauthor_quarterly_2026}
+``Quarterly {Carbon} {Market} {Report} {December} quarter 2025 {\textbar}
+  {Clean} {Energy} {Regulator},'' Feb. 2026.
+
+\bibitem{song_energy_2025}
+Y.~Song, L.~Huang, Y.~Wang, Y.~Du, Z.~Song, Q.~Dong, X.~Zhao, J.~Qi, G.~Zhang,
+  W.~Li, and L.~Shi, ``Energy performance and fire risk of solar {PV} panels
+  under partial shading: {An} experimental study,'' {\em Renewable Energy},
+  vol.~246, p.~122910, 2025.
+
+\bibitem{kasper_classification_2014}
+M.~Kasper, D.~Bortis, and J.~W. Kolar, ``Classification and {Comparative}
+  {Evaluation} of {PV} {Panel}-{Integrated} {DC}–{DC} {Converter}
+  {Concepts},'' {\em IEEE Transactions on Power Electronics}, vol.~29,
+  pp.~2511--2526, May 2014.
+
+\bibitem{olalla_performance_2014}
+C.~Olalla, C.~Deline, D.~Clement, Y.~Levron, M.~Rodriguez, and D.~Maksimovic,
+  ``Performance of power-limited differential power processing architectures in
+  mismatched {PV} systems,'' {\em IEEE Transactions on Power Electronics},
+  vol.~30, no.~2, pp.~618--631, 2014.
+
+\bibitem{walker_pv_2003}
+G.~R. Walker, J.~Xue, and P.~Sernia, ``{PV} string per-module maximum power
+  point enabling converters,'' in {\em Australasian {Universities} {Power}
+  {Engineering} {Conference}, {AUPEC}'03}, 2003.
+
+\bibitem{jeong_segmented_2020}
+H.~Jeong, S.~Park, J.-H. Jung, T.~Kim, A.-R. Kim, and K.~A. Kim, ``Segmented
+  differential power processing converter unit and control algorithm for
+  photovoltaic systems,'' {\em IEEE Transactions on Power Electronics},
+  vol.~36, no.~7, pp.~7797--7809, 2020.
+
+\bibitem{batzelis_state-space_2018}
+E.~I. Batzelis, G.~Anagnostou, and B.~C. Pal, ``A state-space representation of
+  irradiance-driven dynamics in two-stage photovoltaic systems,'' {\em IEEE
+  Journal of Photovoltaics}, vol.~8, no.~4, pp.~1119--1124, 2018.
+
+\bibitem{milasi_robust_2024}
+A.~M. Milasi, R.~M. Milasi, and S.~N. Lordejani, ``Robust control of an
+  interleaved {DC}-{DC} buck converter with coupled inductors,'' {\em
+  International Journal of Dynamics and Control}, vol.~12, pp.~3769--3777, Oct.
+  2024.
+
+\bibitem{kabalci_highly_2022}
+E.~Kabalci and A.~Boyar, ``Highly efficient interleaved solar converter
+  controlled with extended kalman filter {MPPT},'' {\em Energies}, vol.~15,
+  no.~21, p.~7838, 2022.
+
+\bibitem{hui_development_2020}
+N.~Hui, ``Development of {MPPT} {Control} {Algorithm},'' {EGH400}-2 {Final}
+  {Report}, {Bachelor} of {Engineering} ({Mechatronics}), {School} of
+  {Electrical} {Engineering} and {Robotics}, Queensland University of
+  Technology, 2020.
+
+\bibitem{esram_comparison_2007}
+T.~Esram and P.~L. Chapman, ``Comparison of photovoltaic array maximum power
+  point tracking techniques,'' {\em IEEE Transactions on energy conversion},
+  vol.~22, no.~2, pp.~439--449, 2007.
+
+\bibitem{sarvi_comprehensive_2022}
+M.~Sarvi and A.~Azadian, ``A comprehensive review and classified comparison of
+  {MPPT} algorithms in {PV} systems,'' {\em Energy Systems}, vol.~13,
+  pp.~281--320, May 2022.
+
+\bibitem{belhaouas_pv_2017}
+N.~Belhaouas, M.-S.~A. Cheikh, P.~Agathoklis, M.-R. Oularbi, B.~Amrouche,
+  K.~Sedraoui, and N.~Djilali, ``{PV} array power output maximization under
+  partial shading using new shifted {PV} array arrangements,'' {\em Applied
+  Energy}, vol.~187, pp.~326--337, 2017.
+
+\bibitem{bingol_analysis_2018}
+O.~Bingöl and B.~Özkaya, ``Analysis and comparison of different {PV} array
+  configurations under partial shading conditions,'' {\em Solar Energy},
+  vol.~160, pp.~336--343, 2018.
+
+\bibitem{mehedi_critical_2021}
+I.~M. Mehedi, Z.~Salam, M.~Z. Ramli, V.~J. Chin, H.~Bassi, M.~J.~H. Rawa, and
+  M.~P. Abdullah, ``Critical evaluation and review of partial shading
+  mitigation methods for grid-connected {PV} system using hardware solutions:
+  {The} module-level and array-level approaches,'' {\em Renewable and
+  Sustainable Energy Reviews}, vol.~146, p.~111138, 2021.
+
+\bibitem{rao_maximum_2014}
+P.~S. Rao, G.~S. Ilango, and C.~Nagamani, ``Maximum power from {PV} arrays
+  using a fixed configuration under different shading conditions,'' {\em IEEE
+  journal of Photovoltaics}, vol.~4, no.~2, pp.~679--686, 2014.
+
+\bibitem{riquelme-dominguez_systematic_2022}
+J.~M. Riquelme-Dominguez and S.~Martinez, ``Systematic evaluation of
+  photovoltaic {MPPT} algorithms using state-space models under different
+  dynamic test procedures,'' {\em IEEE Access}, vol.~10, pp.~45772--45783,
+  2022.
+
+\bibitem{kasper_impact_2014}
+M.~Kasper, S.~Herden, D.~Bortis, and J.~W. Kolar, ``Impact of {PV} string
+  shading conditions on panel voltage equalizing converters and optimization of
+  a single converter system with overcurrent protection,'' in {\em 2014 16th
+  {European} {Conference} on {Power} {Electronics} and {Applications}},
+  pp.~1--10, IEEE, 2014.
+
+\bibitem{olalla_modeling_2014}
+C.~Olalla, C.~Deline, and D.~Maksimović, ``Modeling and simulation of
+  conventionally wired photovoltaic systems based on differential power
+  processing {SubMIC}-enhanced {PV} modules,'' in {\em 2014 {IEEE} 15th
+  {Workshop} on {Control} and {Modeling} for {Power} {Electronics} ({COMPEL})},
+  pp.~1--9, IEEE, 2014.
+
+\bibitem{jeong_review_2018}
+H.~Jeong, H.~Lee, Y.-C. Liu, and K.~A. Kim, ``Review of differential power
+  processing converter techniques for photovoltaic applications,'' {\em IEEE
+  Transactions on Energy Conversion}, vol.~34, no.~1, pp.~351--360, 2018.
+
+\bibitem{li_classification_2021}
+C.~Li and J.~A. Cobos, ``Classification of differential power processing
+  architectures based on {VA} area modeling,'' {\em IEEE Journal of Emerging
+  and Selected Topics in Power Electronics}, vol.~10, no.~6, pp.~7849--7866,
+  2021.
+
+\bibitem{dos_santos_two-switch_2021}
+N.~G.~F. Dos~Santos, J.~R.~R. Zientarski, and M.~L. da~Silva~Martins, ``A
+  two-switch forward partial power converter for step-up/down string {PV}
+  systems,'' {\em IEEE Transactions on Power Electronics}, vol.~37, no.~6,
+  pp.~6247--6252, 2021.
+
+\bibitem{huang_high-frequency_2015}
+X.~Huang, F.~C. Lee, Q.~Li, and W.~Du, ``High-frequency high-efficiency
+  {GaN}-based interleaved {CRM} bidirectional buck/boost converter with inverse
+  coupled inductor,'' {\em IEEE Transactions on Power Electronics}, vol.~31,
+  no.~6, pp.~4343--4352, 2015.
+
+\bibitem{guacci_experimental_2019}
+M.~Guacci, J.~A. Anderson, K.~L. Pally, D.~Bortis, J.~W. Kolar, M.~J. Kasper,
+  J.~Sanchez, and G.~Deboy, ``Experimental characterization of silicon and
+  gallium nitride 200 {V} power semiconductors for modular/multi-level
+  converters using advanced measurement techniques,'' {\em IEEE Journal of
+  Emerging and Selected Topics in Power Electronics}, vol.~8, no.~3,
+  pp.~2238--2254, 2019.
+
+\bibitem{lin_state-space_2021}
+D.~Lin, X.~Li, and S.~Ding, ``The state-space design research of {MPPT} based
+  on reinforcement learning in {PV} system,'' in {\em 2021 {IEEE} 1st
+  {International} {Power} {Electronics} and {Application} {Symposium}
+  ({PEAS})}, pp.~1--6, IEEE, 2021.
+
+\bibitem{khan_state-space_2024}
+M.~U. Khan, A.~F. Murtaza, A.~M. Noman, H.~A. Sher, and M.~Zafar,
+  ``State-{Space} {Modeling}, {Design}, and {Analysis} of the {DC}-{DC}
+  {Converters} for {PV} {Application}: {A} {Review},'' {\em Sustainability},
+  vol.~16, p.~202, Jan. 2024.
+
+\bibitem{assabaa_enhancing_2025}
+M.~Assabaa, A.~Bouchahed, A.~Draidi, B.~Mehimmedetsi, and A.~Belhani,
+  ``Enhancing linear quadratic regulator and proportional-integral linear
+  quadratic regulator controllers for photovoltaic systems,'' {\em
+  International Journal of Electrical and Computer Engineering (IJECE)},
+  vol.~15, no.~3, pp.~2713--2725, 2025.
+
+\bibitem{seal_system_2018}
+D.~Seal, ``The {System} {Engineering} “{V}” - {Is} {It} {Still} {Relevant}
+  {In} the {Digital} {Age}?,'' 2018.
+
+\bibitem{tdk_eruc23_ds}
+{TDK Electronics}, ``{ERU} chokes -- {ERUC23}, {SMT} flat wire coupled inductor
+  -- {B82559A}*{M023}.''
+  \url{https://product.tdk.com/system/files/dam/doc/product/inductor/inductor/high/data_sheet/b82559sxm023.pdf},
+  2023.
+\newblock Accessed Oct. 22, 2026.
+
+\end{thebibliography}

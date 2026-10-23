@@ -1,0 +1,37 @@
+\section{Gain Sets}
+\label{app:gains}
+Every gain set is a JSON file in \code{6\_RTOS/ctrl\_core/params/} (\code{version}, \code{n\_mod}, \code{ctrl}, \code{sup}, \code{mppt}); \code{gen\_params.py} renders it to \code{params.h} ($M$, $M_p$, $M^{-1}$ as float32 literals). All 3-module sets use $T_s = 100\us$, $f_c = 2\kHz$, $d_{min/max} = 0.08/0.92$, $k_{p,v} = 1.58\times10^{-4}$, $k_{p,i} = 1.08\times10^{-4}$. Rows are $[\uc{}_{,1}, \uc{}_{,2}, \ud{}_{,1}, \ud{}_{,2}]$, columns $[e_{vd1}, e_{vd2}, e_{ic1}, e_{ic2}]$.
+
+\begin{table}[htbp]\centering\scriptsize
+\caption{Base gain matrices $M$ of the deployed and candidate gain sets.}
+\label{tab:Msets}
+\begin{tabular}{l l r r r r}
+\toprule
+Set (\code{version}, sps-params-2.\ldots) & row & $e_{vd1}$ & $e_{vd2}$ & $e_{ic1}$ & $e_{ic2}$\\
+\midrule
+\multirow{4}{*}{\code{20261015-1754-3mod-simulink-bench} (rejected)} & $\uc{}_{,1}$ & $-20.477$ & 0.010 & $-0.046$ & 0.092\\
+ & $\uc{}_{,2}$ & $-0.008$ & $-19.903$ & $-0.089$ & 0.045\\
+ & $\ud{}_{,1}$ & 0 & 0 & 3.390 & 0\\
+ & $\ud{}_{,2}$ & 0 & 0 & 0 & 3.385\\
+\midrule
+\multirow{4}{*}{\code{20261015-1950-3mod-qspice200-bench} (200\,kHz, deployed)} & $\uc{}_{,1}$ & $-20.284$ & 0.122 & $-9.384$ & 0.105\\
+ & $\uc{}_{,2}$ & 0.207 & $-20.010$ & 0.055 & $-10.521$\\
+ & $\ud{}_{,1}$ & $-0.146$ & $-0.044$ & 17.569 & $-0.202$\\
+ & $\ud{}_{,2}$ & $-0.195$ & $-0.131$ & $-0.102$ & 18.019\\
+\midrule
+\multirow{4}{*}{\code{20261016-1628-3mod-qspice300-bench} (300\,kHz, deployed)} & $\uc{}_{,1}$ & $-20.739$ & 0.400 & $-15.980$ & 0.196\\
+ & $\uc{}_{,2}$ & 0.127 & $-20.602$ & 0.581 & $-18.513$\\
+ & $\ud{}_{,1}$ & $-0.125$ & $-0.167$ & 42.703 & $-1.068$\\
+ & $\ud{}_{,2}$ & $-0.052$ & $-0.066$ & $-1.532$ & 44.231\\
+\midrule
+\multirow{4}{*}{\code{20261016-1751-3mod-qspice400-bench} (400\,kHz, deployed)} & $\uc{}_{,1}$ & $-22.683$ & 0.684 & $-36.942$ & $-0.076$\\
+ & $\uc{}_{,2}$ & $-0.306$ & $-22.038$ & $-0.106$ & $-40.278$\\
+ & $\ud{}_{,1}$ & 0.152 & 0.197 & 107.293 & $-3.903$\\
+ & $\ud{}_{,2}$ & 0.246 & 0.191 & $-3.838$ & 109.866\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+The voltage rows of the Simulink and QSPICE sets agree ($\uc/e_{vd} \approx -20$, which is $k_{I,v}/\Vbar$). The current rows differ fivefold (3.39 against 17.6) because the switching plant's current-loop gain is $\Vbar/R_{sw}$, not $\Vbar/R_{phase}$. The QSPICE sets also carry $\uc/e_{ic}$ cross terms of $-9$ to $-40$ that cancel the dead-time coupling $\vd/\ud$.
+
+The telemetry field \code{pver} records which set was running. On 16 Oct the bench ran \code{qspice200} from 12:59 to 16:29, \code{qspice300} from 16:29 (with brief returns to 200\,kHz at 16:56--17:03 and 17:13--17:14) and \code{qspice400} from 17:52. On 20 Oct the solar test ran \code{qspice200} throughout, with $k$ from 0.1 to 0.8. The identification script refuses to write a set whose $\ud\rightarrow\ic$ diagonal is not positive and warns if cond$(G) > 100$; the previous JSON is archived under its version name.

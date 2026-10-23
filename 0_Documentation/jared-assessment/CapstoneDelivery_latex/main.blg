@@ -1,0 +1,48 @@
+This is BibTeX, Version 0.99d (TeX Live 2022/dev/Debian)
+Capacity: max_strings=200000, hash_size=200000, hash_prime=170003
+The top-level auxiliary file: main.aux
+The style file: ieeetr.bst
+Database file #1: refs.bib
+Warning--empty journal in seal_system_2018
+You've used 39 entries,
+            1876 wiz_defined-function locations,
+            687 strings with 11860 characters,
+and the built_in function-call counts, 10801 in all, are:
+= -- 1104
+> -- 405
+< -- 0
++ -- 152
+- -- 113
+* -- 750
+:= -- 1482
+add.period$ -- 45
+call.type$ -- 39
+change.case$ -- 41
+chr.to.int$ -- 0
+cite$ -- 40
+duplicate$ -- 528
+empty$ -- 1011
+format.name$ -- 113
+if$ -- 2651
+int.to.chr$ -- 0
+int.to.str$ -- 39
+missing$ -- 29
+newline$ -- 126
+num.names$ -- 37
+pop$ -- 135
+preamble$ -- 1
+purify$ -- 0
+quote$ -- 0
+skip$ -- 416
+stack$ -- 0
+substring$ -- 773
+swap$ -- 239
+text.length$ -- 0
+text.prefix$ -- 0
+top$ -- 0
+type$ -- 0
+warning$ -- 1
+while$ -- 106
+width$ -- 41
+write$ -- 384
+(There was 1 warning)

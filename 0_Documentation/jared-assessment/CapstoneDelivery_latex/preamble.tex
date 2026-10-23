@@ -1,0 +1,134 @@
+% ---------------------------------------------------------------------------
+% Preamble: EGH490-2 Project Delivery Report (A4, 12 pt, 20 mm margins)
+% Compiles with pdflatex + bibtex on Overleaf (TeX Live 2024) and locally.
+% ---------------------------------------------------------------------------
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                 % Times text + maths (12 pt body as required)
+\usepackage[scaled=0.92]{helvet}      % Arial-like sans for headings / tables
+\usepackage[a4paper,top=20mm,bottom=20mm,left=20mm,right=20mm,headheight=14pt]{geometry}
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\graphicspath{{figures/}{figures/slides/}{figures/pipeline/}{figures/photos/}{figures/sim/}{figures/misc/}{figures/tikz/}}
+\usepackage[table]{xcolor}
+\usepackage{booktabs,longtable,array,multirow,makecell,tabularx,colortbl}
+\usepackage{caption,subcaption}
+\captionsetup{font=small,labelfont=bf,width=0.95\linewidth}
+\setlength{\textfloatsep}{10pt plus 2pt minus 4pt}
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}
+\setlength{\intextsep}{8pt plus 2pt minus 2pt}
+\renewcommand{\topfraction}{0.85}
+\renewcommand{\bottomfraction}{0.6}
+\renewcommand{\textfraction}{0.1}
+\renewcommand{\floatpagefraction}{0.8}
+\setcounter{topnumber}{3}
+\setcounter{totalnumber}{5}
+\usepackage{float,placeins}
+\usepackage{enumitem}
+\setlist{nosep,leftmargin=*}
+\usepackage{fancyhdr}
+\usepackage{titlesec}
+\usepackage{pdflscape}
+\usepackage{listings}
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds,chains,decorations.pathreplacing}
+\usepackage{circuitikz}
+\usepackage{microtype}
+\usepackage{xspace}
+\usepackage{csquotes}
+\usepackage[colorlinks=true,linkcolor=blue!50!black,citecolor=blue!50!black,urlcolor=blue!50!black]{hyperref}
+\usepackage{cleveref}
+
+% ----- headings in sans, numbered to subsubsection
+\titleformat{\section}{\sffamily\Large\bfseries}{\thesection}{0.8em}{}
+\titleformat{\subsection}{\sffamily\large\bfseries}{\thesubsection}{0.8em}{}
+\titleformat{\subsubsection}{\sffamily\normalsize\bfseries}{\thesubsubsection}{0.8em}{}
+\titlespacing*{\section}{0pt}{14pt}{6pt}
+\titlespacing*{\subsection}{0pt}{10pt}{4pt}
+\setcounter{secnumdepth}{3}
+\setcounter{tocdepth}{2}
+
+% ----- header / footer
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[L]{\small\sffamily Controlling Differential Power Processors in Solar Powered Applications}
+\fancyhead[R]{\small\sffamily Jared Saunders \textperiodcentered{} n11034459}
+\fancyfoot[C]{\small\sffamily Page \thepage}
+\renewcommand{\headrulewidth}{0.3pt}
+
+% ----- colours
+\definecolor{tpcol}{RGB}{120,90,170}      % talking points
+\definecolor{notecol}{RGB}{190,80,30}     % notes to self / to decide
+\definecolor{evcol}{RGB}{30,110,70}       % evidence callouts
+\definecolor{anacol}{RGB}{107,107,107}
+\definecolor{milcol}{RGB}{142,107,191}
+\definecolor{simcol}{RGB}{31,107,70}
+\definecolor{qspcol}{RGB}{27,45,85}
+\definecolor{hwcol}{RGB}{217,130,43}
+
+% ----- authoring helpers -------------------------------------------------
+% Talking points: bullets you still have to turn into prose. Printed in
+% colour so they are easy to find; set \tpoff to print them in black, or
+% \tphide to drop them from the PDF entirely.
+\newif\iftpshow \tpshowtrue
+\newcommand{\tpoff}{\colorlet{tpcol}{black}}
+\newcommand{\tphide}{\tpshowfalse}
+\newenvironment{talking}{\iftpshow\begin{itemize}[label=\textcolor{tpcol}{$\triangleright$},leftmargin=1.4em]\color{tpcol}\small\else\setbox0\vbox\bgroup\fi}{\iftpshow\end{itemize}\else\egroup\fi}
+% Short orange note for decisions / things to confirm.
+\newcommand{\note}[1]{\iftpshow{\color{notecol}\small\textbf{[note]} #1}\fi}
+% Evidence callout (a number taken from the pipeline tables, with its source).
+\newcommand{\ev}[1]{#1}
+% Units and symbols
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\us}{\unit{\mu s}}
+\newcommand{\ms}{\unit{ms}}
+\newcommand{\kHz}{\unit{kHz}}
+\newcommand{\V}{\unit{V}}
+\newcommand{\A}{\unit{A}}
+\newcommand{\W}{\unit{W}}
+\newcommand{\Wh}{\unit{Wh}}
+\newcommand{\ohm}{\ensuremath{\,\Omega}}
+\newcommand{\uH}{\ensuremath{\,\mu\mathrm{H}}}
+\newcommand{\uF}{\ensuremath{\,\mu\mathrm{F}}}
+\newcommand{\Vbar}{\ensuremath{\bar{V}}}
+\newcommand{\vd}{\ensuremath{v_{d}}}
+\newcommand{\ic}{\ensuremath{i_{c}}}
+\newcommand{\im}{\ensuremath{i_{m}}}
+\newcommand{\uc}{\ensuremath{u_{c}}}
+\newcommand{\ud}{\ensuremath{u_{d}}}
+\newcommand{\fsw}{\ensuremath{f_{sw}}}
+\newcommand{\kscale}{k}
+\newcommand{\code}[1]{\texttt{#1}}
+
+% ----- pseudocode via listings (works everywhere, no algorithm2e needed)
+\definecolor{qutnavy}{RGB}{0,64,122}
+\definecolor{codebg}{RGB}{246,248,251}
+\definecolor{codecomment}{RGB}{110,118,129}
+\lstdefinelanguage{pseudo}{
+  morekeywords={if,else,elif,for,each,while,return,every,then,and,or,not,in,do,end,function,on,switch,case,down,to},
+  morekeywords=[2]{trip,clamp,max,min,ramp},
+  sensitive=true, morecomment=[l]{\#}, morestring=[b]"}
+\lstset{language=pseudo,basicstyle=\fontfamily{lmtt}\selectfont\footnotesize,
+  keywordstyle=\color{qutnavy}\bfseries,keywordstyle=[2]\color{qutnavy},
+  commentstyle=\color{codecomment},stringstyle=\color{qutnavy},
+  columns=fixed,basewidth=0.52em,keepspaces=true,breaklines=true,breakindent=4em,
+  postbreak=\mbox{\textcolor{codecomment}{$\hookrightarrow$}\space},
+  frame=tb,framerule=0.6pt,rulecolor=\color{qutnavy},backgroundcolor=\color{codebg},
+  framexleftmargin=4pt,framexrightmargin=4pt,xleftmargin=4pt,xrightmargin=4pt,
+  aboveskip=8pt,belowskip=8pt,captionpos=t,numbers=none,tabsize=4}
+\renewcommand{\lstlistingname}{Listing}
+
+% ----- tikz styles for the diagrams
+\tikzset{
+  blk/.style={draw,rounded corners=2pt,fill=white,minimum height=8mm,minimum width=22mm,align=center,font=\sffamily\small},
+  blkb/.style={blk,fill=blue!6},
+  blkg/.style={blk,fill=green!8},
+  blko/.style={blk,fill=orange!10},
+  blkr/.style={blk,fill=red!8},
+  blky/.style={blk,fill=yellow!15},
+  arr/.style={-{Stealth[length=2mm]},thick},
+  darr/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]},thick},
+  lab/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt},
+  st/.style={draw,ellipse,fill=blue!6,minimum width=18mm,minimum height=7mm,font=\sffamily\small,align=center},
+  stf/.style={st,fill=red!12},
+}

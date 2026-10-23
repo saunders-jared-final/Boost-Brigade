@@ -1,0 +1,35 @@
+% Gain refinement pipeline: identify G -> JSON gain set -> params.h + the one C core -> three harnesses.
+% Print size.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+    b/.style={draw,rounded corners=2pt,thick,minimum width=31mm,minimum height=11mm,align=center,inner sep=3pt},
+    f/.style={-{Stealth[length=1.8mm]},semithick},
+    l/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt,align=center},
+    hd/.style={font=\sffamily\scriptsize\bfseries,text=gray!40!black}]
+  % column headings
+  \node[hd] at (1.75,2.55) {1 identify};
+  \node[hd] at (5.6,2.55) {2 design};
+  \node[hd] at (10.0,2.55) {3 generate};
+  \node[hd] at (14.0,2.55) {4 run the same code};
+  % 1 identification plants
+  \node[b,fill=blue!6]   (sim) at (1.75,1.3)  {Simulink carpark twin\\{\scriptsize step each $u$, measure $G$}};
+  \node[b,fill=blue!6]   (qsp) at (1.75,-0.5) {QSPICE switching model\\{\scriptsize $u_d$ sweeps, $R_{sw}(\fsw)$}};
+  % 2 gain set
+  \node[b,fill=yellow!15,minimum height=29mm,minimum width=29mm] (json) at (5.6,0.4) {{\scriptsize\code{shuffler\_params.json}}\\[3pt]{\scriptsize $M = G^{-1}\mathrm{diag}(k_I)$}\\{\scriptsize $k_p$ ratios, $f_c$, duty limits}\\{\scriptsize version string}};
+  % 3 generated header + shared core
+  \node[b,fill=yellow!15] (ph)   at (10.0,1.3)  {{\scriptsize\code{params.h}}\\{\scriptsize $M$, $M_p$, $M^{-1}$ (float32)}};
+  \node[b,fill=gray!8]    (core) at (10.0,-0.5) {{\scriptsize\code{ctrl\_core/*.c}}\\{\scriptsize C99, float32, no I/O}};
+  \node[draw,densely dashed,rounded corners=4pt,gray,fit=(ph)(core),inner sep=4pt] (grp) {};
+  % 4 harnesses
+  \node[b,fill=green!8]  (sil) at (14.0,1.6)  {Simulink SIL\\{\scriptsize C Caller blocks}};
+  \node[b,fill=green!8]  (dll) at (14.0,0.4)  {QSPICE DLL\\{\scriptsize the ``Nucleo'' block}};
+  \node[b,fill=orange!10] (fw) at (14.0,-0.8) {firmware ISR\\{\scriptsize\code{stack\_step()}, 10 kHz}};
+  % flow
+  \draw[f] (sim.east) -- (json.west |- sim.east);
+  \draw[f] (qsp.east) -- (json.west |- qsp.east);
+  \draw[f] (json.east |- ph.west) -- (ph.west);
+  \node[font=\scriptsize,align=center,anchor=north] at ($(json.east |- ph.west)!0.5!(ph.west)+(0,-0.12)$) {\code{gen\_}\\\code{params}\\\code{.py}};
+  \foreach \t in {sil,dll,fw}{\draw[f] (grp.east |- \t.west) -- (\t.west);}
+  % run-time knob
+  \node[font=\sffamily\scriptsize,align=center,text=gray!30!black] at (8.1,-1.95)
+       {run time: $u = k\,(M_p e + M\xi)$ with one gain scale $k$ (\code{kscale}, boot value 0.3); a staged gain set is applied bumplessly ($\xi = M^{-1}u_{act}$)};
+\end{tikzpicture}

@@ -1,0 +1,25 @@
+% Firmware supervisory state machine (6_RTOS/App/app.c, 100 Hz task).  Print size.
+\begin{tikzpicture}[x=1cm,y=1cm,font=\sffamily\footnotesize,
+    s/.style={draw,ellipse,thick,draw=blue!50!black,fill=blue!6,minimum width=20mm,minimum height=10mm,align=center,inner sep=1pt},
+    sf/.style={s,draw=red!60!black,fill=red!10},
+    t/.style={-{Stealth[length=1.8mm]},semithick},
+    l/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt,align=center}]
+  \node[s] (boot) at (0.75,0)  {BOOT};
+  \node[s] (self) at (3.65,0)  {SELFTEST\\[-1pt]{\scriptsize INA init, hall zero}};
+  \node[s] (idle) at (7.15,0)  {IDLE\\[-1pt]{\scriptsize legs off, pre-bias $d_0$}};
+  \node[s] (ss)   at (10.85,0) {SOFTSTART\\[-1pt]{\scriptsize 150 ms duty ramp}};
+  \node[s] (run)  at (14.15,0) {RUN\\[-1pt]{\scriptsize OL / CL modes}};
+  \node[s] (stop) at (10.85,-2.4) {STOP\\[-1pt]{\scriptsize legs off}};
+  \node[sf] (flt) at (7.15,-3.9) {FAULT\\[-1pt]{\scriptsize outputs off, latched}};
+  \draw[t] (boot) -- (self);
+  \draw[t] (self) -- node[l,above]{ok} (idle);
+  \draw[t] (idle) -- node[l,above=4mm]{\code{C,EN,1}\\mode $\neq$ IDLE} (ss);
+  \draw[t] (ss) -- node[l,above=4mm]{ramp\\done} (run);
+  \draw[t] (ss) -- node[l,right]{\code{C,EN,0}} (stop);
+  \draw[t] (run) |- node[l,pos=0.25,right]{\code{C,EN,0} or\\mode IDLE} (stop);
+  \draw[t] (stop) -| node[l,pos=0.3,below]{next tick} ([xshift=6mm]idle.south);
+  \draw[t] (self) |- node[l,pos=0.3,left]{zero-cal or\\INA fail} (flt);
+  \draw[t,red!60!black] (run.south) |- (flt.east);
+  \node[l,text=red!60!black,anchor=north] at (11.4,-4.0) {\code{trip()} from any state: OC, OV/UV, E-stop,\\over-temperature, comms watchdog, main-loop stall};
+  \draw[t] ([xshift=-4mm]flt.north) -- node[l,left]{\code{C,CLEAR}\\(E-stop released)} ([xshift=-4mm]idle.south);
+\end{tikzpicture}

@@ -1,0 +1,706 @@
+This is pdfTeX, Version 3.141592653-2.6-1.40.22 (TeX Live 2022/dev/Debian) (preloaded format=pdflatex)
+ restricted \write18 enabled.
+entering extended mode
+(./main.tex
+LaTeX2e <2021-11-15> patch level 1
+L3 programming layer <2022-01-21>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2021/10/04 v1.4n Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size12.clo)) (./preamble.tex
+(/usr/share/texlive/texmf-dist/tex/latex/base/inputenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/base/fontenc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/mathptmx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/helvet.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/geometry/geometry.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/ifvtex.sty
+(/usr/share/texlive/texmf-dist/tex/generic/iftex/iftex.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsmath.sty
+For additional information on amsmath, use the `?' option.
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amstext.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsgen.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsbsy.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/amsmath/amsopn.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amssymb.sty
+(/usr/share/texlive/texmf-dist/tex/latex/amsfonts/amsfonts.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/bm.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def)))
+(/usr/share/texlive/texmf-dist/tex/latex/xcolor/xcolor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/color.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/colortbl/colortbl.sty
+(/usr/share/texlive/texmf-dist/tex/latex/tools/array.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/booktabs/booktabs.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/longtable.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/multirow/multirow.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/makecell/makecell.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/tools/tabularx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/ltcaption.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/placeins/placeins.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/enumitem/enumitem.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/fancyhdr/fancyhdr.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/titlesec/titlesec.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/pdflscape/pdflscape.sty
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/lscape.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.sty
+(/usr/share/texlive/texmf-dist/tex/latex/listings/lstmisc.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/listings/listings.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/frontendlayer/tikz.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgf.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfrcs.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-common-lists.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfutil-latex.def
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfrcs.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/pgf.revision.tex)))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/basiclayer/pgfcore.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/systemlayer/pgfsys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeysfiltered.code.t
+ex)) (/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgf.cfg)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-pdftex.def
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsys-common-pdf.de
+f)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsyssoftpath.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/systemlayer/pgfsysprotocol.code.
+tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcore.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathcalc.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathutil.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathparser.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.basic.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.trigonomet
+ric.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.random.cod
+e.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.comparison
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.base.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.round.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.misc.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfunctions.integerari
+thmetics.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmathfloat.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfint.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepoints.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathconstruct.
+code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathusage.code
+.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorescopes.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoregraphicstate.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransformation
+s.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorequick.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreobjects.code.t
+ex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepathprocessing
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorearrows.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreshade.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreimage.code.tex
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoreexternal.code.
+tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorelayers.code.te
+x)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcoretransparency.c
+ode.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorepatterns.code.
+tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/basiclayer/pgfcorerdf.code.tex))
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleshapes.code.tex
+) (/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmoduleplot.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-0-65
+.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/compatibility/pgfcomp-version-1-18
+.sty)) (/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgffor.sty
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/utilities/pgfkeys.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgfkeys.code.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/pgf/math/pgfmath.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/utilities/pgffor.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/math/pgfmath.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/tikz.code.tex
+
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryplothandlers
+.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulematrix.code.tex
+)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarytopaths.code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryarrows.meta.
+code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarypositioning.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryshapes.geometric.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/shapes/pgflibraryshape
+s.geometric.code.tex))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarycalc.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryfit.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybackgrounds.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarychains.code.tex)
+(/usr/share/texlive/texmf-dist/tex/latex/circuitikz/circuitikz.sty
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibrarybending.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulebending.code.te
+x
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/modules/pgfmodulenonlineartransf
+ormations.code.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibrarycurvilinear.
+code.tex)))
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/frontendlayer/tikz/libraries/tik
+zlibraryfpu.code.tex
+(/usr/share/texlive/texmf-dist/tex/generic/pgf/libraries/pgflibraryfpu.code.tex
+)) (/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirc.defines.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircutils.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircpath.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircshapes.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmonopoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircbipoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirctripoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircquadpoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircmultipoles.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirclabel.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircvoltage.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcirccurrent.tex)
+(/usr/share/texlive/texmf-dist/tex/generic/circuitikz/pgfcircflow.tex))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.sty
+(/usr/share/texlive/texmf-dist/tex/latex/etoolbox/etoolbox.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype-pdftex.def)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/microtype.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/tools/xspace.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.sty
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.def)
+(/usr/share/texlive/texmf-dist/tex/latex/csquotes/csquotes.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref.sty
+(/usr/share/texlive/texmf-dist/tex/generic/ltxcmds/ltxcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdftexcmds/pdftexcmds.sty
+(/usr/share/texlive/texmf-dist/tex/generic/infwarerr/infwarerr.sty))
+(/usr/share/texlive/texmf-dist/tex/generic/kvsetkeys/kvsetkeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/kvdefinekeys/kvdefinekeys.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/pdfescape/pdfescape.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hycolor/hycolor.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/letltxmacro/letltxmacro.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/auxhook/auxhook.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/kvoptions/kvoptions.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/pd1enc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hyperref-langpatches.def)
+(/usr/share/texlive/texmf-dist/tex/generic/intcalc/intcalc.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/etexcmds/etexcmds.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/puenc.def)
+(/usr/share/texlive/texmf-dist/tex/latex/url/url.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/bitset/bitset.sty
+(/usr/share/texlive/texmf-dist/tex/generic/bigintcalc/bigintcalc.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/base/atbegshi-ltx.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/hpdftex.def
+(/usr/share/texlive/texmf-dist/tex/latex/base/atveryend-ltx.sty)
+(/usr/share/texlive/texmf-dist/tex/latex/rerunfilecheck/rerunfilecheck.sty
+(/usr/share/texlive/texmf-dist/tex/generic/uniquecounter/uniquecounter.sty)))
+(/usr/share/texlive/texmf-dist/tex/latex/cleveref/cleveref.sty))
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdftex.def)
+(build/main.aux)
+*geometry* driver: auto-detecting
+*geometry* detected driver: pdftex
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg))
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-ptm.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/share/texlive/texmf-dist/tex/latex/refcount/refcount.sty)
+(/usr/share/texlive/texmf-dist/tex/generic/gettitlestring/gettitlestring.sty))
+(build/main.out) (build/main.out) (./titlepage.tex
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/t1phv.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1phv.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omlztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omsztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/omxztmcm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ot1ptm.fd)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msa.cfg)
+(/usr/share/texlive/texmf-dist/tex/latex/microtype/mt-msb.cfg) [1{/var/lib/texm
+f/fonts/map/pdftex/updmap/pdftex.map}]) (build/main.toc [1]) (build/main.lof
+[2] (/usr/share/texlive/texmf-dist/tex/latex/base/t1cmtt.fd) [3] [4] [5]
+Overfull \hbox (30.91104pt too wide) in paragraph at lines 112--112
+ [][] [][][]\T1/ptm/m/n/12 (-20) Build and test pho-tographs (2 of 2). Videos o
+f the bench runs are in \T1/cmtt/m/n/12 0_Documentation/Photos\T1/ptm/m/n/12 (-
+20) .[][] [][]  
+) (build/main.lot) [6] [7] (./sections/01_executive_summary.texpdfTeX warning (
+ext4): destination with the same identifier (name{page.1}) has been already use
+d, duplicate ignored
+<to be read again> 
+                   \relax 
+l.23   \item W
+              hat was not resolvable on hardware: the loop's own 1--10\,ms t...
+[1]) (./sections/02_abstract.tex [2]) (./sections/03_introduction.tex
+(/usr/share/texlive/texmf-dist/tex/latex/psnfss/ts1ptm.fd))
+(./sections/04_literature_review.tex [3] [4 <./figures/slides//img-005-006.png 
+(PNG copy)> <./figures/slides//img-005-004.png (PNG copy)> <./figures/slides//i
+mg-005-005.png (PNG copy)> <./figures/slides//img-005-007.png (PNG copy)> <./fi
+gures/slides//img-005-008.png (PNG copy)> <./figures/slides//img-005-003.png (P
+NG copy)> <./figures//misc/pv_mismatch_1000_200.png>])
+(./sections/05_methodology.tex [5] (./figures/tikz/pipeline_vmodel.tex)
+(./figures/tikz/shuffler_circuit.tex) [6] (./figures/tikz/nstring.tex) [7 <./fi
+gures/slides//img-007-011.png (PNG copy)>] [8 <./figures/slides//img-011-012.pn
+g (PNG copy)>] (./figures/tikz/system_arch.tex) [9 <./figures/slides//img-013-0
+15.png (PNG copy)> <./figures/slides//img-014-016.png (PNG copy)> <./figures/sl
+ides//img-015-017.png (PNG copy)> <./figures/slides//img-015-018.png (PNG copy)
+> <./figures/slides//img-015-019.png (PNG copy)>] [10 <./figures/slides//img-01
+8-026.png (PNG copy)> <./figures/slides//img-018-028.png (PNG copy)>]
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+[]|\T1/ptm/m/n/8 (+20) ADC1, ADC2 +
+
+Underfull \hbox (badness 10000) in paragraph at lines 162--162
+[]|\T1/ptm/m/n/8 (+20) SPI3 + CS
+
+Underfull \hbox (badness 2573) in paragraph at lines 162--162
+[]|\T1/ptm/m/n/8 (+20) LPUART1 (ST-LINK
+(./figures/tikz/gain_pipeline.tex)
+Underfull \hbox (badness 5832) in paragraph at lines 170--170
+[]\T1/ptm/b/n/10.95 (+20) Figure 10: |\T1/ptm/m/n/10.95 (+20) Gain pipeline: id
+en-ti-fi-ca-tion in Simulink or QSPICE $\OMS/ztmcm/m/n/10.95 !$
+
+Overfull \hbox (212.82779pt too wide) in paragraph at lines 176--176
+ [][][] 
+
+Overfull \hbox (20.75018pt too wide) in paragraph at lines 186--187
+[]\T1/ptm/m/n/10.95 (-20) How to run the sims and change the switch-ing fre-que
+ncy: \T1/cmtt/m/n/10.95 run_scenarios.m \T1/ptm/m/n/10.95 (-20) (Simulink) and 
+\T1/cmtt/m/n/10.95 run_scenarios.py
+(./figures/tikz/state_machine.tex) [11] [12 <./figures/slides//img-020-036.png 
+(PNG copy)> <./figures/slides//img-020-038.png (PNG copy)> <./figures/slides//i
+mg-020-039.png (PNG copy)> <./figures/slides//img-021-041.png (PNG copy)> <./fi
+gures/slides//img-022-045.png (PNG copy)>] (./figures/tikz/control_loop.tex)
+(./figures/tikz/adc_timing.tex) (./figures/tikz/test_setup.tex) [13] [14 <./fig
+ures/photos//20261016_143219.jpg> <./figures/photos//20261016_143227.jpg> <./fi
+gures/photos//20261020_132132.jpg>]) (./sections/06_results.tex
+(./tables/G_compare.tex) [15] [16 <./figures/slides//img-001-000.png (PNG copy)
+> <./figures/photos//20261020_112730.jpg> <./figures/slides//img-012-014.png (P
+NG copy)> <./figures/slides//img-012-013.png (PNG copy)>]
+(./tables/T6_ripple.tex)
+Overfull \hbox (4.47974pt too wide) in paragraph at lines 66--67
+[]\T1/ptm/m/n/10.95 (-20) Raw QSPICE data: 25 runs (S1 clo-sure, S3 shade, S4 r
+ef-er-ence step; bench and PV80; $\OML/ztmcm/m/it/10.95 k \OT1/ztmcm/m/n/10.95 
+= 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 1\OML/ztmcm/m/it/10.95 =\OT1/ztm
+cm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 2\OML/ztmcm/m/it/10.9
+5 =\OT1/ztmcm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95 3\OML/ztmc
+m/m/it/10.95 =\OT1/ztmcm/m/n/10.95 0\OML/ztmcm/m/it/10.95 :\OT1/ztmcm/m/n/10.95
+ 5\OML/ztmcm/m/it/10.95 =\OT1/ztmcm/m/n/10.95 1$\T1/ptm/m/n/10.95 (-20) ). 
+[17 <./figures//sim/carpark_matlab/00_summary.pdf>] [18 <./figures//pipeline/qs
+pice/S4_BENCH_k0p3.pdf> <./figures//pipeline/qspice/S3_PV80_k0p3.pdf>]
+(./tables/T3_duty_steps.tex [19 <./figures//pipeline/hardware/B06_bench_300k_CL
+_k0p3_overview.pdf>]) (./tables/T7_energy_solar.tex) [20] [21 <./figures//pipel
+ine/compare/S5_duty_steps_hw_vs_analytical.pdf> <./figures//pipeline/hardware/S
+02_solar_200k_CL_k0p1_peak_overview.pdf>] (./tables/T5_S4_vd2.tex) [22 <./figur
+es//pipeline/energy/S02_shade_power.pdf> <./figures//pipeline/energy/solar_ener
+gy.pdf>] [23 <./figures//pipeline/compare/metrics_vs_kscale.pdf> <./figures//pi
+peline/compare/step_S4_PV80_k0p3_vd2.pdf> <./figures//pipeline/compare/hw_stead
+y_state_vs_kscale.pdf>]) (./sections/07_conclusion.tex) [24] (build/main.bbl
+Underfull \hbox (badness 2512) in paragraph at lines 23--28
+[]\T1/ptm/m/n/12 (+20) Raspberry Pi Ltd, ``Rasp-berry Pi 4 Model B datasheet (R
+P-008341-DS-1).'' [][]$\T1/cmtt/m/n/12 https :
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--28
+\T1/cmtt/m/n/12 / / pip-[]assets . raspberrypi . com / categories / 545-[]raspb
+erry-[]pi-[]4-[]model-[]b /
+[25] [26]
+Underfull \hbox (badness 10000) in paragraph at lines 195--200
+[][]$\T1/cmtt/m/n/12 https : / / product . tdk . com / system / files / dam / d
+oc / product / inductor / inductor /
+) [27] (./appendices/A_timeline.tex (./figures/tikz/timeline.tex)
+Underfull \hbox (badness 5652) in paragraph at lines 20--21
+\T1/ptm/m/n/10.95 (+20) lib-rium, lin-eari-sa-tion, cas-caded PI;
+
+Underfull \hbox (badness 10000) in paragraph at lines 23--24
+[]|\T1/ptm/m/n/10.95 (+20) STM32G474 Nu-cleo, TMCS1126,
+
+Underfull \hbox (badness 5119) in paragraph at lines 23--24
+\T1/ptm/m/n/10.95 (+20) INA239, Rasp-berry Pi 4B; Ki-Cad
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[]|\T1/ptm/m/n/10.95 (+20) Results pipeline (\T1/cmtt/m/n/10.95 make all\T1/ptm
+/m/n/10.95 (+20) ), RE-
+) (./appendices/B_risk_register.tex [28] [29]
+Underfull \hbox (badness 10000) in paragraph at lines 17--17
+[]|\T1/ptm/m/n/12 (+20) Electronics
+
+Underfull \hbox (badness 2460) in paragraph at lines 17--17
+[]|\T1/ptm/m/n/12 (+20) Overload pro-tec-tion; spares; one-
+
+Underfull \hbox (badness 1147) in paragraph at lines 17--18
+\T1/ptm/m/n/12 (+20) (iso-la-tor wired re-versed); worked
+
+Underfull \hbox (badness 3977) in paragraph at lines 19--19
+[]|\T1/ptm/m/n/12 (+20) Monitoring soft-
+
+Underfull \hbox (badness 3792) in paragraph at lines 24--25
+[]|\T1/ptm/m/n/12 (+20) No in-ci-dent; heatsink and INA
+
+Underfull \hbox (badness 10000) in paragraph at lines 24--25
+\T1/ptm/m/n/12 (+20) die tem-per-a-tures logged (over-
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+[]|\T1/ptm/m/n/12 (+20) Control--
+
+Underfull \hbox (badness 10000) in paragraph at lines 27--27
+\T1/ptm/m/n/12 (+20) hardware in-
+
+Underfull \hbox (badness 10000) in paragraph at lines 28--28
+[]|\T1/ptm/m/n/12 (+20) MPPT fails to
+[30] [31] [32]) (./appendices/C_analytical.tex [33 <./figures/slides//img-051-1
+19.png (PNG copy)> <./figures/slides//img-052-123.png (PNG copy)>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 57.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 57.
+
+[34 <./figures/slides//img-051-121.png (PNG copy)> <./figures/slides//img-052-1
+25.png (PNG copy)> <./figures/slides//img-051-120.png (PNG copy)>]
+Overfull \hbox (16.91069pt too wide) in paragraph at lines 90--91
+[]\T1/ptm/b/n/12 (-20) Plants used in the anal-y-sis. \T1/ptm/m/n/12 (-20) PV80
+ ($\OML/ztmcm/m/it/12 N \OT1/ztmcm/m/n/12 = 3$\T1/ptm/m/n/12 (-20) ): $\OML/ztm
+cm/m/it/12 V \OT1/ztmcm/m/n/12 = 20\OML/ztmcm/m/it/12 :\OT1/ztmcm/m/n/12 5 V$\T
+1/ptm/m/n/12 (-20) , $\OML/ztmcm/m/it/12 g \OT1/ztmcm/m/n/12 = 0\OML/ztmcm/m/it
+/12 :\OT1/ztmcm/m/n/12 19$\T1/ptm/m/n/12 (-20) S per mod-ule, $\OML/ztmcm/m/it/
+12 C \OT1/ztmcm/m/n/12 = [130\OML/ztmcm/m/it/12 ; \OT1/ztmcm/m/n/12 260\OML/ztm
+cm/m/it/12 ; \OT1/ztmcm/m/n/12 130] \OML/ztmcm/m/it/12 ^^V\OT1/ztmcm/m/n/12 F$\
+T1/ptm/m/n/12 (-20) ,
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 94.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 94.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 94.
+
+) (./appendices/D_pseudocode.tex [35] [36] [37]) (./appendices/E_firmware.tex
+Overfull \hbox (8.02112pt too wide) in paragraph at lines 21--21
+[]|\T1/cmtt/m/n/10.95 app_task_sense_v| 
+
+Overfull \hbox (2.36275pt too wide) in paragraph at lines 21--21
+[]|\T1/cmtt/m/n/10.95 app_task_safety| 
+
+Overfull \hbox (19.33786pt too wide) in paragraph at lines 21--21
+[]|\T1/cmtt/m/n/10.95 app_task_telemetry| 
+[38]
+Underfull \hbox (badness 4899) in paragraph at lines 50--51
+[]|\T1/ptm/m/n/10.95 (+20) over-temperature (INA die $\OML/ztmcm/m/it/10.95 >
+
+Overfull \hbox (10.95155pt too wide) in paragraph at lines 67--68
+\T1/ptm/m/n/12 (-20) States: \T1/cmtt/m/n/12 BOOT, SELFTEST, IDLE, SOFTSTART, R
+UN_OL, RUN_CL, RUN_OL1, RUN_CL1, RUN_OL2,
+
+Overfull \hbox (11.79767pt too wide) in paragraph at lines 69--70
+[]\T1/ptm/m/n/12 (-20) Commands (Pi $\OMS/ztmcm/m/n/12 !$ \T1/ptm/m/n/12 (-20) 
+Nu-cleo): \T1/cmtt/m/n/12 C,MODE,<IDLE|OL|CL|OL1|CL1|OL2|CL2>\T1/ptm/m/n/12 (-2
+0) ; \T1/cmtt/m/n/12 C,TEST,0..3\T1/ptm/m/n/12 (-20) ; \T1/cmtt/m/n/12 C,EN,0|1
+\T1/ptm/m/n/12 (-20) ;
+
+Overfull \hbox (14.7326pt too wide) in paragraph at lines 69--70
+\T1/cmtt/m/n/12 vm_uv\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vstr_ov\T1/ptm/m/n/
+12 (-20) , \T1/cmtt/m/n/12 vstr_param\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vst
+r_pi\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 vm1_prot\T1/ptm/m/n/12 (-20) , \T1/c
+mtt/m/n/12 slew\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12 wdg_s\T1/ptm/m/n/12 (-20)
+ ); IDLE-only (\T1/cmtt/m/n/12 hall_zero*\T1/ptm/m/n/12 (-20) , \T1/cmtt/m/n/12
+ vm1_src\T1/ptm/m/n/12 (-20) ).
+
+Underfull \hbox (badness 2512) in paragraph at lines 87--87
+\T1/ptm/m/n/12 (+20) Docker: \T1/cmtt/m/n/12 influxdb:2.7 \T1/ptm/m/n/12 (+20) 
+on :8086 (org \T1/cmtt/m/n/12 boost\T1/ptm/m/n/12 (+20) , bucket \T1/cmtt/m/n/1
+2 shuffler\T1/ptm/m/n/12 (+20) , in-fi-nite re-ten-tion) and
+[39] [40]) (./appendices/F_gain_sets.tex
+Overfull \hbox (5.20137pt too wide) in paragraph at lines 8--43
+ [][] 
+) (./appendices/G_simulink_figures.tex [41]
+Underfull \hbox (badness 10000) in paragraph at lines 10--10
+[]|\T1/ptm/m/n/8 (+20) irradiance on the
+[42 <./figures//sim/mil_matlab/00_summary.pdf>] [43 <./figures//sim/mil_matlab/
+01_uniform-zero_control.pdf> <./figures//sim/mil_matlab/01_uniform-zero_string.
+pdf> <./figures//sim/mil_matlab/01_uniform-zero_supervisory.pdf>] [44 <./figure
+s//sim/mil_matlab/02_decoupling_control.pdf> <./figures//sim/mil_matlab/02_deco
+upling_string.pdf> <./figures//sim/mil_matlab/02_decoupling_supervisory.pdf>]
+[45 <./figures//sim/mil_matlab/03_shade-balanced_control.pdf> <./figures//sim/m
+il_matlab/03_shade-balanced_string.pdf> <./figures//sim/mil_matlab/03_shade-bal
+anced_supervisory.pdf>] [46 <./figures//sim/mil_matlab/04_shade-refs_control.pd
+f> <./figures//sim/mil_matlab/04_shade-refs_string.pdf> <./figures//sim/mil_mat
+lab/04_shade-refs_supervisory.pdf>] [47 <./figures//sim/mil_matlab/05_shade-dee
+p_control.pdf> <./figures//sim/mil_matlab/05_shade-deep_string.pdf> <./figures/
+/sim/mil_matlab/05_shade-deep_supervisory.pdf>] [48 <./figures//sim/mil_matlab/
+06_mppt-uniform_control.pdf> <./figures//sim/mil_matlab/06_mppt-uniform_string.
+pdf> <./figures//sim/mil_matlab/06_mppt-uniform_supervisory.pdf>] [49 <./figure
+s//sim/mil_matlab/07_mppt-shade_control.pdf> <./figures//sim/mil_matlab/07_mppt
+-shade_string.pdf> <./figures//sim/mil_matlab/07_mppt-shade_supervisory.pdf>]
+[50 <./figures//sim/carpark_matlab/01_uniform-zero_control.pdf> <./figures//sim
+/carpark_matlab/01_uniform-zero_string.pdf> <./figures//sim/carpark_matlab/01_u
+niform-zero_supervisory.pdf>] [51 <./figures//sim/carpark_matlab/02_decoupling_
+control.pdf> <./figures//sim/carpark_matlab/02_decoupling_string.pdf> <./figure
+s//sim/carpark_matlab/02_decoupling_supervisory.pdf>] [52 <./figures//sim/carpa
+rk_matlab/03_shade-balanced_control.pdf> <./figures//sim/carpark_matlab/03_shad
+e-balanced_string.pdf> <./figures//sim/carpark_matlab/03_shade-balanced_supervi
+sory.pdf>] [53 <./figures//sim/carpark_matlab/04_shade-refs_control.pdf> <./fig
+ures//sim/carpark_matlab/04_shade-refs_string.pdf> <./figures//sim/carpark_matl
+ab/04_shade-refs_supervisory.pdf>] [54 <./figures//sim/carpark_matlab/05_shade-
+deep_control.pdf> <./figures//sim/carpark_matlab/05_shade-deep_string.pdf> <./f
+igures//sim/carpark_matlab/05_shade-deep_supervisory.pdf>])
+(./appendices/H_simulation_figures.tex
+Overfull \hbox (12.50359pt too wide) in paragraph at lines 55--1
+\T1/ptm/m/n/12 (-20) The Python pipeline re-plots ev-ery val-i-date test on the
+ com-mon axes used for the hard-ware (\T1/cmtt/m/n/12 out/figures/
+
+Overfull \hbox (28.56871pt too wide) in paragraph at lines 3--4
+\T1/ptm/m/n/12 (-20) here; all 28 an-a-lyt-i-cal, 25 QSPICE and 25 carpark-twin
+ fig-ures are in \T1/cmtt/m/n/12 8_Results/analysis/out/figures/\T1/ptm/m/n/12 
+(-20) . 
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `subscript' on input line 5.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `math shift' on input line 5.
+
+[55 <./figures//pipeline/mil_validate/04_shade-refs.pdf> <./figures//pipeline/c
+arpark_validate/04_shade-refs.pdf> <./figures//pipeline/analytical/S1_BENCH_f20
+0k_k0p1.pdf> <./figures//pipeline/analytical/S1_BENCH_f200k_k0p3.pdf> <./figure
+s//pipeline/analytical/S1_BENCH_f200k_k1.pdf>] [56 <./figures//pipeline/analyti
+cal/S1_PV80_f200k_k0p1.pdf> <./figures//pipeline/analytical/S1_PV80_f200k_k0p3.
+pdf> <./figures//pipeline/analytical/S1_PV80_f200k_k1.pdf> <./figures//pipeline
+/analytical/S4_BENCH_f200k_k0p1.pdf> <./figures//pipeline/analytical/S4_BENCH_f
+200k_k0p3.pdf> <./figures//pipeline/analytical/S4_BENCH_f200k_k1.pdf> <./figure
+s//pipeline/analytical/S4_PV80_f200k_k0p1.pdf> <./figures//pipeline/analytical/
+S4_PV80_f200k_k0p3.pdf> <./figures//pipeline/analytical/S4_PV80_f200k_k1.pdf> <
+./figures//pipeline/analytical/S3_PV80_f200k_k0p1.pdf> <./figures//pipeline/ana
+lytical/S3_PV80_f200k_k0p3.pdf> <./figures//pipeline/analytical/S3_PV80_f200k_k
+1.pdf>] [57 <./figures//pipeline/analytical/S4_PV80_f300k_k0p3.pdf> <./figures/
+/pipeline/analytical/S4_PV80_f400k_k0p3.pdf> <./figures//pipeline/analytical/S5
+_BENCH_f200k_k0_uc2+0p04.pdf> <./figures//pipeline/analytical/S5_BENCH_f200k_k0
+_uc1uc2-0p02.pdf> <./figures//pipeline/analytical/S5_BENCH_f200k_k0_uc1+0p04.pd
+f>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 37.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 37.
+
+[58 <./figures//pipeline/qspice/S1_BENCH_k0p1.pdf> <./figures//pipeline/qspice/
+S1_BENCH_k0p3.pdf> <./figures//pipeline/qspice/S1_BENCH_k1.pdf> <./figures//pip
+eline/qspice/S1_PV80_k0p1.pdf> <./figures//pipeline/qspice/S1_PV80_k0p3.pdf> <.
+/figures//pipeline/qspice/S1_PV80_k1.pdf> <./figures//pipeline/qspice/S4_BENCH_
+k0p1.pdf> <./figures//pipeline/qspice/S4_BENCH_k1.pdf>] [59 <./figures//pipelin
+e/qspice/S4_PV80_k0p1.pdf> <./figures//pipeline/qspice/S4_PV80_k0p3.pdf> <./fig
+ures//pipeline/qspice/S4_PV80_k1.pdf> <./figures//pipeline/qspice/S3_PV80_k0p1.
+pdf> <./figures//pipeline/qspice/S3_PV80_k1.pdf> <./figures//pipeline/carpark/S
+1_BENCH_k0p1.pdf> <./figures//pipeline/carpark/S1_BENCH_k0p3.pdf> <./figures//p
+ipeline/carpark/S1_BENCH_k1.pdf>] [60 <./figures//pipeline/carpark/S1_PV80_k0p1
+.pdf> <./figures//pipeline/carpark/S1_PV80_k0p3.pdf> <./figures//pipeline/carpa
+rk/S1_PV80_k1.pdf> <./figures//pipeline/carpark/S4_BENCH_k0p1.pdf> <./figures//
+pipeline/carpark/S4_BENCH_k0p3.pdf> <./figures//pipeline/carpark/S4_BENCH_k1.pd
+f> <./figures//pipeline/carpark/S4_PV80_k0p1.pdf> <./figures//pipeline/carpark/
+S4_PV80_k0p3.pdf> <./figures//pipeline/carpark/S4_PV80_k1.pdf> <./figures//pipe
+line/carpark/S3_PV80_k0p1.pdf> <./figures//pipeline/carpark/S3_PV80_k0p3.pdf> <
+./figures//pipeline/carpark/S3_PV80_k1.pdf>]) (./appendices/I_bench_raw.tex
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 8.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 8.
+
+[61 <./figures//pipeline/hardware/B01_bench_200k_OL_overview.pdf>] [62 <./figur
+es//pipeline/events/B01_e1_load_step.pdf> <./figures//pipeline/events/B01_e5_lo
+ad_step.pdf> <./figures//pipeline/hardware/B01s_bench_200k_OL_dutysteps_overvie
+w.pdf>] [63 <./figures//pipeline/events/B01s_e3_duty_step.pdf> <./figures//pipe
+line/events/B01s_e5_duty_step.pdf> <./figures//pipeline/events/B01s_e6_duty_ste
+p.pdf> <./figures//pipeline/events/B01s_e9_duty_step.pdf>] [64 <./figures//pipe
+line/hardware/B02_bench_200k_CL_k0p1_overview.pdf> <./figures//pipeline/events/
+B02_e1_close.pdf> <./figures//pipeline/events/B02_e2_close.pdf>] [65 <./figures
+//pipeline/hardware/B03_bench_200k_CL_k0p3b_overview.pdf> <./figures//pipeline/
+events/B03_e1_close.pdf> <./figures//pipeline/events/B03_e2_load_step.pdf>]
+[66 <./figures//pipeline/hardware/B04_bench_200k_CL_k0p3_overview.pdf> <./figur
+es//pipeline/events/B04_e1_close.pdf> <./figures//pipeline/events/B04_e2_kscale
+_apply.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 22.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 22.
+
+[67 <./figures//pipeline/hardware/B05_bench_300k_OL_overview.pdf>] [68 <./figur
+es//pipeline/events/B06_e1_close.pdf> <./figures//pipeline/events/B06_e2_load_s
+tep.pdf>] [69 <./figures//pipeline/events/B06_e4_load_step.pdf> <./figures//pip
+eline/events/B06_e6_load_step.pdf> <./figures//pipeline/hardware/B07_bench_300k
+_CL_k0p5_overview.pdf>] [70 <./figures//pipeline/events/B07_e8_close.pdf> <./fi
+gures//pipeline/events/B07_e9_kscale_apply.pdf> <./figures//pipeline/events/B07
+_e20_close.pdf> <./figures//pipeline/events/B07_e21_kscale_apply.pdf>]
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\leavevmode@ifvmode' on input line 32.
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                \kern 2.00043pt
+(hyperref)                removed on input line 32.
+
+[71 <./figures//pipeline/hardware/B08_bench_400k_OL_overview.pdf>] [72 <./figur
+es//pipeline/events/B08_e2_load_step.pdf> <./figures//pipeline/events/B08_e3_ks
+cale_apply.pdf> <./figures//pipeline/hardware/B09_bench_400k_CL_k0p3_overview.p
+df>] (./tables/T2_ol_steady.tex) (./tables/T3_closures.tex [73 <./figures//pipe
+line/events/B09_e1_close.pdf> <./figures//pipeline/events/B09_e4_load_step.pdf>
+]) (./tables/T3_kscale.tex) (./tables/T7_energy_bench.tex))
+(./appendices/J_solar_raw.tex [74] [75 <./figures//pipeline/hardware/S01_solar_
+200k_OL_peak_overview.pdf>] [76 <./figures//pipeline/events/S01_e2_mismatch_off
+.pdf> <./figures//pipeline/events/S01_e3_irradiance_down.pdf>] [77 <./figures//
+pipeline/events/S02_e1_close.pdf> <./figures//pipeline/events/S02_e2_mismatch_o
+n.pdf> <./figures//pipeline/events/S02_e3_irradiance_up.pdf> <./figures//pipeli
+ne/events/S02_e5_mismatch_off.pdf>] [78 <./figures//pipeline/hardware/S03_solar
+_200k_OL_min_overview.pdf>] [79 <./figures//pipeline/events/S03_e2_mismatch_on.
+pdf> <./figures//pipeline/events/S03_e3_mismatch_off.pdf> <./figures//pipeline/
+hardware/S04_solar_200k_CL_k0p1_min_overview.pdf>] [80 <./figures//pipeline/har
+dware/S05_solar_200k_CL_k0p2_min_overview.pdf> <./figures//pipeline/events/S05_
+e1_close.pdf> <./figures//pipeline/events/S05_e2_mismatch_on.pdf>] [81 <./figur
+es//pipeline/hardware/S06_solar_200k_CL_k0p3_min_overview.pdf> <./figures//pipe
+line/hardware/S07_solar_200k_CL_k0p4_min_overview.pdf>] [82 <./figures//pipelin
+e/hardware/S08_solar_200k_CL_k0p5_min_overview.pdf> <./figures//pipeline/events
+/S08_e1_close.pdf> <./figures//pipeline/events/S08_e2_mismatch_on.pdf>]
+[83 <./figures//pipeline/hardware/S09_solar_200k_CL_k0p6_min_overview.pdf> <./f
+igures//pipeline/hardware/S10_solar_200k_CL_k0p7_min_overview.pdf>] [84 <./figu
+res//pipeline/hardware/S11_solar_200k_CL_k0p8_min_overview.pdf> <./figures//pip
+eline/events/S04_e1_close.pdf> <./figures//pipeline/events/S06_e1_close.pdf> <.
+/figures//pipeline/events/S11_e1_close.pdf>] (./tables/T3_shade.tex))
+(./appendices/K_synthesis_tables.tex
+Overfull \hbox (10.80191pt too wide) in paragraph at lines 3--4
+\T1/ptm/m/n/12 (-20) All ta-bles are gen-er-ated from \T1/cmtt/m/n/12 8_Results
+/analysis/out/tables/*.csv \T1/ptm/m/n/12 (-20) by \T1/cmtt/m/n/12 tools/make_t
+ables.py\T1/ptm/m/n/12 (-20) ;
+(./tables/T1_inventory.tex
+Overfull \hbox (5.61227pt too wide) in alignment at lines 3--7
+ [] [] [] [] [] [] [] [] [] [] 
+
+Overfull \hbox (5.61227pt too wide) in alignment at lines 7--10
+ [] [] [] [] [] [] [] [] [] [] 
+
+Overfull \hbox (5.61227pt too wide) in alignment at lines 10--11
+ [] [] [] [] [] [] [] [] [] [] 
+
+Underfull \hbox (badness 10000) in paragraph at lines 18--19
+\T1/ptm/m/n/8 (+20) 17:22:30-17:25:30 while
+
+Underfull \hbox (badness 10000) in paragraph at lines 30--31
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Underfull \hbox (badness 10000) in paragraph at lines 31--32
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Underfull \hbox (badness 10000) in paragraph at lines 32--33
+[]|\T1/ptm/m/n/8 (+20) not on a slide
+
+Overfull \hbox (5.61227pt too wide) in alignment at lines 11--33
+ [] [] [] [] [] [] [] [] [] [] 
+[85]) (./tables/T2_cl_steady.tex [86]) (./tables/T5_S4_ic2.tex)
+(./tables/T5_S3.tex) [87] [88 <./figures//pipeline/compare/step_S4_BENCH_k0p1_v
+d2.pdf> <./figures//pipeline/compare/step_S4_BENCH_k0p3_vd2.pdf> <./figures//pi
+peline/compare/step_S4_BENCH_k1_vd2.pdf> <./figures//pipeline/compare/step_S4_B
+ENCH_k0p1_ic2.pdf> <./figures//pipeline/compare/step_S4_BENCH_k0p3_ic2.pdf> <./
+figures//pipeline/compare/step_S4_BENCH_k1_ic2.pdf> <./figures//pipeline/compar
+e/step_S4_PV80_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S4_PV80_k1_vd2.p
+df> <./figures//pipeline/compare/step_S4_PV80_k0p1_ic2.pdf> <./figures//pipelin
+e/compare/step_S4_PV80_k0p3_ic2.pdf> <./figures//pipeline/compare/step_S4_PV80_
+k1_ic2.pdf> <./figures//pipeline/compare/step_S1_BENCH_k0p1_vd2.pdf> <./figures
+//pipeline/compare/step_S1_BENCH_k0p3_vd2.pdf> <./figures//pipeline/compare/ste
+p_S1_BENCH_k0p5_vd2.pdf> <./figures//pipeline/compare/step_S1_PV80_k0p1_vd2.pdf
+> <./figures//pipeline/compare/step_S1_PV80_k0p3_vd2.pdf> <./figures//pipeline/
+compare/step_S1_PV80_k0p5_vd2.pdf>] [89 <./figures//pipeline/compare/step_S3_PV
+80_k0p1_vd2.pdf> <./figures//pipeline/compare/step_S3_PV80_k0p1_id2.pdf> <./fig
+ures//pipeline/compare/step_S3_PV80_k0p1_Pstr.pdf> <./figures//pipeline/compare
+/step_S3_PV80_k0p3_vd2.pdf> <./figures//pipeline/compare/step_S3_PV80_k0p3_id2.
+pdf> <./figures//pipeline/compare/step_S3_PV80_k0p3_Pstr.pdf> <./figures//pipel
+ine/compare/ripple_vs_fsw.pdf>]) (./appendices/L_thermal_scope.tex)
+(./appendices/M_journey.tex) [90 <./figures//misc/thermal_lab_16oct.png> <./fig
+ures//misc/thermal_solar_20oct.png> <./figures//misc/thermal_100k.png>]
+[91 <./figures//misc/scope_200k.png> <./figures//misc/scope_300k.png> <./figure
+s//misc/scope_400k.png> <./figures//misc/scr02.png> <./figures//misc/scr04.png>
+] [92 <./figures/photos//20260828_075344.jpg> <./figures/photos//20260925_00052
+2.jpg> <./figures/photos//20261004_141445.jpg> <./figures/photos//20261004_1625
+23.jpg> <./figures/photos//20261004_162616.jpg> <./figures/photos//20261006_102
+236.jpg> <./figures/photos//20261007_081025.jpg> <./figures/photos//20261011_10
+1108.jpg> <./figures/photos//20261014_100557.jpg>] [93 <./figures/photos//20261
+014_164518.jpg> <./figures/photos//20261014_212624.jpg> <./figures/photos//2026
+1012_180815.jpg> <./figures/photos//20261016_143209.jpg> <./figures/photos//202
+61016_153331.jpg> <./figures/photos//IMG-20261014.jpg> <./figures/photos//20261
+020_131748.jpg> <./figures/photos//20261020_131809.jpg>] (build/main.aux) )
+(see the transcript file for additional information) </home/jared/.texlive2021/
+texmf-var/fonts/pk/ljfour/jknappen/ec/ecit1000.600pk> </home/jared/.texlive2021
+/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1000.600pk> </home/jared/.texlive202
+1/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt0800.600pk> </home/jared/.texlive20
+21/texmf-var/fonts/pk/ljfour/jknappen/ec/ectt1095.600pk>{/usr/share/texlive/tex
+mf-dist/fonts/enc/dvips/base/8r.enc} </home/jared/.texlive2021/texmf-var/fonts/
+pk/ljfour/jknappen/ec/ectt1200.600pk></usr/share/texlive/texmf-dist/fonts/type1
+/public/amsfonts/cm/cmex10.pfb></usr/share/texlive/texmf-dist/fonts/type1/publi
+c/amsfonts/cm/cmmi10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsf
+onts/cm/cmr10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm
+/cmsy10.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvb8a.pfb>
+</usr/share/texlive/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/urw/helvetic/uhvro8a.pfb></usr/share/texlive/tex
+mf-dist/fonts/type1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/ty
+pe1/urw/symbol/usyr.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/ut
+mb8a.pfb></usr/share/texlive/texmf-dist/fonts/type1/urw/times/utmr8a.pfb></usr/
+share/texlive/texmf-dist/fonts/type1/urw/times/utmri8a.pfb>
+Output written on build/main.pdf (101 pages, 36368479 bytes).
+Transcript written on build/main.log.
