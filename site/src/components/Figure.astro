@@ -1,0 +1,16 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Props { src: ImageMetadata | string; alt: string; caption?: string; evidence?: { label: string; href: string }; width?: number; class?: string; loading?: 'lazy' | 'eager'; }
+const { src, alt, caption, evidence, width, class: cls = '', loading = 'lazy' } = Astro.props;
+const isMeta = typeof src !== 'string';
+---
+<figure class:list={['figure', cls]}>
+  {isMeta ? <Image src={src as ImageMetadata} alt={alt} width={width ?? Math.min(1600, (src as ImageMetadata).width)} loading={loading} /> : <img src={src as string} alt={alt} loading={loading} />}
+  {(caption || evidence) && (
+    <figcaption>
+      {caption}
+      {evidence && <> <a href={evidence.href} target="_blank" rel="noopener">{evidence.label}</a></>}
+    </figcaption>
+  )}
+</figure>

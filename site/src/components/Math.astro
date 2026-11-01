@@ -1,0 +1,8 @@
+---
+/** Server-rendered KaTeX. Use <Math tex="..." /> inline or <Math display tex="..." />. */
+import katex from 'katex';
+interface Props { tex: string; display?: boolean; }
+const { tex, display = false } = Astro.props;
+const html = katex.renderToString(tex, { displayMode: display, throwOnError: false, output: 'htmlAndMathml' });
+---
+<Fragment set:html={html} />

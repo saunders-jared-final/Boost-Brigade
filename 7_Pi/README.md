@@ -35,7 +35,7 @@ bash 7_Pi/deploy/sync.sh <user>@<pi-address>       # rsync 7_Pi -> ~/Boost-Briga
 bash ~/Boost-Brigade/7_Pi/deploy/setup.sh          # apt deps, docker, venv, OpenOCD + udev, overlays, pod service, Influx+Grafana
 ```
 Log out/in once (new groups) and reboot if the overlays were just added. Grafana `http://<pi>:3000`
-(admin / shuffler), logs `journalctl -u pod -f`. Without a Nucleo or sensors the pod still runs.
+(admin / `GRAFANA_PASSWORD` from `7_Pi/.env`; copy `.env.example` first), logs `journalctl -u pod -f`. Without a Nucleo or sensors the pod still runs.
 
 ## Reflashing the Nucleo from the Pi
 

@@ -12,7 +12,24 @@ import os
 import pandas as pd
 from influxdb_client import InfluxDBClient
 
-URL, TOKEN, ORG, BUCKET = "http://localhost:8086", "shuffler-pod-token", "boost", "shuffler"
+def _env_token():
+    """INFLUX_TOKEN from the environment, else from 7_Pi/.env (KEY=VALUE lines); never a hard-coded default."""
+    tok = os.environ.get("INFLUX_TOKEN")
+    if tok:
+        return tok
+    here = os.path.dirname(os.path.abspath(__file__))
+    for cand in (os.path.join(here, ".env"), os.path.join(here, "..", ".env")):
+        try:
+            with open(cand) as fh:
+                for line in fh:
+                    line = line.strip()
+                    if line.startswith("INFLUX_TOKEN="):
+                        return line.split("=", 1)[1].strip().strip('"').strip("'")
+        except OSError:
+            pass
+    raise SystemExit("INFLUX_TOKEN is not set: export it or create 7_Pi/.env from 7_Pi/.env.example")
+
+URL, TOKEN, ORG, BUCKET = "http://localhost:8086", _env_token(), "boost", "shuffler"
 
 
 def main():

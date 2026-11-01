@@ -1,0 +1,39 @@
+---
+/** Masonry photo gallery with a PhotoSwipe lightbox. */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+interface Item { full: ImageMetadata; thumb?: ImageMetadata; caption?: string; date?: string; tags?: string[]; }
+interface Props { items: Item[]; id?: string; }
+const { items, id = 'gallery' } = Astro.props;
+---
+<div class="gallery" id={id}>
+  {items.map((it) => (
+    <a class="g-item" href={it.full.src} data-pswp-width={it.full.width} data-pswp-height={it.full.height} data-tags={(it.tags ?? []).join(' ')} target="_blank" rel="noopener">
+      <Image src={it.thumb ?? it.full} alt={it.caption || 'Project photo'} width={480} />
+      {(it.caption || it.date) && <span class="g-cap">{it.date && <time class="mono">{it.date.slice(0, 10)}</time>} {it.caption}</span>}
+    </a>
+  ))}
+</div>
+<script>
+  import PhotoSwipeLightbox from 'photoswipe/lightbox';
+  import 'photoswipe/style.css';
+  document.querySelectorAll<HTMLElement>('.gallery').forEach((g) => {
+    const lb = new PhotoSwipeLightbox({ gallery: g, children: 'a.g-item', pswpModule: () => import('photoswipe') });
+    lb.on('uiRegister', () => {
+      lb.pswp?.ui?.registerElement({ name: 'caption', order: 9, isButton: false, appendTo: 'root', onInit: (el, pswp) => {
+        pswp.on('change', () => { const cap = pswp.currSlide?.data.element?.querySelector('.g-cap'); el.innerHTML = cap ? cap.innerHTML : ''; });
+      } });
+    });
+    lb.init();
+  });
+</script>
+<style>
+  .gallery { columns: 3 260px; column-gap: .9rem; }
+  .g-item { display: block; break-inside: avoid; margin-bottom: .9rem; position: relative; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+  .g-item img { width: 100%; height: auto; transition: transform .3s ease; }
+  .g-item:hover img { transform: scale(1.02); }
+  .g-cap { display: block; padding: .5rem .7rem; font-size: .8rem; color: var(--muted); }
+  .g-cap time { color: var(--accent-ink); margin-right: .3rem; font-size: .72rem; }
+  .g-item[hidden] { display: none; }
+  :global(.pswp__custom-caption), :global(.pswp [class*="caption"]) { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.65); color: #fff; padding: .4rem .8rem; border-radius: 8px; font-size: .9rem; max-width: 90%; text-align: center; }
+</style>

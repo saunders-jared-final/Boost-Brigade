@@ -1,0 +1,25 @@
+---
+/** Lazy YouTube embed (lite-youtube-embed). Without an id it renders a placeholder card. */
+interface Props { id?: string; title: string; note?: string; params?: string; }
+const { id, title, note, params = 'rel=0&modestbranding=1' } = Astro.props;
+---
+<figure class="yt figure">
+  {id ? (
+    <lite-youtube videoid={id} playlabel={`Play: ${title}`} params={params} style="border-radius:12px;overflow:hidden;border:1px solid var(--line)"></lite-youtube>
+  ) : (
+    <div class="yt-placeholder" role="img" aria-label={`Video placeholder: ${title}`}>
+      <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="M10 9l5 3-5 3z" fill="currentColor"/></svg>
+      <strong>{title}</strong>
+      <span class="small muted">Video coming soon</span>
+    </div>
+  )}
+  {(note) && <figcaption>{note}</figcaption>}
+</figure>
+<script>
+  import 'lite-youtube-embed/src/lite-yt-embed.css';
+  import 'lite-youtube-embed';
+</script>
+<style>
+  .yt-placeholder { aspect-ratio: 16 / 9; border: 1px dashed var(--line); border-radius: 12px; display: grid; place-content: center; justify-items: center; gap: .4rem; background: var(--bg-2); color: var(--muted); text-align: center; padding: 1rem; }
+  .yt-placeholder strong { color: var(--text); }
+</style>

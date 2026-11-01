@@ -1,0 +1,274 @@
+[
+  {
+    "notebook": "shuffler_integrated",
+    "index": 1,
+    "file": "shuffler_integrated/01.webp",
+    "heading": "3 · Loop 1 — phase-current control (innermost, ~10 kHz)",
+    "width": 1189,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 2,
+    "file": "shuffler_integrated/02.webp",
+    "heading": "4 · Loop 2 — voltage control (~1 kHz) and the actuator time constant",
+    "width": 1189,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 3,
+    "file": "shuffler_integrated/03.webp",
+    "heading": "8 · Scenario — uniform → partial shading, all four loops live",
+    "width": 1289,
+    "height": 789
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 4,
+    "file": "shuffler_integrated/04.webp",
+    "heading": "9 · The two timescales in one view, and power recovery",
+    "width": 1290,
+    "height": 416
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 5,
+    "file": "shuffler_integrated/05.webp",
+    "heading": "9 · The two timescales in one view, and power recovery",
+    "width": 740,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 6,
+    "file": "shuffler_integrated/06.webp",
+    "heading": "10 · Closing the inner loops on the full MIMO plant (LQR + integral servo)",
+    "width": 693,
+    "height": 540
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 7,
+    "file": "shuffler_integrated/07.webp",
+    "heading": "10 · Closing the inner loops on the full MIMO plant (LQR + integral servo)",
+    "width": 1290,
+    "height": 416
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 8,
+    "file": "shuffler_integrated/08.webp",
+    "heading": "State-space model (one shuffler, operating point $D$, caps pinned by module conductance $g$)",
+    "width": 1289,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_integrated",
+    "index": 9,
+    "file": "shuffler_integrated/09.webp",
+    "heading": "Open items & risks",
+    "width": 1066,
+    "height": 588
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 1,
+    "file": "shuffler_nstring/01.webp",
+    "heading": "1 · Topology, drawing and variable list",
+    "width": 1198,
+    "height": 671
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 2,
+    "file": "shuffler_nstring/02.webp",
+    "heading": "5 · Small signal and $G(N)$ in closed form",
+    "width": 649,
+    "height": 341
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 3,
+    "file": "shuffler_nstring/03.webp",
+    "heading": "7 · Modes and phase portraits with the real damping",
+    "width": 1600,
+    "height": 448
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 4,
+    "file": "shuffler_nstring/04.webp",
+    "heading": "7 · Modes and phase portraits with the real damping",
+    "width": 1600,
+    "height": 462
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 5,
+    "file": "shuffler_nstring/05.webp",
+    "heading": "8.1 · Coupling sense and ripple",
+    "width": 1354,
+    "height": 385
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 6,
+    "file": "shuffler_nstring/06.webp",
+    "heading": "8.2 · Averaged vs switched: step responses",
+    "width": 1308,
+    "height": 385
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 7,
+    "file": "shuffler_nstring/07.webp",
+    "heading": "8.3 · The static characteristic $ic(ud)$: QSPICE sweep, switching twin, and the formula",
+    "width": 1308,
+    "height": 429
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 8,
+    "file": "shuffler_nstring/08.webp",
+    "heading": "9 · Closed loop with the deployed controller",
+    "width": 758,
+    "height": 374
+  },
+  {
+    "notebook": "shuffler_nstring",
+    "index": 9,
+    "file": "shuffler_nstring/09.webp",
+    "heading": "9 · Closed loop with the deployed controller",
+    "width": 759,
+    "height": 450
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 1,
+    "file": "shuffler_sim/01.webp",
+    "heading": "3 · Module IV and P-V curves",
+    "width": 1089,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 2,
+    "file": "shuffler_sim/02.webp",
+    "heading": "5 · String P-V curves under partial shading",
+    "width": 989,
+    "height": 490
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 3,
+    "file": "shuffler_sim/03.webp",
+    "heading": "9 · Uniform irradiance — MPPT tracking",
+    "width": 989,
+    "height": 1190
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 4,
+    "file": "shuffler_sim/04.webp",
+    "heading": "10 · Partial-shading step disturbance — each module in turn",
+    "width": 1289,
+    "height": 789
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 5,
+    "file": "shuffler_sim/05.webp",
+    "heading": "11 · Per-module voltage & current through a disturbance",
+    "width": 1089,
+    "height": 989
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 6,
+    "file": "shuffler_sim/06.webp",
+    "heading": "14 · Uniform → partial shading — the nested controllers in action",
+    "width": 1289,
+    "height": 789
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 7,
+    "file": "shuffler_sim/07.webp",
+    "heading": "15 · Controller convergence & power recovery",
+    "width": 1290,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_sim",
+    "index": 8,
+    "file": "shuffler_sim/08.webp",
+    "heading": "15 · Controller convergence & power recovery",
+    "width": 740,
+    "height": 390
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 1,
+    "file": "shuffler_statespace/01.webp",
+    "heading": "6 · Coupled-inductor refinement (ERUC23-421K)",
+    "width": 901,
+    "height": 367
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 2,
+    "file": "shuffler_statespace/02.webp",
+    "heading": "7 · Open-loop eigenvalues and stability",
+    "width": 647,
+    "height": 495
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 3,
+    "file": "shuffler_statespace/03.webp",
+    "heading": "10 · Discretisation (ZOH at $f{sw}=200$ kHz)",
+    "width": 522,
+    "height": 518
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 4,
+    "file": "shuffler_statespace/04.webp",
+    "heading": "11 · Phase portraits of the resonant core",
+    "width": 1464,
+    "height": 516
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 5,
+    "file": "shuffler_statespace/05.webp",
+    "heading": "Resonance vs duty cycle",
+    "width": 696,
+    "height": 445
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 6,
+    "file": "shuffler_statespace/06.webp",
+    "heading": "12 · Cascaded PI controller design",
+    "width": 1189,
+    "height": 470
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 7,
+    "file": "shuffler_statespace/07.webp",
+    "heading": "12 · Cascaded PI controller design",
+    "width": 790,
+    "height": 690
+  },
+  {
+    "notebook": "shuffler_statespace",
+    "index": 8,
+    "file": "shuffler_statespace/08.webp",
+    "heading": "12 · Cascaded PI controller design",
+    "width": 1490,
+    "height": 396
+  }
+]

@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Diagram from '../components/Diagram.astro';
+import Snippet from '../components/Snippet.astro';
+import Figure from '../components/Figure.astro';
+import Callout from '../components/Callout.astro';
+import Math from '../components/Math.astro';
+import { fig } from '../lib/assets';
+import { repoUrl, repoDir } from '../lib/site';
+import { readRepo } from '../lib/repo';
+import { readdirSync } from 'node:fs';
+import { repoPath } from '../lib/repo';
+
+// Gain-set lineage read straight from the versioned JSON files.
+const paramsDir = '6_RTOS/ctrl_core/params';
+const gainFiles = readdirSync(repoPath(paramsDir)).filter((f) => f.endsWith('.json')).sort();
+const gains = gainFiles.map((f) => {
+  const j = JSON.parse(readRepo(`${paramsDir}/${f}`));
+  const c = j.ctrl ?? {};
+  const M: number[][] = c.M ?? [];
+  const note = Array.isArray(j._comment) ? j._comment.join(' ') : (j._comment ?? '');
+  const role = f === 'shuffler_params.json' ? 'ACTIVE (source of params.h)' : f.includes('mil4') ? 'MIL regression preset' : f.includes('simulink-bench') ? 'rejected (sign/gain mismatch vs PCB)' : f.includes('qspice200') ? 'deployed on hardware, 200 kHz' : f.includes('qspice300') ? 'deployed, 300 kHz' : f.includes('qspice400d1') ? '400 kHz variant (dead-time study)' : f.includes('qspice400') ? 'deployed, 400 kHz' : f.includes('qspice') ? 'placeholder (sub-blocks of the 4-module ident)' : '';
+  return { file: f, version: j.version, n_mod: j.n_mod, ts: c.ts, M, role, note: note.slice(0, 220) };
+});
+const stepFig = fig('analysis/step_S4_BENCH_k0.3_vd2') ?? fig('analysis/step_S1_BENCH_k0.3_vd2');
+const metrics = fig('results/metrics_k');
+const ripple = fig('analysis/ripple_vs_fsw');
+---
+<Base title="Control" description="The MIMO control design of the power shuffler string: N-module averaged model, decoupling PI, feasibility governor, gain pipeline and the C control core.">
+  <Section eyebrow="Control" title="A coupled plant, decoupled by construction" lede="Shufflers share panels, so one cannot be tuned without moving its neighbours. The approach: model the string as N coupled modules, find the DC gain matrix in closed form, invert it, and wrap integral action around the result." narrow />
+
+  <Section alt narrow>
+    <div class="prose">
+      <h2>1. The plant and its modes</h2>
+      <p>Each shuffler has two half-bridge duties, <Math tex={`d_A`} /> and <Math tex={`d_B`} />. Their sum and difference act on two different things:</p>
+      <ul>
+        <li>the <strong>common duty</strong> <Math tex={`u_c = d_A + d_B - 1`} /> sets the shuffled current and so the module-voltage difference <Math tex={`v_d`} />,</li>
+        <li>the <strong>differential duty</strong> <Math tex={`u_d = d_A - d_B`} /> sets the <strong>circulating current</strong> <Math tex={`i_c`} /> inside the coupled inductor.</li>
+      </ul>
+      <p>With the inductor wired as built, the circulating mode sees <Math tex={`L+M = 13.75\\,\\mu\\mathrm{H}`} /> and the shuffled mode sees the <Math tex={`2.05\\,\\mu\\mathrm{H}`} /> leakage. The <Math tex={`N`} />-module averaged model is a nodal ladder of the modules plus sum and difference winding modes per shuffler:</p>
+      <Math display tex={`\\begin{gathered} (L-M)\\,\\dot i_m = \\bar V u_c + v_d - R\\, i_m, \\qquad (L+M)\\,\\dot i_c = \\bar V u_d - R\\, i_c, \\\\[4pt] C\\,\\dot\\phi = -G\\phi + S\\, i_m + w. \\end{gathered}`} />
+      <Diagram name="nodal_n3" alt="Nodal model of a three-module string with two shufflers" caption="The N = 3 nodal ladder: modules as current sources with capacitors, shufflers injecting the shuffled current between nodes." />
+      <h2>2. DC gains in closed form</h2>
+      <p>The string’s DC gain splits cleanly. The voltage block is diagonal to first order and the circulating block is purely resistive:</p>
+      <Math display tex={`v_d \\approx -\\bar V\\, u_c, \\qquad i_c = \\frac{\\bar V}{R_c}\\, u_d,`} />
+      <p>with neighbour coupling below one per cent for PV modules. On hardware, open-loop duty steps confirmed <Math tex={`-\\bar V`} /> to 1.2 % (REPORT §7, finding 1).</p>
+      {fig('results/duty_steps') && <Figure src={fig('results/duty_steps')!} alt="Open-loop duty steps on hardware against the −V̄·Δu_c prediction" caption="Run B01s: the only open-loop duty steps, against the averaged model." evidence={{ label: 'REPORT §3', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+      <h2>3. The switching resistance nobody expected</h2>
+      <p>The averaged model over-estimated the current-loop gain fivefold (742 A per unit duty vs 140 measured in QSPICE). The cause is dead-time commutation of the MOSFET output capacitance <Math tex={`C_p`} />: each switching edge slews over <Math tex={`\\tau_e = \\bar V C_p / i_\\text{edge}`} />, and because the peak and valley edge currents shift oppositely with DC current, the volt-second loss is linear in current, i.e. a resistance:</p>
+      <Math display tex={`R_{sw} = \\frac{4\\bar V^2 C_p f_{sw}}{\\Delta i^2} = 64\\, C_p\\, f_{sw}^3\\,(L+M)^2 .`} />
+      <p>With <Math tex={`C_p = 2.2`} /> nF this gives 0.21 / 0.72 / 1.70 Ω at 200 / 300 / 400 kHz against 0.27 / 0.79 / 1.66 Ω identified. It is independent of <Math tex={`\\bar V`} />, it explains why a gain set only works at its own switching frequency, and it was caught in QSPICE before any hardware ran.</p>
+      {ripple && <Figure src={ripple} alt="Switching ripple vs switching frequency: QSPICE against the closed-form law" caption="Circulating ripple Δi_c = V̄ / 2f(L+M): QSPICE vs the formula at 200 / 300 / 400 kHz (within 3 %)." evidence={{ label: 'REPORT §5', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+      <h2>4. The controller</h2>
+      <p>Identify the <Math tex={`(2N_s \\times 2N_s)`} /> DC gain <Math tex={`G`} /> from scripted step tests, check <Math tex={`\\mathrm{cond}(G)`} /> and the signs, then build the decoupling integral controller</p>
+      <Math display tex={`M = G^{-1}\\,\\mathrm{diag}(k_I), \\qquad u = M \\!\\int\\! e\\,dt \\;+\\; M_p\\, e,`} />
+      <p>on the error vector <Math tex={`e = [v_{d,1..N_s},\\; i_{c,1..N_s}]^\\top`} />. <Math tex={`G^{-1}`} /> is a DC decoupler: pushing proportional bandwidth toward the ~6 kHz resonance re-couples the loops, so the design is integral-dominant with a small P ratio (<code>kp_ratio_v</code>, <code>kp_ratio_i</code>) and <code>kscale</code> scaling the whole thing. The closed-loop time constant follows <Math tex={`\\tau = 1/(k\\cdot 2\\pi\\cdot 150\\,\\mathrm{Hz})`} />.</p>
+      <Diagram name="control_loop" alt="Decoupling PI controller and supervisor block diagram" caption="10 kHz control tick: LPF on measurements, error, M-decoupled integral + proportional action, duty clamp and slew limit." />
+      {stepFig && <Figure src={stepFig} alt="Simulated +1 V reference step at kscale 0.3 across analytical, QSPICE and Simulink" caption="Scenario ref-step: +1 V on v_d2 at kscale 0.3, 200 kHz. Analytical, QSPICE (with the firmware DLL) and the Simulink twin." evidence={{ label: 'REPORT §6', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+      <h2>5. The feasibility governor</h2>
+      <p>A 1 kHz supervisor protects the current rating rather than equalising anything (the inner loop already equalises). Its stress index is <Math tex={`|i_\\text{diff}|/I_\\text{rated}`} />; a <Math tex={`\\beta`} />-integrator with hysteresis relaxes the voltage references just enough to park under <Math tex={`S_\\text{HI} = 0.90`} />. Protection costs power: 194 W to shed 2.7 A in simulation, which turns a tuning knob into a magnetics-sizing argument.</p>
+      <Callout kind="info" title="What runs where">Control tick 10 kHz (every 20 PWM periods at 200 kHz). Supervisor 1 kHz. INA239 polling 1 kHz. Safety task 100 Hz. Telemetry 50 Hz. String-level MPPT is the load’s job in this campaign (<code>en_mppt = 0</code>); the P&amp;O MPPT in <code>shuffler_mppt.c</code> is validated in MIL and compiled out on hardware.</Callout>
+    </div>
+  </Section>
+
+  <Section eyebrow="Gain pipeline" title="One JSON file, three harnesses" lede="Gains are identified in simulation, written to a versioned JSON, rendered to params.h, and compiled unchanged into the SIL C Callers, the QSPICE control DLL and the firmware. PARAMS_VERSION travels in every telemetry frame.">
+    <Diagram name="gain_pipeline" alt="Gain pipeline from identification to firmware" />
+    <div class="table-wrap" style="margin-top:1rem">
+      <table>
+        <thead><tr><th>File</th><th>Version</th><th>Role</th><th>Ts</th><th>M (first row)</th></tr></thead>
+        <tbody>
+          {gains.map((g) => (
+            <tr>
+              <td><a class="mono small" href={repoUrl(`${paramsDir}/${g.file}`)} target="_blank" rel="noopener">{g.file}</a></td>
+              <td class="mono small">{g.version}</td>
+              <td>{g.role}</td>
+              <td class="mono small">{g.ts ? `${(g.ts * 1e6).toFixed(0)} µs` : ''}</td>
+              <td class="mono small">{g.M[0] ? `[${g.M[0].map((x: number) => x.toFixed(2)).join(', ')}]` : ''}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Read at build time from <a href={repoDir(paramsDir)} target="_blank" rel="noopener">6_RTOS/ctrl_core/params</a>. The Simulink bench set was rejected because the 4-module averaged plant has the opposite u_d → i_c sign to the PCB and a fivefold larger gain; the QSPICE S10i identification became the deployed set.</p>
+  </Section>
+
+  <Section alt eyebrow="The C core" title="One copy of the control stack, read from the repository">
+    <p class="muted" style="max-width:70ch">These snippets are pulled from <code>6_RTOS/ctrl_core</code> when the site builds, so they cannot drift from the source. float32 C99, no I/O, no malloc; <code>params.h</code> is generated and marked do-not-edit.</p>
+    <Snippet file="6_RTOS/ctrl_core/shuffler_ctrl.c" from={56} to={152} title="shuffler_ctrl.c — ctrl_step(): the decoupling PI" />
+    <div class="grid grid-2">
+      <Snippet file="6_RTOS/ctrl_core/shuffler_recon.c" from={1} to={40} title="shuffler_recon.c — module currents by KCL" />
+      <Snippet file="6_RTOS/ctrl_core/shuffler_supervisor.c" from={54} to={120} title="shuffler_supervisor.c — the feasibility governor" />
+    </div>
+  </Section>
+
+  <Section eyebrow="Firmware state machine" title="BOOT → SELFTEST → IDLE → SOFTSTART → RUN → STOP">
+    <div class="grid grid-2" style="align-items:start">
+      <Diagram name="state_machine" alt="Firmware state machine" caption="FAULT latches from any state; soft start ramps duties over 150 ms from the pre-bias d0 = Vbot / (Vtop + Vbot)." />
+      <Snippet file="6_RTOS/App/app.c" from={1} to={80} title="app.c — states and tasks (excerpt)" />
+    </div>
+    {metrics && <Figure src={metrics} alt="Closed-loop metrics against kscale across phases" caption="Settling metrics vs kscale, all phases: the hardware times are bounds set by the 44 Hz telemetry." evidence={{ label: 'REPORT §6', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+  </Section>
+</Base>

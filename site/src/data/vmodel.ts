@@ -1,0 +1,14 @@
+import { repoUrl, repoDir } from '../lib/site';
+export interface Rung { phase: string; stage: string; title: string; risk: string; artefact: string; href: string; status: 'done' | 'partial' | 'planned'; }
+export const RUNGS: Rung[] = [
+  { phase: '1', stage: 'System requirements', title: 'Analytical model', risk: 'Do the coupled shufflers have a tractable structure? Which modes are controllable?', artefact: 'nstring.py, five notebooks, DESIGN_LOG', href: repoDir('3_Analytical/shuffler_notebooks'), status: 'done' },
+  { phase: '2', stage: 'High-level design', title: 'Model-in-the-loop (Simulink, 4 modules)', risk: 'Does the controller architecture survive a full string with shading and MPPT? 7-test suite.', artefact: 'power_shuffler_sim.slx + validate suite', href: repoDir('4_Simulink/1_MIL_Model_In_The_Loop'), status: 'done' },
+  { phase: '3', stage: 'Detailed design', title: 'Component selection and PCB', risk: 'Sensing bandwidth, HRTIM resolution, isolation. Version 0 board.', artefact: 'KiCad project, BOM, datasheets', href: repoDir('5_Kicad/Version 0 project'), status: 'done' },
+  { phase: '5', stage: 'Unit verification', title: 'Software-in-the-loop (C Callers)', risk: 'Is the C port bit-faithful? Golden replay, unit tests, bit-identical double run.', artefact: 'SIL_power_shuffler_sim.slx + firmware/test', href: repoDir('4_Simulink/2_SIL_Software_In_The_Loop'), status: 'done' },
+  { phase: '—', stage: 'Unit verification', title: 'Processor-in-the-loop', risk: 'Portability and timing on target silicon.', artefact: 'planned on a small MCU, not built', href: repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md'), status: 'planned' },
+  { phase: '6', stage: 'Subsystem verification', title: 'QSPICE integration with the firmware DLL', risk: 'Switching-level effects, sensor sampling, dead time. Found R_sw and the 5× gain error.', artefact: 'Power_Shuffler_Integrated.qsch + ctrl_dll', href: repoDir('2_Qspice'), status: 'done' },
+  { phase: '—', stage: 'Subsystem verification', title: 'Hardware-in-the-loop', risk: 'Plant-on-a-chip over CAN with fault injection.', artefact: 'planned, not built', href: repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md'), status: 'planned' },
+  { phase: '7', stage: 'System verification', title: 'Bench, 16 Oct 2026', risk: 'Real sensors, real switching, 200 / 300 / 400 kHz, open and closed loop.', artefact: '9 windows B01–B09', href: repoDir('8_Results/Bench_Closed_Loop_200kHz'), status: 'done' },
+  { phase: '8', stage: 'System validation', title: 'Solar, 20 Oct 2026', risk: 'Real panels, real shade, 61 V load. k = 0.1 → 0.8.', artefact: '11 windows S01–S11', href: repoDir('8_Results/Solar_Closed_Loop'), status: 'done' },
+  { phase: '9', stage: 'Acceptance', title: 'Results synthesis', risk: 'Do analytical, QSPICE, Simulink and hardware agree? One pipeline, one report.', artefact: 'make all → REPORT.md', href: repoUrl('8_Results/analysis/REPORT.md'), status: 'done' },
+];

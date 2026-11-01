@@ -1,0 +1,13 @@
+{
+  "name": "boost-brigade-model-tools",
+  "private": true,
+  "type": "module",
+  "description": "Node helpers for site/scripts/prep_models.sh (glTF optimisation that keeps per-refdes nodes)",
+  "dependencies": {
+    "@gltf-transform/core": "^4.2.1",
+    "@gltf-transform/extensions": "^4.2.1",
+    "@gltf-transform/functions": "^4.2.1",
+    "gl-matrix": "^3.4.4",
+    "meshoptimizer": "^0.22.0"
+  }
+}

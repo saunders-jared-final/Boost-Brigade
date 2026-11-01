@@ -1,0 +1,1605 @@
+[
+  {
+    "group": "results",
+    "file": "bench_B06.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/bench_B06.png",
+    "width": 945,
+    "height": 690
+  },
+  {
+    "group": "results",
+    "file": "duty_steps.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/duty_steps.png",
+    "width": 945,
+    "height": 435
+  },
+  {
+    "group": "results",
+    "file": "metrics_k.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/metrics_k.png",
+    "width": 945,
+    "height": 420
+  },
+  {
+    "group": "results",
+    "file": "mil_validate.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/mil_validate.png",
+    "width": 945,
+    "height": 660
+  },
+  {
+    "group": "results",
+    "file": "qspice_run.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/qspice_run.png",
+    "width": 945,
+    "height": 630
+  },
+  {
+    "group": "results",
+    "file": "solar_S02.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/solar_S02.png",
+    "width": 945,
+    "height": 690
+  },
+  {
+    "group": "results",
+    "file": "thermal.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/thermal.png",
+    "width": 945,
+    "height": 390
+  },
+  {
+    "group": "results",
+    "file": "twin_sim.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/results/twin_sim.png",
+    "width": 945,
+    "height": 675
+  },
+  {
+    "group": "misc",
+    "file": "pv_mismatch_1000_200.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/pv_mismatch_1000_200.png",
+    "width": 1800,
+    "height": 377
+  },
+  {
+    "group": "misc",
+    "file": "pv_shading.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/pv_shading.png",
+    "width": 810,
+    "height": 495
+  },
+  {
+    "group": "misc",
+    "file": "scope_200k.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scope_200k.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scope_300k.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scope_300k.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scope_400k.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scope_400k.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scr01.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scr01.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scr02.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scr02.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scr03.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scr03.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "scr04.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/scr04.png",
+    "width": 1280,
+    "height": 824
+  },
+  {
+    "group": "misc",
+    "file": "thermal_100k.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/thermal_100k.png",
+    "width": 1280,
+    "height": 688
+  },
+  {
+    "group": "misc",
+    "file": "thermal_lab_16oct.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/thermal_lab_16oct.png",
+    "width": 1280,
+    "height": 688
+  },
+  {
+    "group": "misc",
+    "file": "thermal_solar_20oct.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/misc/thermal_solar_20oct.png",
+    "width": 1280,
+    "height": 688
+  },
+  {
+    "group": "slides",
+    "file": "page-01.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/page-01.png",
+    "width": 1800,
+    "height": 1012
+  },
+  {
+    "group": "slides",
+    "file": "page-07.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/page-07.png",
+    "width": 1800,
+    "height": 1012
+  },
+  {
+    "group": "slides",
+    "file": "img-001-000.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-001-000.png",
+    "width": 1030,
+    "height": 873
+  },
+  {
+    "group": "slides",
+    "file": "img-005-003.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-003.png",
+    "width": 924,
+    "height": 608
+  },
+  {
+    "group": "slides",
+    "file": "img-005-004.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-004.png",
+    "width": 506,
+    "height": 573
+  },
+  {
+    "group": "slides",
+    "file": "img-005-005.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-005.png",
+    "width": 629,
+    "height": 221
+  },
+  {
+    "group": "slides",
+    "file": "img-005-006.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-006.png",
+    "width": 422,
+    "height": 475
+  },
+  {
+    "group": "slides",
+    "file": "img-005-007.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-007.png",
+    "width": 1123,
+    "height": 553
+  },
+  {
+    "group": "slides",
+    "file": "img-005-008.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-005-008.png",
+    "width": 731,
+    "height": 393
+  },
+  {
+    "group": "slides",
+    "file": "img-006-009.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-006-009.png",
+    "width": 279,
+    "height": 331
+  },
+  {
+    "group": "slides",
+    "file": "img-006-010.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-006-010.png",
+    "width": 874,
+    "height": 466
+  },
+  {
+    "group": "slides",
+    "file": "img-007-011.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-007-011.png",
+    "width": 1198,
+    "height": 671
+  },
+  {
+    "group": "slides",
+    "file": "img-011-012.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-011-012.png",
+    "width": 1749,
+    "height": 490
+  },
+  {
+    "group": "slides",
+    "file": "img-012-013.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-012-013.png",
+    "width": 758,
+    "height": 374
+  },
+  {
+    "group": "slides",
+    "file": "img-012-014.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-012-014.png",
+    "width": 759,
+    "height": 450
+  },
+  {
+    "group": "slides",
+    "file": "img-013-015.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-013-015.png",
+    "width": 1504,
+    "height": 663
+  },
+  {
+    "group": "slides",
+    "file": "img-014-016.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-014-016.png",
+    "width": 1397,
+    "height": 677
+  },
+  {
+    "group": "slides",
+    "file": "img-015-017.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-015-017.png",
+    "width": 1470,
+    "height": 598
+  },
+  {
+    "group": "slides",
+    "file": "img-015-018.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-015-018.png",
+    "width": 1620,
+    "height": 663
+  },
+  {
+    "group": "slides",
+    "file": "img-015-019.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-015-019.png",
+    "width": 1599,
+    "height": 481
+  },
+  {
+    "group": "slides",
+    "file": "img-016-020.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-016-020.png",
+    "width": 1039,
+    "height": 387
+  },
+  {
+    "group": "slides",
+    "file": "img-016-021.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-016-021.png",
+    "width": 1203,
+    "height": 412
+  },
+  {
+    "group": "slides",
+    "file": "img-016-022.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-016-022.png",
+    "width": 1371,
+    "height": 629
+  },
+  {
+    "group": "slides",
+    "file": "img-016-023.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-016-023.png",
+    "width": 1443,
+    "height": 367
+  },
+  {
+    "group": "slides",
+    "file": "img-017-024.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-017-024.png",
+    "width": 1256,
+    "height": 561
+  },
+  {
+    "group": "slides",
+    "file": "img-018-026.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-026.png",
+    "width": 850,
+    "height": 773
+  },
+  {
+    "group": "slides",
+    "file": "img-018-028.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-028.png",
+    "width": 1249,
+    "height": 408
+  },
+  {
+    "group": "slides",
+    "file": "img-018-029.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-029.png",
+    "width": 458,
+    "height": 300
+  },
+  {
+    "group": "slides",
+    "file": "img-018-030.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-030.png",
+    "width": 364,
+    "height": 205
+  },
+  {
+    "group": "slides",
+    "file": "img-018-032.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-032.png",
+    "width": 364,
+    "height": 205
+  },
+  {
+    "group": "slides",
+    "file": "img-018-034.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-018-034.png",
+    "width": 618,
+    "height": 603
+  },
+  {
+    "group": "slides",
+    "file": "img-019-035.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-019-035.png",
+    "width": 1486,
+    "height": 698
+  },
+  {
+    "group": "slides",
+    "file": "img-020-036.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-020-036.png",
+    "width": 1582,
+    "height": 687
+  },
+  {
+    "group": "slides",
+    "file": "img-020-037.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-020-037.png",
+    "width": 1197,
+    "height": 622
+  },
+  {
+    "group": "slides",
+    "file": "img-020-038.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-020-038.png",
+    "width": 559,
+    "height": 447
+  },
+  {
+    "group": "slides",
+    "file": "img-020-039.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-020-039.png",
+    "width": 666,
+    "height": 653
+  },
+  {
+    "group": "slides",
+    "file": "img-020-040.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-020-040.png",
+    "width": 330,
+    "height": 471
+  },
+  {
+    "group": "slides",
+    "file": "img-021-041.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-021-041.png",
+    "width": 1152,
+    "height": 868
+  },
+  {
+    "group": "slides",
+    "file": "img-021-043.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-021-043.png",
+    "width": 925,
+    "height": 590
+  },
+  {
+    "group": "slides",
+    "file": "img-022-045.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-022-045.png",
+    "width": 1519,
+    "height": 516
+  },
+  {
+    "group": "slides",
+    "file": "img-022-047.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-022-047.png",
+    "width": 1008,
+    "height": 557
+  },
+  {
+    "group": "slides",
+    "file": "img-051-119.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-051-119.png",
+    "width": 1315,
+    "height": 621
+  },
+  {
+    "group": "slides",
+    "file": "img-051-120.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-051-120.png",
+    "width": 1315,
+    "height": 622
+  },
+  {
+    "group": "slides",
+    "file": "img-051-121.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-051-121.png",
+    "width": 1314,
+    "height": 621
+  },
+  {
+    "group": "slides",
+    "file": "img-051-122.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-051-122.png",
+    "width": 1314,
+    "height": 620
+  },
+  {
+    "group": "slides",
+    "file": "img-052-123.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-052-123.png",
+    "width": 1315,
+    "height": 621
+  },
+  {
+    "group": "slides",
+    "file": "img-052-124.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-052-124.png",
+    "width": 1315,
+    "height": 621
+  },
+  {
+    "group": "slides",
+    "file": "img-052-125.webp",
+    "source": "0_Documentation/jared-assessment/CapstoneDelivery_latex/figures/slides/img-052-125.png",
+    "width": 1315,
+    "height": 621
+  },
+  {
+    "group": "analysis",
+    "file": "S02_shade_power.webp",
+    "source": "8_Results/analysis/out/figures/energy/S02_shade_power.png",
+    "width": 1800,
+    "height": 1224
+  },
+  {
+    "group": "analysis",
+    "file": "solar_energy.webp",
+    "source": "8_Results/analysis/out/figures/energy/solar_energy.png",
+    "width": 1800,
+    "height": 749
+  },
+  {
+    "group": "analysis",
+    "file": "ripple_vs_fsw.webp",
+    "source": "8_Results/analysis/out/figures/compare/ripple_vs_fsw.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "S5_duty_steps_hw_vs_analytical.webp",
+    "source": "8_Results/analysis/out/figures/compare/S5_duty_steps_hw_vs_analytical.png",
+    "width": 1800,
+    "height": 997
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.1_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.1_ic2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.1_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.1_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.1_id2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.1_id2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.1_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.1_vd2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.1_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.1_vd2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.2_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.2_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.2_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.2_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.2_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.2_vd2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.2_id2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.2_id2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.3_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.3_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.2_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.2_vd2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.3_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.3_vd2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.3_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.3_ic2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.4_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.4_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.3_id2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.3_id2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.4_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.4_vd2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "step_S1_BENCH_k0.3_vd2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S1_BENCH_k0.3_vd2.png",
+    "width": 1800,
+    "height": 1325
+  },
+  {
+    "group": "analysis",
+    "file": "step_S4_BENCH_k0.5_ic2.webp",
+    "source": "8_Results/analysis/out/figures/compare/step_S4_BENCH_k0.5_ic2.png",
+    "width": 1800,
+    "height": 720
+  },
+  {
+    "group": "analysis",
+    "file": "S02_e1_close.webp",
+    "source": "8_Results/analysis/out/figures/events/S02_e1_close.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B06_e1_close.webp",
+    "source": "8_Results/analysis/out/figures/events/B06_e1_close.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B01s_e3_duty_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B01s_e3_duty_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "S02_e2_mismatch_on.webp",
+    "source": "8_Results/analysis/out/figures/events/S02_e2_mismatch_on.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B06_e2_load_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B06_e2_load_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B01s_e5_duty_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B01s_e5_duty_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "S02_e3_irradiance_up.webp",
+    "source": "8_Results/analysis/out/figures/events/S02_e3_irradiance_up.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B06_e3_close.webp",
+    "source": "8_Results/analysis/out/figures/events/B06_e3_close.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B01s_e6_duty_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B01s_e6_duty_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "S02_e4_irradiance_down.webp",
+    "source": "8_Results/analysis/out/figures/events/S02_e4_irradiance_down.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B06_e4_load_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B06_e4_load_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B01s_e7_load_step.webp",
+    "source": "8_Results/analysis/out/figures/events/B01s_e7_load_step.png",
+    "width": 1800,
+    "height": 1475
+  },
+  {
+    "group": "analysis",
+    "file": "B01_bench_200k_OL_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B01_bench_200k_OL_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B01s_bench_200k_OL_dutysteps_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B01s_bench_200k_OL_dutysteps_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B02_bench_200k_CL_k0.1_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B02_bench_200k_CL_k0.1_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B03_bench_200k_CL_k0.3b_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B03_bench_200k_CL_k0.3b_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B04_bench_200k_CL_k0.3_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B04_bench_200k_CL_k0.3_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B05_bench_300k_OL_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B05_bench_300k_OL_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B06_bench_300k_CL_k0.3_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B06_bench_300k_CL_k0.3_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B07_bench_300k_CL_k0.5_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B07_bench_300k_CL_k0.5_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B08_bench_400k_OL_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B08_bench_400k_OL_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "B09_bench_400k_CL_k0.3_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/B09_bench_400k_CL_k0.3_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S01_solar_200k_OL_peak_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S01_solar_200k_OL_peak_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S02_solar_200k_CL_k0.1_peak_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S02_solar_200k_CL_k0.1_peak_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S03_solar_200k_OL_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S03_solar_200k_OL_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S04_solar_200k_CL_k0.1_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S04_solar_200k_CL_k0.1_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S05_solar_200k_CL_k0.2_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S05_solar_200k_CL_k0.2_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S06_solar_200k_CL_k0.3_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S06_solar_200k_CL_k0.3_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S07_solar_200k_CL_k0.4_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S07_solar_200k_CL_k0.4_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S08_solar_200k_CL_k0.5_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S08_solar_200k_CL_k0.5_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S09_solar_200k_CL_k0.6_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S09_solar_200k_CL_k0.6_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S10_solar_200k_CL_k0.7_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S10_solar_200k_CL_k0.7_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "S11_solar_200k_CL_k0.8_min_overview.webp",
+    "source": "8_Results/analysis/out/figures/hardware/S11_solar_200k_CL_k0.8_min_overview.png",
+    "width": 1800,
+    "height": 1238
+  },
+  {
+    "group": "analysis",
+    "file": "carpark_01_uniform-zero.webp",
+    "source": "8_Results/analysis/out/figures/carpark_validate/01_uniform-zero.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "carpark_02_decoupling.webp",
+    "source": "8_Results/analysis/out/figures/carpark_validate/02_decoupling.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "carpark_03_shade-balanced.webp",
+    "source": "8_Results/analysis/out/figures/carpark_validate/03_shade-balanced.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "carpark_04_shade-refs.webp",
+    "source": "8_Results/analysis/out/figures/carpark_validate/04_shade-refs.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "carpark_05_shade-deep.webp",
+    "source": "8_Results/analysis/out/figures/carpark_validate/05_shade-deep.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_01_uniform-zero.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/01_uniform-zero.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_02_decoupling.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/02_decoupling.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_03_shade-balanced.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/03_shade-balanced.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_04_shade-refs.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/04_shade-refs.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_05_shade-deep.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/05_shade-deep.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_06_mppt-uniform.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/06_mppt-uniform.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "analysis",
+    "file": "mil_07_mppt-shade.webp",
+    "source": "8_Results/analysis/out/figures/mil_validate/07_mppt-shade.png",
+    "width": 1800,
+    "height": 1512
+  },
+  {
+    "group": "simulink",
+    "file": "00_summary.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/00_summary.pdf",
+    "width": 1455,
+    "height": 698
+  },
+  {
+    "group": "simulink",
+    "file": "01_uniform-zero_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/01_uniform-zero_string.pdf",
+    "width": 1800,
+    "height": 939
+  },
+  {
+    "group": "simulink",
+    "file": "02_decoupling_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/02_decoupling_string.pdf",
+    "width": 1800,
+    "height": 937
+  },
+  {
+    "group": "simulink",
+    "file": "03_shade-balanced_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/03_shade-balanced_string.pdf",
+    "width": 1800,
+    "height": 937
+  },
+  {
+    "group": "simulink",
+    "file": "04_shade-refs_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/04_shade-refs_string.pdf",
+    "width": 1800,
+    "height": 937
+  },
+  {
+    "group": "simulink",
+    "file": "05_shade-deep_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/05_shade-deep_string.pdf",
+    "width": 1800,
+    "height": 941
+  },
+  {
+    "group": "simulink",
+    "file": "06_mppt-uniform_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/06_mppt-uniform_string.pdf",
+    "width": 1800,
+    "height": 943
+  },
+  {
+    "group": "simulink",
+    "file": "07_mppt-shade_string.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/figs/07_mppt-shade_string.pdf",
+    "width": 1800,
+    "height": 943
+  },
+  {
+    "group": "simulink",
+    "file": "1000-200_Mismatch.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/PV_figures/1000-200 Mismatch.png",
+    "width": 1800,
+    "height": 377
+  },
+  {
+    "group": "simulink",
+    "file": "Screenshot_2026-06-30_115021.webp",
+    "source": "4_Simulink/1_MIL_Model_In_The_Loop/PV_figures/Screenshot 2026-06-30 115021.png",
+    "width": 1800,
+    "height": 377
+  },
+  {
+    "group": "qspice",
+    "file": "S10c_hall.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10c_hall.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10c_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10c_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10c_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10c_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i3_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i3_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i3_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i3_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i4_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i4_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i4_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i4_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i4d1_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i4d1_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i4d1_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i4d1_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S10i_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S10i_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S1_module_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S1_module_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S1_string.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S1_string.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S2_midpoints.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S2_midpoints.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S2_string.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S2_string.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S3_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S3_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S3_midpoints.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S3_midpoints.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S3_module_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S3_module_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S3_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S3_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S4_fet_power.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S4_fet_power.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S4_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S4_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S4_module_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S4_module_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S4_switch_nodes.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S4_switch_nodes.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S5_bootstrap.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S5_bootstrap.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S5_gate_drive.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S5_gate_drive.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S5_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S5_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S5_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S5_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S6_fet_power.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S6_fet_power.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S6_gate_drive.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S6_gate_drive.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S6_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S6_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S6_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S6_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_fet_power.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_fet_power.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_gate_drive.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_gate_drive.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_module_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_module_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S7_switch_node_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S7_switch_node_2.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S8_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S8_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S8b_switch_node.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S8b_switch_node.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9_duties.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9_duties.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9_inductor_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9_inductor_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9_module_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9_module_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9_supervisor.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9_supervisor.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9i_currents.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9i_currents.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S9i_module_voltages.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/S9i_module_voltages.svg",
+    "width": 760,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "BOARD_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/BOARD_1.svg",
+    "width": 800,
+    "height": 381
+  },
+  {
+    "group": "qspice",
+    "file": "FILE_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/FILE_1.svg",
+    "width": 806,
+    "height": 356
+  },
+  {
+    "group": "qspice",
+    "file": "FILE_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/FILE_2.svg",
+    "width": 1122,
+    "height": 484
+  },
+  {
+    "group": "qspice",
+    "file": "FILE_3.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/FILE_3.svg",
+    "width": 966,
+    "height": 452
+  },
+  {
+    "group": "qspice",
+    "file": "FILE_4.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/FILE_4.svg",
+    "width": 794,
+    "height": 252
+  },
+  {
+    "group": "qspice",
+    "file": "S1_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S1_1.svg",
+    "width": 408,
+    "height": 1092
+  },
+  {
+    "group": "qspice",
+    "file": "S2_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S2_1.svg",
+    "width": 483,
+    "height": 956
+  },
+  {
+    "group": "qspice",
+    "file": "S3_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S3_1.svg",
+    "width": 780,
+    "height": 390
+  },
+  {
+    "group": "qspice",
+    "file": "S3_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S3_2.svg",
+    "width": 400,
+    "height": 496
+  },
+  {
+    "group": "qspice",
+    "file": "S4_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S4_1.svg",
+    "width": 780,
+    "height": 390
+  },
+  {
+    "group": "qspice",
+    "file": "S5_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S5_1.svg",
+    "width": 738,
+    "height": 500
+  },
+  {
+    "group": "qspice",
+    "file": "S5_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S5_2.svg",
+    "width": 720,
+    "height": 320
+  },
+  {
+    "group": "qspice",
+    "file": "S6_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S6_1.svg",
+    "width": 495,
+    "height": 510
+  },
+  {
+    "group": "qspice",
+    "file": "S6_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S6_2.svg",
+    "width": 612,
+    "height": 512
+  },
+  {
+    "group": "qspice",
+    "file": "S8_1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S8_1.svg",
+    "width": 374,
+    "height": 561
+  },
+  {
+    "group": "qspice",
+    "file": "S8_2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/S8_2.svg",
+    "width": 440,
+    "height": 440
+  },
+  {
+    "group": "qspice",
+    "file": "rep_bootA.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_bootA.svg",
+    "width": 748,
+    "height": 462
+  },
+  {
+    "group": "qspice",
+    "file": "rep_cable.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_cable.svg",
+    "width": 660,
+    "height": 780
+  },
+  {
+    "group": "qspice",
+    "file": "rep_conv1.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_conv1.svg",
+    "width": 1340,
+    "height": 225
+  },
+  {
+    "group": "qspice",
+    "file": "rep_conv1z.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_conv1z.svg",
+    "width": 1122,
+    "height": 484
+  },
+  {
+    "group": "qspice",
+    "file": "rep_gateA.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_gateA.svg",
+    "width": 816,
+    "height": 456
+  },
+  {
+    "group": "qspice",
+    "file": "rep_gateB.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_gateB.svg",
+    "width": 816,
+    "height": 456
+  },
+  {
+    "group": "qspice",
+    "file": "rep_legB.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_legB.svg",
+    "width": 860,
+    "height": 440
+  },
+  {
+    "group": "qspice",
+    "file": "rep_meas.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_meas.svg",
+    "width": 1044,
+    "height": 441
+  },
+  {
+    "group": "qspice",
+    "file": "rep_params.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_params.svg",
+    "width": 828,
+    "height": 1098
+  },
+  {
+    "group": "qspice",
+    "file": "rep_sim.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_sim.svg",
+    "width": 1036,
+    "height": 336
+  },
+  {
+    "group": "qspice",
+    "file": "rep_string.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_string.svg",
+    "width": 610,
+    "height": 1110
+  },
+  {
+    "group": "qspice",
+    "file": "rep_title.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_title.svg",
+    "width": 1215,
+    "height": 218
+  },
+  {
+    "group": "qspice",
+    "file": "rep_title2.svg",
+    "source": "2_Qspice/Claude's outputs/PCB_Baseline/results/fig/rep_title2.svg",
+    "width": 1222,
+    "height": 169
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_currents.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_currents.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_duties.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_duties.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_module_voltages.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_module_voltages.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_phase_ripple.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_phase_ripple.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_shuffler_currents.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_shuffler_currents.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S10p_pv_vdiff.svg",
+    "source": "8_Results/QSPICE_200kHz/S10p_pv_vdiff.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S11_edge_T1.svg",
+    "source": "8_Results/QSPICE_200kHz/S11_edge_T1.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S11_edge_T2.svg",
+    "source": "8_Results/QSPICE_200kHz/S11_edge_T2.svg",
+    "width": 760,
+    "height": 300
+  },
+  {
+    "group": "qspice",
+    "file": "S11_edge_T3.svg",
+    "source": "8_Results/QSPICE_200kHz/S11_edge_T3.svg",
+    "width": 760,
+    "height": 300
+  }
+]

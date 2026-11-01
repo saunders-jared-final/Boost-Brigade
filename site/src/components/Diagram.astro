@@ -1,0 +1,16 @@
+---
+/** Inline an SVG from src/assets/diagrams so it inherits currentColor for light/dark themes. */
+const DIAGRAMS = import.meta.glob<string>('../assets/diagrams/*.svg', { eager: true, query: '?raw', import: 'default' });
+interface Props { name: string; caption?: string; alt: string; maxWidth?: string; }
+const { name, caption, alt, maxWidth = '100%' } = Astro.props;
+const raw = DIAGRAMS[`../assets/diagrams/${name}.svg`];
+const svg = raw ? raw.replace(/<\?xml[^>]*>/, '').replace(/<!DOCTYPE[^>]*>/, '') : `<p class="muted small">[diagram ${name} not built yet — run scripts/prep_tikz.sh]</p>`;
+---
+<figure class="figure diagram" style={`max-width:${maxWidth}`} role="img" aria-label={alt}>
+  <div class="diagram-box" set:html={svg} />
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+<style>
+  .diagram-box { background: #fff; color: #111; border: 1px solid var(--line); border-radius: 12px; padding: 1rem; }
+  .diagram-box :global(svg) { width: 100%; height: auto; }
+</style>

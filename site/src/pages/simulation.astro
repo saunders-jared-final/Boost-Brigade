@@ -1,0 +1,128 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import Diagram from '../components/Diagram.astro';
+import Figure from '../components/Figure.astro';
+import Callout from '../components/Callout.astro';
+import Cmd from '../components/Cmd.astro';
+import { Image } from 'astro:assets';
+import { RUNGS } from '../data/vmodel';
+import { fig, figsIn, svgsIn, NOTEBOOK_IMGS } from '../lib/assets';
+import notebooks from '../data/notebooks.json';
+import { href, repoUrl, repoDir, SITE } from '../lib/site';
+
+const chip: Record<string, string> = { done: 'chip-green', partial: 'chip-accent', planned: 'chip-teal' };
+const mil = figsIn('analysis').filter((f) => f.key.includes('/mil_'));
+const carpark = figsIn('analysis').filter((f) => f.key.includes('/carpark_'));
+const simulink = figsIn('simulink');
+const qspiceStages = svgsIn('qspice').filter((s) => /\/S(\d+)[a-z]?_/.test(s.key) && !s.key.includes('S10') && !s.key.includes('S11'));
+const qspiceResults = svgsIn('qspice').filter((s) => s.key.includes('S10p') || s.key.includes('S11'));
+const nbByBook: Record<string, any[]> = {};
+for (const n of notebooks as any[]) (nbByBook[n.notebook] ??= []).push(n);
+const nbTitles: Record<string, string> = {
+  shuffler_sim: 'shuffler_sim — PV string, bypass diodes, P&O MPPT, partial shading',
+  shuffler_statespace: 'shuffler_statespace — averaged state space, modes, discretisation',
+  shuffler_integrated: 'shuffler_integrated — nested loops, LQR + integral, multi-rate design',
+  shuffler_nstring: 'shuffler_nstring — N-module derivation, G(N), switching twin',
+};
+---
+<Base title="Simulation" description="The V-model ladder of the power shuffler: analytical notebooks, Simulink MIL and SIL, QSPICE integration with the firmware DLL.">
+  <Section eyebrow="Simulation ladder" title="Each rung retires one class of risk" lede="The same seven-test suite and the same C core travel down the ladder: notebooks → Simulink model-in-the-loop → software-in-the-loop with C Callers → QSPICE with the firmware DLL → bench → sun. PIL and HIL were planned and are marked honestly as not done." />
+
+  <Section tight>
+    <Diagram name="pipeline_vmodel" alt="V-model of the development pipeline" caption="Development phases against their V-model counterpart." />
+    <div class="grid grid-3" style="margin-top:1.5rem">
+      {RUNGS.map((r) => (
+        <a class="card card-link reveal" href={r.href} target="_blank" rel="noopener">
+          <div class="row" style="justify-content:space-between"><span class="chip">{r.stage}</span><span class:list={['chip', chip[r.status]]}>{r.status}</span></div>
+          <h3 style="margin-top:.7rem">{r.title}</h3>
+          <p class="muted small">{r.risk}</p>
+          <p class="mono small" style="color:var(--accent-ink)">{r.artefact}</p>
+        </a>
+      ))}
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Rung 1 · Analytical" title="Notebooks" lede="Five Jupyter notebooks derive the model, the modes, the controllability and the N-module closed form. Their plots are extracted here; open the notebooks on GitHub for the derivations.">
+    {Object.entries(nbByBook).map(([book, imgs]) => (
+      <details class="nb">
+        <summary><strong>{nbTitles[book] ?? book}</strong> <span class="muted small">({imgs.length} plots)</span> <a class="mono small" href={repoUrl(`3_Analytical/shuffler_notebooks/${book}.ipynb`)} target="_blank" rel="noopener">open ↗</a></summary>
+        <div class="nb-grid">
+          {imgs.map((n: any) => { const im = NOTEBOOK_IMGS[n.file.replace(/\.webp$/, '')]; return im ? <figure class="figure"><Image src={im} alt={n.heading || book} width={900} /><figcaption>{n.heading}</figcaption></figure> : null; })}
+        </div>
+      </details>
+    ))}
+    <p class="small muted">Also: <a href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener">DESIGN_LOG.md</a>, <a href={repoUrl('3_Analytical/shuffler_notebooks/nstring.py')} target="_blank" rel="noopener">nstring.py</a> (numeric) and <a href={repoUrl('3_Analytical/shuffler_notebooks/nswitch.py')} target="_blank" rel="noopener">nswitch.py</a> (switching twin).</p>
+  </Section>
+
+  <Section eyebrow="Rung 2 · MIL" title="Simulink: four modules, three shufflers, seven tests" lede="power_shuffler_sim.slx with buses, subsystem hierarchy and a Variant Source for identification vs closed loop. The validate suite is the regression harness at every later rung.">
+    <div class="fig-grid">
+      {simulink.map((f) => <Figure src={f.img} alt={f.key} caption={f.key.split('/').pop()!.replace(/_/g, ' ')} />)}
+    </div>
+    <h3 style="margin-top:1.5rem">MIL validation against the results pipeline</h3>
+    <div class="fig-grid">
+      {mil.map((f) => <Figure src={f.img} alt={f.key} caption={f.key.split('/').pop()!.replace('mil_', 'MIL test ').replace(/_/g, ' ')} />)}
+    </div>
+    <div class="row" style="margin-top:1rem">
+      <a class="btn" href={repoDir('4_Simulink/1_MIL_Model_In_The_Loop')} target="_blank" rel="noopener">MIL folder ↗</a>
+      <a class="btn" href={repoDir('4_Simulink/3_Carpark_3mod')} target="_blank" rel="noopener">Carpark 3-module twin ↗</a>
+      <span class="chip">needs MATLAB + Simulink</span>
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Rung 3 · SIL" title="Software-in-the-loop: the C core inside Simulink" lede="One C Caller per block, golden-vector replay, host unit tests with CTest. Acceptance: two back-to-back runs bit-identical; the single↔double conversions at the C Caller ports are the intended fidelity boundary.">
+    <div class="grid grid-2" style="align-items:start">
+      <div>
+        <Cmd title="Host tests of the control core (WSL or Linux)" code={`cd 4_Simulink/2_SIL_Software_In_The_Loop/firmware\ncmake -B build && cmake --build build\nctest --test-dir build --output-on-failure`} />
+        <Callout kind="warn" title="The C Caller gotcha">C static state survives between runs, especially with Fast Restart. Reset it from an Initialize Function block (<code>sil_reset_pass</code>), never mark the functions deterministic, and do not add <code>stack.c</code> to the SIL build: the model does the scheduling. <a href={repoUrl('4_Simulink/2_SIL_Software_In_The_Loop/firmware/sil/INSTRUCTIONS.md')} target="_blank" rel="noopener">INSTRUCTIONS.md ↗</a></Callout>
+      </div>
+      <div>
+        <h3>Carpark twin (3 modules)</h3>
+        <div class="fig-grid">
+          {carpark.map((f) => <Figure src={f.img} alt={f.key} caption={f.key.split('/').pop()!.replace('carpark_', 'twin test ').replace(/_/g, ' ')} />)}
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Rung 4 · QSPICE" title="Switching-level model with the firmware’s control DLL" lede="Power_Shuffler_Integrated.qsch is a generated hierarchical sheet: string, two shufflers, controller, PWM modulator, half-bridge drivers. The controller is the same ctrl_core compiled as a C-block DLL that models the firmware’s sampling (INA 1 kHz hold, 12-bit hall ADC, 10 kHz tick).">
+    <div class="grid grid-2" style="align-items:start">
+      <div>
+        <h3>Build book</h3>
+        <p class="muted small">The scripted stage ladder S1 → S11 that builds the PCB baseline model one physical effect at a time, with checks at each stage.</p>
+        <iframe src={href('/embeds/build_book.html')} title="QSPICE shuffler build book" loading="lazy" style="width:100%;height:640px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>
+        <p class="small muted"><a href={href('/embeds/build_book.html')} target="_blank" rel="noopener">Open full page ↗</a></p>
+      </div>
+      <div>
+        <h3>Stage results</h3>
+        <div class="svg-grid">
+          {qspiceStages.slice(0, 18).map((s) => <figure class="figure"><img src={s.url} alt={s.key} loading="lazy" /><figcaption class="mono small">{s.key.split('/').pop()}</figcaption></figure>)}
+        </div>
+      </div>
+    </div>
+    <h3 style="margin-top:2rem">PV operating point and switching-edge fits (stages 10p, 11)</h3>
+    <div class="svg-grid wide">
+      {qspiceResults.map((s) => <figure class="figure"><img src={s.url} alt={s.key} loading="lazy" /><figcaption class="mono small">{s.key.split('/').pop()}</figcaption></figure>)}
+    </div>
+    {fig('results/qspice_run') && <Figure src={fig('results/qspice_run')!} alt="QSPICE closed-loop run with the firmware DLL" caption="QSPICE stage 9: closed loop with the firmware DLL at 200 kHz." evidence={{ label: 'REPORT §5', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+    <div class="row" style="margin-top:1rem">
+      <a class="btn" href={repoUrl('2_Qspice/Power_Shuffler_Integrated.qsch')} target="_blank" rel="noopener">Power_Shuffler_Integrated.qsch ↗</a>
+      <a class="btn" href={repoDir('2_Qspice/ctrl_dll')} target="_blank" rel="noopener">Control DLL ↗</a>
+      <a class="btn" href={repoDir("2_Qspice/Claude's outputs/PCB_Baseline")} target="_blank" rel="noopener">Stage generator ↗</a>
+      <a class="btn btn-ghost" href={SITE.qspice} target="_blank" rel="noopener">Get QSPICE (free) ↗</a>
+    </div>
+    <Callout kind="info" title="QSPICE quirks worth knowing">Names inside blocks carry a bullet (U+2022), e.g. <code>I(V4•XS1)</code>; the resistor load stalls the solver at t = 0 (use the current sink); the hierarchical netlist solves in 34 s vs 81 s flat; the sheets are generated, so edit the generator, not the sheet.</Callout>
+  </Section>
+</Base>
+<style>
+  .fig-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr)); gap: 1rem; }
+  .fig-grid :global(.figure) { margin: 0; }
+  .svg-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr)); gap: .8rem; }
+  .svg-grid.wide { grid-template-columns: repeat(auto-fill, minmax(min(100%, 320px), 1fr)); }
+  .svg-grid img { background: #fff; border-radius: 10px; border: 1px solid var(--line); padding: .4rem; width: 100%; }
+  .svg-grid :global(.figure) { margin: 0; }
+  .nb { border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: .9rem 1.1rem; margin-bottom: .8rem; }
+  .nb summary { cursor: pointer; display: flex; gap: .7rem; flex-wrap: wrap; align-items: baseline; }
+  .nb-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 380px), 1fr)); gap: 1rem; margin-top: 1rem; }
+  .nb-grid :global(.figure) { margin: 0; }
+</style>

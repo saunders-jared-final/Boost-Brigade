@@ -1,0 +1,17 @@
+---
+/** A copyable shell block. */
+interface Props { title?: string; code: string; lang?: 'bash' | 'text' | 'powershell'; }
+import { Code } from 'astro:components';
+const { title, code, lang = 'bash' } = Astro.props;
+---
+<div class="cmd">
+  {title && <div class="small muted mono" style="padding:.3rem .2rem">{title}</div>}
+  <div class="kbd-copy">
+    <Code code={code} lang={lang} themes={{ light: 'github-light', dark: 'github-dark' }} />
+    <button type="button" aria-label="Copy command">Copy</button>
+  </div>
+</div>
+<style>
+  .cmd { margin: 1rem 0; }
+  .cmd :global(pre) { margin: 0; padding-right: 4.5rem; }
+</style>

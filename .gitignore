@@ -68,8 +68,9 @@ codegen/
 2_Qspice/ctrl_dll/*.map
 2_Qspice/ctrl_dll/*.def
 
-# Pi python venv
+# Pi python venv and secrets
 7_Pi/.venv/
+7_Pi/.env
 
 # too large for GitHub (100 MB limit); keep locally or move to Git LFS
 0_Documentation/Photos/20261016_173330.mp4

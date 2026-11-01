@@ -40,7 +40,24 @@ from telemetry_parser import parse_line
 log = logging.getLogger("pod")
 
 INFLUX_URL = os.environ.get("INFLUX_URL", "http://localhost:8086")
-INFLUX_TOKEN = os.environ.get("INFLUX_TOKEN", "shuffler-pod-token")
+def _env_token():
+    """INFLUX_TOKEN from the environment, else from 7_Pi/.env (KEY=VALUE lines); never a hard-coded default."""
+    tok = os.environ.get("INFLUX_TOKEN")
+    if tok:
+        return tok
+    here = os.path.dirname(os.path.abspath(__file__))
+    for cand in (os.path.join(here, ".env"), os.path.join(here, "..", ".env")):
+        try:
+            with open(cand) as fh:
+                for line in fh:
+                    line = line.strip()
+                    if line.startswith("INFLUX_TOKEN="):
+                        return line.split("=", 1)[1].strip().strip('"').strip("'")
+        except OSError:
+            pass
+    raise SystemExit("INFLUX_TOKEN is not set: export it or create 7_Pi/.env from 7_Pi/.env.example")
+
+INFLUX_TOKEN = _env_token()
 INFLUX_ORG = os.environ.get("INFLUX_ORG", "boost")
 INFLUX_BUCKET = os.environ.get("INFLUX_BUCKET", "shuffler")
 CTL_PORT = 5017

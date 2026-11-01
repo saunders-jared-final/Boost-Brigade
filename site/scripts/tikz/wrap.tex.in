@@ -1,0 +1,19 @@
+% Standalone wrapper for one TikZ fragment.  @FRAGMENT@ is substituted by prep_tikz.sh.
+% @CLASSOPTS@ becomes "tikz,border=6pt" (pdflatex) or "tikz,border=6pt,dvisvgm" (latex->DVI).
+\PassOptionsToPackage{table}{xcolor}   % standalone[tikz] preloads xcolor; avoid an option clash
+\documentclass[@CLASSOPTS@]{standalone}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{mathptmx}                 % Times text + maths, as in the report
+\usepackage[scaled=0.92]{helvet}      % sans used by every diagram's font=\sffamily
+\usepackage{amsmath,amssymb,bm}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{tikz}
+\usepackage{circuitikz}
+% standalone[tikz] only crops tikzpicture; three fragments are circuitikz environments
+\standaloneenv{circuitikz}
+\input{tikz_styles}
+\begin{document}
+\input{@FRAGMENT@}
+\end{document}

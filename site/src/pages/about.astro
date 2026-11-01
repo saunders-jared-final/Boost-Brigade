@@ -1,0 +1,63 @@
+---
+import Base from '../layouts/Base.astro';
+import Section from '../components/Section.astro';
+import { Image } from 'astro:assets';
+import { photo } from '../lib/assets';
+import { SITE, repoUrl, rawUrl, href } from '../lib/site';
+const teamPhoto = photo('20261004_162616');
+const downloads = [
+  { label: 'Final report, v3.0 (PDF, 13 MB)', href: rawUrl('0_Documentation/jared-assessment/n11034459_CapstoneDelivery_V3.pdf') },
+  { label: 'Report LaTeX source', href: repoUrl('0_Documentation/jared-assessment/CapstoneDelivery_latex') },
+  { label: 'Project proposal (PDF)', href: rawUrl('0_Documentation/CapstoneProjectProposal.pdf') },
+  { label: 'Hardware stream: proposal (PDF)', href: rawUrl("0_Documentation/Son's Project Proposal.pdf") },
+  { label: 'Hardware stream: progress report (PDF)', href: rawUrl("0_Documentation/Son's Project Progress Report.pdf") },
+  { label: 'Results report (REPORT.md)', href: repoUrl('8_Results/analysis/REPORT.md') },
+];
+---
+<Base title="About" description="Team, supervision and downloads for the Boost Brigade power shuffler capstone.">
+  <Section eyebrow="About" title="Two streams, one board" lede="EGH490 Research Project, Queensland University of Technology, 2026. Supervised by Assoc Prof Geoff Walker, School of Electrical Engineering and Robotics." narrow>
+    <div class="grid grid-2">
+      <article class="card">
+        <p class="eyebrow">Control stream</p>
+        <h3>Jared Saunders</h3>
+        <p class="muted">Analytical model, MIL/SIL Simulink ladder, the C control core, STM32 firmware, Raspberry Pi telemetry pod, QSPICE control integration, test campaign and results pipeline. Author of this site.</p>
+        <div class="row">
+          <a class="btn" href={SITE.repo} target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn" href={SITE.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
+          <a class="btn btn-ghost" href={href('/resume.pdf')}>Resume (PDF)</a>
+        </div>
+      </article>
+      <article class="card">
+        <p class="eyebrow">Hardware stream</p>
+        <h3>Son Nguyen</h3>
+        <p class="muted">Power stage design, the QSPICE schematic of the shuffler, KiCad Version 0 PCB layout, component sourcing, manufacturing and assembly. The QSPICE schematic plus the sensor set was the hand-over interface between the two streams.</p>
+        <div class="row">
+          <a class="btn" href={rawUrl("0_Documentation/Son's Project Proposal.pdf")} target="_blank" rel="noopener">Proposal</a>
+          <a class="btn" href={rawUrl("0_Documentation/Son's Project Progress Report.pdf")} target="_blank" rel="noopener">Progress report</a>
+        </div>
+      </article>
+    </div>
+    {teamPhoto && <figure class="figure"><Image src={teamPhoto} alt="The hardware teammate holding the freshly assembled board, 4 Oct 2026" width={1200} /><figcaption>4 Oct 2026: the hardware stream with the assembled Version 0 board.</figcaption></figure>}
+  </Section>
+
+  <Section alt narrow eyebrow="How the work ran" title="Working arrangement">
+    <ul class="prose">
+      <li>The team met more than twice a week; the supervisor received fortnightly updates and weekly milestone reviews in the second semester.</li>
+      <li>Hardware and control were developed in parallel against a shared interface: the QSPICE schematic of the power stage and the agreed sensor set (four hall sensors, three INA239 voltage monitors).</li>
+      <li>Everything lives in one repository with numbered folders (0_Documentation to 9_Mechanical_Enclosure_CAD) so the next team starts from a single clone.</li>
+      <li>The final report is “Controlling Differential Power Processors in Solar Powered Applications”, v3.0, 23 Oct 2026, following a proposal (17 Apr) and progress report (29 May).</li>
+    </ul>
+  </Section>
+
+  <Section narrow eyebrow="Downloads" title="Documents">
+    <ul class="dl">
+      {downloads.map((d) => <li><a href={d.href} target="_blank" rel="noopener">{d.label} ↗</a></li>)}
+    </ul>
+    <p class="small muted">Vendor datasheets are linked from the Hardware page rather than redistributed.</p>
+  </Section>
+</Base>
+<style>
+  .dl { list-style: none; padding: 0; display: grid; gap: .5rem; }
+  .dl a { display: block; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-decoration: none; }
+  .dl a:hover { border-color: var(--accent); }
+</style>

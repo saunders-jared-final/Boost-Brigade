@@ -1,0 +1,61 @@
+% Extracted from 0_Documentation/jared-assessment/CapstoneDelivery_latex/preamble.tex
+% (lines 33-35 and 60-67, 122-134) so the bare tikzpicture fragments in
+% figures/tikz/*.tex can be compiled standalone.  Keep in sync with the preamble.
+\usetikzlibrary{arrows.meta,positioning,shapes.geometric,calc,fit,backgrounds,chains,decorations.pathreplacing}
+
+% ----- colours
+\definecolor{tpcol}{RGB}{120,90,170}      % talking points
+\definecolor{notecol}{RGB}{190,80,30}     % notes to self / to decide
+\definecolor{evcol}{RGB}{30,110,70}       % evidence callouts
+\definecolor{anacol}{RGB}{107,107,107}
+\definecolor{milcol}{RGB}{142,107,191}
+\definecolor{simcol}{RGB}{31,107,70}
+\definecolor{qspcol}{RGB}{27,45,85}
+\definecolor{hwcol}{RGB}{217,130,43}
+\definecolor{qutnavy}{RGB}{0,64,122}
+\definecolor{codebg}{RGB}{246,248,251}
+\definecolor{codecomment}{RGB}{110,118,129}
+
+% ----- tikz styles for the diagrams
+\tikzset{
+  blk/.style={draw,rounded corners=2pt,fill=white,minimum height=8mm,minimum width=22mm,align=center,font=\sffamily\small},
+  blkb/.style={blk,fill=blue!6},
+  blkg/.style={blk,fill=green!8},
+  blko/.style={blk,fill=orange!10},
+  blkr/.style={blk,fill=red!8},
+  blky/.style={blk,fill=yellow!15},
+  arr/.style={-{Stealth[length=2mm]},thick},
+  darr/.style={{Stealth[length=2mm]}-{Stealth[length=2mm]},thick},
+  lab/.style={font=\sffamily\scriptsize,fill=white,inner sep=1pt},
+  st/.style={draw,ellipse,fill=blue!6,minimum width=18mm,minimum height=7mm,font=\sffamily\small,align=center},
+  stf/.style={st,fill=red!12},
+}
+
+% ----- preamble macros referenced inside the fragments
+\newcommand{\unit}[1]{\ensuremath{\,\mathrm{#1}}}
+\newcommand{\us}{\unit{\mu s}}
+\newcommand{\ms}{\unit{ms}}
+\newcommand{\kHz}{\unit{kHz}}
+\newcommand{\V}{\unit{V}}
+\newcommand{\A}{\unit{A}}
+\newcommand{\W}{\unit{W}}
+\newcommand{\Wh}{\unit{Wh}}
+\newcommand{\ohm}{\ensuremath{\,\Omega}}
+\newcommand{\uH}{\ensuremath{\,\mu\mathrm{H}}}
+\newcommand{\uF}{\ensuremath{\,\mu\mathrm{F}}}
+\newcommand{\Vbar}{\ensuremath{\bar{V}}}
+\newcommand{\vd}{\ensuremath{v_{d}}}
+\newcommand{\ic}{\ensuremath{i_{c}}}
+\newcommand{\im}{\ensuremath{i_{m}}}
+\newcommand{\uc}{\ensuremath{u_{c}}}
+\newcommand{\ud}{\ensuremath{u_{d}}}
+\newcommand{\fsw}{\ensuremath{f_{sw}}}
+\newcommand{\kscale}{k}
+\newcommand{\code}[1]{\texttt{#1}}
+% stubs so stray cross-ref / unit macros never break a standalone build
+\providecommand{\cref}[1]{#1}
+\providecommand{\Cref}[1]{#1}
+\providecommand{\si}[1]{\ensuremath{\,\mathrm{#1}}}
+\providecommand{\SI}[2]{\ensuremath{#1\,\mathrm{#2}}}
+\providecommand{\ev}[1]{#1}
+\providecommand{\note}[1]{}

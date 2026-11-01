@@ -10,4 +10,4 @@ datasources:
       organization: boost
       defaultBucket: shuffler
     secureJsonData:
-      token: shuffler-pod-token
+      token: $INFLUX_TOKEN   # expanded by Grafana from the container environment (docker-compose.yml)

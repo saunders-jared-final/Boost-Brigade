@@ -1,0 +1,25 @@
+export interface TestCase { id: string; day: string; fsw: string; loop: 'OL' | 'CL'; k?: string; window: string; note?: string; }
+/** The 21 hardware windows (8_Results/TestCases/README.md). */
+export const CASES: TestCase[] = [
+  { id: 'B01', day: '16 Oct', fsw: '200 kHz', loop: 'OL', window: '14:32–14:45', note: 'duties 0.5; e-load CV steps 125 ↔ 60 V' },
+  { id: 'B01s', day: '16 Oct', fsw: '200 kHz', loop: 'OL', window: '15:09–15:16', note: 'the only open-loop duty steps; ends in FAULT' },
+  { id: 'B02', day: '16 Oct', fsw: '200 kHz', loop: 'CL', k: '0.1', window: '15:31–15:34', note: 'before the ADC fix; PSU unstable' },
+  { id: 'B03', day: '16 Oct', fsw: '200 kHz', loop: 'CL', k: '0.3', window: '16:02–16:04' },
+  { id: 'B04', day: '16 Oct', fsw: '200 kHz', loop: 'CL', k: '0.3', window: '16:07–16:08', note: 'kscale 0.4 applied live → OC fault within 1 s' },
+  { id: 'B05', day: '16 Oct', fsw: '300 kHz', loop: 'OL', window: '16:31–16:37' },
+  { id: 'B06', day: '16 Oct', fsw: '300 kHz', loop: 'CL', k: '0.3', window: '17:17–17:26', note: 'PSU / e-load set-point steps while closed' },
+  { id: 'B07', day: '16 Oct', fsw: '300 kHz', loop: 'CL', k: '0.5', window: '17:34–17:42', note: 'k = 0.6 provoked the only oscillation' },
+  { id: 'B08', day: '16 Oct', fsw: '400 kHz', loop: 'OL', window: '18:02–18:05' },
+  { id: 'B09', day: '16 Oct', fsw: '400 kHz', loop: 'CL', k: '0.3', window: '18:05–18:14' },
+  { id: 'S01', day: '20 Oct', fsw: '200 kHz', loop: 'OL', window: '15:04–15:08', note: 'peak sun' },
+  { id: 'S02', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.1', window: '15:08–15:13', note: 'peak sun; shade event ≈ 15:09:20–15:10:40' },
+  { id: 'S03', day: '20 Oct', fsw: '200 kHz', loop: 'OL', window: '15:48–15:51', note: 'minimal sun' },
+  { id: 'S04', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.1', window: '15:52–15:57' },
+  { id: 'S05', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.2', window: '15:56–16:01' },
+  { id: 'S06', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.3', window: '16:01–16:04' },
+  { id: 'S07', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.4', window: '16:05–16:08' },
+  { id: 'S08', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.5', window: '16:09–16:12' },
+  { id: 'S09', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.6', window: '16:13–16:18' },
+  { id: 'S10', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.7', window: '16:19–16:22' },
+  { id: 'S11', day: '20 Oct', fsw: '200 kHz', loop: 'CL', k: '0.8', window: '16:23–16:25' },
+];

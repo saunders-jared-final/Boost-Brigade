@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="477.836833pt" height="158.739895pt" viewBox="-70.075124 -66.022416 477.836833 158.739895">
+<style type="text/css">
+@font-face{font-family:tikz-pipeline_vmodel-psyro;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJ4AA0AAAAABVAAAAIhAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoFMgUcLCgABNgIkAxAEIAWCGgcuG1gEAB6HsXukhFgxihOx+FLxQK319rpn5tMEAFgTqFjETRQ4RMUK+QDVyYtK1fr/v837gMjpHJJtbf9hlleKuNawUC3m153fTnAAP0jeloQtTDOJJIraTm0tCvIg4gA9IMq6RXu9ssW5zKck0hACvL31ywn4t3K7/UUO4XY4ICPujPexmxaGX3khEmXlAHYAwLQ11QGQPPbdpcVmarGgMgIgQYJGCAwiC2hE0QykUoHkcbHofzk/hyIglBAAISICAIJ0dPO4DYRiUQQpKEOKzqAfgBRdSCCmaauQZ5XTOXlWsfByx/N5/m7Wu/f57pcdL8+tOH2hYtfDpqdaij3bMJ/bP23Ss1l580JZ4Z9mT+c97TI33HtqdqvxlYPVV6lTWy/gJv8qoysPr//lQd3m8aT56fno8fBzVZf8OW5o13JLB1wNug56l6b+63G1JPtmmESeggQyDtAl4adiiFcjBLbPLApLqw76vyxP/l2SL2heDD9iAWUiCMRCUS3cpviAfiAAQBpuaw6E24TbhiCkWpNARBAwDAMoswaBqFQ1BBLNNZgyuWOcxcwliZCWi6qAKTGCRpk6Xn0lKpwxw9DY0ULXDr4Mi4Ex1lYO7bmdsSGDj7kMOcPG3tXOeqzFJ3g8gs/li+HFI9e13Xho9GDXyI3N/rpbi/eF54mjsQTMMbSzN0U0Bg9F4XKSdmcXaHmwdsN1twbiZnMpQmQQYrJx+REAAAA=) format('woff2');}
+@font-face{font-family:tikz-pipeline_vmodel-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJwAA0AAAAABYAAAAIcAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoF8gWwLDAABNgIkAxIEIAWCGgcsG30EAI7DuLErbRMnG0E8RFDvH9/3nIsHRitkUCQ628o3FB0j3Q8oAyP4WjXdXoqMR14k7Rt0jzDo3v8Ty0RJJLpq2yZv+Ua7Cb0APhzwgB7Q1xOKICr7fowokQgp9t4ZJdIv7unTzJhdQsD7769OA99GPQ5JP8X2OCwk7U3PwH74U0h8Q0ciKeoABADM3tiZAXrIp1+q0tL0iz8CkCFDJwSG8wU6CXQDuVygZ1WhR1VVnyMgSgIQCQkAEABkOflI3dNmEFUlgQLUo8RQMB1Ajn48kKQ8bxftoqFoyhc2FPVrtvT6KNu26FRsqd/7xgfqA9mCJx8+b9gX67YsfPrRi/q9sp4fpq3zj8sa9r39ceXj6H627uy33V4ufimm/ho6f2HggOu114v6+pr2U1fdRu6683jMrltTln1q6ut1+yugirWF58tnAZ6E/sPvNbmfzZOy+MJFWZIpkIHCPK0p41+C8WZCsPBQ22erWob/VtuQfTe3++KqjGnpF1ArgWASs9gOxDR+NkAe28VAbIfYbqqFUGjPAwkhMJoAUGsjAkmNVgQy3fUQKDQ4iUCp8JAv8jpJM77IjJUThTYux0r1ruqaW0rtjFn4WcwHJjo6SOw71tIcMwSFtbGpPUvHiFGm68oMxajDw0ipW+xyzkYobvN0k9XoTFnr8gnaBCw0ZznrjjHTBAV3mLIWCt2qwrpNVisg7UmMLRCVukEj) format('woff2');}
+@font-face{font-family:tikz-pipeline_vmodel-ptmri8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAATgAA0AAAAACJgAAASKAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgmoIBBEICodAhhELFAABNgIkAyQEIAWCJgc0G/AGUZQuTgHiywS6iVF4WvchkZaiIenSEjoNEmqGx40sxe144bn+0+/FQ7Ef7e1+P7PkXvFkkghJrBIqHirTLdGsEhJUS8ylC42Zb9Wc+2BE5XV8EGwtMAWFqTTJIJ2WbE6GVJjsciLfYO8F9D8A78LCAqzFWpDawVt3OWc83SjNvKlTNQM34LYnCIUgl/PHjO7FD9p7kuIi6VPHWKalXrEgWNCC1balEfTMo0zJ6iENtu2EgJ877s0CgGNty4l1PMxLMYkq+Sq/Ad5QI/7C0MpkrgBreOnt+60j4JKyUO31m+dadLNowdHZQfpuGOUzpMtgRCvVLmnre0iV/f+iZ7kdtpprmslBAKImOIlEsiVwBVdKVPjal9CgBXwpW0D0/w+A7egJagyMNYB4ii6j+4YopbLzO2RZHl0RmkIziKA9tIFeEKtqq0iwKmpir0OaK5DXQLf4Ok4qXbg3AmoB06fjD7pFm2Yx9yEVECqFGhOvNzKTNiFwNcidBqQicDdPdm2dK8BwxxqIIC0Dp1EbPWDVjj36kpNnbS5CFGiBrOmgUDZvFVMrjjaQiuUYls5ciQOR5tI87jrkEckcZ4rygAho7iLaxUxjXxMBijdLNIvJlGGpz3Wn9ftxB0PYUhGei3Nb3igURKLw1iZcjKVoFtJ8xX5SoHvxj5GgNDzGWbmad10snj0bJ50plcpnT8cFzORQkDVI0Iob10SpPeL9mDKFZMEcpOm00FFTYDRH4z0zPCE7YX90+uMaU+2X0RyfBV/+LS+PicNfZqCz0s9xz25vJYKI6uFupRHoCzLU1g7TInKKS3PTQ7dsCI865xCZLKU7HgOKcSfJ0qUC+ghLqaDt4qfFxFh6rnGRMOvtcnKCJH9icSbULH9qRp/4TZB9+iUB7rrQX5H+Zd7plbah4aVRBT+IYsUNBm1/6+6zM2aQL+R6Jg8f8LgUqNIaMo0oBQeUcdurZ+xnXQt8AuaXv2xhEU9hxJx15dkJ7k5kJyEWdIMJ5Zozmk6FJtMiNUgw0GQyQkU23M5HMQ5bFwpi/3cqsfXf6r8CJpMZC8g0ne35khuQGOnlGZLiFmzOu8OP06kljFGdy9Rc8ZLnEeTj7Oif6BFpbTxqZOUYiMMJ0J3KVAkMMolhFaqMKh+hk7quY4ans1w2V+ivHKWKrEHL1b95nDtsC2MSIiKGwSU5LQZZOhrq8oMOKg2Mzq4GTX3q979flOqGAXxiDs7UTenEuaqrX3FdpBNnVELDVFBfqON/liO9JRiCf+cMb3R9v2qsOI6BhP5N/y4pvhaISYMgyI/9O/O8YkAdawEG83TxRBOIG5A/YOdc4yUyr//MTieeITkXwYjgFAkyg4EL1LFa9zGQGmMiqLBiy6wMeotqjc+RFCs7aYRkFi5qmJUZ/81qI94h2clF7mkngf/WNQMXfbxlXciXXpwQk0pHQuQr85K48SXDy5gUBoPCpDO58OotbAYnlxOZqk4hfbNXcvMTAZmKYSi3NBJwx0kidXNbJoarKJ6T2xmqDpdRTNUDkBDrPnDtt83gaBubAwAA) format('woff2');}
+@font-face{font-family:tikz-pipeline_vmodel-phvro8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+@font-face{font-family:tikz-pipeline_vmodel-phvb8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+text.tikz-pipeline_vmodel-f3{font-family:tikz-pipeline_vmodel-ptmri8r;font-size:4.96271px}
+text.tikz-pipeline_vmodel-f5{font-family:tikz-pipeline_vmodel-psyro;font-size:6.947794px}
+text.tikz-pipeline_vmodel-f7{font-family:tikz-pipeline_vmodel-ptmri8r;font-size:6.947794px}
+text.tikz-pipeline_vmodel-f11{font-family:tikz-pipeline_vmodel-cmr10;font-size:6.947794px}
+text.tikz-pipeline_vmodel-f13{font-family:tikz-pipeline_vmodel-phvro8r;font-size:6.391958px}
+text.tikz-pipeline_vmodel-f15{font-family:tikz-pipeline_vmodel-phvb8r;font-size:6.391958px}
+
+</style>
+<g id="tikz-pipeline_vmodel-page1">
+<g stroke-miterlimit="10" transform="matrix(.996264 0 0 -.996264 -70.075124 75.709619)" fill="currentColor" stroke="currentColor" stroke-width="0.4">
+<g stroke-width="34.1433" fill="#f4f4f4" stroke="#f4f4f4" stroke-linecap="round" stroke-linejoin="round">
+<path d="M 49.7923 125.1919 L 174.98419 0.0 L 308.71243 0.0 L 433.90433 125.1919" fill="none" />
+</g>
+<g stroke-width="0.4">
+</g>
+<g fill="#f0f0ff">
+<g fill="#f0f0ff">
+<path d="M 93.3167 137.2843 L 6.2679 137.2843 C 5.16331 137.2843 4.2679 136.38889 4.2679 135.2843 L 4.2679 115.09949 C 4.2679 113.9949 5.16331 113.09949 6.2679 113.09949 L 93.3167 113.09949 C 94.42128 113.09949 95.3167 113.9949 95.3167 115.09949 L 95.3167 135.2843 C 95.3167 136.38889 94.42128 137.2843 93.3167 137.2843 Z M 4.2679 113.09949" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 84.565796 195.58347)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">0<tspan x="-64.724342">Bac</tspan><tspan x="-53.085913">kgr</tspan><tspan x="-43.231124">ound</tspan><tspan x="-25.767056">resear</tspan><tspan x="-6.635006">c</tspan><tspan x="-3.13194">h</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-66.087529" y="75.709619">Concept<tspan x="-40.411284">of</tspan><tspan x="-33.276936">oper</tspan><tspan x="-20.502955">ations</tspan></text>
+</g>
+</g>
+<g fill="#f0f0ff">
+<g fill="#f0f0ff">
+<path d="M 124.61488 105.98654 L 37.56609 105.98654 C 36.4615 105.98654 35.56609 105.09113 35.56609 103.98654 L 35.56609 83.80173 C 35.56609 82.69714 36.4615 81.80173 37.56609 81.80173 L 124.61488 81.80173 C 125.71947 81.80173 126.61488 82.69714 126.61488 83.80173 L 126.61488 103.98654 C 126.61488 105.09113 125.71947 105.98654 124.61488 105.98654 Z M 35.56609 81.80173" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 120.162686 164.21648)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">1<tspan x="-64.724342">Anal</tspan><tspan x="-50.917333">ytical</tspan><tspan x="-32.728504">solution</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-69.32446" y="75.709619">System<tspan x="-46.150367">requirements</tspan></text>
+</g>
+</g>
+<g fill="#f0f0ff">
+<g fill="#f0f0ff">
+<path d="M 155.91264 74.68835 L 68.86385 74.68835 C 67.75926 74.68835 66.86385 73.79294 66.86385 72.68835 L 66.86385 52.50354 C 66.86385 51.39896 67.75926 50.50354 68.86385 50.50354 L 155.91264 50.50354 C 157.01723 50.50354 157.91264 51.39896 157.91264 52.50354 L 157.91264 72.68835 C 157.91264 73.79294 157.01723 74.68835 155.91264 74.68835 Z M 66.86385 50.50354" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 153.031726 132.95694)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">2<tspan x="-64.724342">Model-in-the-loop</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-64.969666" y="75.709619">High-le<tspan x="-44.843054">v</tspan><tspan x="-41.7955">el</tspan><tspan x="-35.0204">design</tspan></text>
+</g>
+</g>
+<g fill="#f0f0ff">
+<g fill="#f0f0ff">
+<path d="M 187.21083 43.3906 L 100.16203 43.3906 C 99.05745 43.3906 98.16203 42.49518 98.16203 41.3906 L 98.16203 21.20578 C 98.16203 20.1012 99.05745 19.20578 100.16203 19.20578 L 187.21083 19.20578 C 188.31541 19.20578 189.21083 20.1012 189.21083 21.20578 L 189.21083 41.3906 C 189.21083 42.49518 188.31541 43.3906 187.21083 43.3906 Z M 98.16203 19.20578" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 178.598386 101.65918)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">3<tspan x="-64.724342">Component</tspan><tspan x="-27.30047">selection</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-56.943399" y="75.709619">Detailed<tspan x="-31.62648">design</tspan></text>
+</g>
+</g>
+<g fill="#ffffd9">
+<g fill="#ffffd9">
+<path d="M 238.42586 12.0924 L 151.37706 12.0924 C 150.27248 12.0924 149.37706 11.19699 149.37706 10.0924 L 149.37706 -10.0924 C 149.37706 -11.19699 150.27248 -12.0924 151.37706 -12.0924 L 238.42586 -12.0924 C 239.53044 -12.0924 240.42586 -11.19699 240.42586 -10.0924 L 240.42586 10.0924 C 240.42586 11.19699 239.53044 12.0924 238.42586 12.0924 Z M 149.37706 -12.0924" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 232.312286 70.32234)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">4<tspan x="-64.724342">Firmware</tspan><tspan x="-34.415956">/</tspan><tspan x="-30.848825">software</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-56.281194" y="75.709619">De<tspan x="-48.274134">v</tspan><tspan x="-45.226579">elopment</tspan></text>
+</g>
+</g>
+<g fill="#ffffd9">
+<g fill="#ffffd9">
+<path d="M 332.31956 12.0924 L 245.27077 12.0924 C 244.16618 12.0924 243.27077 11.19699 243.27077 10.0924 L 243.27077 -10.0924 C 243.27077 -11.19699 244.16618 -12.0924 245.27077 -12.0924 L 332.31956 -12.0924 C 333.42415 -12.0924 334.31956 -11.19699 334.31956 -10.0924 L 334.31956 10.0924 C 334.31956 11.19699 333.42415 12.0924 332.31956 12.0924 Z M 243.27077 -12.0924" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 325.143266 69.71056)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">5<tspan x="-64.724342">Software-in-the-loop</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-58.159222" y="75.709619">Unit<tspan x="-44.968274">v</tspan><tspan x="-41.92072">er</tspan><tspan x="-36.120855">iﬁcation</tspan></text>
+</g>
+</g>
+<g fill="#ebffeb">
+<g fill="#ebffeb">
+<path d="M 383.53459 43.3906 L 296.4858 43.3906 C 295.38121 43.3906 294.4858 42.49518 294.4858 41.3906 L 294.4858 21.20578 C 294.4858 20.1012 295.38121 19.20578 296.4858 19.20578 L 383.53459 19.20578 C 384.63918 19.20578 385.53459 20.1012 385.53459 21.20578 L 385.53459 41.3906 C 385.53459 42.49518 384.63918 43.3906 383.53459 43.3906 Z M 294.4858 19.20578" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 377.961886 101.62053)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">6<tspan x="-64.724342">QSPICE</tspan><tspan x="-38.69528">integration</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-69.919564" y="75.709619">Subsystem<tspan x="-36.403073">v</tspan><tspan x="-33.355519">er</tspan><tspan x="-27.555654">iﬁcation</tspan></text>
+</g>
+</g>
+<g fill="#ebffeb">
+<g fill="#ebffeb">
+<path d="M 414.83278 74.68835 L 327.78398 74.68835 C 326.6794 74.68835 325.78398 73.79294 325.78398 72.68835 L 325.78398 52.50354 C 325.78398 51.39896 326.6794 50.50354 327.78398 50.50354 L 414.83278 50.50354 C 415.93736 50.50354 416.83278 51.39896 416.83278 52.50354 L 416.83278 72.68835 C 416.83278 73.79294 415.93736 74.68835 414.83278 74.68835 Z M 325.78398 50.50354" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 414.606796 132.98752)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-62.178862" y="67.739507">7<tspan x="-56.828081">Benc</tspan><tspan x="-41.205389">h</tspan><tspan x="-35.501699">test</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="75.709619">System<tspan x="-46.901031">v</tspan><tspan x="-43.853477">er</tspan><tspan x="-38.053612">iﬁcation</tspan></text>
+</g>
+</g>
+<g fill="#ebffeb">
+<g fill="#ebffeb">
+<path d="M 446.13054 105.98654 L 359.08174 105.98654 C 357.97716 105.98654 357.08174 105.09113 357.08174 103.98654 L 357.08174 83.80173 C 357.08174 82.69714 357.97716 81.80173 359.08174 81.80173 L 446.13054 81.80173 C 447.23512 81.80173 448.13054 82.69714 448.13054 83.80173 L 448.13054 103.98654 C 448.13054 105.09113 447.23512 105.98654 446.13054 105.98654 Z M 357.08174 81.80173" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 447.739926 164.21648)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-62.258991" y="67.739507">8<tspan x="-56.908209">Solar</tspan><tspan x="-39.078628">test</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="75.709619">System<tspan x="-46.901031">v</tspan><tspan x="-43.853477">alidation</tspan></text>
+</g>
+</g>
+<g fill="#ebffeb">
+<g fill="#ebffeb">
+<path d="M 477.42873 137.2843 L 390.37993 137.2843 C 389.27534 137.2843 388.37993 136.38889 388.37993 135.2843 L 388.37993 115.09949 C 388.37993 113.9949 389.27534 113.09949 390.37993 113.09949 L 477.42873 113.09949 C 478.53331 113.09949 479.42873 113.9949 479.42873 115.09949 L 479.42873 135.2843 C 479.42873 136.38889 478.53331 137.2843 477.42873 137.2843 Z M 388.37993 113.09949" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 486.345766 195.51423)" stroke="none" fill="currentColor">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="67.739507">9<tspan x="-64.724342">Synthesis</tspan></text>
+<text class="tikz-pipeline_vmodel-f13" x="-69.075881" y="75.709619">Acceptance</text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 62.08733 112.89949 L 66.59143 108.39754" fill="none" />
+<g transform="matrix(.70726 -.70691 .70691 .70726 65.1813 109.80696)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 93.38531 81.60173 L 97.88942 77.09946" fill="none" />
+<g transform="matrix(.70724 -.70694 .70694 .70724 96.47932 78.50893)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 124.68327 50.30354 L 129.18738 45.80159" fill="none" />
+<g transform="matrix(.70726 -.70691 .70691 .70726 127.77725 47.21101)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 352.30522 43.59059 L 356.80933 48.09254" fill="none" />
+<g transform="matrix(.70726 .70691 -.70691 .70726 355.3992 46.68312)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 383.60321 74.88835 L 388.10732 79.39063" fill="none" />
+<g transform="matrix(.70724 .70694 -.70694 .70724 386.69722 77.98116)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 414.90117 106.18654 L 419.40527 110.68849" fill="none" />
+<g transform="matrix(.70726 .70691 -.70691 .70726 417.99515 109.27907)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 163.80563 19.00578 L 172.1266 13.92279" fill="none" />
+<g transform="matrix(.85333 -.52127 .52127 .85333 170.42525 14.96208)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 240.62585 0.0 L 239.94305 0.0" fill="none" />
+<g transform="translate(237.94928)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g stroke-width="0.8" fill="#595959" stroke="#595959">
+<path d="M 308.91437 12.2924 L 317.23534 17.3754" fill="none" />
+<g transform="matrix(.85333 .52127 -.52127 .85333 315.53398 16.3361)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98228 0.0 L 1.29155 1.02214 L 2.19377 0.0 L 1.29155 -1.02214 Z  " />
+ </g>
+</g>
+<g transform="matrix(.709752 -.709752 -.709752 -.709752 116.052808 61.592472)" stroke="none" fill="#000080">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="75.709619" fill="#000080">deﬁnition<tspan x="-39.4201">and</tspan><tspan x="-26.229067">decomposition</tspan></text>
+</g>
+<g transform="matrix(.709752 .709752 .709752 -.709752 406.101718 100.120938)" stroke="none" fill="#005900">
+<text class="tikz-pipeline_vmodel-f15" x="-70.075124" y="75.709619" fill="#005900">integration<tspan x="-35.140794">and</tspan><tspan x="-21.949761">veriﬁcation</tspan></text>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 98.42496 125.1919 L 385.27167 125.1919" fill="none" />
+<g transform="matrix(-1 0 0 -1 100.06914 125.1919)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g transform="translate(383.62749 125.1919)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 200.53145 121.18124 h 82.63373 v 8.0213 h -82.63373 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 271.869356 199.60763)" stroke="none" fill="#333">
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="75.709619" fill="#333">repor<tspan x="-54.84395">t</tspan><tspan x="-51.27682">against</tspan><tspan x="-28.808538">the</tspan><tspan x="-18.106974">objectiv</tspan><tspan x="3.482399">es</tspan></text>
+</g>
+</g>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 129.72314 93.89413 L 353.97348 93.89413" fill="none" />
+<g transform="matrix(-1 0 0 -1 131.36732 93.89413)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g transform="translate(352.3293 93.89413)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 210.2945 89.39413 h 63.10764 v 9.0 h -63.10764 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 281.632406 168.13766)" stroke="none" fill="#333">
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="75.709619">DC<tspan x="-59.026996">gain</tspan></text>
+<text class="tikz-pipeline_vmodel-f7" x="-45.117461" y="75.709619">G</text>
+<text class="tikz-pipeline_vmodel-f11" x="-40.082362" y="75.709619">(</text>
+<text class="tikz-pipeline_vmodel-f7" x="-37.376592" y="75.709619">N</text>
+<text class="tikz-pipeline_vmodel-f11" x="-32.306677" y="75.709619">)</text>
+<text class="tikz-pipeline_vmodel-f13" x="-29.600907" y="75.709619">,</text>
+<text class="tikz-pipeline_vmodel-f5" x="-26.033776" y="75.709619">τ</text>
+<text class="tikz-pipeline_vmodel-f13" x="-20.609972" y="75.709619">vs</text>
+<text class="tikz-pipeline_vmodel-f7" x="-12.410481" y="75.709619">k</text>
+</g>
+</g>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 161.0209 62.59595 L 322.67572 62.59595" fill="none" />
+<g transform="matrix(-1 0 0 -1 162.66508 62.59595)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g transform="translate(321.03154 62.59595)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 200.48633 58.62395 h 82.72397 v 7.944 h -82.72397 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 271.824236 136.97303)" stroke="none" fill="#333">
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="75.709619" fill="#333">v<tspan x="-67.02757">alidation</tspan><tspan x="-41.351398">suite</tspan><tspan x="-27.897297">,</tspan><tspan x="-24.330166">step</tspan><tspan x="-10.420638">metr</tspan><tspan x="2.507237">ics</tspan></text>
+</g>
+</g>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 192.31909 31.29819 L 291.37753 31.29819" fill="none" />
+<g transform="matrix(-1 0 0 -1 193.96327 31.29819)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g transform="translate(289.73335 31.29819)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 3.98286 0.0 L 0.64581 1.25795 L 1.74417 0.0 L 0.64581 -1.25795 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 219.19415 23.43651 h 45.30832 v 15.72336 h -45.30832 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 290.532056 101.56496)" stroke="none" fill="#333">
+<text class="tikz-pipeline_vmodel-f13" x="-70.075124" y="67.739507">sensing<tspan x="-46.182445">model,</tspan><tspan x="-69.332943" y="75.709619">dead</tspan><tspan x="-53.280509">time</tspan><tspan x="-41.257145">,</tspan></text>
+<text class="tikz-pipeline_vmodel-f7" x="-37.690015" y="75.709619">R</text>
+<text class="tikz-pipeline_vmodel-f3" x="-33.429" y="76.755684">s</text>
+<text class="tikz-pipeline_vmodel-f3" x="-31.491314" y="76.755684">w</text>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

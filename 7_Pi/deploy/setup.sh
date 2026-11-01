@@ -75,12 +75,15 @@ cd "$PI_DIR"
 # Grafana runs as uid 472; a bind-mount dir docker creates is root-owned and Grafana restart-loops on it
 mkdir -p data/grafana data/influxdb
 sudo chown -R 472:0 data/grafana
-sudo $COMPOSE up -d
+if [ ! -f .env ]; then
+  echo "7_Pi/.env is missing: copy .env.example to .env and set INFLUX_PASSWORD, INFLUX_TOKEN, GRAFANA_PASSWORD"; exit 1
+fi
+sudo $COMPOSE --env-file .env up -d
 
 cat <<MSG
 
 Done. Log out and back in once (new groups), and reboot if the overlays were just added.
-  Grafana  http://$(hostname -I | awk '{print $1}'):3000   (admin / shuffler, anonymous viewer on)
+  Grafana  http://$(hostname -I | awk '{print $1}'):3000   (admin / GRAFANA_PASSWORD from 7_Pi/.env, anonymous viewer on)
   Control  http://$(hostname -I | awk '{print $1}'):8080   (status, presets, run-time parameters)
   Logs     journalctl -u pod -f      (e-load: journalctl -u eload -f)
   Flash    $PI_DIR/tools/flash_nucleo.sh

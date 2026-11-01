@@ -1,0 +1,27 @@
+---
+/** Code pulled from the repository at build time, so it can never drift from the source. */
+import { Code } from 'astro:components';
+import { readRepoLines } from '../lib/repo';
+import { repoUrl } from '../lib/site';
+import type { BundledLanguage } from 'shiki';
+interface Props { file: string; from?: number; to?: number; lang?: BundledLanguage; title?: string; note?: string; }
+const { file, from = 1, to, lang, title, note } = Astro.props;
+const code = readRepoLines(file, from, to);
+const ext = file.split('.').pop()?.toLowerCase();
+const guess: Record<string, BundledLanguage> = { c: 'c', h: 'c', py: 'python', m: 'matlab', json: 'json', sh: 'bash', yml: 'yaml', yaml: 'yaml', md: 'markdown', cpp: 'cpp', txt: 'text' as BundledLanguage };
+const language = lang ?? guess[ext ?? ''] ?? ('text' as BundledLanguage);
+const lastLine = to ?? code.split('\n').length + from - 1;
+---
+<div class="snippet">
+  <div class="snippet-head">
+    <span class="mono small">{title ?? file}</span>
+    <a class="mono small" href={repoUrl(file, [from, lastLine])} target="_blank" rel="noopener">L{from}–L{lastLine} on GitHub ↗</a>
+  </div>
+  <Code code={code} lang={language} themes={{ light: 'github-light', dark: 'github-dark' }} />
+  {note && <p class="small muted" style="margin-top:.5rem">{note}</p>}
+</div>
+<style>
+  .snippet { margin: 1.2rem 0; }
+  .snippet-head { display: flex; justify-content: space-between; gap: 1rem; flex-wrap: wrap; padding: .4rem .2rem; color: var(--muted); }
+  .snippet :global(pre) { margin: 0; max-height: 520px; }
+</style>

@@ -1,0 +1,438 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="362.080687pt" height="224.372244pt" viewBox="-66.02242 -66.022422 362.080687 224.372244">
+<style type="text/css">
+@font-face{font-family:tikz-nodal_n3-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKkAA0AAAAABdQAAAJOAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkoIBBEICoI8ghkLDgABNgIkAxgEIAWCGgcuG7oEQI7DuLErsYqTGfEQAbRWVt0DB6jCSCpRUXEIoMDiMzlABbz+49reWejEfyTfmUdCFNNtV0mZSCY0auLP2/M2muC3KPd3Cf1AuoF2kXcjXPb7Yxp1ngcSUMihp97uRIlcfT0OVyJtQoD3H391FL6taLW71YeYhb0y4vb4BDvpguEbnUMkyhIAAQAmrehsAK0U8ZdCbk78xd8IgAQJ6lHAMJqAenStQC4VRK0VhQJaUXfh88ILASDkoCdERIqLwJykyMdn6OjGcQ0IhYIIclCOUowDiwGk6EAFUZSmaa2QUHFSllWkM8q5pYvXtfko2TDzSFhXuv2ND+wPrJ1+78OnZTvC0nUz7n/0rHS7ta0/jOunHbS2bMfbH3sfh9U71pVWbl9bVjVdfVfj4yXHv230fNZzNuZXw8lTPbq/L7zOSkuLao9Z+Bmw5drdwVuujJ77Lyot1egvaMwaHz+52O72iCY1s9+4Vu36jT7uBbgXdOz3LUr93OVenn2RaRLBgBOcgTnIw7+VhCcrCHRqsXm4sKrfb8VlyXehPq9xIY/vxl9QLIJA8P5SUgLxXQEAkIeVTCCMh7DR0rBR76RELwpytekgIggYhAEotoICoiLVFJBobEIBmTKHBZDL3JYIaYmoEqQSQ1RUpobXslyp86bY2itdLHH4kiwNjHB3I7U93N4WcTE2kiJrV5wzw1xtjq3NZXOF8KIS+hK+35LLbEppvYo7rN2247SP3iJghi1OOPrLEgdjw+Un7zAbvm6Apau4YwORxDlbgy5TrhEAAA==) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJQAA0AAAAABSwAAAH6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoEogS8LCgABNgIkAxAEIAWCIAcqG0IEIJ4H2VnjNGJF7mZvrEU8/L9d1H2/qkZgd48RA8jm5GBK5iJSZlhlm8lc2620jwvp4UJ+TEFwjIGnMLUW64Gy/wGuf/7tfC8KLJAA/HFAAQf2NYg466I/pmHnYUADHeOIB7LNTxAfcWVgRxFBNISAT1e/HoQftbttx3RE49ipIG1Ot7EVj4rvMRJJUR1AAMCkFdsB6KVX+ksVc9JhD0AAMmRoJcBwmUAruXbI5QK9/idv7AyIKgQgEhJgKl+DjG/XPq0C8b8SyEE15OiE7oAcfSSQ8rxl1Cxq5zNqFjVmbnpYY/NxG0/U3NL0gFIbpwVcf+rcuUvR/nD1wz/aPZv1rM9L7Nq62dsmjd81a/y5Eqnu0nHrL2rWyEu712oPLoS+wy9Wzf1ZuVCl+KwkS5BBGSogL6rEP4bjyYFg4LUeOxca/ne1mtnPlfeX7f9f9EiHUU0CQTr8/8yJxhA9BAAgj8baQzQmGpvBkGslgYQQGG0CqlnBQFJVPQEyHSxgoFDTIQGqqOKSTOTVJXVossx4gxWa2NRWRS1HTBHS57Rr+BnMBCa6XV6caym4ij5K2hmqnaVECjtzKnorK+utoqRiIE8bIcQ6wyt9Su2GtlsqFVlWepfLvQ/BEDOE9qiarivro8Q1xC/3Kal3saUrVSyRdpaCHDGQ1wUAAA==) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJwAA0AAAAABagAAAIbAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkoIBBEICoIYgXQLDAABNgIkAxIEIAWCIAcsG5MEERWbb0C+OLDBLXpkxEbYYeNfis1aF6kgfo23kpF8Hw98+327M/P+XxOLuCQRSxxCZSNukb6S0BKWagk2IdYWsPptv1jpF8qTPfDphKiNLyK90CBjq0EwY411HZ/ftf+7iTeiCM440w9yP9vaBs0o4mxt6iW4PJAAPSDJvGV7RBLJbZv2aRJpFQK8/YMw7+A1VB1SUbghR7wYX+Iyuk34iCES5YoARKwG2HZmwylMd1eHN383xUcgABISWgWwXhLQKjOIvEwQV/D+/4f8/zve/+w/MQh5AiBERABAMLRPyNG7wlOE//9FkAPFyGM9tgIyjIsgilk2HCpDSSqLe0jFZ718//7kvXvFpWnyklh66c6dC3fvlpRhvcJDnicst23pelP45jP7uIvrS6aeVz+fKqmv7RvsbmiQjYYqxt0efpVbnwq2oU5gOphYPlOQ+VL53LuqpggGnngOzFY+LDQlvDkg8OMiHa1Y/qeQNL+Lh3UR5+IjFIogoPkcB1IRxDkBACBLRbogFZGKLLJTQM6ICCKCgNXGAYXOCCAqUCmApNsRAeSUeCiAvLxZSciKROVIIlmvUeTUm5yXV+qZHbC1rbeT2QP+GUsDrauLF9r3sLUmlOWJhlg6e/qjbogyiAzlqQIeSsJc9NiuRa2XRpbn558wUUOaIzUP6Kw9PO1DuoJhJC41WVqPcA/B8tzzTw+E+ekmZL1z2zcA) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-phvr8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAQgAA0AAAAACCAAAAPLAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgmoIBBEICoY0hRcLGgABNgIkAzAEIAWCIAc6G4IGIB6FceNTQpTWDvFAbec41JaVePjYH9+59+FrBVRIjQ51/zZ3xp2+s6lBivDz4fOy9zOZRVIj7bh1tkwBhAW0kk8kDyfmv0bB/N+Mf1FWFNCPIuulCQT0XzQmLgqLvgcUeBrR2Dc2jYUJHR4eiJ2Q3zC9AO8CT0LA7VPPNsJ7e+tFNx3xnqxERZ6hzoNzoDmeIzooUlVwbCzA+TYcyGkFzPyTRTSrzg/wBAEokDWkEuzzA/Ya2grQTatUm6VdpzHG/ckGZmrTaTT4VHOr2WmH9dY1Ugi8qAlyIpEEgrRFiatqLX6itU07IKrDoSNzEiAaEnQBA5Jr3wIxBUCJaSiQUimZWiKsLYaHe2RA39gxxoUbx+noqLqW2wTTfpCa984DCexeux3PVfU1maU8YxZLVyT29fXX7JKXmClJL15I9uTkLP7YPWbxi9l32SWvVeYFs1g5pNg3v+6Hudn1MKSz5JvILtUHtOvIjqIjdtJs0Uki21lZUOYIk3VMQ1h2Xu2PpRPm4KtXdhAzX8ryyYtOvWAWp+4bxiylkkFDinLrUsx6zC6RWfuqPTv4z4gur9gcWWCXdrcz9N9MNfJy6+Zf3C3tVgT1/5d2U/Co+Nhml3bNL2Vcz4x0U0vsuo1zazOSXrcsTKoxUS2aLisw3WhNLitKlBviakb1p1ZM1499owIfB3NXDBYU9s3enDPW9lePa3CUpeDOdjEkazeWn56RRedXKGkpopZBk3FIx/bKWIHhlo71FNJTE6pys3PviHfUbOQ8eCsGlZc0pof86x/fIy7N1IqLEwrNZe4isjvstjj17/MqhLyItS7ihYYSnJyE4t3iqT6lIDU/s9a9xGXvRn9TZlh8HuW6Q9Mfu98ytqpYyMkucSlzCX3mZzw3u50SNXyzE23lJY0Z/IbpY8S1GdUlxUJZaFZBEbBl9IEH4npvAdwgmD7nWAvtK3+01j8pUQWFWggdUaF2b1j81WR8M0Hw4v9nY4Nj8rfWjuL9nmjdns3HJPkE0CpBkE/Me1RnGJAhhP4ucRRBQKwFcop2CYJja3hwyWq5TWFO/K7WMtAszgi6GI8GiRBYIAJAqwMISC16KMLCKPWw0uHS4lrtJgpRtkndALCwhBes9DPrsFoX17FJmw7j9GoyGv4klwaWGdBvLDx3tA5tOLwIUTgCzqBO442WYHTlNrxw0aKF40XhxcGrsCjpHd3RxvERUZzADXaOH50wOp/w4dHR4SdNZcA2bUYbo2vNkBO9joXLVjV6bBbrmZinAJDCJl0QUh/u8hUoIqNAcxUA) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-ptmri8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-ptmr8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+@font-face{font-family:tikz-nodal_n3-psyro;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKoAA0AAAAABXwAAAJSAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoF4gXALCgABNgIkAxAEIAWCGgcuG4EEIxFmY/AB4B8Jti3qtRFmGeAFhccyGpvd+3j43r+oc99Hdw9kL4RoamM5Z2pGYDZV7ayLMJB2FTxMaUAfAP/vzIsi+AD+QfILpBemmUQSjc6DTt/zTXQ25SFPt6nipwRlCnuKCKJZCPjo9W+fhN8a97u/FUeqxYMK0l3pHdxDB8Z3EomkqAG4BoBle2bvInvXz67Uu9mQnvctCECGDJ0EmCQT6CTXDblckL1br/vLNyYHECUBiIQEf5ygd+ueziPqdQnkoIoqRmM1IMcQCZR53jGqUYmGReN8TcMiucH2zz5b+9mna9Y+03PCk6tWffzxqo8/Wb3q2W6jn+nZce2U17t8uvazz+au2/jBJ+kLzdrY/enq0792e3fdu0Nal5sbPfB48/3N9my6fXPZaGmvD663rM1qsm5jg4efaLan2d7Nd2+sNN116Y0PW15c0Pxg26N/917U6krjVYt2LJ/3xrEXW/a+temWxmsX7tgx7zV4KQyd9HIl9/uIl8ri65BlCVMkIwUWiDJuGI0nB+HHjeVzW5tO+p9ZbZj9tnb/oHu9R+qbnkdVAkF6vt7DhlSj/mfqKwAAearpDqlGqhkhkBusBAkhMM0QQNUeAZKKZgJkutvEUGjo8fJS4flM5DVJE2LIzNAOCrfb/HGlBq6vsNtepx2y3Qn+FvOZ46gjTo2XnbDXbt065vKcdN4JR+e6VInqPjyNxD7txN7d3Trm8k6eP3FUbJXoDE0C1tjthJP2I+puQeG4xYQZAy2OYyfPnzhK2pUmR1Q6kbJj+/YDAAA=) format('woff2');}
+text.tikz-nodal_n3-f1{font-family:tikz-nodal_n3-cmsy10;font-size:6.947794px}
+text.tikz-nodal_n3-f8{font-family:tikz-nodal_n3-ptmri8r;font-size:6.947794px}
+text.tikz-nodal_n3-f11{font-family:tikz-nodal_n3-ptmr8r;font-size:6.947794px}
+text.tikz-nodal_n3-f12{font-family:tikz-nodal_n3-cmr10;font-size:6.947794px}
+text.tikz-nodal_n3-f14{font-family:tikz-nodal_n3-phvr8r;font-size:6.391958px}
+text.tikz-nodal_n3-f16{font-family:tikz-nodal_n3-ptmr8r;font-size:6.947794px}
+text.tikz-nodal_n3-f19{font-family:tikz-nodal_n3-cmmi10;font-size:4.96271px}
+text.tikz-nodal_n3-f20{font-family:tikz-nodal_n3-ptmri8r;font-size:4.96271px}
+text.tikz-nodal_n3-f23{font-family:tikz-nodal_n3-cmmi10;font-size:5.955252px}
+text.tikz-nodal_n3-f24{font-family:tikz-nodal_n3-ptmri8r;font-size:5.955252px}
+text.tikz-nodal_n3-f26{font-family:tikz-nodal_n3-psyro;font-size:7.940336px}
+text.tikz-nodal_n3-f28{font-family:tikz-nodal_n3-ptmri8r;font-size:7.940336px}
+text.tikz-nodal_n3-f31{font-family:tikz-nodal_n3-ptmr8r;font-size:4.96271px}
+text.tikz-nodal_n3-f35{font-family:tikz-nodal_n3-ptmr8r;font-size:5.955252px}
+
+</style>
+<g id="tikz-nodal_n3-page1">
+<g stroke-miterlimit="10" transform="matrix(.996264 0 0 -.996264 13.408124 120.785336)" fill="currentColor" stroke="currentColor" stroke-width="0.4">
+<path d="M -45.52455 170.71646 L 160.75781 170.71646" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 -73.029354 290.168761)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f26" x="13.408124" y="120.785336">φ</text>
+<text class="tikz-nodal_n3-f35" x="17.560521" y="122.04263">1</text>
+</g>
+<path d="M -8.5359 113.81097 L 240.42558 113.81097" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 -36.040694 233.263281)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f26" x="13.408124" y="120.785336">φ</text>
+<text class="tikz-nodal_n3-f35" x="17.560521" y="122.04263">2</text>
+</g>
+<path d="M -8.5359 56.90549 L 240.42558 56.90549" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 -36.040694 176.357781)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f26" x="13.408124" y="120.785336">φ</text>
+<text class="tikz-nodal_n3-f35" x="17.560521" y="122.04263">3</text>
+</g>
+<path d="M -45.52455 0.0 L 240.42558 0.0" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 -73.029354 119.452301)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f26" x="13.408124" y="120.785336">φ</text>
+<text class="tikz-nodal_n3-f35" x="17.560521" y="122.04263">4</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -89.853834 108.242131)" stroke="none" fill="#262626">
+<text class="tikz-nodal_n3-f16" x="13.408124" y="120.785336" fill="#262626">(ground)</text>
+</g>
+<path d="M 17.07181 113.81097 L 17.07181 130.3135 M 17.07181 113.81097 M 17.07181 170.71646 M 3.92651 142.26372 M 3.92651 142.26372 M 17.07181 154.21393 L 17.07181 170.71646" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 5.1216 142.26372 C 5.1216 135.66373 10.47182 130.3135 17.07181 130.3135 C 23.6718 130.3135 29.02202 135.66373 29.02202 142.26372 C 29.02202 148.86371 23.6718 154.21393 17.07181 154.21393 C 10.47182 154.21393 5.1216 148.86371 5.1216 142.26372 Z M 17.07181 142.26372" fill="none" />
+<path d="M 17.07181 133.89862 L 17.07181 150.62881" fill="none" />
+<g transform="matrix(0 1.00375 1.00375 0 -104.166471 134.780416)" stroke="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 17.07181 146.49611 L 19.06348 146.49611 L 17.07181 150.72841 L 15.08014 146.49611 L 17.07181 146.49611" />
+</g>
+<g stroke-width="0.4" transform="matrix(0 1.00375 1.00375 0 -104.166471 128.805316)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 113.81097 C 18.66489 114.69081 17.95164 115.40405 17.07181 115.40405 C 16.19197 115.40405 15.47873 114.69081 15.47873 113.81097 C 15.47873 112.93114 16.19197 112.2179 17.07181 112.2179 C 17.95164 112.2179 18.66489 112.93114 18.66489 113.81097 Z M 17.07181 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 170.71646 C 18.66489 171.5963 17.95164 172.30954 17.07181 172.30954 C 16.19197 172.30954 15.47873 171.5963 15.47873 170.71646 C 15.47873 169.83662 16.19197 169.12338 17.07181 169.12338 C 17.95164 169.12338 18.66489 169.83662 18.66489 170.71646 Z M 17.07181 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -17.183334 261.252011)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">I</text>
+<text class="tikz-nodal_n3-f35" x="15.862885" y="122.04263">1</text>
+</g>
+<path d="M 54.06003 170.71646 L 54.06003 158.19724 M 54.06003 170.71646 M 54.06003 113.81097 M 60.63266 142.26372 M 60.63266 142.26372 M 54.06003 126.3302 L 54.06003 113.81097" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linejoin="bevel">
+<path d="M 54.06003 158.59723 L 60.03513 155.50832 L 48.08493 150.13048 L 60.03513 144.75264 L 48.08493 139.3748 L 60.03513 133.99696 L 48.08493 128.61913 L 54.06003 125.9302" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 175.298311 155.722124)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 170.71646 C 55.6531 171.5963 54.93987 172.30954 54.06003 172.30954 C 53.18019 172.30954 52.46695 171.5963 52.46695 170.71646 C 52.46695 169.83662 53.18019 169.12338 54.06003 169.12338 C 54.93987 169.12338 55.6531 169.83662 55.6531 170.71646 Z M 54.06003 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 113.81097 C 55.6531 114.69081 54.93987 115.40405 54.06003 115.40405 C 53.18019 115.40405 52.46695 114.69081 52.46695 113.81097 C 52.46695 112.93114 53.18019 112.2179 54.06003 112.2179 C 54.93987 112.2179 55.6531 112.93114 55.6531 113.81097 Z M 54.06003 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 48.861736 261.252011)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">g</text>
+<text class="tikz-nodal_n3-f35" x="17.39318" y="122.04263">1</text>
+</g>
+<path d="M 91.04869 170.71646 L 91.04868 146.24702 M 91.04869 170.71646 M 91.04869 113.81097 M 104.19397 142.26372 M 104.19397 142.26372 M 91.04868 138.28041 L 91.04869 113.81097" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 102.99889 146.24702 L 79.09846 146.24702 M 102.99889 138.28041 L 79.09846 138.28041" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 212.286961 155.722124)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 170.71646 C 92.64177 171.5963 91.92853 172.30954 91.04869 172.30954 C 90.16885 172.30954 89.45561 171.5963 89.45561 170.71646 C 89.45561 169.83662 90.16885 169.12338 91.04869 169.12338 C 91.92853 169.12338 92.64177 169.83662 92.64177 170.71646 Z M 91.04869 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 113.81097 C 92.64177 114.69081 91.92853 115.40405 91.04869 115.40405 C 90.16885 115.40405 89.45561 114.69081 89.45561 113.81097 C 89.45561 112.93114 90.16885 112.2179 91.04869 112.2179 C 91.92853 112.2179 92.64177 112.93114 92.64177 113.81097 Z M 91.04869 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 92.423046 261.252011)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.009617" y="120.785336">C</text>
+<text class="tikz-nodal_n3-f35" x="18.12637" y="122.04263">1</text>
+</g>
+<g stroke-width="0.4">
+<path d="M 120.92415 116.65642 M 120.92415 116.65642 C 122.12416 117.2564 122.92415 118.65642 122.92415 120.65642 L 122.92415 138.2637 C 122.92415 140.2637 123.72414 141.66373 124.92415 142.2637 C 123.72414 142.86368 122.92415 144.2637 122.92415 146.2637 L 122.92415 163.871 C 122.92415 165.871 122.12416 167.27103 120.92415 167.871" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 114.998716 262.395021)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">v</text>
+<text class="tikz-nodal_n3-f35" x="16.94681" y="122.04263">1</text>
+</g>
+</g>
+<path d="M 17.07181 56.90549 L 17.07181 73.40802 M 17.07181 56.90549 M 17.07181 113.81097 M 3.92651 85.35823 M 3.92651 85.35823 M 17.07181 97.30844 L 17.07181 113.81097" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 5.1216 85.35823 C 5.1216 78.75824 10.47182 73.40802 17.07181 73.40802 C 23.6718 73.40802 29.02202 78.75824 29.02202 85.35823 C 29.02202 91.95822 23.6718 97.30844 17.07181 97.30844 C 10.47182 97.30844 5.1216 91.95822 5.1216 85.35823 Z M 17.07181 85.35823" fill="none" />
+<path d="M 17.07181 76.99313 L 17.07181 93.72333" fill="none" />
+<g transform="matrix(0 1.00375 1.00375 0 -104.166471 77.874926)" stroke="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 17.07181 89.59062 L 19.06348 89.59062 L 17.07181 93.82292 L 15.08014 89.59062 L 17.07181 89.59062" />
+</g>
+<g stroke-width="0.4" transform="matrix(0 1.00375 1.00375 0 -104.166471 71.899826)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 56.90549 C 18.66489 57.78532 17.95164 58.49857 17.07181 58.49857 C 16.19197 58.49857 15.47873 57.78532 15.47873 56.90549 C 15.47873 56.02565 16.19197 55.31241 17.07181 55.31241 C 17.95164 55.31241 18.66489 56.02565 18.66489 56.90549 Z M 17.07181 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 113.81097 C 18.66489 114.69081 17.95164 115.40405 17.07181 115.40405 C 16.19197 115.40405 15.47873 114.69081 15.47873 113.81097 C 15.47873 112.93114 16.19197 112.2179 17.07181 112.2179 C 17.95164 112.2179 18.66489 112.93114 18.66489 113.81097 Z M 17.07181 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -17.183334 204.346531)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">I</text>
+<text class="tikz-nodal_n3-f35" x="15.862885" y="122.04263">2</text>
+</g>
+<path d="M 54.06003 113.81097 L 54.06003 101.29175 M 54.06003 113.81097 M 54.06003 56.90549 M 60.63266 85.35823 M 60.63266 85.35823 M 54.06003 69.42471 L 54.06003 56.90549" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linejoin="bevel">
+<path d="M 54.06003 101.69174 L 60.03513 98.60283 L 48.08493 93.22499 L 60.03513 87.84715 L 48.08493 82.46931 L 60.03513 77.09148 L 48.08493 71.71364 L 54.06003 69.02472" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 175.298311 98.816634)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 113.81097 C 55.6531 114.69081 54.93987 115.40405 54.06003 115.40405 C 53.18019 115.40405 52.46695 114.69081 52.46695 113.81097 C 52.46695 112.93114 53.18019 112.2179 54.06003 112.2179 C 54.93987 112.2179 55.6531 112.93114 55.6531 113.81097 Z M 54.06003 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 56.90549 C 55.6531 57.78532 54.93987 58.49857 54.06003 58.49857 C 53.18019 58.49857 52.46695 57.78532 52.46695 56.90549 C 52.46695 56.02565 53.18019 55.31241 54.06003 55.31241 C 54.93987 55.31241 55.6531 56.02565 55.6531 56.90549 Z M 54.06003 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 48.861736 204.346531)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">g</text>
+<text class="tikz-nodal_n3-f35" x="17.39318" y="122.04263">2</text>
+</g>
+<path d="M 91.04869 113.81097 L 91.04868 89.34154 M 91.04869 113.81097 M 91.04869 56.90549 M 104.19397 85.35823 M 104.19397 85.35823 M 91.04868 81.37492 L 91.04869 56.90549" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 102.99889 89.34154 L 79.09846 89.34154 M 102.99889 81.37492 L 79.09846 81.37492" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 212.286961 98.816634)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 113.81097 C 92.64177 114.69081 91.92853 115.40405 91.04869 115.40405 C 90.16885 115.40405 89.45561 114.69081 89.45561 113.81097 C 89.45561 112.93114 90.16885 112.2179 91.04869 112.2179 C 91.92853 112.2179 92.64177 112.93114 92.64177 113.81097 Z M 91.04869 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 56.90549 C 92.64177 57.78532 91.92853 58.49857 91.04869 58.49857 C 90.16885 58.49857 89.45561 57.78532 89.45561 56.90549 C 89.45561 56.02565 90.16885 55.31241 91.04869 55.31241 C 91.92853 55.31241 92.64177 56.02565 92.64177 56.90549 Z M 91.04869 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 92.423046 204.346531)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.009617" y="120.785336">C</text>
+<text class="tikz-nodal_n3-f35" x="18.12637" y="122.04263">2</text>
+</g>
+<g stroke-width="0.4">
+<path d="M 120.92415 59.75093 M 120.92415 59.75093 C 122.12416 60.3509 122.92415 61.75093 122.92415 63.75093 L 122.92415 81.35822 C 122.92415 83.35822 123.72414 84.75824 124.92415 85.35822 C 123.72414 85.95819 122.92415 87.35822 122.92415 89.35822 L 122.92415 106.96552 C 122.92415 108.96552 122.12416 110.36554 120.92415 110.96552" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 114.998716 205.489531)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">v</text>
+<text class="tikz-nodal_n3-f35" x="16.94681" y="122.04263">2</text>
+</g>
+</g>
+<path d="M 17.07181 0.0 L 17.07181 16.50253 M 17.07181 0.0 M 17.07181 56.90549 M 3.92651 28.45274 M 3.92651 28.45274 M 17.07181 40.40295 L 17.07181 56.90549" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 5.1216 28.45274 C 5.1216 21.85275 10.47182 16.50253 17.07181 16.50253 C 23.6718 16.50253 29.02202 21.85275 29.02202 28.45274 C 29.02202 35.05273 23.6718 40.40295 17.07181 40.40295 C 10.47182 40.40295 5.1216 35.05273 5.1216 28.45274 Z M 17.07181 28.45274" fill="none" />
+<path d="M 17.07181 20.08765 L 17.07181 36.81784" fill="none" />
+<g transform="matrix(0 1.00375 1.00375 0 -104.166471 20.969436)" stroke="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 17.07181 32.68513 L 19.06348 32.68513 L 17.07181 36.91743 L 15.08014 32.68513 L 17.07181 32.68513" />
+</g>
+<g stroke-width="0.4" transform="matrix(0 1.00375 1.00375 0 -104.166471 14.994336)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 0.0 C 18.66489 0.87984 17.95164 1.59308 17.07181 1.59308 C 16.19197 1.59308 15.47873 0.87984 15.47873 0.0 C 15.47873 -0.87984 16.19197 -1.59308 17.07181 -1.59308 C 17.95164 -1.59308 18.66489 -0.87984 18.66489 0.0 Z M 17.07181 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 3.613406 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 18.66489 56.90549 C 18.66489 57.78532 17.95164 58.49857 17.07181 58.49857 C 16.19197 58.49857 15.47873 57.78532 15.47873 56.90549 C 15.47873 56.02565 16.19197 55.31241 17.07181 55.31241 C 17.95164 55.31241 18.66489 56.02565 18.66489 56.90549 Z M 17.07181 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -17.183334 147.441041)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">I</text>
+<text class="tikz-nodal_n3-f35" x="15.862885" y="122.04263">3</text>
+</g>
+<path d="M 54.06003 56.90549 L 54.06003 44.38626 M 54.06003 56.90549 M 54.06003 0.0 M 60.63266 28.45274 M 60.63266 28.45274 M 54.06003 12.51923 L 54.06003 0.0" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linejoin="bevel">
+<path d="M 54.06003 44.78625 L 60.03513 41.69734 L 48.08493 36.3195 L 60.03513 30.94167 L 48.08493 25.56383 L 60.03513 20.18599 L 48.08493 14.80815 L 54.06003 12.11923" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 175.298311 41.911144)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 56.90549 C 55.6531 57.78532 54.93987 58.49857 54.06003 58.49857 C 53.18019 58.49857 52.46695 57.78532 52.46695 56.90549 C 52.46695 56.02565 53.18019 55.31241 54.06003 55.31241 C 54.93987 55.31241 55.6531 56.02565 55.6531 56.90549 Z M 54.06003 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 40.601626 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.6531 0.0 C 55.6531 0.87984 54.93987 1.59308 54.06003 1.59308 C 53.18019 1.59308 52.46695 0.87984 52.46695 0.0 C 52.46695 -0.87984 53.18019 -1.59308 54.06003 -1.59308 C 54.93987 -1.59308 55.6531 -0.87984 55.6531 0.0 Z M 54.06003 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 48.861736 147.441041)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">g</text>
+<text class="tikz-nodal_n3-f35" x="17.39318" y="122.04263">3</text>
+</g>
+<path d="M 91.04869 56.90549 L 91.04868 32.43605 M 91.04869 56.90549 M 91.04869 0.0 M 104.19397 28.45274 M 104.19397 28.45274 M 91.04868 24.46944 L 91.04869 0.0" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 102.99889 32.43605 L 79.09846 32.43605 M 102.99889 24.46944 L 79.09846 24.46944" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 212.286961 41.911144)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 56.90549 C 92.64177 57.78532 91.92853 58.49857 91.04869 58.49857 C 90.16885 58.49857 89.45561 57.78532 89.45561 56.90549 C 89.45561 56.02565 90.16885 55.31241 91.04869 55.31241 C 91.92853 55.31241 92.64177 56.02565 92.64177 56.90549 Z M 91.04869 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 77.590286 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 92.64177 0.0 C 92.64177 0.87984 91.92853 1.59308 91.04869 1.59308 C 90.16885 1.59308 89.45561 0.87984 89.45561 0.0 C 89.45561 -0.87984 90.16885 -1.59308 91.04869 -1.59308 C 91.92853 -1.59308 92.64177 -0.87984 92.64177 0.0 Z M 91.04869 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 92.423046 147.441041)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.009617" y="120.785336">C</text>
+<text class="tikz-nodal_n3-f35" x="18.12637" y="122.04263">3</text>
+</g>
+<g stroke-width="0.4">
+<path d="M 120.92415 2.84544 M 120.92415 2.84544 C 122.12416 3.44542 122.92415 4.84544 122.92415 6.84544 L 122.92415 24.45273 C 122.92415 26.45273 123.72414 27.85275 124.92415 28.45273 C 123.72414 29.0527 122.92415 30.45273 122.92415 32.45273 L 122.92415 50.06003 C 122.92415 52.06003 122.12416 53.46005 120.92415 54.06003" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 114.998716 148.630521)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">v</text>
+<text class="tikz-nodal_n3-f35" x="16.94681" y="122.04263">3</text>
+</g>
+</g>
+<path d="M -28.45274 170.71646 L -28.45273 101.29175 M -28.45274 170.71646 M -28.45274 0.0 M -35.02536 85.35823 M -35.02536 85.35823 M -28.45273 69.42471 L -28.45274 0.0" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linejoin="bevel">
+<path d="M -28.45273 101.69174 L -22.47763 98.60283 L -34.42783 93.22499 L -22.47763 87.84715 L -34.42783 82.46931 L -22.47763 77.09148 L -34.42783 71.71364 L -28.45273 69.02472" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 92.785551 98.816634)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -41.911144 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M -26.85966 170.71646 C -26.85966 171.5963 -27.5729 172.30954 -28.45274 172.30954 C -29.33258 172.30954 -30.04582 171.5963 -30.04582 170.71646 C -30.04582 169.83662 -29.33258 169.12338 -28.45274 169.12338 C -27.5729 169.12338 -26.85966 169.83662 -26.85966 170.71646 Z M -28.45274 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -41.911144 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M -26.85966 0.0 C -26.85966 0.87984 -27.5729 1.59308 -28.45274 1.59308 C -29.33258 1.59308 -30.04582 0.87984 -30.04582 0.0 C -30.04582 -0.87984 -29.33258 -1.59308 -28.45274 -1.59308 C -27.5729 -1.59308 -26.85966 -0.87984 -26.85966 0.0 Z M -28.45274 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 -67.733014 204.346531)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">G</text>
+<text class="tikz-nodal_n3-f24" x="19.162523" y="122.159197">l</text>
+<text class="tikz-nodal_n3-f24" x="21.129014" y="122.159197">o</text>
+<text class="tikz-nodal_n3-f24" x="24.117806" y="122.159197">a</text>
+<text class="tikz-nodal_n3-f24" x="27.106598" y="122.159197">d</text>
+</g>
+<g fill="#fff5eb">
+<g fill="#fff5eb">
+<path d="M 193.324 176.40703 L 165.18073 176.40703 C 163.52385 176.40703 162.18073 175.0639 162.18073 173.40703 L 162.18073 54.21492 C 162.18073 52.55804 163.52385 51.21492 165.18073 51.21492 L 193.324 51.21492 C 194.98088 51.21492 196.324 52.55804 196.324 54.21492 L 196.324 173.40703 C 196.324 175.0639 194.98088 176.40703 193.324 176.40703 Z M 162.18073 51.21492" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 155.235736 220.690951)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f14" x="13.408124" y="94.882472">shufﬂer<tspan x="22.143311" y="102.852584">1</tspan></text>
+<text class="tikz-nodal_n3-f8" x="18.893322" y="112.815224">u</text>
+<text class="tikz-nodal_n3-f20" x="22.380246" y="113.861289">c</text>
+<text class="tikz-nodal_n3-f19" x="24.591925" y="113.861289">,</text>
+<text class="tikz-nodal_n3-f31" x="25.971701" y="113.861289">1</text>
+<text class="tikz-nodal_n3-f8" x="18.624342" y="120.785336">u</text>
+<text class="tikz-nodal_n3-f20" x="22.111266" y="121.831401">d</text>
+<text class="tikz-nodal_n3-f19" x="24.860904" y="121.831401">,</text>
+<text class="tikz-nodal_n3-f31" x="26.240679" y="121.831401">1</text>
+</g>
+</g>
+<path d="M 161.98073 170.71646 L 152.12221 170.71646 M 142.26372 170.71646 M 152.12221 170.71646 L 142.26372 170.71646" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 165.580614 49.478179)" />
+<g transform="matrix(1.00375 0 0 -1.00375 128.805316 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 143.8568 170.71646 C 143.8568 171.5963 143.14355 172.30954 142.26372 172.30954 C 141.38388 172.30954 140.67064 171.5963 140.67064 170.71646 C 140.67064 169.83662 141.38388 169.12338 142.26372 169.12338 C 143.14355 169.12338 143.8568 169.83662 143.8568 170.71646 Z M 142.26372 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 138.663806 291.954741)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 150.3795 170.71646 L 150.3795 168.7248 L 154.6118 170.71646 L 150.3795 172.70813 L 150.3795 170.71646" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 130.104906 298.247681)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f35" x="14.603638" y="117.645165">1</text>
+<rect x="14.603638" y="118.633448" height=".318721" width="2.988792" />
+<text class="tikz-nodal_n3-f35" x="14.603638" y="123.534989">2</text>
+<text class="tikz-nodal_n3-f28" x="18.787944" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="21.003558" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="25.319357" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="26.975088" y="122.04263">1</text>
+</g>
+<path d="M 161.98073 113.81097 L 152.12221 113.81097 M 142.26372 113.81097 M 152.12221 113.81097 L 142.26372 113.81097" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 165.580614 -7.427311)" />
+<g transform="matrix(1.00375 0 0 -1.00375 128.805316 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 143.8568 113.81097 C 143.8568 114.69081 143.14355 115.40405 142.26372 115.40405 C 141.38388 115.40405 140.67064 114.69081 140.67064 113.81097 C 140.67064 112.93114 141.38388 112.2179 142.26372 112.2179 C 143.14355 112.2179 143.8568 112.93114 143.8568 113.81097 Z M 142.26372 113.81097" />
+</g>
+<g transform="matrix(-1.00375 0 0 1.00375 165.580614 -7.427311)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 153.86491 113.81097 L 153.86491 115.80264 L 149.63261 113.81097 L 153.86491 111.8193 L 153.86491 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 132.804896 226.324351)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="15.623738" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="19.939538" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="21.595268" y="122.04263">1</text>
+</g>
+<path d="M 161.98073 56.90549 L 152.12221 56.90549 M 142.26372 56.90549 M 152.12221 56.90549 L 142.26372 56.90549" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 165.580614 -64.332791)" />
+<g transform="matrix(1.00375 0 0 -1.00375 128.805316 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 143.8568 56.90549 C 143.8568 57.78532 143.14355 58.49857 142.26372 58.49857 C 141.38388 58.49857 140.67064 57.78532 140.67064 56.90549 C 140.67064 56.02565 141.38388 55.31241 142.26372 55.31241 C 143.14355 55.31241 143.8568 56.02565 143.8568 56.90549 Z M 142.26372 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 138.663806 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 150.3795 56.90549 L 150.3795 54.91382 L 154.6118 56.90549 L 150.3795 58.89716 L 150.3795 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 130.104906 167.444881)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f35" x="14.603638" y="117.645165">1</text>
+<rect x="14.603638" y="118.633448" height=".318721" width="2.988792" />
+<text class="tikz-nodal_n3-f35" x="14.603638" y="123.534989">2</text>
+<text class="tikz-nodal_n3-f28" x="18.787944" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="21.003558" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="25.319357" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="26.975088" y="122.04263">1</text>
+</g>
+<g fill="#fff5eb">
+<g fill="#fff5eb">
+<path d="M 272.99178 119.50154 L 244.8485 119.50154 C 243.19162 119.50154 241.8485 118.15842 241.8485 116.50154 L 241.8485 -2.69057 C 241.8485 -4.34744 243.19162 -5.69057 244.8485 -5.69057 L 272.99178 -5.69057 C 274.64865 -5.69057 275.99178 -4.34744 275.99178 -2.69057 L 275.99178 116.50154 C 275.99178 118.15842 274.64865 119.50154 272.99178 119.50154 Z M 241.8485 -5.69057" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 234.903506 163.785461)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f14" x="13.408124" y="94.882472">shufﬂer<tspan x="22.143311" y="102.852584">2</tspan></text>
+<text class="tikz-nodal_n3-f8" x="18.893322" y="112.815224">u</text>
+<text class="tikz-nodal_n3-f20" x="22.380246" y="113.861289">c</text>
+<text class="tikz-nodal_n3-f19" x="24.591925" y="113.861289">,</text>
+<text class="tikz-nodal_n3-f31" x="25.971701" y="113.861289">2</text>
+<text class="tikz-nodal_n3-f8" x="18.624342" y="120.785336">u</text>
+<text class="tikz-nodal_n3-f20" x="22.111266" y="121.831401">d</text>
+<text class="tikz-nodal_n3-f19" x="24.860904" y="121.831401">,</text>
+<text class="tikz-nodal_n3-f31" x="26.240679" y="121.831401">2</text>
+</g>
+</g>
+<path d="M 241.6485 113.81097 L 231.78998 113.81097 M 221.93147 113.81097 M 231.78998 113.81097 L 221.93147 113.81097" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 245.248384 -7.427311)" />
+<g transform="matrix(1.00375 0 0 -1.00375 208.473066 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 223.52455 113.81097 C 223.52455 114.69081 222.81131 115.40405 221.93147 115.40405 C 221.05164 115.40405 220.3384 114.69081 220.3384 113.81097 C 220.3384 112.93114 221.05164 112.2179 221.93147 112.2179 C 222.81131 112.2179 223.52455 112.93114 223.52455 113.81097 Z M 221.93147 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 218.331576 235.049251)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 230.04727 113.81097 L 230.04727 111.8193 L 234.27957 113.81097 L 230.04727 115.80264 L 230.04727 113.81097" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 209.772676 241.342191)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f35" x="14.603638" y="117.645165">1</text>
+<rect x="14.603638" y="118.633448" height=".318721" width="2.988792" />
+<text class="tikz-nodal_n3-f35" x="14.603638" y="123.534989">2</text>
+<text class="tikz-nodal_n3-f28" x="18.787944" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="21.003558" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="25.319357" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="26.975088" y="122.04263">2</text>
+</g>
+<path d="M 241.6485 56.90549 L 231.78998 56.90549 M 221.93147 56.90549 M 231.78998 56.90549 L 221.93147 56.90549" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 245.248384 -64.332791)" />
+<g transform="matrix(1.00375 0 0 -1.00375 208.473066 178.143771)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 223.52455 56.90549 C 223.52455 57.78532 222.81131 58.49857 221.93147 58.49857 C 221.05164 58.49857 220.3384 57.78532 220.3384 56.90549 C 220.3384 56.02565 221.05164 55.31241 221.93147 55.31241 C 222.81131 55.31241 223.52455 56.02565 223.52455 56.90549 Z M 221.93147 56.90549" />
+</g>
+<g transform="matrix(-1.00375 0 0 1.00375 245.248384 -64.332791)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 233.53268 56.90549 L 233.53268 58.89716 L 229.30038 56.90549 L 233.53268 54.91382 L 233.53268 56.90549" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 212.472676 169.418871)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f28" x="13.408124" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="15.623738" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="19.939538" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="21.595268" y="122.04263">2</text>
+</g>
+<path d="M 241.6485 0.0 L 231.78998 0.0 M 221.93147 0.0 M 231.78998 0.0 L 221.93147 0.0" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(-1.00375 0 0 1.00375 245.248384 -121.238281)" />
+<g transform="matrix(1.00375 0 0 -1.00375 208.473066 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 223.52455 0.0 C 223.52455 0.87984 222.81131 1.59308 221.93147 1.59308 C 221.05164 1.59308 220.3384 0.87984 220.3384 0.0 C 220.3384 -0.87984 221.05164 -1.59308 221.93147 -1.59308 C 222.81131 -1.59308 223.52455 -0.87984 223.52455 0.0 Z M 221.93147 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 218.331576 121.238281)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 230.04727 0.0 L 230.04727 -1.99167 L 234.27957 0.0 L 230.04727 1.99167 L 230.04727 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 209.772676 110.539401)" stroke="none" fill="currentColor">
+<text class="tikz-nodal_n3-f35" x="14.603638" y="117.645165">1</text>
+<rect x="14.603638" y="118.633448" height=".318721" width="2.988792" />
+<text class="tikz-nodal_n3-f35" x="14.603638" y="123.534989">2</text>
+<text class="tikz-nodal_n3-f28" x="18.787944" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f24" x="21.003558" y="122.04263">m</text>
+<text class="tikz-nodal_n3-f23" x="25.319357" y="122.04263">,</text>
+<text class="tikz-nodal_n3-f35" x="26.975088" y="122.04263">2</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 149.410096 89.280871)" stroke="none" fill="#262626">
+<text class="tikz-nodal_n3-f16" x="13.408124" y="111.303012">rail<tspan x="24.447527">currents</tspan></text>
+<text class="tikz-nodal_n3-f31" x="49.849006" y="108.555365">1</text>
+<rect x="49.849006" y="109.420104" height=".278877" width="2.49066" />
+<text class="tikz-nodal_n3-f31" x="49.849006" y="113.708937">2</text>
+<text class="tikz-nodal_n3-f8" x="53.53518" y="111.303012">i</text>
+<text class="tikz-nodal_n3-f20" x="55.473843" y="112.349077">m</text>
+<text class="tikz-nodal_n3-f12" x="59.568473" y="111.303012">(</text>
+<text class="tikz-nodal_n3-f11" x="62.274243" y="111.303012">1</text>
+<text class="tikz-nodal_n3-f1" x="66.729749" y="111.303012">±</text>
+<text class="tikz-nodal_n3-f8" x="73.11694" y="111.303012">u</text>
+<text class="tikz-nodal_n3-f20" x="76.603864" y="112.349077">c</text>
+<text class="tikz-nodal_n3-f12" x="79.313673" y="111.303012">)</text>
+<text class="tikz-nodal_n3-f1" x="82.988025" y="111.303012">±</text>
+<text class="tikz-nodal_n3-f31" x="90.57073" y="108.555365">1</text>
+<rect x="90.57073" y="109.420104" height=".278877" width="2.49066" />
+<text class="tikz-nodal_n3-f31" x="90.57073" y="113.708937">2</text>
+<text class="tikz-nodal_n3-f8" x="94.256903" y="111.303012">i</text>
+<text class="tikz-nodal_n3-f20" x="96.195566" y="112.349077">c</text>
+<text class="tikz-nodal_n3-f8" x="98.905375" y="111.303012">u</text>
+<text class="tikz-nodal_n3-f20" x="102.392299" y="112.349077">d</text>
+<text class="tikz-nodal_n3-f16" x="105.640068" y="111.303012">,<tspan x="13.408124" y="120.785336">linearised</tspan><tspan x="42.265498">about</tspan></text>
+<text class="tikz-nodal_n3-f8" x="59.504745" y="120.785336">u</text>
+<text class="tikz-nodal_n3-f20" x="62.991669" y="121.831401">c</text>
+<text class="tikz-nodal_n3-f12" x="67.251209" y="120.785336">=</text>
+<text class="tikz-nodal_n3-f11" x="74.219549" y="120.785336">0</text>
+<text class="tikz-nodal_n3-f16" x="77.706473" y="120.785336">:</text>
+<text class="tikz-nodal_n3-f1" x="81.807011" y="120.785336">−</text>
+<text class="tikz-nodal_n3-f31" x="88.421135" y="118.03769">1</text>
+<rect x="88.421135" y="118.902428" height=".278877" width="2.49066" />
+<text class="tikz-nodal_n3-f31" x="88.421135" y="123.191262">2</text>
+<text class="tikz-nodal_n3-f8" x="92.107309" y="120.785336">i</text>
+<text class="tikz-nodal_n3-f20" x="94.045971" y="121.831401">m</text>
+<text class="tikz-nodal_n3-f16" x="99.884064" y="120.785336">at<tspan x="106.662538">each</tspan><tspan x="121.181975">rail</tspan></text>
+</g>
+</g>
+</g>
+</svg>

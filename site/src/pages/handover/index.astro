@@ -1,0 +1,125 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import Cmd from '../../components/Cmd.astro';
+import Callout from '../../components/Callout.astro';
+import { GOTCHAS } from '../../data/gotchas';
+import { FUTURE } from '../../data/future';
+import { repoUrl, repoDir, SITE } from '../../lib/site';
+
+const tags = Array.from(new Set(GOTCHAS.map((g) => g.tag)));
+const repoMap = [
+  { f: '0_Documentation', w: 'Proposals, progress reports, telemetry contract (telemetry.md), experiment checklist, plan, photos and videos, the LaTeX report' },
+  { f: '1_Datasheets', w: 'INA239, TMCS1126, 1ED3140, coupled inductor, DL3021, NGE100, Nucleo schematic, 80 W panel' },
+  { f: '2_Qspice', w: 'Switching-level models; Power_Shuffler_Integrated (generated hierarchy); ctrl_dll; the scripted PCB baseline stage ladder' },
+  { f: '3_Analytical', w: 'Notebooks, nstring.py / nswitch.py, DESIGN_LOG.md, early MATLAB control design' },
+  { f: '4_Simulink', w: '1_MIL (4 modules, validate suite), 2_SIL (C Callers + host tests), 3_Carpark_3mod (twin + identification)' },
+  { f: '5_Kicad', w: 'Version 0 project (schematic, 6-layer PCB, gerbers) and all part libraries' },
+  { f: '6_RTOS', w: 'STM32G474 firmware (CubeMX + CMake) and ctrl_core, the single copy of the control C; params/ holds the gain JSON and generators' },
+  { f: '7_Pi', w: 'Pod: InfluxDB + Grafana compose, serial bridge, e-load service, web page, IR/LCD/LED, deploy scripts, staged firmware' },
+  { f: '8_Results', w: 'Raw bench/solar captures, TestCases CSV exports, analysis pipeline (make all → REPORT.md)' },
+  { f: '9_Mechanical_Enclosure_CAD', w: 'Fusion 360 assembly (.f3z) and STEP of the enclosure' },
+  { f: 'site', w: 'This website (Astro). Asset prep scripts in site/scripts' },
+];
+---
+<Base title="Handover" description="Handover for the next team: quick starts, gotchas, known issues, future work and a map of the repository.">
+  <Section eyebrow="Handover" title="Start here if you are picking this up" lede="Everything you need to build, flash and run the system, the mistakes we already made for you, and the backlog. Clone the repository first; every link below points into it." narrow>
+    <div class="row">
+      <a class="btn btn-primary" href={SITE.repo} target="_blank" rel="noopener">Clone the repository ↗</a>
+      <a class="btn" href={repoUrl('README.md')} target="_blank" rel="noopener">Root README ↗</a>
+      <a class="btn" href={repoUrl('0_Documentation/experiment_checklist.md')} target="_blank" rel="noopener">Experiment checklist ↗</a>
+    </div>
+    <Callout kind="warn" title="Read the facts from the checklist, not the root README">The root README still describes the earlier plan (150 W panels, EcoFlow load, 100 kHz). The campaign that produced the results used three 80 W KAUSSP80 panels, a Rigol DL3021 e-load at about 61 V constant voltage, and 200 / 300 / 400 kHz switching with firmware fw-0.4.1.</Callout>
+  </Section>
+
+  <Section alt eyebrow="Quick starts" title="Build, test, flash, run">
+    <div class="grid grid-2">
+      <div>
+        <h3>1. Host tests of the control core</h3>
+        <p class="muted small">No hardware, no MATLAB. Compiles ctrl_core with the SIL harness and runs the unit tests and golden replay.</p>
+        <Cmd code={`cd 4_Simulink/2_SIL_Software_In_The_Loop/firmware\ncmake -B build && cmake --build build\nctest --test-dir build --output-on-failure`} />
+        <h3>2. Regenerate gains</h3>
+        <p class="muted small">After an identification wrote <code>shuffler_params.json</code>. Rebuild and flash afterwards; the banner and every T frame carry PARAMS_VERSION.</p>
+        <Cmd code={`python3 6_RTOS/ctrl_core/params/gen_params.py\n# or in MATLAB: export_params`} />
+        <h3>3. Build and flash the firmware</h3>
+        <p class="muted small">Windows ST bundle, callable from WSL (paths in 6_RTOS/.vscode/tasks.json). Or copy a .bin to the NODE_G474RE USB drive.</p>
+        <Cmd code={`cd 6_RTOS\ncmake.exe --preset Debug && cmake.exe --build --preset Debug\nSTM32_Programmer_CLI.exe -c port=SWD -w build/Debug/Shuffler_1_Open_Loop.elf -rst`} />
+      </div>
+      <div>
+        <h3>4. Deploy the Pi pod</h3>
+        <p class="muted small">Only 7_Pi goes on the Pi. Installs docker, the venv, OpenOCD, overlays and the services. Log out/in once afterwards.</p>
+        <Cmd code={`bash 7_Pi/deploy/stage_firmware.sh          # optional: refresh 7_Pi/firmware/shuffler.bin\nbash 7_Pi/deploy/sync.sh <user>@<pi-address>\n# on the Pi:\nbash ~/Boost-Brigade/7_Pi/deploy/setup.sh`} />
+        <h3>5. Flash from the Pi and drive it</h3>
+        <Cmd code={`~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh --probe\n~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,TEST,0          # IC init check\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,MODE,OL C,EN,1  # both shufflers, open loop\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py E,SET,CV,61 E,INPUT,1`} />
+        <h3>6. Rebuild every result figure</h3>
+        <Cmd code={`cd 8_Results/analysis\nmake all          # hw → events → metrics → ripple → sims → compare → report\nmake pull-cases   # re-export the 21 windows (needs the Pi's InfluxDB)`} />
+      </div>
+    </div>
+    <p class="small muted">Grafana runs on the Pi at :3000 (anonymous viewer), the parameter page at :8080. Set the admin credentials in your own <code>.env</code>; do not reuse the lab defaults.</p>
+  </Section>
+
+  <Section eyebrow="Gotchas" title="Things that cost us a day each" lede="Filter by area. Each card says what happened, why, and what to do instead.">
+    <div class="row" id="gotcha-filter">
+      <button class="chip chip-accent" data-tag="" type="button" aria-pressed="true">all ({GOTCHAS.length})</button>
+      {tags.map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({GOTCHAS.filter((g) => g.tag === t).length})</button>)}
+    </div>
+    <div class="grid grid-3" id="gotchas" style="margin-top:1.2rem">
+      {GOTCHAS.map((g) => (
+        <article class="card gotcha" data-tag={g.tag}>
+          <span class="chip">{g.tag}</span>
+          <h3 style="margin-top:.6rem;font-size:1.1rem">{g.title}</h3>
+          <p class="small">{g.body}</p>
+          {g.fix && <p class="small"><strong>Do instead:</strong> {g.fix}</p>}
+          {g.link && <a class="mono small" href={g.link.href} target="_blank" rel="noopener">{g.link.label} ↗</a>}
+        </article>
+      ))}
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Backlog" title="Known issues and future work" lede="From the report’s conclusion and the design log. Size is a rough effort estimate.">
+    <div class="board">
+      {Object.entries(FUTURE).map(([col, items]) => (
+        <div class="col">
+          <h3>{col}</h3>
+          {items.map((it) => (
+            <div class="card ticket"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>
+          ))}
+        </div>
+      ))}
+    </div>
+  </Section>
+
+  <Section eyebrow="Repository map" title="Where everything lives">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Folder</th><th>What is in it</th></tr></thead>
+        <tbody>{repoMap.map((r) => <tr><td><a class="mono" href={repoDir(r.f)} target="_blank" rel="noopener">{r.f}</a></td><td>{r.w}</td></tr>)}</tbody>
+      </table>
+    </div>
+    <div class="grid grid-3" style="margin-top:1.5rem">
+      <a class="card card-link" href={repoUrl('0_Documentation/telemetry.md')} target="_blank" rel="noopener"><h3>telemetry.md</h3><p class="muted small">The Nucleo ↔ Pi contract: frames, commands, run-time parameters, fault bits. The only place the format is defined.</p></a>
+      <a class="card card-link" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener"><h3>DESIGN_LOG.md</h3><p class="muted small">Every design decision with the alternatives and the evidence. Read Part 2 first.</p></a>
+      <a class="card card-link" href={repoUrl('8_Results/analysis/README.md')} target="_blank" rel="noopener"><h3>8_Results/analysis</h3><p class="muted small">How the pipeline turns InfluxDB exports and simulation runs into REPORT.md and 264 figures.</p></a>
+    </div>
+  </Section>
+
+  <Section alt narrow eyebrow="Ask the project" title="Questions the documents can answer">
+    <p class="muted">A NotebookLM notebook loaded with the READMEs, REPORT.md, DESIGN_LOG.md, telemetry.md and the final report is the lowest-maintenance way to ask “why did you…?” questions. The link appears here once it is created.</p>
+    <a class="btn" aria-disabled="true" href="#">Ask the project (coming soon)</a>
+  </Section>
+</Base>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('#gotcha-filter button');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => { x.setAttribute('aria-pressed', 'false'); x.classList.remove('chip-accent'); });
+    b.setAttribute('aria-pressed', 'true'); b.classList.add('chip-accent');
+    const tag = b.dataset.tag || '';
+    document.querySelectorAll<HTMLElement>('#gotchas .gotcha').forEach((it) => { it.hidden = !!tag && it.dataset.tag !== tag; });
+  }));
+</script>
+<style>
+  .gotcha[hidden] { display: none; }
+  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
+  .col h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .ticket { padding: 1rem; margin-bottom: .8rem; }
+</style>

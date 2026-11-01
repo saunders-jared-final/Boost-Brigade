@@ -1,5 +1,6 @@
 # Raspberry Pi 4B pod: InfluxDB 2 + Grafana. `docker compose up -d` in this folder.
-# Data lives in ./data (gitignored). First login: Grafana admin/shuffler, Influx admin/shuffler123.
+# Data lives in ./data (gitignored). Credentials come from 7_Pi/.env (gitignored; copy .env.example and
+# change every value). Docker Compose loads .env from this folder automatically.
 services:
   influxdb:
     image: influxdb:2.7
@@ -9,11 +10,11 @@ services:
     environment:
       DOCKER_INFLUXDB_INIT_MODE: setup
       DOCKER_INFLUXDB_INIT_USERNAME: admin
-      DOCKER_INFLUXDB_INIT_PASSWORD: shuffler123
+      DOCKER_INFLUXDB_INIT_PASSWORD: ${INFLUX_PASSWORD:?set INFLUX_PASSWORD in 7_Pi/.env}
       DOCKER_INFLUXDB_INIT_ORG: boost
       DOCKER_INFLUXDB_INIT_BUCKET: shuffler
       DOCKER_INFLUXDB_INIT_RETENTION: 0
-      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: shuffler-pod-token
+      DOCKER_INFLUXDB_INIT_ADMIN_TOKEN: ${INFLUX_TOKEN:?set INFLUX_TOKEN in 7_Pi/.env}
     volumes:
       - ./data/influxdb:/var/lib/influxdb2
   grafana:
@@ -23,7 +24,8 @@ services:
     ports: ["3000:3000"]
     environment:
       GF_SECURITY_ADMIN_USER: admin
-      GF_SECURITY_ADMIN_PASSWORD: shuffler
+      GF_SECURITY_ADMIN_PASSWORD: ${GRAFANA_PASSWORD:?set GRAFANA_PASSWORD in 7_Pi/.env}
+      INFLUX_TOKEN: ${INFLUX_TOKEN}
       GF_AUTH_ANONYMOUS_ENABLED: "true"
       GF_AUTH_ANONYMOUS_ORG_ROLE: Viewer
     volumes:

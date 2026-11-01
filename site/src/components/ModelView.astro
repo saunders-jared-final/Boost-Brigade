@@ -1,0 +1,40 @@
+---
+/** Orbit/zoom viewer for a GLB with optional hotspots (Google model-viewer). */
+import { href } from '../lib/site';
+interface Hotspot { slot: string; position: string; normal?: string; label: string; }
+interface Props { src: string; poster?: string; alt: string; hotspots?: Hotspot[]; autoRotate?: boolean; exposure?: number; height?: string; }
+const { src, poster, alt, hotspots = [], autoRotate = true, exposure = 1, height = 'min(70vh, 640px)' } = Astro.props;
+---
+<model-viewer
+  src={src.startsWith('http') ? src : href(src)}
+  poster={poster ? (poster.startsWith('http') ? poster : href(poster)) : undefined}
+  alt={alt}
+  camera-controls
+  auto-rotate={autoRotate ? true : undefined}
+  rotation-per-second="12deg"
+  interaction-prompt="auto"
+  shadow-intensity="1"
+  exposure={exposure}
+  tone-mapping="neutral"
+  loading="lazy"
+  reveal="auto"
+  style={`width:100%;height:${height};background:var(--bg-2);border-radius:14px;border:1px solid var(--line)`}
+>
+  {hotspots.map((h) => (
+    <button class="hotspot" slot={h.slot} data-position={h.position} data-normal={h.normal ?? '0 1 0'} data-visibility-attribute="visible" type="button">
+      <span class="hotspot-label">{h.label}</span>
+    </button>
+  ))}
+  <div slot="progress-bar" class="mv-progress"><div class="mv-bar"></div></div>
+</model-viewer>
+<script>
+  import '@google/model-viewer';
+</script>
+<style>
+  .hotspot { width: 18px; height: 18px; border-radius: 50%; border: 2px solid #fff; background: var(--accent); box-shadow: 0 0 0 4px rgba(255,180,0,.25); cursor: pointer; padding: 0; position: relative; }
+  .hotspot[data-visibility-attribute]:not([visible]) { opacity: .35; }
+  .hotspot-label { position: absolute; left: 24px; top: 50%; transform: translateY(-50%); white-space: nowrap; background: rgba(13,15,18,.85); color: #fff; font-size: .75rem; padding: .25rem .55rem; border-radius: 6px; font-family: var(--font-mono); pointer-events: none; }
+  .mv-progress { position: absolute; left: 0; right: 0; top: 0; height: 3px; background: transparent; }
+  .mv-bar { height: 100%; width: 0; background: var(--accent); transition: width .2s; }
+  model-viewer[loaded] .mv-progress { display: none; }
+</style>

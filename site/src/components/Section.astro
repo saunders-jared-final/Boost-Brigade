@@ -1,0 +1,16 @@
+---
+interface Props { id?: string; eyebrow?: string; title?: string; lede?: string; alt?: boolean; tight?: boolean; narrow?: boolean; class?: string; }
+const { id, eyebrow, title, lede, alt = false, tight = false, narrow = false, class: cls = '' } = Astro.props;
+---
+<section id={id} class:list={['section', { 'section-alt': alt, 'section-tight': tight }, cls]}>
+  <div class={narrow ? 'wrap-narrow' : 'wrap'}>
+    {(eyebrow || title || lede) && (
+      <header class="reveal" style="margin-bottom: 2rem;">
+        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
+        {title && <h2>{title}</h2>}
+        {lede && <p class="lede">{lede}</p>}
+      </header>
+    )}
+    <slot />
+  </div>
+</section>

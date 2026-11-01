@@ -1,0 +1,546 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>UI Pod Wiring</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+/* Layout: one reading column; diagram and pinout side by side when wide, stacked on phones. */
+:root{
+  --bg:#F4F6F4; --panel:#FFFFFF; --fg:#1A221E; --muted:#56655D; --line:#D3DCD7;
+  --accent:#1E7A52; --accent-soft:#E2F0E8; --warn:#9A5B00; --warn-soft:#FBF0DC;
+  --k33:#E8790C; --k5:#D3312C; --kg:#2B2B2B; --kio:#7C8A83;
+  --display:"IBM Plex Sans Condensed","Arial Narrow",system-ui,sans-serif;
+  --body:"IBM Plex Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0F1512; --panel:#161E1A; --fg:#E4ECE7; --muted:#97A79F; --line:#2A3631;
+  --accent:#55C48F; --accent-soft:#17301F; --warn:#F0B45A; --warn-soft:#2E2412;
+  --kg:#BFC7C2; --kio:#7D8C84; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0F1512; --panel:#161E1A; --fg:#E4ECE7; --muted:#97A79F; --line:#2A3631;
+  --accent:#55C48F; --accent-soft:#17301F; --warn:#F0B45A; --warn-soft:#2E2412;
+  --kg:#BFC7C2; --kio:#7D8C84; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--fg);font:15px/1.55 var(--body);padding-inline:16px;padding-block:28px 56px}
+.wrap{max-width:1080px;margin:0 auto;display:grid;gap:36px}
+h1,h2,h3{font-family:var(--display);text-wrap:balance;margin:0;letter-spacing:.005em}
+h1{font-size:clamp(28px,4.5vw,40px);font-weight:700;line-height:1.1}
+h2{font-size:22px;font-weight:600}
+h3{font-size:16px;font-weight:600}
+p{margin:0;max-width:68ch}
+.eyebrow{font:600 12px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--accent)}
+header{display:grid;gap:10px}
+header p{color:var(--muted)}
+section{display:grid;gap:14px;min-width:0}
+.mono{font-family:var(--mono);font-size:13px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.two{display:grid;gap:36px;grid-template-columns:1fr}
+.two > section:first-child .panel{max-width:900px}
+.hdrwrap{max-width:680px}
+.scroll{overflow-x:auto}
+svg.bb{display:block;width:100%;min-width:520px;height:auto}
+.t-num{font:500 10px var(--mono)} .t-sm{font:500 10.5px var(--body)} .t-pin{font:600 8.5px var(--mono)} .t-mk{font:700 10px var(--mono)}
+.notes{display:grid;gap:8px;padding-left:18px;margin:0;color:var(--fg)}
+.notes li{max-width:68ch}
+.key{display:flex;flex-wrap:wrap;gap:8px 18px;color:var(--muted);font-size:13px}
+.key span{display:inline-flex;align-items:center;gap:6px}
+.dot{width:12px;height:12px;border-radius:50%;display:inline-block}
+.sw{display:inline-grid;place-items:center;min-width:24px;height:24px;padding:0 5px;border-radius:12px;font:700 11px var(--mono);box-shadow:inset 0 0 0 1px rgba(0,0,0,.18);flex:none}
+/* Pi header */
+table.hdr{border-collapse:separate;border-spacing:0 3px;width:100%;font-size:12.5px}
+table.hdr td{padding:0}
+td.pin{width:96px;border:1px solid var(--line);background:var(--bg);padding:3px 6px!important;font-family:var(--mono);font-size:11px;color:var(--muted);white-space:nowrap}
+td.pin b{display:inline-block;width:20px;color:var(--fg)}
+td.pin:nth-child(2){border-radius:6px 0 0 6px} td.pin:nth-child(3){border-radius:0 6px 6px 0}
+td.pin.on{color:var(--fg);font-weight:600}
+td.pin.on.k-33{background:color-mix(in srgb,var(--k33) 22%,var(--panel))}
+td.pin.on.k-5{background:color-mix(in srgb,var(--k5) 20%,var(--panel))}
+td.pin.on.k-g{background:color-mix(in srgb,var(--kg) 16%,var(--panel))}
+td.pin.on.k-io{background:var(--accent-soft)}
+td.use{padding:0 8px!important;font-size:12px;color:var(--fg)}
+td.use span:not(.sw){vertical-align:middle}
+td.use.l{text-align:right} td.use.r{text-align:left}
+td.use .sw{margin:0 6px;vertical-align:middle}
+td.use.l .sw{float:none}
+.hdrwrap{overflow-x:auto}
+.hdrwrap table{min-width:440px}
+/* Connection table */
+table.conn{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+table.conn th,table.conn td{text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.conn thead th{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+table.conn tr.grp th{font:600 15px var(--display);padding-top:18px;color:var(--accent);border-bottom:2px solid var(--line)}
+table.conn td.net{color:var(--muted)}
+.callout{border-radius:10px;padding:14px 16px;background:var(--warn-soft);border:1px solid color-mix(in srgb,var(--warn) 35%,transparent);display:grid;gap:8px}
+.callout h3{color:var(--warn)}
+.checks{display:grid;gap:10px;padding:0;margin:0;list-style:none;counter-reset:c}
+.checks li{display:grid;grid-template-columns:28px 1fr;gap:10px;align-items:start;max-width:76ch}
+.checks li::before{counter-increment:c;content:counter(c);display:grid;place-items:center;width:24px;height:24px;border-radius:50%;background:var(--accent);color:var(--panel);font:700 12px var(--mono)}
+.code{position:relative;background:var(--panel);border:1px solid var(--line);border-radius:8px;min-width:0}
+.code pre{margin:0;padding:12px 14px;overflow-x:auto;font:13px/1.6 var(--mono)}
+.code button{position:absolute;top:8px;right:8px;font:600 12px var(--body);padding:4px 10px;border-radius:6px;border:1px solid var(--line);background:var(--bg);color:var(--fg);cursor:pointer}
+.code button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.grid2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))}
+.grid2 > div{display:grid;gap:8px;min-width:0}
+small,.muted{color:var(--muted)}
+</style>
+
+<div class="wrap">
+<header>
+  <div class="eyebrow">Shuffler enclosure · UI pod</div>
+  <h1>UI Pod Wiring</h1>
+  <p>How the LCD, temperature probe, IR receiver and RGB LED connect to the Raspberry Pi. The mini breadboard carries only the shared connections: the 3.3 V and ground buses, the probe's pull-up resistor and the level converter for the LCD. The IR receiver and RGB module wire straight to the Pi.</p>
+</header>
+
+<section class="callout" aria-labelledby="first">
+  <h3 id="first">Wire everything with the Pi unplugged</h3>
+  <p>No 5 V wire may ever touch a GPIO pin. On this layout, 5 V exists only in column 8 of the bottom half, the LCD, and Pi pin 2.</p>
+</section>
+
+<div class="two">
+  <section aria-labelledby="bbh">
+    <h2 id="bbh">Mini breadboard</h2>
+    <p class="muted">Each column's five holes a–e are joined, and so are f–j. The two halves are separate, and this board has no power rails. Numbered circles are wire ends; the table below says where each goes.</p>
+    <div class="panel scroll"><svg viewBox="0 0 690 420" role="img" aria-labelledby="bbT bbD" class="bb">
+<title id="bbT">Mini breadboard layout</title><desc id="bbD">17 columns by rows a to j. Level converter straddles the centre gap in columns 6 to 11. Numbered circles are wire ends.</desc>
+<rect x="18" y="40" width="508" height="362" rx="10" fill="#F3F3EF" stroke="#C4C4BC"/>
+<rect x="18" y="212" width="508" height="22" fill="#E6E6E0"/>
+<text x="44" y="227" class="t-sm" fill="#7A7A72">centre gap</text>
+<rect x="39" y="68" width="22" height="136" rx="6" fill="#E8790C" fill-opacity="0.16"/>
+<rect x="67" y="68" width="22" height="136" rx="6" fill="#222222" fill-opacity="0.16"/>
+<rect x="123" y="68" width="22" height="136" rx="6" fill="#E3C21A" fill-opacity="0.16"/>
+<rect x="179" y="68" width="22" height="136" rx="6" fill="#2563C9" fill-opacity="0.16"/>
+<rect x="207" y="68" width="22" height="136" rx="6" fill="#1E9E4A" fill-opacity="0.16"/>
+<rect x="235" y="68" width="22" height="136" rx="6" fill="#E8790C" fill-opacity="0.16"/>
+<rect x="263" y="68" width="22" height="136" rx="6" fill="#222222" fill-opacity="0.16"/>
+<rect x="179" y="236" width="22" height="136" rx="6" fill="#2563C9" fill-opacity="0.16"/>
+<rect x="207" y="236" width="22" height="136" rx="6" fill="#1E9E4A" fill-opacity="0.16"/>
+<rect x="235" y="236" width="22" height="136" rx="6" fill="#D3312C" fill-opacity="0.16"/>
+<rect x="263" y="236" width="22" height="136" rx="6" fill="#222222" fill-opacity="0.16"/>
+<text x="50" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">1</text>
+<text x="50" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">1</text>
+<text x="78" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">2</text>
+<text x="78" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">2</text>
+<text x="106" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">3</text>
+<text x="106" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">3</text>
+<text x="134" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">4</text>
+<text x="134" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">4</text>
+<text x="162" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">5</text>
+<text x="162" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">5</text>
+<text x="190" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">6</text>
+<text x="190" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">6</text>
+<text x="218" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">7</text>
+<text x="218" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">7</text>
+<text x="246" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">8</text>
+<text x="246" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">8</text>
+<text x="274" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">9</text>
+<text x="274" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">9</text>
+<text x="302" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">10</text>
+<text x="302" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">10</text>
+<text x="330" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">11</text>
+<text x="330" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">11</text>
+<text x="358" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">12</text>
+<text x="358" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">12</text>
+<text x="386" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">13</text>
+<text x="386" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">13</text>
+<text x="414" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">14</text>
+<text x="414" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">14</text>
+<text x="442" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">15</text>
+<text x="442" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">15</text>
+<text x="470" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">16</text>
+<text x="470" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">16</text>
+<text x="498" y="60" text-anchor="middle" class="t-num" fill="#6B6B63">17</text>
+<text x="498" y="392" text-anchor="middle" class="t-num" fill="#6B6B63">17</text>
+<text x="30" y="84" text-anchor="middle" class="t-num" fill="#6B6B63">a</text>
+<text x="514" y="84" text-anchor="middle" class="t-num" fill="#6B6B63">a</text>
+<text x="30" y="112" text-anchor="middle" class="t-num" fill="#6B6B63">b</text>
+<text x="514" y="112" text-anchor="middle" class="t-num" fill="#6B6B63">b</text>
+<text x="30" y="140" text-anchor="middle" class="t-num" fill="#6B6B63">c</text>
+<text x="514" y="140" text-anchor="middle" class="t-num" fill="#6B6B63">c</text>
+<text x="30" y="168" text-anchor="middle" class="t-num" fill="#6B6B63">d</text>
+<text x="514" y="168" text-anchor="middle" class="t-num" fill="#6B6B63">d</text>
+<text x="30" y="196" text-anchor="middle" class="t-num" fill="#6B6B63">e</text>
+<text x="514" y="196" text-anchor="middle" class="t-num" fill="#6B6B63">e</text>
+<text x="30" y="252" text-anchor="middle" class="t-num" fill="#6B6B63">f</text>
+<text x="514" y="252" text-anchor="middle" class="t-num" fill="#6B6B63">f</text>
+<text x="30" y="280" text-anchor="middle" class="t-num" fill="#6B6B63">g</text>
+<text x="514" y="280" text-anchor="middle" class="t-num" fill="#6B6B63">g</text>
+<text x="30" y="308" text-anchor="middle" class="t-num" fill="#6B6B63">h</text>
+<text x="514" y="308" text-anchor="middle" class="t-num" fill="#6B6B63">h</text>
+<text x="30" y="336" text-anchor="middle" class="t-num" fill="#6B6B63">i</text>
+<text x="514" y="336" text-anchor="middle" class="t-num" fill="#6B6B63">i</text>
+<text x="30" y="364" text-anchor="middle" class="t-num" fill="#6B6B63">j</text>
+<text x="514" y="364" text-anchor="middle" class="t-num" fill="#6B6B63">j</text>
+<rect x="46.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="46.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="74.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="102.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="130.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="158.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="186.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="214.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="242.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="270.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="298.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="326.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="354.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="382.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="410.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="438.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="466.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="76.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="104.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="132.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="160.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="188.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="244.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="272.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="300.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="328.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="494.5" y="356.5" width="7" height="7" rx="1.5" fill="#4A4A46"/>
+<rect x="174" y="172" width="172" height="96" rx="4" fill="#1F5FA8" stroke="#123C6E"/>
+<rect x="185.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="185.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="190" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">LV1</text>
+<text x="190" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">HV1</text>
+<rect x="213.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="213.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="218" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">LV2</text>
+<text x="218" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">HV2</text>
+<rect x="241.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="241.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="246" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">LV</text>
+<text x="246" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">HV</text>
+<rect x="269.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="269.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="274" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">GND</text>
+<text x="274" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">GND</text>
+<rect x="297.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="297.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="302" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">LV3</text>
+<text x="302" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">HV3</text>
+<rect x="325.5" y="187.5" width="9" height="9" fill="#D9B44A"/>
+<rect x="325.5" y="243.5" width="9" height="9" fill="#D9B44A"/>
+<text x="330" y="214" text-anchor="middle" class="t-pin" fill="#FFFFFF">LV4</text>
+<text x="330" y="236" text-anchor="middle" class="t-pin" fill="#FFFFFF">HV4</text>
+<text x="536" y="196" class="t-sm" fill="#3B3B36">◀ converter LV pins (3.3 V)</text>
+<text x="536" y="252" class="t-sm" fill="#3B3B36">◀ converter HV pins (5 V)</text>
+<path d="M50,108 C50,46 246,46 246,108" fill="none" stroke="#E8790C" stroke-width="4" stroke-linecap="round"/>
+<path d="M78,108 C78,58 274,58 274,108" fill="none" stroke="#222222" stroke-width="4" stroke-linecap="round"/>
+<line x1="50" y1="164" x2="134" y2="164" stroke="#9A9A92" stroke-width="2"/>
+<rect x="72" y="157" width="40" height="14" rx="6" fill="#E9D3A8" stroke="#B49A66"/>
+<rect x="77" y="157" width="4" height="14" fill="#F2C200"/>
+<rect x="86" y="157" width="4" height="14" fill="#7A3EBF"/>
+<rect x="95" y="157" width="4" height="14" fill="#D3312C"/>
+<rect x="104" y="157" width="4" height="14" fill="#C9A13B"/>
+<text x="92.0" y="186" text-anchor="middle" class="t-sm" fill="#3B3B36">4.7 kΩ</text>
+<circle cx="50" cy="80" r="10.5" fill="#E8790C"/><text x="50" y="83.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">1</text>
+<circle cx="78" cy="80" r="10.5" fill="#222222"/><text x="78" y="83.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">2</text>
+<circle cx="134" cy="80" r="10.5" fill="#E3C21A"/><text x="134" y="83.6" text-anchor="middle" class="t-mk" fill="#1B1B1B">3</text>
+<circle cx="190" cy="80" r="10.5" fill="#2563C9"/><text x="190" y="83.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">4</text>
+<circle cx="218" cy="80" r="10.5" fill="#1E9E4A"/><text x="218" y="83.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">5</text>
+<circle cx="50" cy="108" r="10.5" fill="#E8790C"/><text x="50" y="111.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">6</text>
+<circle cx="246" cy="108" r="10.5" fill="#E8790C"/><text x="246" y="111.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">6</text>
+<circle cx="78" cy="108" r="10.5" fill="#222222"/><text x="78" y="111.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">7</text>
+<circle cx="274" cy="108" r="10.5" fill="#222222"/><text x="274" y="111.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">7</text>
+<circle cx="50" cy="136" r="10.5" fill="#D3312C"/><text x="50" y="139.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">+</text>
+<circle cx="78" cy="136" r="10.5" fill="#222222"/><text x="78" y="139.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">−</text>
+<circle cx="134" cy="136" r="10.5" fill="#E3C21A"/><text x="134" y="139.6" text-anchor="middle" class="t-mk" fill="#1B1B1B">D</text>
+<circle cx="246" cy="332" r="10.5" fill="#D3312C"/><text x="246" y="335.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">8</text>
+<circle cx="246" cy="360" r="10.5" fill="#D3312C"/><text x="246" y="363.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">9</text>
+<circle cx="274" cy="360" r="10.5" fill="#222222"/><text x="274" y="363.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">10</text>
+<circle cx="190" cy="360" r="10.5" fill="#2563C9"/><text x="190" y="363.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">11</text>
+<circle cx="218" cy="360" r="10.5" fill="#1E9E4A"/><text x="218" y="363.6" text-anchor="middle" class="t-mk" fill="#FFFFFF">12</text>
+</svg></div>
+    <div class="key">
+      <span><i class="dot" style="background:#E8790C"></i>3.3 V</span>
+      <span><i class="dot" style="background:#D3312C"></i>5 V</span>
+      <span><i class="dot" style="background:#222"></i>Ground</span>
+      <span><i class="dot" style="background:#2563C9"></i>SDA</span>
+      <span><i class="dot" style="background:#1E9E4A"></i>SCL</span>
+      <span><i class="dot" style="background:#E3C21A"></i>Probe data</span>
+      <span><b class="mono">+ − D</b> probe leads, in their own colours</span>
+    </div>
+    <ul class="notes">
+      <li>The converter straddles the centre gap with its 3.3 V (LV) pins in the top half and its 5 V (HV) pins in the bottom half. Its pins may land in rows other than e and f; only the columns matter.</li>
+      <li>The pin order drawn is the common one (1, 2, LV/HV, GND, 3, 4). If your board's labels differ, follow the labels: each wire goes to the column of the pin named in the table.</li>
+      <li>Channels 3 and 4 (columns 10 and 11) are spare.</li>
+    </ul>
+  </section>
+
+  <section aria-labelledby="pih">
+    <h2 id="pih">Raspberry Pi header</h2>
+    <p class="muted">Pin 1 is at the end of the header nearest the microSD card, on the inner row. Its solder joint on the underside is square. Odd pins run along the inner row, even pins along the board edge.</p>
+    <div class="panel hdrwrap">
+      <table class="hdr" aria-label="Raspberry Pi 40-pin header with the pins this build uses">
+        <tr><td class="use l"><span class="sw" style="background:#E8790C;color:#FFFFFF">1</span><span>Breadboard 1a · 3.3 V bus</span></td><td class="pin k-33 on"><b>1</b><span>3V3</span></td><td class="pin k-5 on"><b>2</b><span>5V</span></td><td class="use r"><span class="sw" style="background:#D3312C;color:#FFFFFF">8</span><span>Breadboard 8i · converter HV</span></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#2563C9;color:#FFFFFF">4</span><span>Breadboard 6a · converter LV1</span></td><td class="pin k-io on"><b>3</b><span>GPIO2 · SDA</span></td><td class="pin k-5"><b>4</b><span>5V</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#1E9E4A;color:#FFFFFF">5</span><span>Breadboard 7a · converter LV2</span></td><td class="pin k-io on"><b>5</b><span>GPIO3 · SCL</span></td><td class="pin k-g on"><b>6</b><span>GND</span></td><td class="use r"><span class="sw" style="background:#222222;color:#FFFFFF">2</span><span>Breadboard 2a · ground bus</span></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#E3C21A;color:#1B1B1B">3</span><span>Breadboard 4a · probe data</span></td><td class="pin k-io on"><b>7</b><span>GPIO4</span></td><td class="pin k-io"><b>8</b><span>GPIO14</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-g"><b>9</b><span>GND</span></td><td class="pin k-io"><b>10</b><span>GPIO15</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#7B3FBF;color:#FFFFFF">15</span><span>IR receiver S</span></td><td class="pin k-io on"><b>11</b><span>GPIO17</span></td><td class="pin k-io"><b>12</b><span>GPIO18</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>13</b><span>GPIO27</span></td><td class="pin k-g on"><b>14</b><span>GND</span></td><td class="use r"><span class="sw" style="background:#222222;color:#FFFFFF">14</span><span>IR receiver −</span></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>15</b><span>GPIO22</span></td><td class="pin k-io"><b>16</b><span>GPIO23</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#E8790C;color:#FFFFFF">13</span><span>IR receiver +</span></td><td class="pin k-33 on"><b>17</b><span>3V3</span></td><td class="pin k-io"><b>18</b><span>GPIO24</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>19</b><span>GPIO10</span></td><td class="pin k-g"><b>20</b><span>GND</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>21</b><span>GPIO9</span></td><td class="pin k-io"><b>22</b><span>GPIO25</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>23</b><span>GPIO11</span></td><td class="pin k-io"><b>24</b><span>GPIO8</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-g"><b>25</b><span>GND</span></td><td class="pin k-io"><b>26</b><span>GPIO7</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>27</b><span>ID_SD</span></td><td class="pin k-io"><b>28</b><span>ID_SC</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>29</b><span>GPIO5</span></td><td class="pin k-g"><b>30</b><span>GND</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>31</b><span>GPIO6</span></td><td class="pin k-io on"><b>32</b><span>GPIO12</span></td><td class="use r"><span class="sw" style="background:#7A4A23;color:#FFFFFF">16</span><span>RGB module R</span></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#F4F4F4;color:#1B1B1B">17</span><span>RGB module G</span></td><td class="pin k-io on"><b>33</b><span>GPIO13</span></td><td class="pin k-g on"><b>34</b><span>GND</span></td><td class="use r"><span class="sw" style="background:#222222;color:#FFFFFF">19</span><span>RGB module −</span></td></tr>
+<tr><td class="use l"><span class="sw" style="background:#8A8F98;color:#FFFFFF">18</span><span>RGB module B</span></td><td class="pin k-io on"><b>35</b><span>GPIO19</span></td><td class="pin k-io"><b>36</b><span>GPIO16</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-io"><b>37</b><span>GPIO26</span></td><td class="pin k-io"><b>38</b><span>GPIO20</span></td><td class="use r idle"></td></tr>
+<tr><td class="use l idle"></td><td class="pin k-g"><b>39</b><span>GND</span></td><td class="pin k-io"><b>40</b><span>GPIO21</span></td><td class="use r idle"></td></tr>
+      </table>
+    </div>
+  </section>
+</div>
+
+<section aria-labelledby="ch">
+  <h2 id="ch">Every connection</h2>
+  <div class="panel scroll">
+    <table class="conn">
+      <thead><tr><th>Wire</th><th>From</th><th>To</th><th>Jumper</th><th>Carries</th></tr></thead>
+      <tbody><tr class="grp"><th colspan="5">Pi to breadboard</th></tr>
+<tr><td><span class="sw" style="background:#E8790C;color:#FFFFFF">1</span></td><td>Pi pin 1 · 3V3</td><td class="mono">1a</td><td>Female–male</td><td class="net">3.3 V bus</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">2</span></td><td>Pi pin 6 · GND</td><td class="mono">2a</td><td>Female–male</td><td class="net">Ground bus</td></tr>
+<tr><td><span class="sw" style="background:#E3C21A;color:#1B1B1B">3</span></td><td>Pi pin 7 · GPIO4</td><td class="mono">4a</td><td>Female–male</td><td class="net">Probe data</td></tr>
+<tr><td><span class="sw" style="background:#2563C9;color:#FFFFFF">4</span></td><td>Pi pin 3 · SDA</td><td class="mono">6a (LV1)</td><td>Female–male</td><td class="net">I²C data, 3.3 V side</td></tr>
+<tr><td><span class="sw" style="background:#1E9E4A;color:#FFFFFF">5</span></td><td>Pi pin 5 · SCL</td><td class="mono">7a (LV2)</td><td>Female–male</td><td class="net">I²C clock, 3.3 V side</td></tr>
+<tr><td><span class="sw" style="background:#D3312C;color:#FFFFFF">8</span></td><td>Pi pin 2 · 5V</td><td class="mono">8i (HV)</td><td>Female–male</td><td class="net">5 V for converter and LCD</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="5">On the breadboard</th></tr>
+<tr><td><span class="sw" style="background:#E8790C;color:#FFFFFF">6</span></td><td>1b</td><td class="mono">8b (LV)</td><td>Male–male</td><td class="net">3.3 V to converter</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">7</span></td><td>2b</td><td class="mono">9b (GND)</td><td>Male–male</td><td class="net">Ground to converter</td></tr>
+<tr><td><span class="sw" style="background:#D3312C;color:#FFFFFF">+</span></td><td>Probe red</td><td class="mono">1c</td><td>Probe lead</td><td class="net">Probe power</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">−</span></td><td>Probe black</td><td class="mono">2c</td><td>Probe lead</td><td class="net">Probe ground</td></tr>
+<tr><td><span class="sw" style="background:#E3C21A;color:#1B1B1B">D</span></td><td>Probe yellow</td><td class="mono">4c</td><td>Probe lead</td><td class="net">Probe data</td></tr>
+<tr><td><span class="sw" style="background:#8A8F98;color:#FFFFFF">R</span></td><td>4.7 kΩ resistor</td><td class="mono">1d ↔ 4d</td><td>Resistor</td><td class="net">Pull-up for the probe</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="5">LCD backpack to breadboard</th></tr>
+<tr><td><span class="sw" style="background:#D3312C;color:#FFFFFF">9</span></td><td>LCD VCC</td><td class="mono">8j (HV)</td><td>Female–male</td><td class="net">5 V</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">10</span></td><td>LCD GND</td><td class="mono">9j (GND)</td><td>Female–male</td><td class="net">Ground</td></tr>
+<tr><td><span class="sw" style="background:#2563C9;color:#FFFFFF">11</span></td><td>LCD SDA</td><td class="mono">6j (HV1)</td><td>Female–male</td><td class="net">I²C data, 5 V side</td></tr>
+<tr><td><span class="sw" style="background:#1E9E4A;color:#FFFFFF">12</span></td><td>LCD SCL</td><td class="mono">7j (HV2)</td><td>Female–male</td><td class="net">I²C clock, 5 V side</td></tr>
+</tbody>
+<tbody><tr class="grp"><th colspan="5">Straight to the Pi (no breadboard)</th></tr>
+<tr><td><span class="sw" style="background:#E8790C;color:#FFFFFF">13</span></td><td>IR receiver +</td><td class="mono">Pi pin 17 · 3V3</td><td>Female–female</td><td class="net">Power</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">14</span></td><td>IR receiver −</td><td class="mono">Pi pin 14 · GND</td><td>Female–female</td><td class="net">Ground</td></tr>
+<tr><td><span class="sw" style="background:#7B3FBF;color:#FFFFFF">15</span></td><td>IR receiver S</td><td class="mono">Pi pin 11 · GPIO17</td><td>Female–female</td><td class="net">Signal</td></tr>
+<tr><td><span class="sw" style="background:#7A4A23;color:#FFFFFF">16</span></td><td>RGB module R</td><td class="mono">Pi pin 32 · GPIO12</td><td>Female–female</td><td class="net">Red</td></tr>
+<tr><td><span class="sw" style="background:#F4F4F4;color:#1B1B1B">17</span></td><td>RGB module G</td><td class="mono">Pi pin 33 · GPIO13</td><td>Female–female</td><td class="net">Green</td></tr>
+<tr><td><span class="sw" style="background:#8A8F98;color:#FFFFFF">18</span></td><td>RGB module B</td><td class="mono">Pi pin 35 · GPIO19</td><td>Female–female</td><td class="net">Blue</td></tr>
+<tr><td><span class="sw" style="background:#222222;color:#FFFFFF">19</span></td><td>RGB module −</td><td class="mono">Pi pin 34 · GND</td><td>Female–female</td><td class="net">Common ground</td></tr>
+</tbody>
+    </table>
+  </div>
+  <p class="muted">That's 10 female–male, 2 male–male and 7 female–female jumpers. The jumper colours are a suggestion; what matters is that each wire lands where the table says.</p>
+</section>
+
+<section aria-labelledby="chk">
+  <h2 id="chk">Before you power on</h2>
+  <ol class="checks">
+    <li><span><b>Converter supplies.</b> LV (column 8, top) goes to 3.3 V and HV (column 8, bottom) goes to 5 V. Swapping them puts 5 V on the Pi's I²C pins.</span></li>
+    <li><span><b>RGB module type.</b> The design assumes the shared pin is marked <span class="mono">−</span> (common cathode). If it's marked <span class="mono">+</span> or <span class="mono">V</span>, wire that pin to 3.3 V instead of ground, and the colours will be inverted in software (on is low).</span></li>
+    <li><span><b>Probe lead colours.</b> Red, black and yellow is the usual scheme, but check the packet. Tin the stranded ends with solder so they push into the breadboard cleanly.</span></li>
+    <li><span><b>Loose ends.</b> No bare lead or resistor leg should touch a neighbouring column.</span></li>
+  </ol>
+</section>
+
+<section aria-labelledby="sw">
+  <h2 id="sw">Turn the interfaces on</h2>
+  <p>Add these lines to the end of <span class="mono">/boot/firmware/config.txt</span> on the Pi, then reboot.</p>
+  <div class="code"><button type="button" data-copy="cfg" id="copy-cfg">Copy</button><pre id="cfg">dtparam=i2c_arm=on
+dtoverlay=w1-gpio,gpiopin=4
+dtoverlay=gpio-ir,gpio_pin=17</pre></div>
+
+  <div class="grid2">
+    <div>
+      <h3>LCD</h3>
+      <div class="code"><button type="button" data-copy="t1" id="copy-t1">Copy</button><pre id="t1">sudo apt install -y i2c-tools
+i2cdetect -y 1</pre></div>
+      <p class="muted">Expect <span class="mono">27</span> or <span class="mono">3f</span> in the grid; that's the LCD's address. If the screen lights but shows nothing, or only solid blocks, turn the small contrast screw on the backpack.</p>
+    </div>
+    <div>
+      <h3>Temperature probe</h3>
+      <div class="code"><button type="button" data-copy="t2" id="copy-t2">Copy</button><pre id="t2">cat /sys/bus/w1/devices/28-*/temperature</pre></div>
+      <p class="muted">Prints the heatsink temperature in thousandths of a degree, for example <span class="mono">24312</span> for 24.3 °C.</p>
+    </div>
+    <div>
+      <h3>IR receiver</h3>
+      <div class="code"><button type="button" data-copy="t3" id="copy-t3">Copy</button><pre id="t3">sudo apt install -y ir-keytable
+sudo ir-keytable -c -p all -t</pre></div>
+      <p class="muted">Press buttons on the remote; each press prints a scancode. Ctrl+C to stop.</p>
+    </div>
+    <div>
+      <h3>RGB LED</h3>
+      <div class="code"><button type="button" data-copy="t4" id="copy-t4">Copy</button><pre id="t4">python3 -c "from gpiozero import RGBLED; from time import sleep
+led = RGBLED(12, 13, 19)
+for c in [(1,0,0),(0,1,0),(0,0,1)]:
+    led.color = c; sleep(1)"</pre></div>
+      <p class="muted">Shows red, green, then blue for a second each. If the order is wrong, swap wires 16 to 18.</p>
+    </div>
+  </div>
+</section>
+</div>
+
+<script>
+document.querySelectorAll('button[data-copy]').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var pre = document.getElementById(btn.getAttribute('data-copy'));
+    var text = pre.textContent;
+    function done(){ btn.textContent = 'Copied'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500); }
+    function fallback(){
+      try { var r = document.createRange(); r.selectNodeContents(pre); var s = window.getSelection(); s.removeAllRanges(); s.addRange(r); btn.textContent = 'Selected'; setTimeout(function(){ btn.textContent = 'Copy'; }, 1500); } catch(e) {}
+    }
+    try { navigator.clipboard.writeText(text).then(done, fallback); } catch(e) { fallback(); }
+  });
+});
+</script>
+
+</body></html>

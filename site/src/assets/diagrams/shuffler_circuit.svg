@@ -1,0 +1,460 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="464.309988pt" height="171.137405pt" viewBox="-66.02242 -66.022415 464.309988 171.137405">
+<style type="text/css">
+@font-face{font-family:tikz-shuffler_circuit-psyro;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAKoAA0AAAAABXwAAAJSAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoF4gXALCgABNgIkAxAEIAWCGgcuG4EEIxFmY/AB4B8Jti3qtRFmGeAFhccyGpvd+3j43r+oc99Hdw8ILOBoKl8xZ2pGYDZV7ayLMJB2FTxMaUAfAP/vzIsi+AD+QfILpBemmUQSjc6DTt/zTXQ25SFPt6nipwRlCnuKCKJZCPjo9W+fgt8a93uoFUeqxUMK0t3pHdxLB8Z3EomkqAG4BoBle2bvInvXz67Uu9mQnvctCECGDJ0EmCQT6CTXDblckL1br/vLNycHECUBiIQEf5ygd+ueziPqdQnkoIoqRmM1IMcQCZR53jGqUYmGReN8TcMiucH2zz5b+9mna9Y+23PCU6tWffzxqo8/Wb3quW6jn+3Zce2U17t8uvazz+au2/jBJ+kLzdrY/ZnqM792e3fdu0Nal5sbPfhE8/3N9my6Y3PZaGmvD260rM1qsm5jg0eebLan2d7N92ysNN116Y0PW15c0Pxg26N/917U6krjVYt2LJ/3xrEXW/a+remWxmsX7tgx7zV4KQyd9HIl9/uIl8ri65BlCVMkIwUWiDJuGo0nB+HHjeVjW5tO+p9ZbZj9tnb/oHu9R+qbnkdVAkF6vt7DhlSj/mfqKwAAearpDqlGqhkhkBusBAkhMM0QQNUeAZKKZgJkutvEUGjoifJS4flM5DVJE2LIzNAOCrfb/HGlBm6ssNtepx2y3Qn+FvOZ46gjTo2XnbDXbt065vKcdN4JR+e6VInqPjyNxD7txN7d3Trm8k6eP3FUbJXoDE0C1tjthJP2I+puQeG4xYQZAy2OYyfPnzhK2pUmR1Q6kbJj+/YDAAA=) format('woff2');}
+@font-face{font-family:tikz-shuffler_circuit-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJYAA0AAAAABWQAAAIEAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkoIBBEICoFYgU0LDAABNgIkAxIEIAWCGgcsG2YEAB6FTdl8FGOexGUeTX6cKvFA7oe+JD8FAjcg1gSWXNXUXGvHqiR3HlCxqh4QurmCHz+3d2OdyI/HEvoN8UiIYjqpxKihUa3//3vLN5rgOsQTjui/6HjeC68DdC/yEURl141xoAmOMfT2Bq4lOdytNFIS6RICPL71bhS+V8+6EPtDKg8XZOKpeBtn4DXhAxMiUS4HEABg5/H2GjBXK/6bKXE4jtsDAiAhoQuBbWICurhmgRKFII4RzURxMy9OSBIhlBAAISLK1AC6JB9fgIf740kQZooggwqUYSFYAaDAAg6IiqJoCmUmq8zVxX63tOJI9emhiqo0dEqsOjVYWR0HT4d0gm/VcJzafcSC/vHy8e99E/0JOfq1tT+VTAitER5eOzxr9sjA6/h7I80CXA0WrvuVFv4uuVqS3yBJEZpQQhk6uCVhMuAgMiHwYHxzOIuv+19WmX4s0P/snxEfxnGUiSAQx2c4nMohPkQAgCKV6wdSOancKlWErJkLIoKATSSAMscRiErVIZD0GyOQVRoWQInskiQU5aIaaDXZQqhZi+exEhUu2m1jJ3K24MMXYiyww81VWL/j29lglqSxOrZy4TM8auWZujxLs8rwAhLKFn+3YSs113k14BssbN6Y/FHZBOy34QscJJaZIWm4rPBGakirFkcGfKOBuOlYyAjzYPcB) format('woff2');}
+@font-face{font-family:tikz-shuffler_circuit-phvr8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAVkAA0AAAAACggAAAUPAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgwoIBBEIColch1QLIgABNgIkA0AEIAWCIAdCG/cHIJ4DbmvMTlSoRYpvQitMPeU/4Ka9nwRKk9IycyoqmC2swWqqbOfi7MSNoP5e9937PeFqAct4QKpAJ4jFIVwo4j1uGANu4YFoINys6e+d/jHPO59eYou+2WpNm/NFv6jtESQ+xtQuCizgaApTSukmM/iFQ5Sod78FEBHVSQAIgFfveO8sAPhcGXfSNp8ilk6CDJgLcy8APw2np/TEAAxZhmiSpzpPhmYASUYy/V+VEXAqzMkq5/5OeNlOfD1OO2AnFZZcEi2nBi3a9egzZOQPJNGE4Gai+9v8bx51hytc5hIXusC5zgmRKFWI0xQEYxAmiD4WgyuhS+5HIggULcADhD6UgFBhqFd4TACgP7GgKlh9WBLQEaArAAA4QAoQMDhyZWCEMZiTCk4gBbGkIp4ECnFBLClJxf4dFKwARxEkcGkMbSdBpuQ87Va8F4L567LgJ+Kb3EIt3y54lR6+qkJQ+qVXaeENz5u0UP4KH8JVkeDPv3s+7y6eZzxx8v2YL7qOBzsE5kCqAkus4H99/rWCvtP4TWID4k3nfS7hwhfrpZ4H5u/Sv/ZY1GuYf13we8+/X/Dnkmc+7zl+8wVaeNH7Zi66OmaQAdPuTR2E0ud/HfOvEfRG0ZtC30LGLWxbLF4vHxF5bvAoG99sPLBge0gdJ7AV+OPvBuPw6IYilq/jOUEWjb4MxjahBB0mvmtu/mxc7sxcCba98cZBJd3u2+/vT5dcc5DHxjyeJx6wKl8U/G5BKeMZgO8VYm3TKfz3p+cozvlM/YTviRRPW3vR1qwVdUzH0ngHAsetx9v//9i39vbje/Y4vhiz9dkgLlqPTvq0JZJhb3NKf/mpjW1xgeoLvrjNvGd2dHaP+TbH3x9rftqWs+0nzce4M+tT6dQvGtqGe7uTAzXZ5XhEZ9WNW3W6R7BzthCcHJ9lbDI3jHVzjMkl3leQ92TMzr0VMg8/uVEV3WqqlsRayW5ajtsZV3ryUIyyxJxeFRd/nTa4WRlai+/eksKynN2tk2fMrEyc1ZlzOEFlsAY+FXRib22V2KM1SL3VVVKfHviy33hiv8Xas3gOM3dab+VIXZjbFdHeKiXoroTpPKfjzEc8pcWST8NRDAz3gBTudNSXJfy+q0s6qvXZ7XnWGHGHhDPfcgVcARh6IS5LvknMTInJ6HDO3zAdtlqyTJG2RLEhyxp/0OpA2KR35jTF9Gn9vbOnLqyzbwB23N31NFQ7uw1GsfsBsduI2ydg30p39HgsJWZt9Q7H1quPHIjWJuWamG21PtktzzYNV9gLDHrHVnFr4iv7o+7JbGUkHz4KkeKdjnpNxpmpQ9JpmkqHvUBM1FlsAICbCanzW4I4fJtxs1z2zk6zDBtBWETGxn1y+seliXlrEIDgg7Xggrqwol8VAvv5ZX7eln9P/BUBgAIDgx7DPP49KrMGAJgXIpupUhfCAaANQAN441xsabAorYokJMB74Tix0XvQZ43JuSAq/SLC7KlBAJUcclmSAGqSMilBhdZOHhAOonKVrAi1ShnB2Yvl5G4Fi4pgMEKBlCy93UqZnRYOkwtxOcq1aDOiW4NB+G1fNWDUp9ewOXlQmxZqGVKkUStQ6v3ajRqUZ+gEGZKlryBZhjQVyIH3jlk1cbCtRZ2RkqYuUPe3jw7mDdr5jOT09OQ71F6AR4tBQzpyBtXS8zjxjMCSPrYZ+RyYpwWAIS7Vl73bh4kSLZOeiZmNyKmchw8A) format('woff2');}
+@font-face{font-family:tikz-shuffler_circuit-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAIwAA0AAAAABRgAAAHbAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoEUgRgLCgABNgIkAxAEIAWCIAcqGysEIC4G7KZjGIVXYxoH5zKU83Dowyi9jIf/9qPdNzMrpmmTZpNseLW2h5JdI938l0K1BJs4JJqZtdzmHodDITP4SznoHmNKbRLjMBohDKAH69aElgWy6tdfkrHG8j/+2nLn/xTBA/hxQIEWaMsg4qwFra2FkbQskAA9IOqdpiMSSbVGz2bGbAgBn159/cJBy9RVLUduiKtqSOfSe1yApeIbj0RS0wAAVgDYPtOeAZOdpQJVf9OJCgQgI2MYgQWZwLCccVAUwWTnH/3lfBkBUUsAIiEBAIJtMxGPEP8JoIB6FAyAEQAF0wJIpbRHU25JR8iNZ/fOjx2t529eS7RNVPXVD74Wv+efvM23TxjBKsDTMLPwqyt+zldb85lVTqhQphrUTW38EY6bCcH6s2+JtoXf9eSDJfbKCUivokK9BIKocCI3QHolAAAlN5gAcgO5wR5C0SGAhBBYIQDqnUEgqdOOQDZpgECNJvcEqFXruSxKg6SVVLINRanR69NXq9lju+aW7nbGLvAFmA9sOTq4hXMXS3MsEYa1sKm9qzcfbEki56LEJDV4wwiXuyznnMS4xdP969tjl6J7PO1SwBFzF1frniFzwuC+EbsY+h2Ck/vXtxuQtpAtiIn6FwA=) format('woff2');}
+@font-face{font-family:tikz-shuffler_circuit-ptmr8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+@font-face{font-family:tikz-shuffler_circuit-ptmri8r;src:url(data:application/x-font-woff2;base64,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) format('woff2');}
+text.tikz-shuffler_circuit-f1{font-family:tikz-shuffler_circuit-phvr8r;font-size:6.391958px}
+text.tikz-shuffler_circuit-f3{font-family:tikz-shuffler_circuit-cmsy10;font-size:7.940336px}
+text.tikz-shuffler_circuit-f10{font-family:tikz-shuffler_circuit-ptmri8r;font-size:5.955252px}
+text.tikz-shuffler_circuit-f12{font-family:tikz-shuffler_circuit-psyro;font-size:7.940336px}
+text.tikz-shuffler_circuit-f14{font-family:tikz-shuffler_circuit-ptmri8r;font-size:7.940336px}
+text.tikz-shuffler_circuit-f17{font-family:tikz-shuffler_circuit-ptmr8r;font-size:5.955252px}
+text.tikz-shuffler_circuit-f18{font-family:tikz-shuffler_circuit-cmr10;font-size:5.955252px}
+text.tikz-shuffler_circuit-f22{font-family:tikz-shuffler_circuit-cmr10;font-size:7.940336px}
+text.tikz-shuffler_circuit-f24{font-family:tikz-shuffler_circuit-phvr8r;font-size:7.305094px}
+text.tikz-shuffler_circuit-f26{font-family:tikz-shuffler_circuit-cmsy10;font-size:6.947794px}
+text.tikz-shuffler_circuit-f33{font-family:tikz-shuffler_circuit-ptmri8r;font-size:4.96271px}
+text.tikz-shuffler_circuit-f35{font-family:tikz-shuffler_circuit-psyro;font-size:6.947794px}
+text.tikz-shuffler_circuit-f37{font-family:tikz-shuffler_circuit-ptmri8r;font-size:6.947794px}
+text.tikz-shuffler_circuit-f40{font-family:tikz-shuffler_circuit-ptmr8r;font-size:4.96271px}
+text.tikz-shuffler_circuit-f41{font-family:tikz-shuffler_circuit-cmr10;font-size:4.96271px}
+text.tikz-shuffler_circuit-f44{font-family:tikz-shuffler_circuit-ptmr8r;font-size:6.947794px}
+text.tikz-shuffler_circuit-f45{font-family:tikz-shuffler_circuit-cmr10;font-size:6.947794px}
+text.tikz-shuffler_circuit-f47{font-family:tikz-shuffler_circuit-ptmr8r;font-size:6.947794px}
+
+</style>
+<g id="tikz-shuffler_circuit-page1">
+<g stroke-miterlimit="10" transform="matrix(.996264 0 0 -.996264 -40.744334 94.847599)" fill="currentColor" stroke="currentColor" stroke-width="0.4">
+<path d="M 54.62967 142.26372" fill="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 54.62967 142.46371 L 54.62967 128.02324 L 40.68794 128.02324 M 40.68794 112.68694 L 54.62967 112.68694 L 54.62967 98.24646" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 40.68794 131.3094 L 40.68794 109.40077 M 37.34207 128.02324 L 37.34207 112.68694" fill="none" />
+</g>
+<path d="M 37.34207 120.35509 L 26.54622 120.35509" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 62.99478 122.7451 L 60.00723 117.96509 L 65.98233 117.96509 Z" fill="none" />
+<g stroke-width="0.4">
+</g>
+<path d="M 65.98233 122.74509 L 60.00723 122.74509" fill="none" />
+<g stroke-width="0.4">
+<path d="" stroke="none" />
+<g transform="matrix(0 .301125 .301125 0 34.433797 132.624228)" stroke="none" />
+</g>
+</g>
+<path d="M 54.62967 133.5004 L 62.99478 133.5004 L 62.99478 122.74509" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 75.078232 181.102039)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.42621 133.5004 C 55.42621 133.9403 55.06958 134.29694 54.62967 134.29694 C 54.18976 134.29694 53.83313 133.9403 53.83313 133.5004 C 53.83313 133.06049 54.18976 132.70386 54.62967 132.70386 C 55.06958 132.70386 55.42621 133.06049 55.42621 133.5004 Z M 54.62967 133.5004" />
+</g>
+<path d="M 54.62967 107.20978 L 62.99478 107.20978 L 62.99478 117.96509" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 75.078232 154.811419)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.42621 107.20978 C 55.42621 107.64969 55.06958 108.00632 54.62967 108.00632 C 54.18976 108.00632 53.83313 107.64969 53.83313 107.20978 C 53.83313 106.76987 54.18976 106.41324 54.62967 106.41324 C 55.06958 106.41324 55.42621 106.76987 55.42621 107.20978 Z M 54.62967 107.20978" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 108.870715 215.558367)" stroke="none" fill="currentColor" />
+</g>
+<path d="M 54.62967 98.44646 L 54.62967 89.62596" fill="none" />
+<path d="M 54.62967 62.59595" fill="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 54.62967 62.79594 L 54.62967 48.35547 L 40.68794 48.35547 M 40.68794 33.01917 L 54.62967 33.01917 L 54.62967 18.57869" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 40.68794 51.64163 L 40.68794 29.733 M 37.34207 48.35547 L 37.34207 33.01917" fill="none" />
+</g>
+<path d="M 37.34207 40.68732 L 26.54622 40.68732" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 62.99478 43.07733 L 60.00723 38.29732 L 65.98233 38.29732 Z" fill="none" />
+<g stroke-width="0.4">
+</g>
+<path d="M 65.98233 43.07732 L 60.00723 43.07732" fill="none" />
+<g stroke-width="0.4">
+<path d="" stroke="none" />
+<g transform="matrix(0 .301125 .301125 0 34.433797 52.956457)" stroke="none" />
+</g>
+</g>
+<path d="M 54.62967 53.83263 L 62.99478 53.83263 L 62.99478 43.07732" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 75.078232 101.434269)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.42621 53.83263 C 55.42621 54.27254 55.06958 54.62917 54.62967 54.62917 C 54.18976 54.62917 53.83313 54.27254 53.83313 53.83263 C 53.83313 53.39272 54.18976 53.03609 54.62967 53.03609 C 55.06958 53.03609 55.42621 53.39272 55.42621 53.83263 Z M 54.62967 53.83263" />
+</g>
+<path d="M 54.62967 27.542 L 62.99478 27.542 L 62.99478 38.29732" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 75.078232 75.143639)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 55.42621 27.542 C 55.42621 27.98192 55.06958 28.33855 54.62967 28.33855 C 54.18976 28.33855 53.83313 27.98192 53.83313 27.542 C 53.83313 27.1021 54.18976 26.74547 54.62967 26.74547 C 55.06958 26.74547 55.42621 27.1021 55.42621 27.542 Z M 54.62967 27.542" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 108.870715 135.890597)" stroke="none" fill="currentColor" />
+</g>
+<path d="M 54.62967 18.77869 L 54.62967 0.0" fill="none" />
+<path d="M 26.74622 120.35509 L 17.18587 120.35509" fill="none" />
+<path d="M 26.74622 40.68732 L 17.18587 40.68732" fill="none" />
+<g stroke-width="0.4">
+<path d="M 0.25081 117.22528 L 0.25081 123.48491 L 4.62128 123.48491 L 4.62128 117.22528 L 8.99174 117.22528 L 8.99174 123.48491 L 13.3618 123.48491 L 13.3618 117.22528" fill="none" />
+</g>
+<g stroke-width="0.4">
+<path d="M 0.25081 37.55751 L 0.25081 43.81714 L 4.62128 43.81714 L 4.62128 37.55751 L 8.99174 37.55751 L 8.99174 43.81714 L 13.3618 43.81714 L 13.3618 37.55751" fill="none" />
+</g>
+<path d="M 54.62967 89.62596 L 54.62967 62.59595" fill="none" />
+<path d="M 163.889 142.26372" fill="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 163.889 142.46371 L 163.889 128.02324 L 149.94728 128.02324 M 149.94728 112.68694 L 163.889 112.68694 L 163.889 98.24646" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 149.94728 131.3094 L 149.94728 109.40077 M 146.60141 128.02324 L 146.60141 112.68694" fill="none" />
+</g>
+<path d="M 146.60141 120.35509 L 135.80556 120.35509" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 172.25412 122.7451 L 169.26657 117.96509 L 175.24167 117.96509 Z" fill="none" />
+<g stroke-width="0.4">
+</g>
+<path d="M 175.24167 122.74509 L 169.26657 122.74509" fill="none" />
+<g stroke-width="0.4">
+<path d="" stroke="none" />
+<g transform="matrix(0 .301125 .301125 0 143.693137 132.624228)" stroke="none" />
+</g>
+</g>
+<path d="M 163.889 133.5004 L 172.25412 133.5004 L 172.25412 122.74509" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 184.337563 181.102039)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 164.68555 133.5004 C 164.68555 133.9403 164.32892 134.29694 163.889 134.29694 C 163.4491 134.29694 163.09247 133.9403 163.09247 133.5004 C 163.09247 133.06049 163.4491 132.70386 163.889 132.70386 C 164.32892 132.70386 164.68555 133.06049 164.68555 133.5004 Z M 163.889 133.5004" />
+</g>
+<path d="M 163.889 107.20978 L 172.25412 107.20978 L 172.25412 117.96509" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 184.337563 154.811419)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 164.68555 107.20978 C 164.68555 107.64969 164.32892 108.00632 163.889 108.00632 C 163.4491 108.00632 163.09247 107.64969 163.09247 107.20978 C 163.09247 106.76987 163.4491 106.41324 163.889 106.41324 C 164.32892 106.41324 164.68555 106.76987 164.68555 107.20978 Z M 163.889 107.20978" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 218.130055 215.558367)" stroke="none" fill="currentColor" />
+</g>
+<path d="M 163.889 98.44646 L 163.889 89.62596" fill="none" />
+<path d="M 163.889 62.59595" fill="none" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 163.889 62.79594 L 163.889 48.35547 L 149.94728 48.35547 M 149.94728 33.01917 L 163.889 33.01917 L 163.889 18.57869" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 149.94728 51.64163 L 149.94728 29.733 M 146.60141 48.35547 L 146.60141 33.01917" fill="none" />
+</g>
+<path d="M 146.60141 40.68732 L 135.80556 40.68732" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 172.25412 43.07733 L 169.26657 38.29732 L 175.24167 38.29732 Z" fill="none" />
+<g stroke-width="0.4">
+</g>
+<path d="M 175.24167 43.07732 L 169.26657 43.07732" fill="none" />
+<g stroke-width="0.4">
+<path d="" stroke="none" />
+<g transform="matrix(0 .301125 .301125 0 143.693137 52.956457)" stroke="none" />
+</g>
+</g>
+<path d="M 163.889 53.83263 L 172.25412 53.83263 L 172.25412 43.07732" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 184.337563 101.434269)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 164.68555 53.83263 C 164.68555 54.27254 164.32892 54.62917 163.889 54.62917 C 163.4491 54.62917 163.09247 54.27254 163.09247 53.83263 C 163.09247 53.39272 163.4491 53.03609 163.889 53.03609 C 164.32892 53.03609 164.68555 53.39272 164.68555 53.83263 Z M 163.889 53.83263" />
+</g>
+<path d="M 163.889 27.542 L 172.25412 27.542 L 172.25412 38.29732" fill="none" />
+<g transform="matrix(.501875 0 0 -.501875 184.337563 75.143639)" stroke="none" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 164.68555 27.542 C 164.68555 27.98192 164.32892 28.33855 163.889 28.33855 C 163.4491 28.33855 163.09247 27.98192 163.09247 27.542 C 163.09247 27.1021 163.4491 26.74547 163.889 26.74547 C 164.32892 26.74547 164.68555 27.1021 164.68555 27.542 Z M 163.889 27.542" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 218.130055 135.890597)" stroke="none" fill="currentColor" />
+</g>
+<path d="M 163.889 18.77869 L 163.889 0.0" fill="none" />
+<path d="M 136.00555 120.35509 L 126.4452 120.35509" fill="none" />
+<path d="M 136.00555 40.68732 L 126.4452 40.68732" fill="none" />
+<g stroke-width="0.4">
+<path d="M 109.51015 117.22528 L 109.51015 123.48491 L 113.88062 123.48491 L 113.88062 117.22528 L 118.25108 117.22528 L 118.25108 123.48491 L 122.62114 123.48491 L 122.62114 117.22528" fill="none" />
+</g>
+<g stroke-width="0.4">
+<path d="M 109.51015 37.55751 L 109.51015 43.81714 L 113.88062 43.81714 L 113.88062 37.55751 L 118.25108 37.55751 L 118.25108 43.81714 L 122.62114 43.81714 L 122.62114 37.55751" fill="none" />
+</g>
+<path d="M 163.889 89.62596 L 163.889 62.59595" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 29.740555 213.673627)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f37" x="-40.744334" y="94.847599">d</text>
+<text class="tikz-shuffler_circuit-f33" x="-37.25741" y="95.893664">B</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 18.857225 134.005857)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f44" x="-40.744334" y="94.847599">1</text>
+<text class="tikz-shuffler_circuit-f26" x="-36.288828" y="94.847599">−</text>
+<text class="tikz-shuffler_circuit-f37" x="-29.901637" y="94.847599">d</text>
+<text class="tikz-shuffler_circuit-f33" x="-26.414713" y="95.893664">B</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 138.999895 213.673627)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f37" x="-40.744334" y="94.847599">d</text>
+<text class="tikz-shuffler_circuit-f33" x="-37.25741" y="95.893664">A</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 128.116565 134.005857)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f44" x="-40.744334" y="94.847599">1</text>
+<text class="tikz-shuffler_circuit-f26" x="-36.288828" y="94.847599">−</text>
+<text class="tikz-shuffler_circuit-f37" x="-29.901637" y="94.847599">d</text>
+<text class="tikz-shuffler_circuit-f33" x="-26.414713" y="95.893664">A</text>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 66.92125 144.84099 L -15.02324 144.84099 C -17.2324 144.84099 -19.02324 143.05016 -19.02324 140.84099 L -19.02324 7.11317 C -19.02324 4.904 -17.2324 3.11317 -15.02324 3.11317 L 66.92125 3.11317 C 69.13042 3.11317 70.92125 4.904 70.92125 7.11317 L 70.92125 140.84099 C 70.92125 143.05016 69.13042 144.84099 66.92125 144.84099 Z M -19.02324 3.11317" fill="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 25.873885 169.180357)" stroke="none" fill="#595959" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 52.935945 89.339537)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f24" x="-40.744334" y="94.847599">Phase<tspan x="-17.918571">B</tspan></text>
+</g>
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<g stroke-dasharray="3.0,2.0" stroke-dashoffset="0.0" fill="#595959" stroke="#595959">
+<path d="M 176.18057 144.84099 L 94.23608 144.84099 C 92.02692 144.84099 90.23608 143.05016 90.23608 140.84099 L 90.23608 7.11317 C 90.23608 4.904 92.02692 3.11317 94.23608 3.11317 L 176.18057 3.11317 C 178.38974 3.11317 180.18057 4.904 180.18057 7.11317 L 180.18057 140.84099 C 180.18057 143.05016 178.38974 144.84099 176.18057 144.84099 Z M 90.23608 3.11317" fill="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 135.133205 169.180357)" stroke="none" fill="#595959" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 162.195265 89.339537)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f24" x="-40.744334" y="94.847599">Phase<tspan x="-17.918571">A</tspan></text>
+</g>
+<path d="M 54.62967 142.26372 L 401.52798 142.26372" fill="none" />
+<path d="M 54.62967 0.0 L 401.52798 0.0" fill="none" />
+<path d="M 163.889 142.26372 M 165.389 142.26372 C 165.389 143.09215 164.71744 143.76372 163.889 143.76372 C 163.06058 143.76372 162.389 143.09215 162.389 142.26372 C 162.389 141.43529 163.06058 140.76372 163.889 140.76372 C 164.71744 140.76372 165.389 141.43529 165.389 142.26372 Z M 163.889 142.26372 M 163.889 0.0 M 165.389 0.0 C 165.389 0.82843 164.71744 1.5 163.889 1.5 C 163.06058 1.5 162.389 0.82843 162.389 0.0 C 162.389 -0.82843 163.06058 -1.5 163.889 -1.5 C 164.71744 -1.5 165.389 -0.82843 165.389 0.0 Z M 163.889 0.0" stroke="none" />
+<path d="M 163.889 89.62596 L 183.00931 89.62596 L 183.00931 102.43004 L 191.20383 102.43002 M 191.20383 102.43002 L 199.39836 102.43004 L 209.29988 102.43002 M 221.25009 109.00266 M 221.25009 112.37764 M 221.25009 112.37764 M 233.2003 102.43002 L 243.10185 102.43004 L 262.22256 102.43004 L 262.22256 75.39958" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 204.786125 184.829237)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 165.48209 89.62596 C 165.48209 90.5058 164.76884 91.21904 163.889 91.21904 C 163.00917 91.21904 162.29593 90.5058 162.29593 89.62596 C 162.29593 88.74612 163.00917 88.03288 163.889 88.03288 C 164.76884 88.03288 165.48209 88.74612 165.48209 89.62596 Z M 163.889 89.62596" />
+</g>
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(1.00375 0 0 -1.00375 232.100955 197.633297)" />
+<g transform="matrix(1.00375 0 0 -1.00375 232.100955 197.633297)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 189.46112 102.43002 L 189.46112 100.43835 L 193.69342 102.43002 L 189.46112 104.42169 L 189.46112 102.43002" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 228.906005 202.446257)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">i</text>
+<text class="tikz-shuffler_circuit-f10" x="-38.52872" y="96.122801">A</text>
+</g>
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linecap="butt" stroke-linejoin="bevel">
+<path d="M 208.89989 102.27003 C 208.89989 105.57002 210.54074 108.24513 212.56488 108.24513 C 214.58902 108.24513 216.22987 105.57002 216.22987 102.27003 C 216.22987 100.62013 215.56113 99.28264 214.73618 99.28264 C 213.91122 99.28264 213.24248 100.62013 213.24248 102.27003 C 213.24248 105.57002 214.88333 108.24513 216.90747 108.24513 C 218.93161 108.24513 220.57246 105.57002 220.57246 102.27003 C 220.57246 100.62013 219.90372 99.28264 219.07877 99.28264 C 218.25381 99.28264 217.58507 100.62013 217.58507 102.27003 C 217.58507 105.57002 219.22592 108.24513 221.25006 108.24513 C 223.2742 108.24513 224.91505 105.57002 224.91505 102.27003 C 224.91505 100.62013 224.2463 99.28264 223.42136 99.28264 C 222.5964 99.28264 221.92766 100.62013 221.92766 102.27003 C 221.92766 105.57002 223.56851 108.24513 225.59265 108.24513 C 227.61679 108.24513 229.25764 105.57002 229.25764 102.27003 C 229.25764 100.62013 228.5889 99.28264 227.76395 99.28264 C 226.939 99.28264 226.27025 100.62013 226.27025 102.27003 C 226.27025 105.57002 227.9111 108.24513 229.93524 108.24513 C 231.95938 108.24513 233.60023 105.57002 233.60023 102.27003" fill="none" />
+<g stroke-width="0.4" transform="matrix(1.00375 0 0 -1.00375 262.147215 197.633297)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 257.840255 207.580917)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">L</text>
+<text class="tikz-shuffler_circuit-f10" x="-36.312999" y="96.122801">A</text>
+</g>
+<path d="M 54.62967 72.55458 L 158.42612 72.55458 C 158.42612 75.69737 160.8719 78.24504 163.88899 78.24504 C 166.90608 78.24504 169.35187 75.69737 169.35187 72.55458 L 183.00931 72.55458 L 183.00931 59.75093 L 191.20383 59.75092 M 191.20383 59.75092 L 199.39836 59.75093 L 209.29988 59.75092 M 221.25009 56.46477 M 221.25009 56.46477 M 233.2003 59.75092 L 243.10185 59.75093 L 262.22256 59.75093 L 262.22256 75.39958" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 95.526795 167.757857)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 56.22275 72.55458 C 56.22275 73.43442 55.5095 74.14766 54.62967 74.14766 C 53.74983 74.14766 53.03659 73.43442 53.03659 72.55458 C 53.03659 71.67474 53.74983 70.9615 54.62967 70.9615 C 55.5095 70.9615 56.22275 71.67474 56.22275 72.55458 Z M 54.62967 72.55458" />
+</g>
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(1.00375 0 0 -1.00375 232.100955 154.954197)" />
+<g transform="matrix(1.00375 0 0 -1.00375 232.100955 154.954197)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor">
+<path d="M 189.46112 59.75092 L 189.46112 57.75925 L 193.69342 59.75092 L 189.46112 61.74258 L 189.46112 59.75092" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 228.906005 159.687167)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">i</text>
+<text class="tikz-shuffler_circuit-f10" x="-38.52872" y="96.043113">B</text>
+</g>
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999" stroke-linecap="butt" stroke-linejoin="bevel">
+<path d="M 208.89989 59.59093 C 208.89989 62.89091 210.54074 65.56602 212.56488 65.56602 C 214.58902 65.56602 216.22987 62.89091 216.22987 59.59093 C 216.22987 57.94102 215.56113 56.60353 214.73618 56.60353 C 213.91122 56.60353 213.24248 57.94102 213.24248 59.59093 C 213.24248 62.89091 214.88333 65.56602 216.90747 65.56602 C 218.93161 65.56602 220.57246 62.89091 220.57246 59.59093 C 220.57246 57.94102 219.90372 56.60353 219.07877 56.60353 C 218.25381 56.60353 217.58507 57.94102 217.58507 59.59093 C 217.58507 62.89091 219.22592 65.56602 221.25006 65.56602 C 223.2742 65.56602 224.91505 62.89091 224.91505 59.59093 C 224.91505 57.94102 224.2463 56.60353 223.42136 56.60353 C 222.5964 56.60353 221.92766 57.94102 221.92766 59.59093 C 221.92766 62.89091 223.56851 65.56602 225.59265 65.56602 C 227.61679 65.56602 229.25764 62.89091 229.25764 59.59093 C 229.25764 57.94102 228.5889 56.60353 227.76395 56.60353 C 226.939 56.60353 226.27025 57.94102 226.27025 59.59093 C 226.27025 62.89091 227.9111 65.56602 229.93524 65.56602 C 231.95938 65.56602 233.60023 62.89091 233.60023 59.59093" fill="none" />
+<g stroke-width="0.4" transform="matrix(1.00375 0 0 -1.00375 262.147215 154.954197)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 257.840255 143.330597)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">L</text>
+<text class="tikz-shuffler_circuit-f10" x="-36.312999" y="96.043113">B</text>
+</g>
+<path d="M 203.49542 112.38824 M 205.09543 112.38824 C 205.09543 113.27191 204.37909 113.98825 203.49542 113.98825 C 202.61176 113.98825 201.89542 113.27191 201.89542 112.38824 C 201.89542 111.50458 202.61176 110.78824 203.49542 110.78824 C 204.37909 110.78824 205.09543 111.50458 205.09543 112.38824 Z M 203.49542 112.38824" stroke="none" />
+<path d="M 239.00479 49.7923 M 240.6048 49.7923 C 240.6048 50.67596 239.88846 51.3923 239.00479 51.3923 C 238.12112 51.3923 237.40479 50.67596 237.40479 49.7923 C 237.40479 48.90863 238.12112 48.19229 239.00479 48.19229 C 239.88846 48.19229 240.6048 48.90863 240.6048 49.7923 Z M 239.00479 49.7923" stroke="none" />
+<g stroke-width="0.4">
+<path d="M 221.25032 93.49414 L 221.25032 68.6864" fill="none" />
+<g transform="matrix(0 1 -1 0 221.25032 93.69414)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linecap="round" stroke-linejoin="round">
+ <path d=" M -2.07999 2.39998 C -1.69998 0.95998 -0.85318 0.28 0.0 0.0 C -0.85318 -0.28 -1.69998 -0.95998 -2.07999 -2.39998  " fill="none" />
+ </g>
+<g transform="matrix(0 -1 1 0 221.25032 68.4864)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linecap="round" stroke-linejoin="round">
+ <path d=" M -2.07999 2.39998 C -1.69998 0.95998 -0.85318 0.28 0.0 0.0 C -0.85318 -0.28 -1.69998 -0.95998 -2.07999 -2.39998  " fill="none" />
+ </g>
+<g transform="matrix(1.00375 0 0 -1.00375 266.680425 174.022077)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f37" x="-40.744334" y="94.847599">M</text>
+</g>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 224.708165 105.954407)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f37" x="-40.744334" y="86.877487">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-38.805672" y="87.923552">m</text>
+<text class="tikz-shuffler_circuit-f45" x="-33.161311" y="86.877487">=</text>
+<text class="tikz-shuffler_circuit-f37" x="-26.19297" y="86.877487">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-24.254308" y="87.923552">A</text>
+<text class="tikz-shuffler_circuit-f45" x="-19.744015" y="86.877487">+</text>
+<text class="tikz-shuffler_circuit-f37" x="-13.356824" y="86.877487">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-11.418161" y="87.923552">B</text>
+<text class="tikz-shuffler_circuit-f47" x="-6.132988" y="86.877487">(shuf<tspan x="8.015133">ﬂed,</tspan><tspan x="21.971418">into</tspan></text>
+<text class="tikz-shuffler_circuit-f35" x="34.566053" y="86.877487">φ</text>
+<text class="tikz-shuffler_circuit-f33" x="38.946597" y="87.923552">j</text>
+<text class="tikz-shuffler_circuit-f41" x="40.455874" y="87.923552">+</text>
+<text class="tikz-shuffler_circuit-f40" x="44.326309" y="87.923552">1</text>
+<text class="tikz-shuffler_circuit-f47" x="47.315089" y="86.877487">)</text>
+<text class="tikz-shuffler_circuit-f37" x="-40.744334" y="94.847599">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-38.805672" y="95.893664">c</text>
+<text class="tikz-shuffler_circuit-f45" x="-34.546132" y="94.847599">=</text>
+<text class="tikz-shuffler_circuit-f37" x="-27.577792" y="94.847599">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-25.639129" y="95.893664">A</text>
+<text class="tikz-shuffler_circuit-f26" x="-21.128837" y="94.847599">−</text>
+<text class="tikz-shuffler_circuit-f37" x="-14.741645" y="94.847599">i</text>
+<text class="tikz-shuffler_circuit-f33" x="-12.802983" y="95.893664">B</text>
+<text class="tikz-shuffler_circuit-f47" x="-7.51781" y="94.847599">(circulating)</text>
+</g>
+<path d="M 262.22256 75.39958 L 401.52798 75.39958" fill="none" />
+<g transform="matrix(1.00375 0 0 -1.00375 303.119685 170.602857)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 263.81564 75.39958 C 263.81564 76.27942 263.1024 76.99266 262.22256 76.99266 C 261.34273 76.99266 260.62949 76.27942 260.62949 75.39958 C 260.62949 74.51974 261.34273 73.8065 262.22256 73.8065 C 263.1024 73.8065 263.81564 74.51974 263.81564 75.39958 Z M 262.22256 75.39958" />
+</g>
+<path d="M 292.26865 142.26372 L 292.26865 112.81494 M 292.26865 142.26372 M 292.26865 75.39958 M 279.12335 108.83163 M 279.12335 108.83163 M 292.26865 104.84833 L 292.26865 75.39958 L 292.26865 41.68309 M 292.26865 0.0 M 279.12335 37.69978 M 279.12335 37.69978 M 292.26865 33.71648 L 292.26865 0.0" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 304.21886 112.81494 L 280.31844 112.81494 M 304.21886 104.84833 L 280.31844 104.84833" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 387.471927 67.934505)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 333.165775 237.466997)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 293.86172 142.26372 C 293.86172 143.14355 293.14848 143.8568 292.26865 143.8568 C 291.38881 143.8568 290.67557 143.14355 290.67557 142.26372 C 290.67557 141.38388 291.38881 140.67064 292.26865 140.67064 C 293.14848 140.67064 293.86172 141.38388 293.86172 142.26372 Z M 292.26865 142.26372" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 333.165775 170.602857)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 293.86172 75.39958 C 293.86172 76.27942 293.14848 76.99266 292.26865 76.99266 C 291.38881 76.99266 290.67557 76.27942 290.67557 75.39958 C 290.67557 74.51974 291.38881 73.8065 292.26865 73.8065 C 293.14848 73.8065 293.86172 74.51974 293.86172 75.39958 Z M 292.26865 75.39958" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 310.379135 201.784927)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-41.142841" y="94.847599">C</text>
+<text class="tikz-shuffler_circuit-f10" x="-35.129453" y="96.043113">j</text>
+</g>
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 304.21886 41.68309 L 280.31844 41.68309 M 304.21886 33.71648 L 280.31844 33.71648" fill="none" />
+<g stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 387.471927 -3.197345)" stroke="none" fill="currentColor" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 333.165775 95.203277)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 293.86172 0.0 C 293.86172 0.87984 293.14848 1.59308 292.26865 1.59308 C 291.38881 1.59308 290.67557 0.87984 290.67557 0.0 C 290.67557 -0.87984 291.38881 -1.59308 292.26865 -1.59308 C 293.14848 -1.59308 293.86172 -0.87984 293.86172 0.0 Z M 292.26865 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 302.717205 130.653077)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-41.142841" y="94.847599">C</text>
+<text class="tikz-shuffler_circuit-f10" x="-35.129453" y="96.104893">j</text>
+<text class="tikz-shuffler_circuit-f18" x="-33.318309" y="96.104893">+</text>
+<text class="tikz-shuffler_circuit-f17" x="-28.673786" y="96.104893">1</text>
+</g>
+<path d="M 333.24089 75.39958 L 333.24088 96.88142 M 333.24089 75.39958 M 333.24089 142.26372 M 346.38617 108.83163 M 346.38617 108.83163 M 333.24088 120.78185 L 333.24089 142.26372" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 321.29066 108.83163 C 321.29066 102.23164 326.64088 96.88142 333.24088 96.88142 C 339.84087 96.88142 345.19109 102.23164 345.19109 108.83163 C 345.19109 115.43163 339.84087 120.78185 333.24088 120.78185 C 326.64088 120.78185 321.29066 115.43163 321.29066 108.83163 Z M 333.24088 108.83163 M 321.29066 108.83163" fill="none" />
+<path d="M 333.24088 110.62408 L 333.24088 120.78185 M 333.24088 107.03918 L 333.24088 96.88142" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 328.46088 107.03918 L 338.02087 107.03918 M 326.07068 110.62408 L 340.41107 110.62408" fill="none" />
+<path d="M 351.83102 123.83669 L 347.53519 119.54085" fill="none" />
+<g transform="matrix(-.7071 -.7071 .7071 -.7071 347.5352 119.54086)">
+<path d=" M 4.6799 0.0 C 3.29324 0.26 1.03998 1.03998 -0.51999 1.94995 L -0.51999 -1.94995 C 1.03998 -1.03998 3.29324 -0.26 4.6799 0.0  " stroke="none" />
+</g>
+<path d="M 348.24593 127.42178 L 343.95009 123.12595" fill="none" />
+<g transform="matrix(-.7071 -.7071 .7071 -.7071 343.9501 123.12596)">
+<path d=" M 4.6799 0.0 C 3.29324 0.26 1.03998 1.03998 -0.51999 1.94995 L -0.51999 -1.94995 C 1.03998 -1.03998 3.29324 -0.26 4.6799 0.0  " stroke="none" />
+</g>
+<g stroke-width="0.4" transform="matrix(0 1.00375 1.00375 0 238.037603 149.728755)" stroke="none" fill="currentColor" />
+</g>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 374.138015 170.602857)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 334.83397 75.39958 C 334.83397 76.27942 334.12073 76.99266 333.24089 76.99266 C 332.36105 76.99266 331.64781 76.27942 331.64781 75.39958 C 331.64781 74.51974 332.36105 73.8065 333.24089 73.8065 C 334.12073 73.8065 334.83397 74.51974 334.83397 75.39958 Z M 333.24089 75.39958" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 374.138015 237.466997)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 334.83397 142.26372 C 334.83397 143.14355 334.12073 143.8568 333.24089 143.8568 C 332.36105 143.8568 331.64781 143.14355 331.64781 142.26372 C 331.64781 141.38388 332.36105 140.67064 333.24089 140.67064 C 334.12073 140.67064 334.83397 141.38388 334.83397 142.26372 Z M 333.24089 142.26372" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 388.970775 201.784927)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">I</text>
+<text class="tikz-shuffler_circuit-f10" x="-37.392938" y="96.043113">j</text>
+</g>
+<path d="M 333.24089 0.0 L 333.24088 25.74957 M 333.24089 0.0 M 333.24089 75.39958 M 346.38617 37.69978 M 346.38617 37.69978 M 333.24088 49.65 L 333.24089 75.39958" fill="none" />
+<g fill="currentColor" stroke="currentColor" stroke-width="0.79999">
+<path d="M 321.29066 37.69978 C 321.29066 31.0998 326.64088 25.74957 333.24088 25.74957 C 339.84087 25.74957 345.19109 31.0998 345.19109 37.69978 C 345.19109 44.29977 339.84087 49.65 333.24088 49.65 C 326.64088 49.65 321.29066 44.29977 321.29066 37.69978 Z M 333.24088 37.69978 M 321.29066 37.69978" fill="none" />
+<path d="M 333.24088 39.49223 L 333.24088 49.65 M 333.24088 35.90733 L 333.24088 25.74957" fill="none" />
+<g stroke-width="0.79999">
+<path d="M 328.46088 35.90733 L 338.02087 35.90733 M 326.07068 39.49223 L 340.41107 39.49223" fill="none" />
+<path d="M 351.83102 52.70483 L 347.53519 48.409" fill="none" />
+<g transform="matrix(-.7071 -.7071 .7071 -.7071 347.5352 48.40901)">
+<path d=" M 4.6799 0.0 C 3.29324 0.26 1.03998 1.03998 -0.51999 1.94995 L -0.51999 -1.94995 C 1.03998 -1.03998 3.29324 -0.26 4.6799 0.0  " stroke="none" />
+</g>
+<path d="M 348.24593 56.28993 L 343.95009 51.9941" fill="none" />
+<g transform="matrix(-.7071 -.7071 .7071 -.7071 343.9501 51.99411)">
+<path d=" M 4.6799 0.0 C 3.29324 0.26 1.03998 1.03998 -0.51999 1.94995 L -0.51999 -1.94995 C 1.03998 -1.03998 3.29324 -0.26 4.6799 0.0  " stroke="none" />
+</g>
+<g stroke-width="0.4" transform="matrix(0 1.00375 1.00375 0 238.037603 78.596905)" stroke="none" fill="currentColor" />
+</g>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 374.138015 95.203277)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 334.83397 0.0 C 334.83397 0.87984 334.12073 1.59308 333.24089 1.59308 C 332.36105 1.59308 331.64781 0.87984 331.64781 0.0 C 331.64781 -0.87984 332.36105 -1.59308 333.24089 -1.59308 C 334.12073 -1.59308 334.83397 -0.87984 334.83397 0.0 Z M 333.24089 0.0" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 374.138015 170.602857)" stroke="none" fill="currentColor" />
+<g fill="currentColor" stroke="currentColor" fill-opacity="1.0">
+<path d="M 334.83397 75.39958 C 334.83397 76.27942 334.12073 76.99266 333.24089 76.99266 C 332.36105 76.99266 331.64781 76.27942 331.64781 75.39958 C 331.64781 74.51974 332.36105 73.8065 333.24089 73.8065 C 334.12073 73.8065 334.83397 74.51974 334.83397 75.39958 Z M 333.24089 75.39958" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 388.970775 130.653077)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">I</text>
+<text class="tikz-shuffler_circuit-f10" x="-37.392938" y="96.104893">j</text>
+<text class="tikz-shuffler_circuit-f18" x="-35.581793" y="96.104893">+</text>
+<text class="tikz-shuffler_circuit-f17" x="-30.937271" y="96.104893">1</text>
+</g>
+<path d="M 381.04185 142.26372 M 381.04184 132.28381 M 381.04184 85.37944 M 381.04185 75.39958" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 476.245117 67.934505)" />
+<g transform="matrix(1.00375 0 0 -1.00375 418.831005 225.489087)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f22" x="-40.744334" y="94.847599">+</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 418.831005 178.582717)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f3" x="-40.744334" y="94.847599">−</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 418.554025 203.523907)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">v</text>
+<text class="tikz-shuffler_circuit-f10" x="-36.309013" y="96.043113">j</text>
+</g>
+<path d="M 381.04185 75.39958 M 381.04184 64.13934 M 381.04184 11.26021 M 381.04185 0.0" fill="none" />
+<g fill="currentColor" stroke="none" stroke-width="0.4" transform="matrix(0 -1.00375 -1.00375 0 476.245117 -3.197345)" />
+<g transform="matrix(1.00375 0 0 -1.00375 418.831005 157.344617)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f22" x="-40.744334" y="94.847599">+</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 418.831005 104.463487)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f3" x="-40.744334" y="94.847599">−</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 414.723065 132.423067)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f14" x="-40.744334" y="94.847599">v</text>
+<text class="tikz-shuffler_circuit-f10" x="-36.309013" y="96.104893">j</text>
+<text class="tikz-shuffler_circuit-f18" x="-34.497868" y="96.104893">+</text>
+<text class="tikz-shuffler_circuit-f17" x="-29.853346" y="96.104893">1</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 442.425105 237.466997)" stroke="none" fill="currentColor" />
+<g fill="#fff" stroke="currentColor" fill-opacity="1.0">
+<path d="M 403.12106 142.26372 C 403.12106 143.14355 402.40782 143.8568 401.52798 143.8568 C 400.64815 143.8568 399.9349 143.14355 399.9349 142.26372 C 399.9349 141.38388 400.64815 140.67064 401.52798 140.67064 C 402.40782 140.67064 403.12106 141.38388 403.12106 142.26372 Z M 401.52798 142.26372" />
+<path d="" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 442.425105 170.602857)" stroke="none" fill="currentColor" />
+<g fill="#fff" stroke="currentColor" fill-opacity="1.0">
+<path d="M 403.12106 75.39958 C 403.12106 76.27942 402.40782 76.99266 401.52798 76.99266 C 400.64815 76.99266 399.9349 76.27942 399.9349 75.39958 C 399.9349 74.51974 400.64815 73.8065 401.52798 73.8065 C 402.40782 73.8065 403.12106 74.51974 403.12106 75.39958 Z M 401.52798 75.39958" />
+<path d="" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 442.425105 95.203277)" stroke="none" fill="currentColor" />
+<g fill="#fff" stroke="currentColor" fill-opacity="1.0">
+<path d="M 403.12106 0.0 C 403.12106 0.87984 402.40782 1.59308 401.52798 1.59308 C 400.64815 1.59308 399.9349 0.87984 399.9349 0.0 C 399.9349 -0.87984 400.64815 -1.59308 401.52798 -1.59308 C 402.40782 -1.59308 403.12106 -0.87984 403.12106 0.0 Z M 401.52798 0.0" />
+<path d="" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 447.323895 231.286757)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f12" x="-40.744334" y="86.379355">φ</text>
+<text class="tikz-shuffler_circuit-f10" x="-35.695301" y="87.574869">j</text>
+<text class="tikz-shuffler_circuit-f47" x="-40.744334" y="94.847599">top<tspan x="-30.088362">rail</tspan></text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 447.323895 164.422627)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f12" x="-40.744334" y="86.379355">φ</text>
+<text class="tikz-shuffler_circuit-f10" x="-35.695301" y="87.636649">j</text>
+<text class="tikz-shuffler_circuit-f18" x="-33.884157" y="87.636649">+</text>
+<text class="tikz-shuffler_circuit-f17" x="-29.239635" y="87.636649">1</text>
+<text class="tikz-shuffler_circuit-f47" x="-40.744334" y="94.847599">midpoint</text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 447.323895 88.300277)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f12" x="-40.744334" y="86.379355">φ</text>
+<text class="tikz-shuffler_circuit-f10" x="-35.695301" y="87.636649">j</text>
+<text class="tikz-shuffler_circuit-f18" x="-33.884157" y="87.636649">+</text>
+<text class="tikz-shuffler_circuit-f17" x="-29.239635" y="87.636649">2</text>
+<text class="tikz-shuffler_circuit-f47" x="-40.744334" y="94.847599">bottom<tspan x="-19.237189">rail</tspan></text>
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 350.671825 248.660627)" stroke="none" fill="currentColor">
+<text class="tikz-shuffler_circuit-f1" x="-40.744334" y="94.847599">modules</text>
+<text class="tikz-shuffler_circuit-f37" x="-13.669099" y="94.847599">j</text>
+<text class="tikz-shuffler_circuit-f1" x="-11.556103" y="94.847599">,</text>
+<text class="tikz-shuffler_circuit-f37" x="-6.942898" y="94.847599">j</text>
+<text class="tikz-shuffler_circuit-f45" x="-3.86132" y="94.847599">+</text>
+<text class="tikz-shuffler_circuit-f44" x="2.525871" y="94.847599">1</text>
+</g>
+</g>
+</g>
+</svg>

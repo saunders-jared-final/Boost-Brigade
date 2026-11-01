@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="445.836174pt" height="134.331046pt" viewBox="-66.02242 -66.328289 445.836174 134.331046">
+<style type="text/css">
+@font-face{font-family:tikz-control_loop-psyro;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAANoAA0AAAAABpgAAAMTAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkoIBBEICoQEgz8LDAABNgIkAxQEIAWCGgc0G2IFUZQORg3gR0J2KnMh1Q/zoUgb4ouFMTQryoczEdTvh+7d+y/AKopQJS4qKZADtnVMrhZIRVV1PNqy0LUko+JaFfgQyZxXksts5Tee2E+YSWC0Aof8+wkfUKIv2xOMNzXltYZuxhUFFshh7heNjXvQ0EwiXLRoUwIv8CCv+sprUa9GqmvgJQT8/P/pAesl2SdhWcnueMUgH+cneIqW4i8/klQLEvAI3HfsXGUA5WP5WjrbCbXc8QcEoBBxBIoc0ALRr1uADo2Qc4RtSznZOr51yCeiA4AUiaQ7vTmSR53MhxBtK0EFPejCGvwA0GCRChrZNMMxFZM9+GHCCCFvmLCE17MnbB6AB1g9BCBvrb5K1IHdgOBxiLkv7IFniEKcwu4MvmNWKKRurxBmJfKsmfvHy5Zr8ojXNnvE7Fp2HDHyordRANM75J5twUl7WKOgVY8nABnPSfD0lQWBFaxCtGGI6jm3VCy7QAZXrO4p/MdMzdH6bWicPrG+L/apz6mypRHSh2Htro+OIFZ/efiWZ6NCqEPdVnmGcHcJ87BgV7f8IJh1bP5WZbqFuaKKilM/ULLCi7xrwLDLSgxTvMjfPxIbvYuPG4TbO3joui66fvApbmJ07qBzhRluorTqEX1lZYEI6JMOr6oEaBuBA6KhwSQdtfIujpvi2jVLWSzZwW1g5hNdRsCi/41uGoWJrbOlKxjYMvQ8rNUj5VZ5OkW/dgJl1xZKLgStSJeUGg0T0y8L8CEsrbw7GxvBh476S+ElYRNa0Ao7qB2xZbF4ZQXBk9d1+Wx55X8XrKxvkp/CbLm5J3fQJUGQOy1XLWfR/ktTCgCgxmUWiMPIWWZsCCmoTtFBIgT2cAC6nKOA1GmIAopJDQyqXmtKB8jCW5pouqUBCFDsY4Jq2OtYhx5vVA2NHS107fDbtDocsrZyKN/bGRsSAYdHFMTG3tXOGrYmYPP5bAFPIMFbnzAf242HEjieFLLZX3drkge279unB0NwxtDO3nRFQ/iriFygNX3HY7Un4Mbt624NKemtCBkZpTnO6uqDiwA=) format('woff2');}
+@font-face{font-family:tikz-control_loop-psyr;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJIAA0AAAAABRwAAAHzAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoEggSQLCgABNgIkAxAEIAWCFAcwGzEEAB6FccNdQhRFwRA3wg9D5HU8QPvh3t2/PzFJkDRrEp9KQ0KiUkW1MSp9DfUm2mjbMGib95aQ1UWsTsRKoU0N0dYIbRpg685/4gP4+Vve1rwWYBFnFLVFbS0K8owCxLaAKN9d/K7/GlnehaRkCAFe/D+fhW/K4v1RD7EnHJUT98WHOEALwxeVQInyYgB7AaBnx2IDZDdsd+H/Lna8BgIgQ4Y2BKzEBLThukCSBLIb///bX84cAoQCAiBERABAIBfrjjEI//+LIIEiJLSCRQASlqAgplQTpLw8DZXmJdOlBx4Nlg6VjY7khkvuvywpGx/Tzxed/9o1OzJbvL3n3vB/eWNLcfb33c9RTePTkk6tYel5+7UCMBMsXfkuTP5UZwryjysfZNGfqlc2BDkX6IIwpxhOJghsGsympnMr/xVJ2bf19sqcuDVeQ5EIAvEaxmIPELciAIAUe+hA7IHYQwhIalEQEQSsVQRQZAcCokJVCMh0sRGQK3VCAAWSezIhFYsq6FNmrTzlGqR9BYpc0Wdrz3ex5MB/YDGwzt2N155x7G1pqorKNF2aB1fM8ZaqgoqKgqqyqiY8ZuRccPZbbUWxrHW1hxs77KuFSqVw6OWAIVsO1xHOaCoQCtcOu7xYBpRgihQg7iGXECqDEPP+3fvrEgA=) format('woff2');}
+@font-face{font-family:tikz-control_loop-ptmr8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAALEAA0AAAAABaQAAAJuAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkoIBBEICoIUgX8LDAABNgIkAxIEIAWCIAcsG54EUVQOlgC+OrCNpQ99MDAUKRaCRpcrICkblKU8ia9hrImzI5z+Fg//v0a77/2ZWcU1bYLtmDQRz+LZPErVqI1MSOZxE2KNw/hfa3sL28gnaWW6g3dKEbHPMf0aEjJDN9juyitAwYljtgwaDqNwN6oMm3aBlFVblD3QAuzvRT5jnoz/35kXRRCA/8SOkwPtZRBx1Da6aeKnDmSAsU63uctHEGwp+FgRRJsQ8MLPN2CAvos2HPEnrqvJCxku4XHxRYgk1V0AAgBW7u+vAP1i/m8zg7xjMAJQUDARA4tVBSbi+kCjElK/2Lag/e2L9jkGEA0BiEQCAIL9h6KCW03LkyDaVoIadKMTC8B6ABVmqIBKdqtqeHTGxOipB1Xra3X3jo/h9uLVnHfP1/z8Rvnpzi+9vQw+hd6Tbk6o7g0BluotpO8LOd6btRYAG/QAcet36s/G7f/twkvWz2FijmmdRU6teMH6uwfZZ4jGXzAZc/isRVXA+9ezp8307/cfFOtpdSqqs/eHhJGEqPhr8Jdp+Zly+3jDnGW/APAozJz9GF75Go+w+iMl4IQQKggKCbyJf4qBXw4EWwlXfvzsv509ZaClWzy2PT5a5x10ShDknXaD+APEx9YpVfGHBuKPf0hOYKhNwkEiBOazADrtx0DqMBQDxXQTDNR63BSg0XiiiKpLGgxOi8VyWhutXNbodddqa1tPJ3MEn47FwFJXF8V4L9laUyLLU3qUm8IZ6aDZMZERBEbkRS14NQm+Stu1itarnroVZ+oQCdGEYM7XErDeGnnYF02VwPJww8mD9Sj4Ehw4cqYOAblYVc0WIEdIAAAA) format('woff2');}
+@font-face{font-family:tikz-control_loop-cmmi10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAJQAA0AAAAABSwAAAH6AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgkIIBBEICoEogS8LCgABNgIkAxAEIAWCIAcqG0IEIJ4H2VnjNGJF7mZvrEU8/L9d1H2/qkZgd48RA8jm5GBK5iJSZlhlm8lc2620jwvp4UJ+TEFwjIGnMLUW64Gy/wGuf/7tfC8KLJAA/HFAAQf2NYg466I/pmHnYUADHeOIB7LNTxAfcWVgRxFBNISAT1e/HoQftbttxnRE49ipIG1Ot7EVj4rvMRJJUR1AAMCkFdsB6KVX+ksVc9JhD0AAMmRoJcBwmUAruXbI5QK9/idv7AyIKgQgEhJgKl+DjG/XPq0C8b8SyEE15OiE7oAcfSSQ8rxl1Cxq5zNqFjVmbnpYY/NxG0/U3NL0gFIbpwVcf+rcuUvR/nD1wz/aPZv1rM9L7Nq62dsmjd81a/y5Eqnu0nHrL2rWyEu712oPLoS+wy9Wzf1ZuVCl+KwkS5BBGSogL6rEP4bjyYFg4LUe5xca/ne1mtnPlfeX7f9f9EiHUU0CQTr8/8yJxhA9BAAgj8baQzQmGpvBkGslgYQQGG0CqlnBQFJVPQEyHSxgoFDTIQGqqOKSTOTVJXVossx4gxWa2NRWRS1HTBHS57Rr+BnMBCa6XV6caym4ij5K2hmqnaVECjtzKnorK+utoqRiIE8bIcQ6wyt9Su2GtlsqFVlWepfLvQ/BEDOE9qiarivro8Q1xC/3Kal3saUrVSyRdpaCHDGQ1wUAAA==) format('woff2');}
+@font-face{font-family:tikz-control_loop-cmr10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAMMAA0AAAAABpQAAAK2AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgmIIBBEICoNQgnkLFAABNgIkAyIEIAWCGgc0G0IFIB6FTdlbOGEy+YVR1yw9Bc+T3vfnziQP3i8mWz2skg+ggoDKlcAK5qH39u+2t0mIgSaaJRbllhbR6OJ//i/nZ2dj49hC9/wQ/jvafLtFw8I2aS9M8LK1MV3AvSiQgPLUMnfJIB7S7KbmIyk5CxDAzWNPVgC8DcdntcUSz2IBJtSjjgNzHFCwnFAvx2wAAAgAAKDBWasLENc2v5SHVvnFbxAAoIEGRQiANjQBRRiqghAfxZCQUklrbQvEAT+w/gfn99RuAgAAABkgAEASUABY6kTdMXXTHn/Oy8c9ys6RgBQFwA8gF4iBwWAeAGCALAqAiohBMd0oIGQe8dWDZthoVq4e6DgxeUdPbr5cJgZmXbqVc4sJTQ/ePhGcLZ0nNjt052RgFhMSt9WkJkuYEJx99W6Ju9I5PHtiIKQnzkJts/DWsJowW/Tg4ESAMNp0XJGAN8i0nmD7AMHxZdNe5V/11jrb4mxW/a8ma9aWLrVh80UzEPAWrN9+R+XpOw9Um769Xusf3kAAa8ljTXvVmtntrHid347b+QtwQ4EK+2qnZ7u5VEtvyplqAcv4v+IdV3SMz3w3k3WfZ6aNADgoZO+HvAaf3YMe8xHBWgENpCET6COP/CVY1EcjQJDn+1uofbTiN19Qv9tjh+Wroa7nF+CjAAh2zVDzA6g3bw4A4Is+2AA5QG46Mx3lmp+yTxN5GSYfAX4FGQAUEAKqygIAPt0IAMUrRgBotjYEgCloGQLAw7QPTbofJQJR0qorIJnyGXecR8AmGumqu6H66GgQfkXrhtr662fI8JJBuuvK4sqSw1KepbO+BnEgzpXJKcrkyuEqjUedgGYM6t7VcrNyrPJW576DHN90Mx0n8/SfBs10NchgPQ2mFsdIwP1r1MnKwdgb0Pka5OSA0ht+IBOLgkIiLJVVBQAA) format('woff2');}
+@font-face{font-family:tikz-control_loop-ptmri8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAiMAA0AAAAADnwAAAg3AAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAgxIIBBEICpIgjiYLKgABNgIkA04EIAWCJgdKG20LEVWrAQT4cZCbTS5Tnxp5H8lJ+v2Em/67BE2QS9E61BwqalhLp9Rlc9h3mGmnYnR8cScA+h9AOODPH8vD9/+1RdNRpPghdlDntqv2FciwxCPTBjKCBIQJT3GLeJbIVOigEABQCZ6fen9tEH0hDLMfjtAnaCmwAYg3iPMA4EDbow9AgwgAAtgkAE0EH1rTWtgMALkwk2S7/aCR2A+P07lI6vI5ixY6kGCyoD+oBIzfhgd5UAqVYIBW6IAu6IdBGIWZbneQC6VQAQawXMUjP5+7LzjnmF122G6zTTYYDwGIIw4koSNiRkLOEwCbZIEaG4DDBU0e/BvgU7QAQAgiAAAxYADGA0ACQKAmZkIUud0jQJSiMNCqEe8CkOOIFY0B4jjOAQIiloeQmJBhsXwQic4iQjRSIj8UjTxRIApHQuR1NhiHAnxvDApDDFKjKFmdiGi2kGVQ75nqO7UvYDLV7LwQBDQ6tQvZYo20fh1Y9yQAjaabGyhK6HAhW9Y+w+37kZeR7QUlgJM7wepj2rAnAcyO4J1Xweqk7Mhm3G40r99NO56CVXeGMlJFVvubN+9PRlQ+yt5pXYVUC40hR66knGGOU8nhcvVsqrmRggntVa6EJanJeSGhcXCu4G2eRHdlpJ0piKJbuwoXjFFws0lnalyNbHX5DuqTvtbhUGS54KTs15DNlX2ZdoBVuhastGM/sj2i7E6wTtAOV75cwR5Y3WB0meVOXdOSKt34Pqfj6KnXuGUf9p7GKH97AqxOJ2U/hGyueqPlwR0NzxL+oS6Xc17KYyw2YHC58AZ7wVrxQBdrpk2jU61Yg2z77HsIvthgpr0pl6tdsJK8d0h3RUcpjQeUqtbbtmaNAik8McGn1GEta3ieL//AvkfrciaqLMoDuu6aYVzrcnXfTztG3yHtzm4uz7W6tVKpiTamT2gOXkSJy/lyswgo1uwlAZNTx/VTrp+41Fna4ZrZarszx6hYLQc1Up1s2s6DzhZF7rkP2Vzxx12JtMuV76IdsnW0A9n2UfaMPU6lj7GFjt01l0205cqehVAxU05nTs8NjSk5ZKusqh6kHS6js/WFx0a5eU2sO6jfOgHWQXEcHkd9384cvheszpqwF4YX45RdukMH5t20Y0K/MfFAmFO6h7LL9zH73qw6RjoEO606VXhBUSsp/kvskIJ6nDf+ueqW6VZMvHjFrNWTEr3Uv6RNnzeBz+P6cok8OaX/XckChufz/Ff8O375t1VkJHkNeF6jy3sbMpiFed5NhuEdmcWt5dMI/PwHmdfOWWfvrV6Dfyub9s63UeG17U3mnAiPgJlPmMIybk6nb8bLyaa8oLfn5XwBvF/xjsUy5a5Z51RgN/7jBGOLTGEoYQyWL2Twpx/I4y7/pR5LXPU5fD6cekkiWEX/gu28cg1D0vJFu6u/Tfr2JC4l1fRGSQeh6BiSV2Zb8C1cR8rki0eOZKiZGXHWidNzWZjBgZtjds469+7IKQyHF57Dn3v7xjc8tOSeY1Fezz/FP+GV+eJJOq5kuHX0RwyTOhw5QcGR/ybmxM1Z/0FWiJTTZBWEhErPSQIvRvcfPTNSXFFVlGLU3PkLHvXOvSPk7uf55rzp35XHLSgXV3AYawkWfx65ffLbvtlvtDduLk2co4mvTNGW3feVtktyawbO3khsYCeVpa0xT4v2+tU3K2+cbIqGlm7zJVWkKly+5nifeElLrmp7cNHCSQ0rSjNLytMTe1KOnX+4WJk3ZXoIDmY0/qI+LxoCHI3G7aqtOVLMSiri4xZVMeP5XJ3fstTvjeLsnindspHUngi5gEyaxPVIDHgN+7CCixMKpofZmvrgvQHbj/tEnHVsZhzJFASBjLnqAelz3N8mFi2KPSKr9k2NCXx26B7tHXZQodwglz6UyTFs7P5qpgyn+BSPH+ieWp2kwacxDvXwX9zNXz12p6COKeHhPOBLJQW6SOW8j8tjj2/2rnDPI+R+3/l9DckrFASsuEGLi+ig16WGwV0/4ofiHD/foNdB3XPp8VhaZl6ipjL+go8lDBAGvE7mx2L/9GakJnTk/+yGKtkO7Bmx0aitzMmFmSHzw9uUWoM3v2eVV4xGsUEWNPP9pOqLzxPeVPdKTjHDVKCPSJxfE1gBD4an/iegGY5HcVVEWcSwqkRmXqaReXKIxk51jUcBVxSyc7uPM2iRcroyudPSql8StdNf8boiMF1b8iZIl2+R+I7xC4aEpyID+ZLZjoqulQEGHyWhYDRYMYyFAfULi3/g7mSaRZUdXP7227UCIYiWkKLIsHy19bH3G0LPkrichw8Z/tc5mDFgyR153MHbNSumHCyS/6hgdFh2dJMkdeZdyRCVm32OZgFPXSV6eSoDAABHEcRmHOOy4DvtUQ773YxjJAHfaeEoeQmztQkCHPSvJaKviAAAATy5XUJMEWf8xqPJL55BDbh73Bqyg9j/dIBIAOoh9rs10EjmpoDeBQABKEtQF6iT11YCEBb3w8j4E1XSiChdztW/JyxQgS6AH/oVxPtV4I/k7h7iA82xVXS+xn1yr0D0dRQRlrm/rENBCunAAX1LMKpADsQAiPKgFU8QwAV8LCYhEKaK2UDDhqM5wIUzQAJi8YEAEQASk1AESjEb5PDy1TggAmJPXUvbSPe0Qfh/zEGAor7e4f2nD7a1qLQxcao0Vf9wz2BHyuD5Wm20RuOC2jgRSoKv+BP2HmxrUWlj4lRpqv7hnsGOlMGjkjZao4l+NbgRgKFlcKij3rBKU5cL3o9bTBMTB3W6oKwVABDALf0h/cFBwVGxcalFxSXPVNerqtebGpoAAA==) format('woff2');}
+@font-face{font-family:tikz-control_loop-cmsy10;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAMAAA0AAAAABkAAAAKpAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAglIIBBEICoMQglYLDgABNgIkAxgEIAWCIAc5GxAFAI7DdOsjT5IkT9ZYKp7/2uvO3fezCcW34hkkqipUVWhUNRLH4ASD0lUiESr6wwNvZ73/I+6Jkxw4ExzlpSurOgmVUNHdYvCmbxTBAHzRv2ADzeiKP3sfAw6jwAP0wKjnyZWtZVFFF2YzhxDweeptGfDv6JxR20XNEHkY0F7lefCWnpc/ApHQGAoADe4A3NyPWgl+vQ3Epdpn5qceGwSgoGCTAC7oCNik54cZMwm/ngJvg/oR/MMZ99+GvvlLACAdApAGGgBAsFvtpRpkrCeBDizDDJ7hBcAAByTQSHLQdxadhFvYdA4526azrpldklFEcuNZM4tILs5sOmdWsS2zVKQ0SXn6tOuc0v1NqbjEmtFoZtwD/57HZSR7+E2fzfFinw6nrfkklz/pcnWSM6OoKLkYVdcW0EpTjIxypOeS+dIH5Vb8LS298e1bb9znzaYHt+/wKzwwmc+739y69ejRSZ1lv9nYXkyftm7dyFOnGgS943Tm/Rbzj5s36bn7oerP4ObDN+vtjeyr1I7bK4e8M5vCtg/uuL/5Slqk39JsmDp3zkf7kbMNzh6xf6TgvU20ba3LKMCHwHd0zKTne/Co0fA6UzqJTUAHDNjBNYoahOLNAoLDlcTCJa6B/8023ccV87WecV6HRT2YkUCQsX5ufn0C6h0BANCzAQ/IJdQChbpP9CkLMwjoupBAgxBwRgOYWU0AjYmbAIrXYgKYsClHAJ3RcXTEYEFyQkY6IzVDBk2kbDOy28l0q6wRYaNlQvGzWRjObbFZeP9cqDVWUQRp/BT9KVbYJEyMgLYoSBUQoAoCCeqNp5m4rQtds0oJan6lv7JiU1hMQCBBNRBQD/EquLVKqDDrggaKQCCJa1Q0oPkJKDJRBmjYkg4h/Yrkp3VZaOiWqI0RAAAA) format('woff2');}
+@font-face{font-family:tikz-control_loop-phvr8r;src:url(data:application/x-font-woff2;base64,d09GMgABAAAAAAtwAA0AAAAAFWQAAAsZAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAP0ZGVE0cBlYAg0oIBBEICp1cliYLagABNgIkA4FKBCAFgiAHgQobWxCjopSxxkD8MyEbMqE37UY1ihAbW3bOzl3Zu6J7I3VF4hV/43M/4Lb+DfGCYTZ6itlgEDk2B2xEW4kVF1EB3I8OeQgOf+/u/uC57NOY9hsWxYFFXmQpJRRN61t76x4wVX8SJ6PMBw4A2Vm78+Ji6QjVnWLFbjH/MQt8vrXfV+ZhntxK43RanzV27xNLK5jNIiKNRtSqkRBdk1i3TKRUOqElQgjUIP8v0lmR0+a4fCEOABATXp55fzLlC5+U94ORjItlvAHjLS8CWEhujXzKDQYAg3fBIwZ5lAvUr9J6WDvlm+GFjEYy52femkng8EKOaCG5ZUPWaKZ9T8PFwTRGqkwFipQSkpBRUqMZ1GjRZcDItxkdBZAiXY4pEWco4LT567TpMfxZMfqOt9xcXnvisUceuu+eOy675KILzpUL8WhGWgAIi0wFGROgsFxeDfBujS36/wpZ4AN8T+THvwOBgvoAIcOw8AiInEWHwJjv9Fhx6/iECYlJwN2kpKalQ8Y2KzsHIPcEuVD5YuNzWAnyPzoAvgWkeeAcwLwC748UDTDOkWXoYjy5mKQYZeFYlWw+2qwgU1xlIX0wFEERNlqNifgi45DxSFykJs0LiVIgcsM41hajBEvImMgYxIfhEdgKEoEMkl5IMnWBf0aIOUW2BAbMC+9IBVpwoMnmhzRuhIoaxiJByBVmb4Q+uD49lqtX02odGyQzoNe6pjd61BBpnkMhEAqVOhBKPFQACVFsQ6j7OV1BfI0mF5LpG1a12MRXrNxrsm3oUT2iheudh5eGgYVS6PrTP2m2N11oKp06939FB51wKYEfX6c9szDvGwxzHlV8dvLp2qD4RMt6K1aFxYYExcTsN1aeVxk36BbJqV/rQtPzeLR78OW2QzIXOqg3ZG/QJ77J2sJBpa96kcCamIqwx3qPc+xwEPqYjM7LE0vvdmNBlXEotk7ENx0ZjkEzG1bHDTwra4NJ0I6iSkd73v8K07FgPWGZgAdOq3ieAx3TubTdjNdwexdlNw/cz1/NqNFkKDvikHYpM8GcMFGlmC9aVUulUB0lj3sO3ZiJ6tsd+uYN9t9l5aN66nnYrNcjxK+5ezXEYynn2mm/G1ALq7J8UfTetiedUl7DWvvUBaGjX1xuIndEzbjc7viWlSN2bA9Wf6X58BRNj0HiOUl1K3HmVcPdZdyqGOnHkkdxrSdI9tTQFsN2k1W7YFPiMmDwhKmZsg+jXSYW+uFcVR5neScsXDN8O+k/6sNa+zJTHszehyFDUxLyct0UBEJDS92XvorFDowZ15DzDsSyJn7F9KMuxOIlomLZ0VL8UMHc+YtR5oWpMhVCTQN1MOJ4gK7VFDnhOUi07CxgepGtZGWJQDGzwurstYKDKT3aF9o6hVtWSw3UyC+GfgrFGNvNmyGr0vU+X76honc8CJMY9OuKz1MKjuXXVN3Ex3Oi3O4DDiCWGjxeKZtfIBZm3PuHZQzHmHGfULsuYt2+WxQXdvfnX8x3sNrYEF7F5sBuQgbcahiTDxO/YdyGzzl3jHeyvnFjNYb/vjX8j9UUz3v/z7/mvVsM1pfilhDW06ey55OAvqm5LLBgNofbMnOoBaKKv1fAVwoCbzXzCIn15sn+Cz3dA+eO3pPYSomWxUR07FrpUmxR4mIOMP78y3ibF6p5r4FduRn+6ve3TRUk1RWu1syyCvmuunl8SxKjzugljhMkppSRqlKdo8iS76zQTPHucxvgXQkqWDldTGBShVzJxI1MYmtR46qOGYMNkuKq32q57ZaepgYP81Mj6vkolScSlCjn+FCgAtn+A8YDLWTLI6Hwsi2dfP+9wiL4iWx9a42GV1f4f2Xd+X18E88w2DBjTnPd8GRHS2kVTFcvwLNcO4yvtgmUWrmY1JdXaMwSkUYrhILt3gn1hd8LAvmTrgnB43rt1CAVaqlpZbxaQzl43mJvm0fdQ17uOvxtRATx5aCqUwWrf0/77vvVGnOD8+z5lnYNvRjlcKpZMpPVmMPvmLpt/qKR7a0OH60v5gBTxIItN+jN1xdGeKyawkPtnUsXLkAnaj8EZ1RWrfWrRdqvPDYcuCrcRqr8Qf7a2o4PwHW3PZZ74JBbcr+3tc1z4dWj2jqjZ/rLEdfIdI+x7kltLcx2G+lJVIPHSA5VtXhg1qebr7/QP/9nv2WuGd8u2mI+du3lNu3A4t0LZi3Z+eWSXb6Ld/XB2YLPqJVf1jT1OdszPbZCLdwQY+IhTCy+AedLf6zYIgaBnOwOW/4HogATV7n/caGmwt5T36b22Hjafz5S/uMQCSV87COgGLC3cGDK0IKeutlLEk9lz06gYu5UPzH1ZzhBYATbOlXT/lmKYjzNnC1WO5RBZ3KEAY60YqMYM9hwkBmhZs4P2jLtj3Ntc+HLc+7m2eRusn47OY9svuBu3KHfq2+E0Jzp4zNTC2R1iprBdiZDTpOXeCV3uaGRJm89a2S+JalRbqVIO4XLZ6WEplQu7+X6VChyLSmph0Tj63187fDG4i19UEL0tk7ZOGPqpFVt9s7WsQ46eHKblGix1eJOScHfAzR876b8CtTtjSNrJs8eXtdaVJXmL8U8n6Fi0mm3kB0iKeW0WqhOCcBXXbKlXUqsY8YGxtRVTnO/w09HJzQ3UmnivSCfMVXMVGj0leWUUchEuICgBm0hj8WR9oXxBBUlJplEdo+6Z5DARhQvN9fWj2yeNl2Il0uNuVh6fFSjm6Ph81cadGOUHZSVb5+w5GV4m+0MsaZcgrXX2lWtIgnR7rATHWKQuj1UvJqoFqT9EVbcRi0SGXG8BOOSIRSsRik2xX5Mt9AtsMhNeahHavJYVNNr/elTbe+9dxDWumkP7QEpyqaVpXIyP4ub18KcY768ClMWyCeo0smaAiw1FiOshfq0vLXZcHKhicB56myukQC/SOfkVeMmrepyTlk5fR6pdgNews8pHTVWdbtURrZfIdtlUOihAyqJmoaRNZNnDa1vbufZSOLzz/ZItZ12E+WUiEjnOdIpAgnKpv2dB8Ix0InQFFEez0HA6WHAa6gzHXplhUJkDSEC92tikkQZxXJGkN3ofeJhXZ8J50klRCAZmP4iOvFCfiODMsJ/1C+jlskl8kUpvNyYRtknEVEJ0U16CXzMplLVRLUwb212L7VKaCZwHpkuVqog5h5qX7lv4T77WdQCM9Fla2evNR3zidNu/DwyYLdqUVxGeKrxy2EzXEDnKhNLBlUHlNKiIQxgfssPPaI8T+ExBHY6HpB9O9Fmwnd5x1ve73LBxaAaS1maVK+OQf5lbaHSEYDe3e/p5ePlxbKvcajXF5945Wb9c2t7fhYH4zAEJyqiiljmOuYe/d9g/E9V0nKjTbwByDMiyr7cVMiLUAaWZWWG9EgaSQLhOKLF1LTtRgH5Qk5ipqxjJkG5oj4zdQmpRAZerEgssJHIiSykjgk1Y2nxq7iESIQUVxKImMhk3geRGjySSUpIJuYRSWRFQZBmJLgQXwjZjizB4gR0L6NAEWYDAwAiLhPI+oSipBGylozlz2Z5SWDP8oZajzFPOGmgIY3xucQX5CwvEuFZ3kJNv9wYbLtpNWjSr12NHvAnfQcCyHRy6iPRY9S3AUeeLDkRPMS6NBtQoiSKQpYnU+4FmQxykF4EfieJol17mho4eVk5HB6nq3mgp6SHNvMyc3Mzv3q1HoBegx69Wuo0OHLrccD3D5Rc34lQnx3KmQcAwwMFCIihiWLz/TSU7kGCcwsVJsLVEnElS5UuQ7YcufLkK1SkGO9T8ceSU1DCqOCqkNQ0tCg6egZGJlY21wEA) format('woff2');}
+text.tikz-control_loop-f1{font-family:tikz-control_loop-cmsy10;font-size:6.947794px}
+text.tikz-control_loop-f7{font-family:tikz-control_loop-cmmi10;font-size:6.947794px}
+text.tikz-control_loop-f8{font-family:tikz-control_loop-ptmri8r;font-size:6.947794px}
+text.tikz-control_loop-f12{font-family:tikz-control_loop-cmr10;font-size:6.947794px}
+text.tikz-control_loop-f14{font-family:tikz-control_loop-phvr8r;font-size:6.391958px}
+text.tikz-control_loop-f16{font-family:tikz-control_loop-cmsy10;font-size:7.940336px}
+text.tikz-control_loop-f23{font-family:tikz-control_loop-ptmri8r;font-size:4.96271px}
+text.tikz-control_loop-f27{font-family:tikz-control_loop-ptmri8r;font-size:5.955252px}
+text.tikz-control_loop-f29{font-family:tikz-control_loop-psyro;font-size:7.940336px}
+text.tikz-control_loop-f30{font-family:tikz-control_loop-cmmi10;font-size:7.940336px}
+text.tikz-control_loop-f31{font-family:tikz-control_loop-ptmri8r;font-size:7.940336px}
+text.tikz-control_loop-f33{font-family:tikz-control_loop-psyr;font-size:7.940336px}
+text.tikz-control_loop-f34{font-family:tikz-control_loop-ptmr8r;font-size:7.940336px}
+text.tikz-control_loop-f35{font-family:tikz-control_loop-cmr10;font-size:7.940336px}
+text.tikz-control_loop-f37{font-family:tikz-control_loop-phvr8r;font-size:7.305094px}
+
+</style>
+<g id="tikz-control_loop-page1">
+<g stroke-miterlimit="10" transform="matrix(.996264 0 0 -.996264 -65.624088 -51.450706)" fill="currentColor" stroke="currentColor" stroke-width="0.4">
+<g stroke-width="0.8" fill="#f0f0ff">
+<g stroke-width="0.8" fill="#f0f0ff">
+<path d="M 60.5962 14.22636 L 2.00017 14.22636 C 0.89558 14.22636 0.00017 13.33095 0.00017 12.22636 L 0.00017 -12.22636 C 0.00017 -13.33095 0.89558 -14.22636 2.00017 -14.22636 L 60.5962 -14.22636 C 61.70079 -14.22636 62.5962 -13.33095 62.5962 -12.22636 L 62.5962 12.22636 C 62.5962 13.33095 61.70079 14.22636 60.5962 14.22636 Z M 0.00017 -14.22636" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 70.592078 -57.833296)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-56.356245" y="-60.915214">ref<tspan x="-48.019297">erences</tspan></text>
+<text class="tikz-control_loop-f31" x="-65.624088" y="-51.450706">r</text>
+<text class="tikz-control_loop-f35" x="-60.569374" y="-51.450706">=</text>
+<text class="tikz-control_loop-f35" x="-52.605547" y="-51.450706">[</text>
+<text class="tikz-control_loop-f31" x="-50.796414" y="-51.450706">V</text>
+<text class="tikz-control_loop-f27" x="-46.32519" y="-50.175505">r</text>
+<text class="tikz-control_loop-f27" x="-44.083668" y="-50.175505">e</text>
+<text class="tikz-control_loop-f27" x="-40.533018" y="-50.175505">f</text>
+<text class="tikz-control_loop-f35" x="-36.393561" y="-51.450706">+</text>
+<text class="tikz-control_loop-f31" x="-29.093916" y="-51.450706">r</text>
+<text class="tikz-control_loop-f27" x="-25.993619" y="-50.255192">v</text>
+<text class="tikz-control_loop-f30" x="-22.841484" y="-51.450706">,</text>
+<text class="tikz-control_loop-f34" x="-18.862714" y="-51.450706">0</text>
+<text class="tikz-control_loop-f35" x="-14.877658" y="-51.450706">]</text>
+</g>
+</g>
+<g stroke-width="0.8">
+<g stroke-width="0.8">
+<path d="M 95.31224 0.0 C 95.31224 3.14047 92.76643 5.68628 89.62596 5.68628 C 86.48549 5.68628 83.93968 3.14047 83.93968 0.0 C 83.93968 -3.14047 86.48549 -5.68628 89.62596 -5.68628 C 92.76643 -5.68628 95.31224 -3.14047 95.31224 0.0 Z M 89.62596 0.0" fill="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 153.128178 -54.319626)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f33" x="-65.624088" y="-51.450706">Σ</text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#f0f0ff">
+<g stroke-width="0.8" fill="#f0f0ff">
+<path d="M 191.47874 14.22636 L 124.34688 14.22636 C 123.2423 14.22636 122.34688 13.33095 122.34688 12.22636 L 122.34688 -12.22636 C 122.34688 -13.33095 123.2423 -14.22636 124.34688 -14.22636 L 191.47874 -14.22636 C 192.58333 -14.22636 193.47874 -13.33095 193.47874 -12.22636 L 193.47874 12.22636 C 193.47874 13.33095 192.58333 14.22636 191.47874 14.22636 Z M 122.34688 -14.22636" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 194.331118 -57.888306)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-64.192916" y="-60.915214">MIMO<tspan x="-42.195731">PI,</tspan><tspan x="-31.18995">10</tspan><tspan x="-20.997964">kHz</tspan></text>
+<text class="tikz-control_loop-f31" x="-65.624088" y="-51.450706">u</text>
+<text class="tikz-control_loop-f35" x="-59.867903" y="-51.450706">=</text>
+<text class="tikz-control_loop-f31" x="-51.904076" y="-51.450706">k</text>
+<text class="tikz-control_loop-f35" x="-47.344408" y="-51.450706">(</text>
+<text class="tikz-control_loop-f31" x="-44.2521" y="-51.450706">M</text>
+<text class="tikz-control_loop-f27" x="-37.363965" y="-50.255192">p</text>
+<text class="tikz-control_loop-f31" x="-33.877043" y="-51.450706">e</text>
+<text class="tikz-control_loop-f35" x="-29.231409" y="-51.450706">+</text>
+<text class="tikz-control_loop-f31" x="-21.931763" y="-51.450706">M</text>
+<text class="tikz-control_loop-f29" x="-14.973976" y="-51.450706">ξ</text>
+<text class="tikz-control_loop-f35" x="-10.032644" y="-51.450706">)</text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#f0f0ff">
+<g stroke-width="0.8" fill="#f0f0ff">
+<path d="M 282.52751 14.22636 L 232.4673 14.22636 C 231.36272 14.22636 230.4673 13.33095 230.4673 12.22636 L 230.4673 -12.22636 C 230.4673 -13.33095 231.36272 -14.22636 232.4673 -14.22636 L 282.52751 -14.22636 C 283.6321 -14.22636 284.52751 -13.33095 284.52751 -12.22636 L 284.52751 12.22636 C 284.52751 13.33095 283.6321 14.22636 282.52751 14.22636 Z M 230.4673 -14.22636" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 308.231978 -58.973326)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-65.624088" y="-60.915214">duty<tspan x="-49.727497">map</tspan><tspan x="-62.05322" y="-51.450706">+</tspan><tspan x="-55.732724">limits</tspan></text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#fff3e6">
+<g stroke-width="0.8" fill="#fff3e6">
+<path d="M 365.0403 14.22636 L 314.98009 14.22636 C 313.8755 14.22636 312.98009 13.33095 312.98009 12.22636 L 312.98009 -12.22636 C 312.98009 -13.33095 313.8755 -14.22636 314.98009 -14.22636 L 365.0403 -14.22636 C 366.14488 -14.22636 367.0403 -13.33095 367.0403 -12.22636 L 367.0403 12.22636 C 367.0403 13.33095 366.14488 14.22636 365.0403 14.22636 Z M 312.98009 -14.22636" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 384.323168 -58.196826)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-65.624088" y="-60.915214">HR<tspan x="-55.255939">TIM</tspan><tspan x="-40.591151">PWM</tspan><tspan x="-53.928825" y="-51.450706">4</tspan><tspan x="-47.813659">legs</tspan></text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#ffffd9">
+<g stroke-width="0.8" fill="#ffffd9">
+<path d="M 444.70824 14.22636 L 400.33858 14.22636 C 399.234 14.22636 398.33858 13.33095 398.33858 12.22636 L 398.33858 -12.22636 C 398.33858 -13.33095 399.234 -14.22636 400.33858 -14.22636 L 444.70824 -14.22636 C 445.81282 -14.22636 446.70824 -13.33095 446.70824 -12.22636 L 446.70824 12.22636 C 446.70824 13.33095 445.81282 14.22636 444.70824 14.22636 Z M 398.33858 -14.22636" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 471.417978 -59.024856)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-65.624073" y="-60.915214">2<tspan x="-59.508907">shufﬂers</tspan><tspan x="-65.624088" y="-51.450706">3</tspan><tspan x="-59.508922">modules</tspan></text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#ebffeb">
+<g stroke-width="0.8" fill="#ebffeb">
+<path d="M 418.02252 -45.52457 L 338.82062 -45.52457 C 337.71603 -45.52457 336.82062 -46.41998 336.82062 -47.52457 L 336.82062 -71.9773 C 336.82062 -73.08188 337.71603 -73.9773 338.82062 -73.9773 L 418.02252 -73.9773 C 419.1271 -73.9773 420.02252 -73.08188 420.02252 -71.9773 L 420.02252 -47.52457 C 420.02252 -46.41998 419.1271 -45.52457 418.02252 -45.52457 Z M 336.82062 -73.9773" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 405.690798 -118.519206)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-65.624088" y="-60.915214">TMCS1126</text>
+<text class="tikz-control_loop-f16" x="-26.505633" y="-60.915214">×</text>
+<text class="tikz-control_loop-f37" x="-20.312936" y="-60.915214">4</text>
+<text class="tikz-control_loop-f16" x="-14.19777" y="-60.915214">→</text>
+<text class="tikz-control_loop-f37" x="-4.189312" y="-60.915214">ADC<tspan x="-57.481314" y="-51.450706">INA239</tspan></text>
+<text class="tikz-control_loop-f16" x="-30.989398" y="-51.450706">×</text>
+<text class="tikz-control_loop-f37" x="-24.796701" y="-51.450706">3</text>
+<text class="tikz-control_loop-f16" x="-18.681535" y="-51.450706">→</text>
+<text class="tikz-control_loop-f37" x="-8.673077" y="-51.450706">SPI</text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#ebffeb">
+<g stroke-width="0.8" fill="#ebffeb">
+<path d="M 229.88994 -45.52457 L 157.06752 -45.52457 C 155.96294 -45.52457 155.06752 -46.41998 155.06752 -47.52457 L 155.06752 -71.9773 C 155.06752 -73.08188 155.96294 -73.9773 157.06752 -73.9773 L 229.88994 -73.9773 C 230.99452 -73.9773 231.88994 -73.08188 231.88994 -71.9773 L 231.88994 -47.52457 C 231.88994 -46.41998 230.99452 -45.52457 229.88994 -45.52457 Z M 155.06752 -73.9773" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 230.765178 -117.930556)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-60.225829" y="-60.915214">reconstr<tspan x="-33.631226">uction</tspan><tspan x="-65.624088" y="-51.450706">+</tspan><tspan x="-59.303592">LPF</tspan></text>
+<text class="tikz-control_loop-f31" x="-42.622056" y="-51.450706">f</text>
+<text class="tikz-control_loop-f27" x="-40.207192" y="-50.255192">c</text>
+<text class="tikz-control_loop-f35" x="-35.283927" y="-51.450706">=</text>
+<text class="tikz-control_loop-f34" x="-27.320101" y="-51.450706">2</text>
+<text class="tikz-control_loop-f37" x="-21.296699" y="-51.450706">kHz</text>
+</g>
+</g>
+<g stroke-width="0.8" fill="#ffebeb">
+<g stroke-width="0.8" fill="#ffebeb">
+<path d="M 194.32402 -91.04869 L 121.5016 -91.04869 C 120.39702 -91.04869 119.5016 -91.9441 119.5016 -93.04869 L 119.5016 -117.50142 C 119.5016 -118.606 120.39702 -119.50142 121.5016 -119.50142 L 194.32402 -119.50142 C 195.4286 -119.50142 196.32402 -118.606 196.32402 -117.50142 L 196.32402 -93.04869 C 196.32402 -91.9441 195.4286 -91.04869 194.32402 -91.04869 Z M 119.5016 -119.50142" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 195.432678 -163.388686)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f37" x="-65.624088" y="-60.915214">super<tspan x="-47.065783">visor</tspan><tspan x="-31.953627">,</tspan><tspan x="-27.87692">1</tspan><tspan x="-21.761754">kHz</tspan><tspan x="-64.607606" y="-51.450706">stress</tspan></text>
+<text class="tikz-control_loop-f16" x="-43.013654" y="-51.450706">→</text>
+<text class="tikz-control_loop-f29" x="-33.272412" y="-51.450706">β</text>
+<text class="tikz-control_loop-f16" x="-26.145399" y="-51.450706">→</text>
+<text class="tikz-control_loop-f31" x="-16.404157" y="-51.450706">r</text>
+<text class="tikz-control_loop-f27" x="-13.30386" y="-50.255192">v</text>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 62.9962 0.0 L 80.32965 0.0" fill="none" />
+<g transform="translate(78.4182)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+</g>
+<g stroke-width="0.6">
+<path d="M 95.71223 0.0 L 118.73685 0.0" fill="none" />
+<g transform="translate(116.8254)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 106.27559 0.3 h 5.10794 v 5.11835 h -5.10794 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 173.145768 -50.266706)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">e</text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 193.87874 0.0 L 226.85727 0.0" fill="none" />
+<g transform="translate(224.94582)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 203.12473 0.3 h 17.6966 v 6.39938 h -17.6966 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 269.994908 -48.985686)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">u</text>
+<text class="tikz-control_loop-f23" x="-62.137164" y="-50.404641">c</text>
+<text class="tikz-control_loop-f7" x="-59.427355" y="-51.450706">,</text>
+<text class="tikz-control_loop-f8" x="-56.720804" y="-51.450706">u</text>
+<text class="tikz-control_loop-f23" x="-53.23388" y="-50.404641">d</text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 284.9275 0.0 L 309.37006 0.0" fill="none" />
+<g transform="translate(307.4586)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 289.34047 0.3 h 18.82666 v 8.1774 h -18.82666 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 356.210648 -48.985706)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">d</text>
+<text class="tikz-control_loop-f23" x="-62.137164" y="-50.404641">A</text>
+<text class="tikz-control_loop-f7" x="-58.595453" y="-51.450706">,</text>
+<text class="tikz-control_loop-f8" x="-55.888902" y="-51.450706">d</text>
+<text class="tikz-control_loop-f23" x="-52.401978" y="-50.404641">B</text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 367.44029 0.0 L 394.72855 0.0" fill="none" />
+<g transform="translate(392.8171)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+</g>
+<g stroke-width="0.6">
+<path d="M 422.5234 -14.62636 L 422.5234 -59.75093 L 423.63255 -59.75093" fill="none" />
+<g transform="matrix(-1 0 0 -1 425.544 -59.75093)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 422.82341 -40.9851 h 19.47327 v 7.59293 h -19.47327 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 489.693588 -90.578766)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.972782" y="-51.450706">V</text>
+<text class="tikz-control_loop-f23" x="-62.06046" y="-50.404641">M</text>
+<text class="tikz-control_loop-f14" x="-57.213722" y="-51.450706">,</text>
+<text class="tikz-control_loop-f8" x="-53.646592" y="-51.450706">I</text>
+<text class="tikz-control_loop-f23" x="-51.498676" y="-50.404641">L</text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 336.42062 -59.75093 L 235.49997 -59.75093" fill="none" />
+<g transform="matrix(-1 0 0 -1 237.41142 -59.75093)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+</g>
+<g stroke-width="0.6">
+<path d="M 154.66753 -59.75093 L 89.62596 -59.75093 L 89.62596 -9.29631" fill="none" />
+<g transform="matrix(0 1 -1 0 89.62596 -11.20776)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 112.11304 -59.45093 h 33.07654 v 9.0 h -33.07654 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 178.983218 -108.344576)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">y</text>
+<text class="tikz-control_loop-f12" x="-60.978007" y="-51.450706">=</text>
+<text class="tikz-control_loop-f12" x="-54.009667" y="-51.450706">[</text>
+<text class="tikz-control_loop-f8" x="-52.077981" y="-51.450706">v</text>
+<text class="tikz-control_loop-f23" x="-48.981631" y="-50.404641">d</text>
+<text class="tikz-control_loop-f7" x="-45.733861" y="-51.450706">,</text>
+<text class="tikz-control_loop-f8" x="-41.243746" y="-51.450706">i</text>
+<text class="tikz-control_loop-f23" x="-39.305083" y="-50.404641">c</text>
+<text class="tikz-control_loop-f12" x="-36.595274" y="-51.450706">]</text>
+</g>
+</g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 81.88705 -16.93108 h 7.4389 v 6.66193 h -7.4389 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 148.757228 -66.993756)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f1" x="-65.624088" y="-51.450706">−</text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 378.42157 -74.37729 L 378.42157 -105.27505 L 199.93405 -105.27505" fill="none" />
+<g transform="matrix(-1 0 0 -1 201.8455 -105.27505)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 258.9733 -113.21349 h 57.199 v 7.63843 h -57.199 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 325.843478 -162.807146)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">I</text>
+<text class="tikz-control_loop-f23" x="-63.476172" y="-50.404641">L</text>
+<text class="tikz-control_loop-f14" x="-60.193575" y="-51.450706">,<tspan x="-56.626445">module</tspan><tspan x="-33.805248">currents</tspan></text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 248.9616 -14.62636 L 248.9616 -99.58452 L 199.93405 -99.58452" fill="none" />
+<g transform="matrix(-1 0 0 -1 201.8455 -99.58452)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 217.6464 -99.28452 h 41.7341 v 7.944 h -41.7341 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 284.516578 -148.572606)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f14" x="-65.624088" y="-51.450706">applied<tspan x="-43.1558">duties</tspan></text>
+</g>
+</g>
+</g>
+<g stroke-width="0.6">
+<path d="M 119.10161 -105.27505 L 31.29819 -105.27505 L 31.29819 -17.8364" fill="none" />
+<g transform="matrix(0 1 -1 0 31.29819 -19.74785)" stroke-dasharray="none" stroke-dashoffset="0.0" stroke-linejoin="miter">
+ <path d=" M 4.26709 0.0 L 0.96867 1.24673 L 2.06145 0.0 L 0.96867 -1.24673 Z  " />
+ </g>
+<g fill="#fff">
+<g fill="#fff">
+<path d="M 48.73593 -113.66719 h 52.92795 v 8.09213 h -52.92795 Z" stroke="none" />
+</g>
+<g transform="matrix(1.00375 0 0 -1.00375 115.606108 -162.955276)" stroke="none" fill="currentColor">
+<text class="tikz-control_loop-f8" x="-65.624088" y="-51.450706">r</text>
+<text class="tikz-control_loop-f23" x="-62.911328" y="-50.404641">v</text>
+<text class="tikz-control_loop-f14" x="-58.417955" y="-51.450706">(one-tic<tspan x="-37.155781">k</tspan><tspan x="-32.164253">dela</tspan><tspan x="-20.230722">y)</tspan></text>
+</g>
+</g>
+</g>
+</g>
+</g>
+</svg>

@@ -1,0 +1,589 @@
+[
+  {
+    "file": "20260828_075344.webp",
+    "thumb": "20260828_075344.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-08-28T07:53:44",
+    "caption": "Aug: first proto-board with the Nucleo.",
+    "tags": [
+      "proto/pcb-arrival"
+    ]
+  },
+  {
+    "file": "20260902_105737.webp",
+    "thumb": "20260902_105737.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-09-02T10:57:37",
+    "caption": "",
+    "tags": [
+      "proto/pcb-arrival"
+    ]
+  },
+  {
+    "file": "20260903_124233.webp",
+    "thumb": "20260903_124233.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-09-03T12:42:32",
+    "caption": "",
+    "tags": [
+      "proto/pcb-arrival"
+    ]
+  },
+  {
+    "file": "20260925_000522.webp",
+    "thumb": "20260925_000522.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-09-25T00:05:22",
+    "caption": "Sep: the Version 0 PCB arrives.",
+    "tags": [
+      "proto/pcb-arrival"
+    ]
+  },
+  {
+    "file": "20261004_140505.webp",
+    "thumb": "20261004_140505.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-04T14:05:05",
+    "caption": "",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261004_141445.webp",
+    "thumb": "20261004_141445.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-04T14:14:45",
+    "caption": "Oct 4: reflow in the PCB oven.",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261004_162523.webp",
+    "thumb": "20261004_162523.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-04T16:25:23",
+    "caption": "Oct 4: assembled board with the Nucleo.",
+    "tags": [
+      "assembly"
+    ],
+    "hero": true
+  },
+  {
+    "file": "20261004_162533.webp",
+    "thumb": "20261004_162533.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-04T16:25:33",
+    "caption": "",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261004_162616.webp",
+    "thumb": "20261004_162616.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-04T16:26:16",
+    "caption": "Oct 4: the hardware teammate with the board.",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261005_173910.webp",
+    "thumb": "20261005_173910.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-05T17:39:09",
+    "caption": "",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "IMG-20261006-WA0000.webp",
+    "thumb": "IMG-20261006-WA0000.thumb.webp",
+    "width": 900,
+    "height": 1600,
+    "date": "2026-10-06T07:15:46",
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "20261006_102236.webp",
+    "thumb": "20261006_102236.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-06T10:22:36",
+    "caption": "Oct 6: heatsink.",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261007_081025.webp",
+    "thumb": "20261007_081025.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-07T08:10:25",
+    "caption": "Oct 7: enclosure work.",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261011_101101.webp",
+    "thumb": "20261011_101101.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-11T10:11:01",
+    "caption": "",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261011_101108.webp",
+    "thumb": "20261011_101108.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-11T10:11:07",
+    "caption": "Oct 11: pod with the Pi, LCD and IR receiver.",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261011_101141.webp",
+    "thumb": "20261011_101141.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-11T10:11:41",
+    "caption": "",
+    "tags": [
+      "assembly"
+    ]
+  },
+  {
+    "file": "20261012_165157.webp",
+    "thumb": "20261012_165157.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-12T16:51:57",
+    "caption": "",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261012_180815.webp",
+    "thumb": "20261012_180815.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-12T18:08:15",
+    "caption": "Oct 12: first bench runs.",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261012_192754.webp",
+    "thumb": "20261012_192754.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-12T19:27:53",
+    "caption": "",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_100557.webp",
+    "thumb": "20261014_100557.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T10:05:57",
+    "caption": "Oct 14: heatsink mounted, thermal paste.",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_103904.webp",
+    "thumb": "20261014_103904.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T10:39:04",
+    "caption": "",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_103908.webp",
+    "thumb": "20261014_103908.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T10:39:08",
+    "caption": "",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_164058.webp",
+    "thumb": "20261014_164058.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T16:40:58",
+    "caption": "",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_164518.webp",
+    "thumb": "20261014_164518.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T16:45:18",
+    "caption": "Oct 14: U10, the top INA239 behind the reversed isolator.",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "20261014_212624.webp",
+    "thumb": "20261014_212624.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-14T21:26:24",
+    "caption": "Oct 14: ERUC23 coupled inductor rework.",
+    "tags": [
+      "bring-up"
+    ]
+  },
+  {
+    "file": "IMG-20261014-WA0000.webp",
+    "thumb": "IMG-20261014-WA0000.thumb.webp",
+    "width": 900,
+    "height": 1600,
+    "date": "2026-10-14T22:30:35",
+    "caption": "Oct 14: late-night bring-up.",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "20261016_125222.webp",
+    "thumb": "20261016_125222.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-16T12:52:22",
+    "caption": "",
+    "tags": [
+      "bench-day"
+    ]
+  },
+  {
+    "file": "20261016_125222_1_.webp",
+    "thumb": "20261016_125222_1_.thumb.webp",
+    "width": 826,
+    "height": 1600,
+    "date": "2026-10-16T12:52:22",
+    "caption": "",
+    "tags": [
+      "bench-day"
+    ]
+  },
+  {
+    "file": "20261016_143209.webp",
+    "thumb": "20261016_143209.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-16T14:32:09",
+    "caption": "Oct 16: pod LCD during the bench test.",
+    "tags": [
+      "bench-day"
+    ]
+  },
+  {
+    "file": "20261016_143219.webp",
+    "thumb": "20261016_143219.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-16T14:32:19",
+    "caption": "NGE103 PSU: 23.30 V / 1.299 A, 23.30 V / 0.500 A, 23.30 V / 1.299 A.",
+    "tags": [
+      "bench-day"
+    ]
+  },
+  {
+    "file": "20261016_143227.webp",
+    "thumb": "20261016_143227.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-16T14:32:27",
+    "caption": "DL3021 e-load in CV: 70.02 V, 0.970 A, 67.9 W.",
+    "tags": [
+      "bench-day"
+    ]
+  },
+  {
+    "file": "20261016_153331.webp",
+    "thumb": "20261016_153331.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-16T15:33:31",
+    "caption": "Oct 16: Grafana live during closed loop.",
+    "tags": [
+      "bench-day"
+    ],
+    "hero": true
+  },
+  {
+    "file": "20261020_112310.webp",
+    "thumb": "20261020_112310.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T11:23:10",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_112730.webp",
+    "thumb": "20261020_112730.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T11:27:30",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_112740.webp",
+    "thumb": "20261020_112740.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T11:27:39",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_131748.webp",
+    "thumb": "20261020_131748.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T13:17:48",
+    "caption": "Oct 20: carpark set-up.",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_131809.webp",
+    "thumb": "20261020_131809.thumb.webp",
+    "width": 1600,
+    "height": 1195,
+    "date": "2026-10-20T13:18:10",
+    "caption": "Oct 20: it works in the sun.",
+    "tags": [
+      "carpark-day"
+    ],
+    "hero": true
+  },
+  {
+    "file": "20261020_131838.webp",
+    "thumb": "20261020_131838.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T13:18:39",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_132040.webp",
+    "thumb": "20261020_132040.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T13:20:40",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_132056.webp",
+    "thumb": "20261020_132056.thumb.webp",
+    "width": 1600,
+    "height": 1200,
+    "date": "2026-10-20T13:20:56",
+    "caption": "",
+    "tags": [
+      "carpark-day"
+    ]
+  },
+  {
+    "file": "20261020_132132.webp",
+    "thumb": "20261020_132132.thumb.webp",
+    "width": 1200,
+    "height": 1600,
+    "date": "2026-10-20T13:21:31",
+    "caption": "Oct 20: the string.",
+    "tags": [
+      "carpark-day"
+    ],
+    "hero": true
+  },
+  {
+    "file": "Messenger_creation_0EBD3E4A-3D61-4BC9-9D7C-7F61F41218D4.webp",
+    "thumb": "Messenger_creation_0EBD3E4A-3D61-4BC9-9D7C-7F61F41218D4.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_43CAB76C-569E-4C1A-B37C-5A0AD2B8B5C9.webp",
+    "thumb": "Messenger_creation_43CAB76C-569E-4C1A-B37C-5A0AD2B8B5C9.thumb.webp",
+    "width": 1532,
+    "height": 1032,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_4AD0D691-2915-4927-BB30-509DAD62F0C9.webp",
+    "thumb": "Messenger_creation_4AD0D691-2915-4927-BB30-509DAD62F0C9.thumb.webp",
+    "width": 1600,
+    "height": 940,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_4D1F7DE1-0A64-4944-9EF6-C06C08609862.webp",
+    "thumb": "Messenger_creation_4D1F7DE1-0A64-4944-9EF6-C06C08609862.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_57FF9578-4E7C-4EB6-B5D0-3B32FE149DBD.webp",
+    "thumb": "Messenger_creation_57FF9578-4E7C-4EB6-B5D0-3B32FE149DBD.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_AABF73CC-091C-4A54-AA4E-0A7EC8B049C2.webp",
+    "thumb": "Messenger_creation_AABF73CC-091C-4A54-AA4E-0A7EC8B049C2.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_AF932610-B0FD-4DE6-B7DE-F6BF97B03831.webp",
+    "thumb": "Messenger_creation_AF932610-B0FD-4DE6-B7DE-F6BF97B03831.thumb.webp",
+    "width": 1501,
+    "height": 1032,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_C4BE689F-46EE-448E-8FE8-E073A25E4E76.webp",
+    "thumb": "Messenger_creation_C4BE689F-46EE-448E-8FE8-E073A25E4E76.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_D0470A96-9EC2-40B9-8C70-AC41F32E46B5.webp",
+    "thumb": "Messenger_creation_D0470A96-9EC2-40B9-8C70-AC41F32E46B5.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_D0BE7909-4AAF-4066-ABF2-7FD998D3F3A4.webp",
+    "thumb": "Messenger_creation_D0BE7909-4AAF-4066-ABF2-7FD998D3F3A4.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_E57D8A44-8ED7-41D2-9FEA-5F6A45D5EF64.webp",
+    "thumb": "Messenger_creation_E57D8A44-8ED7-41D2-9FEA-5F6A45D5EF64.thumb.webp",
+    "width": 1280,
+    "height": 824,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  },
+  {
+    "file": "Messenger_creation_F1DB8183-4B71-4DFC-B329-E3414997BF35.webp",
+    "thumb": "Messenger_creation_F1DB8183-4B71-4DFC-B329-E3414997BF35.thumb.webp",
+    "width": 1527,
+    "height": 1032,
+    "date": null,
+    "caption": "",
+    "tags": [
+      "misc"
+    ]
+  }
+]
