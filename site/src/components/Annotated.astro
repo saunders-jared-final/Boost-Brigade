@@ -1,0 +1,62 @@
+---
+/**
+ * A photo or render with numbered markers and a legend. Marker positions are percentages
+ * of the image box. Hovering a legend entry highlights its marker and vice versa.
+ */
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+export interface Marker { n: number; x: number; y: number; label: string; body?: string; w?: number; h?: number; colour?: string; }
+interface Props { src: ImageMetadata; alt: string; markers: Marker[]; caption?: string; legendSide?: 'right' | 'below'; id?: string; }
+const { src, alt, markers, caption, legendSide = 'right', id = `ann-${Math.random().toString(36).slice(2, 8)}` } = Astro.props;
+---
+<div class:list={['annot', legendSide]} id={id}>
+  <figure class="figure flush annot-fig">
+    <div class="annot-box">
+      <Image src={src} alt={alt} width={Math.min(1800, src.width)} />
+      {markers.map((m) => (
+        m.w && m.h ? (
+          <div class="annot-region" data-n={m.n} style={`left:${m.x}%;top:${m.y}%;width:${m.w}%;height:${m.h}%;--c:${m.colour ?? 'var(--accent)'}`}><span class="annot-pin" style={`--c:${m.colour ?? 'var(--accent)'}`}>{m.n}</span></div>
+        ) : (
+          <button class="annot-pin abs" type="button" data-n={m.n} style={`left:${m.x}%;top:${m.y}%;--c:${m.colour ?? 'var(--accent)'}`} aria-label={`${m.n}: ${m.label}`}>{m.n}</button>
+        )
+      ))}
+    </div>
+    {caption && <figcaption>{caption}</figcaption>}
+  </figure>
+  <ol class="annot-legend">
+    {markers.map((m) => (
+      <li data-n={m.n} tabindex="0"><span class="annot-pin" style={`--c:${m.colour ?? 'var(--accent)'}`}>{m.n}</span><div><strong>{m.label}</strong>{m.body && <p class="small muted">{m.body}</p>}</div></li>
+    ))}
+  </ol>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.annot').forEach((root) => {
+    const all = root.querySelectorAll<HTMLElement>('[data-n]');
+    const set = (n: string | null) => all.forEach((el) => el.classList.toggle('hot', !!n && el.dataset.n === n));
+    all.forEach((el) => {
+      el.addEventListener('mouseenter', () => set(el.dataset.n!));
+      el.addEventListener('mouseleave', () => set(null));
+      el.addEventListener('focus', () => set(el.dataset.n!));
+      el.addEventListener('blur', () => set(null));
+      el.addEventListener('click', () => { set(el.dataset.n!); root.querySelector<HTMLElement>(`.annot-legend [data-n="${el.dataset.n}"]`)?.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); });
+    });
+  });
+</script>
+<style is:global>
+  .annot { display: grid; gap: 1.2rem; align-items: start; }
+  .annot.right { grid-template-columns: minmax(0, 1.5fr) minmax(220px, .8fr); }
+  @media (max-width: 860px) { .annot.right { grid-template-columns: 1fr; } }
+  .annot-box { position: relative; }
+  .annot-box img { width: 100%; }
+  .annot-pin { display: inline-grid; place-items: center; width: 26px; height: 26px; border-radius: 50%; background: var(--c); color: #fff; font-family: var(--font-mono); font-weight: 700; font-size: .8rem; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,.35); flex: none; cursor: pointer; padding: 0; }
+  .annot-pin.abs { position: absolute; transform: translate(-50%, -50%); z-index: 2; transition: transform .15s; }
+  .annot-region { position: absolute; border: 2px solid var(--c); border-radius: 8px; box-shadow: inset 0 0 0 1px rgba(255,255,255,.5); transition: background .15s; }
+  .annot-region .annot-pin { position: absolute; left: -6px; top: -6px; }
+  .annot-region.hot { background: color-mix(in srgb, var(--c) 22%, transparent); }
+  .annot-pin.abs.hot, .annot-legend li.hot .annot-pin { transform: translate(-50%, -50%) scale(1.25); }
+  .annot-legend li.hot .annot-pin { transform: scale(1.15); }
+  .annot-legend { list-style: none; padding: 0; margin: 0; display: grid; gap: .5rem; }
+  .annot-legend li { display: flex; gap: .7rem; align-items: flex-start; padding: .55rem .7rem; border-radius: 10px; border: 1px solid transparent; cursor: default; }
+  .annot-legend li.hot { background: var(--surface); border-color: var(--line); }
+  .annot-legend li p { margin: .15rem 0 0; }
+</style>

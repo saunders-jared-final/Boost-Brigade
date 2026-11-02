@@ -15,7 +15,7 @@ const lastLine = to ?? code.split('\n').length + from - 1;
 <div class="snippet">
   <div class="snippet-head">
     <span class="mono small">{title ?? file}</span>
-    <a class="mono small" href={repoUrl(file, [from, lastLine])} target="_blank" rel="noopener">L{from}–L{lastLine} on GitHub ↗</a>
+    <a class="mono small ext" href={repoUrl(file, [from, lastLine])} target="_blank" rel="noopener">L{from}–L{lastLine} on GitHub</a>
   </div>
   <Code code={code} lang={language} themes={{ light: 'github-light', dark: 'github-dark' }} />
   {note && <p class="small muted" style="margin-top:.5rem">{note}</p>}

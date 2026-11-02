@@ -1,0 +1,9 @@
+---
+import { href } from '../lib/site';
+interface Props { items: { href: string; label: string }[]; }
+const { items } = Astro.props;
+const current = Astro.url.pathname.replace(import.meta.env.BASE_URL.replace(/\/$/, ''), '') || '/';
+---
+<nav class="subnav" aria-label="Section">
+  {items.map((i) => <a href={href(i.href)} aria-current={current === i.href ? 'page' : undefined}>{i.label}</a>)}
+</nav>

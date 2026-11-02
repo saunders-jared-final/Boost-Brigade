@@ -1,0 +1,12 @@
+---
+/** A plain-language headline statement (replaces the old stat tiles). */
+interface Props { big: string; what: string; how?: string; href?: string; colour?: 'accent' | 'blue' | 'green' | 'teal'; }
+const { big, what, how, href, colour = 'accent' } = Astro.props;
+const Tag = href ? 'a' : 'div';
+const col = { accent: 'var(--accent)', blue: 'var(--blue)', green: 'var(--green)', teal: 'var(--teal)' }[colour];
+---
+<Tag class="claim reveal" href={href} style={`--claim-colour:${col}`}>
+  <span class="big">{big}</span>
+  <span class="what">{what}</span>
+  {how && <span class="how">{how}</span>}
+</Tag>

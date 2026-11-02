@@ -3,57 +3,69 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import { Image } from 'astro:assets';
 import { photo } from '../lib/assets';
-import { SITE, repoUrl, rawUrl, href } from '../lib/site';
-const teamPhoto = photo('20261004_162616');
+import { SITE, repoUrl, rawUrl, reportUrl } from '../lib/site';
+const teamPhoto = photo('20261012_165157');
+const jared = photo('20261020_131809');
+const son = photo('20261004_162616');
 const downloads = [
-  { label: 'Final report, v3.0 (PDF, 13 MB)', href: rawUrl('0_Documentation/jared-assessment/n11034459_CapstoneDelivery_V3.pdf') },
-  { label: 'Report LaTeX source', href: repoUrl('0_Documentation/jared-assessment/CapstoneDelivery_latex') },
-  { label: 'Project proposal (PDF)', href: rawUrl('0_Documentation/CapstoneProjectProposal.pdf') },
+  { label: 'Control stream: project delivery report (PDF, 16 MB)', href: reportUrl('control') },
+  { label: 'Hardware stream: final report (PDF, 7 MB)', href: reportUrl('hardware') },
+  { label: 'Project proposal (PDF)', href: reportUrl('proposal') },
   { label: 'Hardware stream: proposal (PDF)', href: rawUrl("0_Documentation/Son's Project Proposal.pdf") },
   { label: 'Hardware stream: progress report (PDF)', href: rawUrl("0_Documentation/Son's Project Progress Report.pdf") },
-  { label: 'Results report (REPORT.md)', href: repoUrl('8_Results/analysis/REPORT.md') },
+  { label: 'Delivery report LaTeX source', href: repoUrl('0_Documentation/jared-assessment/CapstoneDelivery_latex') },
+  { label: 'Results pipeline report (REPORT.md)', href: repoUrl('8_Results/analysis/REPORT.md') },
 ];
 ---
-<Base title="About" description="Team, supervision and downloads for the Boost Brigade power shuffler capstone.">
-  <Section eyebrow="About" title="Two streams, one board" lede="EGH490 Research Project, Queensland University of Technology, 2026. Supervised by Assoc Prof Geoff Walker, School of Electrical Engineering and Robotics." narrow>
+<Base title="About" description="Team Boost Brigade, acknowledgements and downloads for the power shuffler capstone.">
+  <Section eyebrow="About" title="Team Boost Brigade" lede="EGH490 Research Project, Queensland University of Technology, 2026. Two students, two streams, one board." narrow>
+    {teamPhoto && <figure class="figure"><Image src={teamPhoto} alt="Team Boost Brigade in the lab" width={1400} /><figcaption>Team photo slot: this one is from 12 Oct in the lab. Replace it with the team picture by dropping a new photo into site/src/assets/photos and changing the name in src/pages/about.astro.</figcaption></figure>}
     <div class="grid grid-2">
-      <article class="card">
-        <p class="eyebrow">Control stream</p>
+      <article class="card ctrl">
+        <p class="eyebrow ctrl">Control stream</p>
         <h3>Jared Saunders</h3>
-        <p class="muted">Analytical model, MIL/SIL Simulink ladder, the C control core, STM32 firmware, Raspberry Pi telemetry pod, QSPICE control integration, test campaign and results pipeline. Author of this site.</p>
+        {jared && <Image src={jared} alt="Jared Saunders at the carpark test" width={700} style="border-radius:10px;margin:.4rem 0 .8rem" />}
+        <p class="muted">Analytical model, Simulink MIL/SIL ladder, the C control core, STM32 firmware, the Raspberry Pi telemetry pod, the QSPICE control integration, the test campaign and the results pipeline. Author of this site.</p>
         <div class="row">
-          <a class="btn" href={SITE.repo} target="_blank" rel="noopener">GitHub ↗</a>
-          <a class="btn" href={SITE.linkedin} target="_blank" rel="noopener">LinkedIn ↗</a>
-          <a class="btn btn-ghost" href={href('/resume.pdf')}>Resume (PDF)</a>
+          <a class="btn ext" href={SITE.repo} target="_blank" rel="noopener">GitHub</a>
+          <a class="btn ext" href={reportUrl('control')} target="_blank" rel="noopener">Delivery report</a>
         </div>
       </article>
-      <article class="card">
-        <p class="eyebrow">Hardware stream</p>
+      <article class="card hw">
+        <p class="eyebrow hw">Hardware stream</p>
         <h3>Son Nguyen</h3>
-        <p class="muted">Power stage design, the QSPICE schematic of the shuffler, KiCad Version 0 PCB layout, component sourcing, manufacturing and assembly. The QSPICE schematic plus the sensor set was the hand-over interface between the two streams.</p>
+        {son && <Image src={son} alt="Son Nguyen with the freshly assembled board" width={700} style="border-radius:10px;margin:.4rem 0 .8rem" />}
+        <p class="muted">PV model, topology comparison and the ideal, semi-realistic and parasitic-aware QSPICE models; the KiCad Version 0 schematic and six-layer layout; component sourcing, assembly, commissioning, the open-loop bench tests and the PV module tests.</p>
         <div class="row">
-          <a class="btn" href={rawUrl("0_Documentation/Son's Project Proposal.pdf")} target="_blank" rel="noopener">Proposal</a>
-          <a class="btn" href={rawUrl("0_Documentation/Son's Project Progress Report.pdf")} target="_blank" rel="noopener">Progress report</a>
+          <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report</a>
+          <a class="btn ext" href={rawUrl("0_Documentation/Son's Project Proposal.pdf")} target="_blank" rel="noopener">Proposal</a>
         </div>
       </article>
     </div>
-    {teamPhoto && <figure class="figure"><Image src={teamPhoto} alt="The hardware teammate holding the freshly assembled board, 4 Oct 2026" width={1200} /><figcaption>4 Oct 2026: the hardware stream with the assembled Version 0 board.</figcaption></figure>}
   </Section>
 
-  <Section alt narrow eyebrow="How the work ran" title="Working arrangement">
+  <Section alt narrow eyebrow="Acknowledgements" title="Thank you">
+    <div class="grid grid-2">
+      <div class="card amber"><h3>Assoc Prof Geoff Walker</h3><p class="muted">Our supervisor, School of Electrical Engineering and Robotics, QUT. Geoff proposed per-module shuffling converters for PV strings back in 2003, reviewed every design at fortnightly meetings and weekly milestone reviews in the second semester, and caught the ripple-current risk that led to the interleaved topology.</p></div>
+      <div class="card amber"><h3>Benjamin Harvey</h3><p class="muted">For helping us manufacture the board: the stencil assembly, the reflow and the rework that turned a bare six-layer PCB into a working shuffler.</p></div>
+    </div>
+    <p class="muted small" style="margin-top:1rem">Also: the student experienced in PCB design who did the component placement and reviewed the layout; the QUT electrical workspaces that hosted the bench days; and the KickAss 80 W panels that stood in for a rooftop.</p>
+  </Section>
+
+  <Section narrow eyebrow="How the work ran" title="Working arrangement">
     <ul class="prose">
       <li>The team met more than twice a week; the supervisor received fortnightly updates and weekly milestone reviews in the second semester.</li>
-      <li>Hardware and control were developed in parallel against a shared interface: the QSPICE schematic of the power stage and the agreed sensor set (four hall sensors, three INA239 voltage monitors).</li>
+      <li>Hardware and control were developed in parallel against a shared interface: the QSPICE schematic of the power stage and the agreed sensor set (four hall sensors, three INA239 voltage monitors). The Story page shows where the two streams converged.</li>
       <li>Everything lives in one repository with numbered folders (0_Documentation to 9_Mechanical_Enclosure_CAD) so the next team starts from a single clone.</li>
-      <li>The final report is “Controlling Differential Power Processors in Solar Powered Applications”, v3.0, 23 Oct 2026, following a proposal (17 Apr) and progress report (29 May).</li>
+      <li>Two final reports: the hardware report "PV Shuffling Converter: design, simulation and bench validation" and the delivery report "Controlling Differential Power Processors in Solar Powered Applications", both October 2026.</li>
     </ul>
   </Section>
 
-  <Section narrow eyebrow="Downloads" title="Documents">
+  <Section alt narrow eyebrow="Downloads" title="Documents">
     <ul class="dl">
-      {downloads.map((d) => <li><a href={d.href} target="_blank" rel="noopener">{d.label} ↗</a></li>)}
+      {downloads.map((d) => <li><a class="ext" href={d.href} target="_blank" rel="noopener">{d.label}</a></li>)}
     </ul>
-    <p class="small muted">Vendor datasheets are linked from the Hardware page rather than redistributed.</p>
+    <p class="small muted">Vendor datasheets are linked from the PCB page and kept in 1_Datasheets.</p>
   </Section>
 </Base>
 <style>

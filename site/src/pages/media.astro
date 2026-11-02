@@ -6,29 +6,29 @@ import YouTube from '../components/YouTube.astro';
 import { PHOTOS, THUMBS, figsIn } from '../lib/assets';
 import { Image } from 'astro:assets';
 import photos from '../data/photos.json';
-import { repoUrl } from '../lib/site';
+import { repoUrl, rawUrl } from '../lib/site';
 
-const items = photos.filter((p: any) => PHOTOS[p.file.replace(/\.webp$/, '')]).map((p: any) => {
+const items = photos.filter((p: any) => PHOTOS[p.file.replace(/\.webp$/, '')] && !p.file.startsWith('Messenger_creation')).map((p: any) => {
   const s = p.file.replace(/\.webp$/, '');
   return { full: PHOTOS[s], thumb: THUMBS[s], caption: p.caption, date: p.date, tags: p.tags };
 });
 const tags = Array.from(new Set(items.flatMap((i) => i.tags ?? []))) as string[];
 const slides = figsIn('slides').filter((f) => f.key.includes('img-'));
 const videos = [
-  { title: 'Bench run, 16 Oct (15 s)', note: 'Open-loop warm-up at 200 kHz, scope on the switch node.' },
-  { title: 'Bench run, 16 Oct (49 s)', note: 'Closed loop at 300 kHz, kscale 0.3; Grafana live.' },
-  { title: 'Bench run, 16 Oct (23 s)', note: 'Pod LCD, IR remote presets, LED states.' },
-  { title: 'Bench run, 16 Oct (79 s)', note: 'Gain step and PSU set-point steps while closed.' },
+  { file: '20261016_153339.mp4', title: 'Bench run 1 (16 Oct, 28 MB)', note: 'Open-loop warm-up at 200 kHz with the scope on the switch node.' },
+  { file: '20261016_155135.mp4', title: 'Bench run 2 (16 Oct, 90 MB)', note: 'Closed loop at 300 kHz, gain scale 0.3; Grafana live.' },
+  { file: '20261016_160400.mp4', title: 'Bench run 3 (16 Oct, 42 MB)', note: 'Pod LCD, IR remote presets, LED states.' },
+  { file: '20261016_173330.mp4', title: 'Bench run 4 (16 Oct, 147 MB)', note: 'Gain step and supply set-point steps while closed.' },
 ];
 const tours = [
   { title: 'QSPICE model tour', note: 'The hierarchical Power_Shuffler_Integrated sheet, the control DLL and the stage ladder.' },
   { title: 'KiCad board tour', note: 'Schematic sheets, the six-layer stack and the sensing chain.' },
-  { title: 'Flash and run the pod', note: 'From a fresh Pi to telemetry in Grafana, then OL and CL presets.' },
+  { title: 'Flash and run the pod', note: 'From a fresh Pi to telemetry in Grafana, then open- and closed-loop presets.' },
   { title: 'Reading the dashboard', note: 'What each of the 16 Grafana panels means and what a healthy run looks like.' },
 ];
 ---
 <Base title="Media" description="Photos, videos and slides from the Boost Brigade power shuffler project.">
-  <Section eyebrow="Media" title="Photos, videos and slides" lede="The build from the first proto-board in August to the carpark in October. Click any photo for full size." narrow>
+  <Section eyebrow="Media" title="Photos, videos and slides" lede="The build from the first strip-board in August to the carpark in October. Click any photo for full size." narrow>
     <div class="row" id="tag-filter" role="group" aria-label="Filter photos">
       <button class="chip chip-accent" data-tag="" type="button" aria-pressed="true">all</button>
       {tags.map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t}</button>)}
@@ -38,16 +38,16 @@ const tours = [
     <Gallery items={items} id="photos" />
   </Section>
 
-  <Section alt eyebrow="Video" title="Bench clips and walkthroughs" lede="Clips are hosted on YouTube (unlisted) and embedded lazily. The originals are 1080p HEVC in the repository.">
+  <Section alt eyebrow="Video" title="Bench clips and walkthroughs" lede="The bench clips stream straight from the repository (1080p, large files). Walkthroughs will be hosted on YouTube and embedded here once recorded.">
     <h3>16 Oct bench day</h3>
     <div class="grid grid-2">
-      {videos.map((v) => <YouTube title={v.title} note={v.note} />)}
+      {videos.map((v) => <YouTube title={v.title} note={v.note} mp4={rawUrl(`0_Documentation/Photos/${v.file}`)} />)}
     </div>
     <h3 style="margin-top:2rem">Tool walkthroughs</h3>
     <div class="grid grid-2">
       {tours.map((v) => <YouTube title={v.title} note={v.note} />)}
     </div>
-    <p class="small muted">Source clips: <a href={repoUrl('0_Documentation/Photos')} target="_blank" rel="noopener">0_Documentation/Photos</a>.</p>
+    <p class="small muted">Source clips: <a class="ext" href={repoUrl('0_Documentation/Photos')} target="_blank" rel="noopener">0_Documentation/Photos</a>.</p>
   </Section>
 
   <Section eyebrow="Slides" title="From the final presentation" lede="Crops from the delivery deck (23 Oct 2026).">

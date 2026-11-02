@@ -23,7 +23,7 @@ SRC_PCB="$REPO/5_Kicad/Version 0 project/Version 0 project.kicad_pcb"
 LIBS="$REPO/5_Kicad/libs"
 STEP="$REPO/9_Mechanical_Enclosure_CAD/shuffler_assembly.step"
 BOARD_RATIO="${BOARD_RATIO:-0.5}"        # meshopt simplify target (vertex ratio) for the board
-ENCL_RATIO="${ENCL_RATIO:-0.3}"          # ... for the enclosure
+ENCL_RATIO="${ENCL_RATIO:-0.35}"          # ... for the enclosure
 FORCE="${FORCE:-0}"                      # FORCE=1 re-runs kicad-cli even if the raw export is up to date
 
 mkdir -p "$WORK" "$OUT"
@@ -121,7 +121,9 @@ else
   echo "         See $SCRIPT_DIR/README_models.md for the manual Fusion 360 export."
 fi
 if [ -f "$ENCL_RAW" ]; then
-  node "$SCRIPT_DIR/glb_pipeline.mjs" "$ENCL_RAW" "$OUT/enclosure.glb" --ratio "$ENCL_RATIO"
+  # group the ~1950 STEP solids into named assemblies (lid, walls, pod, heatsink, Nucleo, Pi ...) and colour them
+  node "$SCRIPT_DIR/glb_group.mjs" "$ENCL_RAW" "$WORK/enclosure.grouped.glb"
+  node "$SCRIPT_DIR/glb_pipeline.mjs" "$WORK/enclosure.grouped.glb" "$OUT/enclosure.glb" --ratio "$ENCL_RATIO"
   echo "enclosure.glb: $(mb "$OUT/enclosure.glb")"
 fi
 

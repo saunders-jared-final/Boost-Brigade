@@ -1,0 +1,27 @@
+---
+/** Side table of the variables used in the control derivation, so the page is self-contained. */
+import Math from './Math.astro';
+interface Props { items: { sym: string; name: string; what: string; value?: string }[]; title?: string; }
+const { items, title = 'Symbols used on this page' } = Astro.props;
+---
+<aside class="symbols">
+  <h4>{title}</h4>
+  <table>
+    <tbody>
+      {items.map((s) => (
+        <tr>
+          <td class="sym"><Math tex={s.sym} /></td>
+          <td><strong>{s.name}</strong><br /><span class="muted small">{s.what}</span>{s.value && <><br /><span class="mono small" style="color:var(--accent-ink)">{s.value}</span></>}</td>
+        </tr>
+      ))}
+    </tbody>
+  </table>
+</aside>
+<style>
+  .symbols { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1.1rem; font-size: .92rem; }
+  .symbols h4 { margin: 0 0 .5rem; font-size: .8rem; text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+  .symbols table { font-size: .9rem; }
+  .symbols td { padding: .45rem .4rem; border-bottom: 1px solid var(--line); }
+  .symbols tr:last-child td { border-bottom: 0; }
+  .symbols .sym { width: 4.2rem; white-space: nowrap; font-size: 1.05rem; }
+</style>

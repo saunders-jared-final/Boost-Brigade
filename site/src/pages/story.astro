@@ -1,80 +1,63 @@
 ---
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
-import Compare from '../components/Compare.astro';
+import StreamTimeline from '../components/StreamTimeline.astro';
+import Gantt from '../components/Gantt.astro';
+import VModel from '../components/VModel.astro';
 import Figure from '../components/Figure.astro';
-import Diagram from '../components/Diagram.astro';
-import { Image } from 'astro:assets';
-import { TIMELINE, LESSONS } from '../data/timeline';
-import { photo, fig } from '../lib/assets';
-import { repoUrl } from '../lib/site';
-
-const statusChip: Record<string, string> = { adopted: 'chip-green', rejected: 'chip-red', superseded: 'chip', planned: 'chip-teal' };
-const proto = photo('20260828_075344'); const pcb = photo('20261004_162523'); const enclosure = photo('20261014_100557');
-const noisy = fig('misc/thermal_100k'); const scope200 = fig('misc/scope_200k'); const scope300 = fig('misc/scope_300k');
-const twin = fig('results/twin_sim'); const duty = fig('results/duty_steps');
+import { STREAMS, LESSONS } from '../data/timeline';
+import { PLANNED, CTRL_ACTUAL, HW_ACTUAL, COMBINED, COMBINED_LINKS } from '../data/gantt';
+import { fig } from '../lib/assets';
+import { repoUrl, reportUrl } from '../lib/site';
 ---
-<Base title="Story" description="How the power shuffler went from a shaded-string problem to 99 W returned in the carpark: the design evolution, the negative results and the lessons.">
-  <Section eyebrow="The story" title="Design evolution, August to October" lede="A thesis report tells you what was built. This page tells you what was tried, what was thrown away and why. Scroll the timeline or jump to the before/after sliders." narrow>
-    <Diagram name="timeline" alt="Project timeline across two semesters with milestone weeks" caption="Two semesters of milestones (teaching weeks)." />
+<Base title="Story" description="How the Boost Brigade power shuffler came to be: the plan, the two streams of work, where they converged, and what the process taught.">
+  <Section eyebrow="The story" title="Two streams that converged on one board" lede="A report tells you what was built. This page tells you how it went: the plan from the proposal, what each stream actually did, where the two met, and the lessons. Blue is the control stream, green is the hardware stream, amber is both." narrow />
+
+  <Section alt eyebrow="The plan versus the reality" title="Three timelines" lede="The proposal planned three board revisions and an MPPT stage over 34 weeks. What happened instead was one board, one revision, and a lot of convergence in October. Switch between the views.">
+    <div class="tabs" id="gantt-tabs" role="tablist">
+      <button type="button" class="chip chip-accent" role="tab" aria-selected="true" data-tab="combined">Both streams, as it happened</button>
+      <button type="button" class="chip" role="tab" aria-selected="false" data-tab="planned">The plan (proposal, 17 Apr)</button>
+      <button type="button" class="chip" role="tab" aria-selected="false" data-tab="ctrl">Control stream, as it happened</button>
+      <button type="button" class="chip" role="tab" aria-selected="false" data-tab="hw">Hardware stream, as it happened</button>
+    </div>
+    <div data-tab="combined"><Gantt tasks={COMBINED} links={COMBINED_LINKS} title="Both streams on one axis, with the hand-over points" /></div>
+    <div data-tab="planned" hidden><Gantt tasks={PLANNED} title="The proposal's team Gantt: 34 weeks, V1 to V3 boards plus an MPPT" /><p class="small muted" style="margin-top:.6rem">From the project proposal, appendix B. Planned bars are dashed. <a class="ext" href={reportUrl('proposal')} target="_blank" rel="noopener">Proposal (PDF)</a></p></div>
+    <div data-tab="ctrl" hidden><Gantt tasks={CTRL_ACTUAL} title="Control stream: teaching weeks with the milestone week of each phase" /><p class="small muted" style="margin-top:.6rem">From the delivery report, appendix A. <a class="ext" href={reportUrl('control', 33)} target="_blank" rel="noopener">Delivery report, p. 26</a></p></div>
+    <div data-tab="hw" hidden><Gantt tasks={HW_ACTUAL} title="Hardware stream: planned versus actual milestones" />{fig('hw/gantt') && <Figure src={fig('hw/gantt')!} alt="Gantt chart of the planned and actual hardware schedule" caption="The hardware report's own Gantt: planned (grey) against actual (orange). The first schematic slipped into the mid-year break because of the inductor change and the late controller interface; the buffer weeks absorbed it." evidence={{ label: 'Hardware report, appendix 1', href: reportUrl('hardware', 29) }} width={1100} />}</div>
+    <div class="callout" style="margin-top:1.5rem"><strong>What changed from the plan.</strong> The three-revision ladder (V1, V2 pair, V3 string) collapsed into a single Version 0 board that carried the whole feature set from day one, which cost the planned revision cycles. The MPPT stage was dropped from scope: the electronic load performs the string MPPT in every test. And the topology took longer to settle than planned, which held the control model until late in semester 1.</div>
   </Section>
 
-  <Section alt>
-    <ol class="tl">
-      {TIMELINE.map((e) => (
-        <li class="tl-item reveal">
-          <div class="tl-rail"><span class="tl-dot" data-status={e.status}></span></div>
-          <div class="tl-body">
-            <div class="row" style="gap:.5rem;margin-bottom:.3rem">
-              <time class="mono small" style="color:var(--accent-ink)">{e.date}</time>
-              <span class="chip">{e.phase}</span>
-              <span class:list={['chip', statusChip[e.status]]}>{e.status}</span>
-            </div>
-            <h3>{e.title}</h3>
-            <p>{e.detail}</p>
-            {e.alternatives && <p class="small muted"><strong>Alternatives considered:</strong> {e.alternatives}</p>}
-            {e.photo && photo(e.photo) && <Image src={photo(e.photo)!} alt={e.title} width={760} class="tl-photo" />}
-            {e.link && <a class="mono small" href={e.link.href} target="_blank" rel="noopener">{e.link.label} ↗</a>}
-          </div>
-        </li>
-      ))}
-    </ol>
+  <Section eyebrow="How the work was run" title="The V-model, for both streams" lede="Each level produced a pass/fail artefact the next level consumed, so a fault could be isolated at the level where it was introduced. The control stream followed it explicitly; the hardware stream's simulation-first approach maps onto the same shape.">
+    <VModel />
   </Section>
 
-  <Section eyebrow="Before / after" title="Drag the handle">
+  <Section alt eyebrow="Divergence and convergence" title="The journey, side by side" lede="Control on the left, hardware on the right. The rails meet where the streams integrated: first at the hand-over of the QSPICE schematic and sensor set, then for good on reflow day.">
+    <StreamTimeline entries={STREAMS} />
+  </Section>
+
+  <Section eyebrow="Lessons" title="What the process taught" lede="Reflective, not a complaints list: each of these changed how the next step was done.">
     <div class="grid grid-2">
-      {proto && pcb && <Compare before={proto} after={pcb} beforeLabel="28 Aug · proto-board" afterLabel="4 Oct · Version 0 PCB" alt="Proto-board to assembled PCB" caption="From a Nucleo on a proto-board to the six-layer Version 0 board." />}
-      {pcb && enclosure && <Compare before={pcb} after={enclosure} beforeLabel="4 Oct · bare board" afterLabel="14 Oct · heatsink + enclosure" alt="Bare board to enclosure" caption="Heatsink, thermal paste and the 3D-printed enclosure." />}
-      {scope200 && scope300 && <Compare before={scope200} after={scope300} beforeLabel="200 kHz" afterLabel="300 kHz" alt="Switch-node captures at 200 and 300 kHz" caption="Switch node at 200 vs 300 kHz. 300 kHz was judged the best compromise; 400 kHz added losses for little gain." />}
-      {duty && twin && <Compare before={duty} after={twin} beforeLabel="hardware duty steps" afterLabel="simulation twin" alt="Hardware duty steps vs the simulation twin" caption="Open-loop duty steps on hardware against the analytical prediction −V̄·Δu_c (1.2 % agreement), and the simulated twin." />}
+      {LESSONS.map((l) => (
+        <blockquote class:list={['lesson', l.stream]}><span class:list={['chip', l.stream === 'ctrl' ? 'chip-ctrl' : l.stream === 'hw' ? 'chip-hw' : 'chip-accent']}>{l.stream === 'ctrl' ? 'control' : l.stream === 'hw' ? 'hardware' : 'both'}</span><strong>{l.title}</strong> <span class="body">{l.body}</span></blockquote>
+      ))}
     </div>
-  </Section>
-
-  <Section alt eyebrow="Negative results" title="Three ideas that were rejected on evidence" lede="Each one redirected the architecture. They are the most useful part of the handover.">
-    <div class="grid grid-3">
-      <article class="card"><span class="chip chip-red">rejected</span><h3>Carrier-synchronised sampling</h3><p class="muted">Sampling the currents at the carrier peak or valley looked like free ripple rejection. It broke the working loop: interleaving was lost and the common mode collapsed. Averaging over whole PWM periods stayed, and later became the firmware’s 80-sample comb filter.</p></article>
-      <article class="card"><span class="chip chip-red">rejected</span><h3>Decentralised string control</h3><p class="muted">Three local loops composed fine for the end modules and limit-cycled at any gain on the interior ones that share a node. Detuning only shrank the amplitude. The centralised decoupling controller replaced it and passed all seven MIL tests.</p></article>
-      <article class="card"><span class="chip chip-red">rejected</span><h3>Proportional decoupling</h3><p class="muted">G⁻¹ is a DC decoupler. Pushing bandwidth toward the ~6 kHz resonance re-coupled the loops and blew up. Integral-only control with passive damping from the switch resistance is what shipped.</p></article>
-    </div>
-  </Section>
-
-  <Section eyebrow="Lessons" title="Six things the process taught" narrow>
-    <div class="stack">
-      {LESSONS.map((l) => <blockquote><strong>{l.title}</strong> {l.body}</blockquote>)}
-    </div>
-    <p class="small muted">From <a href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener">DESIGN_LOG.md</a>, Part 2.</p>
+    <p class="small muted">Control lessons from <a class="ext" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener">DESIGN_LOG.md</a>, part 2; hardware lessons from the hardware report, §4.8 and §5.</p>
   </Section>
 </Base>
+<script>
+  const tabs = document.querySelectorAll<HTMLButtonElement>('#gantt-tabs [data-tab]');
+  tabs.forEach((b) => b.addEventListener('click', () => {
+    tabs.forEach((x) => { x.setAttribute('aria-selected', 'false'); x.classList.remove('chip-accent'); });
+    b.setAttribute('aria-selected', 'true'); b.classList.add('chip-accent');
+    document.querySelectorAll<HTMLElement>('#gantt-tabs ~ [data-tab]').forEach((d) => (d.hidden = d.dataset.tab !== b.dataset.tab));
+  }));
+</script>
 <style>
-  .tl { list-style: none; padding: 0; margin: 0; display: grid; gap: 0; max-width: 900px; }
-  .tl-item { display: grid; grid-template-columns: 28px 1fr; gap: 1.2rem; padding-bottom: 2.4rem; position: relative; }
-  .tl-rail { position: relative; }
-  .tl-rail::before { content: ""; position: absolute; left: 13px; top: 10px; bottom: -2.4rem; width: 2px; background: var(--line); }
-  .tl-item:last-child .tl-rail::before { display: none; }
-  .tl-dot { position: absolute; left: 7px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--green); box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 20%, transparent); }
-  .tl-dot[data-status="rejected"] { background: var(--red); box-shadow: 0 0 0 4px color-mix(in srgb, var(--red) 20%, transparent); }
-  .tl-dot[data-status="superseded"] { background: var(--muted); box-shadow: 0 0 0 4px color-mix(in srgb, var(--muted) 20%, transparent); }
-  .tl-dot[data-status="planned"] { background: var(--teal); box-shadow: 0 0 0 4px color-mix(in srgb, var(--teal) 20%, transparent); }
-  .tl-body h3 { margin-bottom: .4rem; }
-  .tl-photo { border-radius: 12px; border: 1px solid var(--line); margin: .8rem 0; }
+  .tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
+  .lesson { margin: 0; display: grid; gap: .4rem; font-size: 1rem; font-family: var(--font-body); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; padding: 1rem 1.1rem; }
+  .lesson.ctrl { border-left-color: var(--blue); }
+  .lesson.hw { border-left-color: var(--green); }
+  .lesson strong { font-family: var(--font-display); font-size: 1.1rem; }
+  .lesson .body { color: var(--muted); }
+  .lesson .chip { justify-self: start; }
 </style>

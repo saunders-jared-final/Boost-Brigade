@@ -1,0 +1,48 @@
+---
+/**
+ * Horizontal scroll-snap carousel. Pass slides as children (each child becomes one slide).
+ * Keyboard: arrow keys. Buttons and dot indicators are added by the script.
+ */
+interface Props { id?: string; aspect?: string; class?: string; }
+const { id = `car-${Math.random().toString(36).slice(2, 8)}`, aspect, class: cls = '' } = Astro.props;
+---
+<div class:list={['carousel', cls]} id={id} data-aspect={aspect}>
+  <button class="car-btn prev" type="button" aria-label="Previous slide">&#x2039;</button>
+  <div class="car-track" tabindex="0">
+    <slot />
+  </div>
+  <button class="car-btn next" type="button" aria-label="Next slide">&#x203A;</button>
+  <div class="car-dots" role="tablist"></div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.carousel').forEach((car) => {
+    const track = car.querySelector<HTMLElement>('.car-track')!;
+    const slides = Array.from(track.children) as HTMLElement[];
+    slides.forEach((s) => s.classList.add('car-slide'));
+    const dots = car.querySelector<HTMLElement>('.car-dots')!;
+    const go = (i: number) => { const s = slides[(i + slides.length) % slides.length]; track.scrollTo({ left: s.offsetLeft - track.offsetLeft, behavior: 'smooth' }); };
+    const cur = () => { let best = 0, d = Infinity; slides.forEach((s, i) => { const dd = Math.abs(s.offsetLeft - track.offsetLeft - track.scrollLeft); if (dd < d) { d = dd; best = i; } }); return best; };
+    slides.forEach((_, i) => { const b = document.createElement('button'); b.type = 'button'; b.setAttribute('aria-label', `Slide ${i + 1}`); b.addEventListener('click', () => go(i)); dots.appendChild(b); });
+    const update = () => { const c = cur(); dots.querySelectorAll('button').forEach((b, i) => b.setAttribute('aria-current', i === c ? 'true' : 'false')); };
+    track.addEventListener('scroll', () => requestAnimationFrame(update), { passive: true });
+    car.querySelector('.prev')!.addEventListener('click', () => go(cur() - 1));
+    car.querySelector('.next')!.addEventListener('click', () => go(cur() + 1));
+    track.addEventListener('keydown', (e) => { if (e.key === 'ArrowRight') go(cur() + 1); if (e.key === 'ArrowLeft') go(cur() - 1); });
+    update();
+  });
+</script>
+<style is:global>
+  .carousel { position: relative; }
+  .car-track { display: flex; gap: 1rem; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; padding: .2rem .2rem 1rem; -webkit-overflow-scrolling: touch; }
+  .car-track::-webkit-scrollbar { display: none; }
+  .car-slide { flex: 0 0 100%; scroll-snap-align: start; min-width: 0; }
+  .car-slide .figure { margin: 0; }
+  .car-slide img { width: 100%; max-height: 560px; object-fit: contain; background: var(--bg-2); }
+  .carousel[data-aspect] .car-slide img { aspect-ratio: attr(data-aspect); }
+  .car-btn { position: absolute; top: 42%; transform: translateY(-50%); z-index: 2; width: 40px; height: 40px; border-radius: 50%; border: 1px solid var(--line); background: color-mix(in srgb, var(--surface) 92%, transparent); color: var(--text); font-size: 1.6rem; line-height: 1; cursor: pointer; display: grid; place-items: center; box-shadow: var(--shadow); }
+  .car-btn.prev { left: -8px; } .car-btn.next { right: -8px; }
+  .car-btn:hover { border-color: var(--accent); }
+  .car-dots { display: flex; justify-content: center; gap: .4rem; margin-top: .2rem; }
+  .car-dots button { width: 9px; height: 9px; border-radius: 50%; border: 0; background: var(--line); cursor: pointer; padding: 0; }
+  .car-dots button[aria-current="true"] { background: var(--accent); transform: scale(1.25); }
+</style>

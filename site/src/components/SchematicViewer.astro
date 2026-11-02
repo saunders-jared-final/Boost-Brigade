@@ -1,0 +1,133 @@
+---
+/**
+ * Pan/zoom viewer for the KiCad schematic sheets (SVGs exported by scripts/prep_kicad.sh),
+ * with numbered callouts per sheet and a reference-designator search that jumps to any part.
+ * Positions come from src/data/kicad_index.json (every label kicad-cli writes as <text>).
+ */
+import { href } from '../lib/site';
+import index from '../data/kicad_index.json';
+import type { Sheet } from '../data/schematic';
+interface Props { sheets: Sheet[]; id?: string; }
+const { sheets, id = 'schematic' } = Astro.props;
+type Idx = { sheets: Record<string, { viewBox: number[]; refs: Record<string, [number, number]> }> };
+const idx = index as Idx;
+const pos = (sheet: string, ref: string) => {
+  const s = idx.sheets[sheet]; const p = s?.refs[ref]; if (!s || !p) return null;
+  return { x: (p[0] / s.viewBox[2]) * 100, y: (p[1] / s.viewBox[3]) * 100 };
+};
+const refIndex: Record<string, { sheet: string; x: number; y: number }> = {};
+for (const [sheet, s] of Object.entries(idx.sheets)) for (const [ref, p] of Object.entries(s.refs)) if (!refIndex[ref] || sheet !== 'root') refIndex[ref] = { sheet, x: (p[0] / s.viewBox[2]) * 100, y: (p[1] / s.viewBox[3]) * 100 };
+const resolved = sheets.map((sh) => ({
+  ...sh,
+  ratio: idx.sheets[sh.id] ? idx.sheets[sh.id].viewBox[2] / idx.sheets[sh.id].viewBox[3] : 1.414,
+  callouts: sh.callouts.map((c, i) => { const p = c.ref ? pos(sh.id, c.ref) : { x: c.x!, y: c.y! }; return { ...c, n: i + 1, x: p?.x ?? 50, y: p?.y ?? 50 }; }),
+}));
+---
+<div class="schv" id={id} data-refs={JSON.stringify(refIndex)}>
+  <div class="schv-top">
+    <div class="schv-tabs" role="tablist">
+      {resolved.map((s, i) => <button type="button" class="chip" role="tab" data-sheet={s.id} aria-selected={i === 0 ? 'true' : 'false'}>{s.title}</button>)}
+    </div>
+    <form class="schv-search" role="search">
+      <input type="search" placeholder="find a part, e.g. U10, L1, Q3" aria-label="Find a reference designator" list={`${id}-refs`} />
+      <datalist id={`${id}-refs`}>{Object.keys(refIndex).sort().map((r) => <option value={r} />)}</datalist>
+      <button type="submit" class="btn btn-sm">Go</button>
+    </form>
+  </div>
+  <div class="schv-body">
+    <div class="schv-view" tabindex="0" aria-label="Schematic sheet, drag to pan, scroll to zoom">
+      {resolved.map((s, i) => (
+        <div class="schv-stage" data-sheet={s.id} hidden={i !== 0} style={`aspect-ratio:${s.ratio}`}>
+          <img src={href(`/kicad/sch/${s.id}.svg`)} alt={`${s.title} schematic sheet`} loading={i === 0 ? 'eager' : 'lazy'} draggable="false" />
+          {s.callouts.map((c) => <button type="button" class="schv-pin" data-n={c.n} style={`left:${c.x}%;top:${c.y}%`} aria-label={`${c.n}: ${c.label}`}>{c.n}</button>)}
+          <span class="schv-flash" hidden></span>
+        </div>
+      ))}
+      <div class="schv-ctl">
+        <button type="button" data-z="in" aria-label="Zoom in">+</button>
+        <button type="button" data-z="out" aria-label="Zoom out">−</button>
+        <button type="button" data-z="fit" aria-label="Fit">⤢</button>
+        <a class="schv-open" target="_blank" rel="noopener" href={href(`/kicad/sch/${resolved[0].id}.svg`)} aria-label="Open the sheet in a new tab">open</a>
+      </div>
+    </div>
+    <aside class="schv-side">
+      {resolved.map((s, i) => (
+        <div data-sheet={s.id} hidden={i !== 0}>
+          <h4>{s.title}</h4>
+          <p class="small muted">{s.blurb}</p>
+          <ol class="schv-legend">
+            {s.callouts.map((c) => <li data-n={c.n} tabindex="0"><span class="num blue">{c.n}</span><div><strong>{c.label}</strong>{c.body && <p class="small muted">{c.body}</p>}</div></li>)}
+          </ol>
+        </div>
+      ))}
+    </aside>
+  </div>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.schv').forEach((root) => {
+    const view = root.querySelector<HTMLElement>('.schv-view')!;
+    const refs = JSON.parse(root.dataset.refs || '{}') as Record<string, { sheet: string; x: number; y: number }>;
+    let scale = 1, tx = 0, ty = 0, current = root.querySelector<HTMLElement>('.schv-stage:not([hidden])')!;
+    const apply = () => { current.style.transform = `translate(${tx}px,${ty}px) scale(${scale})`; };
+    const fit = () => { scale = 1; tx = 0; ty = 0; apply(); };
+    const zoomAt = (f: number, cx: number, cy: number) => { const ns = Math.min(8, Math.max(1, scale * f)); const r = view.getBoundingClientRect(); const px = cx - r.left, py = cy - r.top; tx = px - (px - tx) * (ns / scale); ty = py - (py - ty) * (ns / scale); scale = ns; if (scale === 1) { tx = 0; ty = 0; } apply(); };
+    view.addEventListener('wheel', (e) => { e.preventDefault(); zoomAt(e.deltaY < 0 ? 1.2 : 1 / 1.2, e.clientX, e.clientY); }, { passive: false });
+    let drag: { x: number; y: number; tx: number; ty: number } | null = null;
+    view.addEventListener('pointerdown', (e) => { if ((e.target as HTMLElement).closest('button, a')) return; drag = { x: e.clientX, y: e.clientY, tx, ty }; view.setPointerCapture(e.pointerId); view.classList.add('dragging'); });
+    view.addEventListener('pointermove', (e) => { if (!drag) return; tx = drag.tx + (e.clientX - drag.x); ty = drag.ty + (e.clientY - drag.y); apply(); });
+    const end = () => { drag = null; view.classList.remove('dragging'); };
+    view.addEventListener('pointerup', end); view.addEventListener('pointercancel', end);
+    root.querySelectorAll<HTMLButtonElement>('.schv-ctl [data-z]').forEach((b) => b.addEventListener('click', () => { const r = view.getBoundingClientRect(); if (b.dataset.z === 'fit') fit(); else zoomAt(b.dataset.z === 'in' ? 1.5 : 1 / 1.5, r.left + r.width / 2, r.top + r.height / 2); }));
+    const show = (sheet: string) => {
+      root.querySelectorAll<HTMLElement>('.schv-stage, .schv-side [data-sheet]').forEach((el) => (el.hidden = el.dataset.sheet !== sheet));
+      root.querySelectorAll<HTMLElement>('.schv-tabs [data-sheet]').forEach((b) => b.setAttribute('aria-selected', String(b.dataset.sheet === sheet)));
+      current = root.querySelector<HTMLElement>(`.schv-stage[data-sheet="${sheet}"]`)!;
+      const open = root.querySelector<HTMLAnchorElement>('.schv-open')!; open.href = current.querySelector('img')!.src;
+      fit();
+    };
+    root.querySelectorAll<HTMLElement>('.schv-tabs [data-sheet]').forEach((b) => b.addEventListener('click', () => show(b.dataset.sheet!)));
+    const hot = (n: string | null) => root.querySelectorAll<HTMLElement>('[data-n]').forEach((el) => el.classList.toggle('hot', !!n && el.dataset.n === n));
+    root.querySelectorAll<HTMLElement>('[data-n]').forEach((el) => { el.addEventListener('mouseenter', () => hot(el.dataset.n!)); el.addEventListener('mouseleave', () => hot(null)); el.addEventListener('focus', () => hot(el.dataset.n!)); el.addEventListener('blur', () => hot(null)); });
+    const jump = (ref: string) => {
+      const r = refs[ref.toUpperCase()]; if (!r) return false;
+      show(r.sheet);
+      const flash = current.querySelector<HTMLElement>('.schv-flash')!; flash.style.left = `${r.x}%`; flash.style.top = `${r.y}%`; flash.hidden = false; flash.textContent = ref.toUpperCase();
+      flash.classList.remove('pulse'); void flash.offsetWidth; flash.classList.add('pulse');
+      const vr = view.getBoundingClientRect(); scale = 3; tx = vr.width / 2 - (r.x / 100) * vr.width * scale; ty = vr.height / 2 - (r.y / 100) * current.getBoundingClientRect().height * scale; apply();
+      return true;
+    };
+    const form = root.querySelector<HTMLFormElement>('.schv-search')!;
+    form.addEventListener('submit', (e) => { e.preventDefault(); const v = form.querySelector('input')!.value.trim(); if (v && !jump(v)) form.querySelector('input')!.setCustomValidity('not on any sheet'); else form.querySelector('input')!.setCustomValidity(''); form.querySelector('input')!.reportValidity(); });
+    form.querySelector('input')!.addEventListener('input', (e) => (e.target as HTMLInputElement).setCustomValidity(''));
+    document.addEventListener('bb:highlight', (e) => { const ref = (e as CustomEvent).detail?.ref; if (ref && jump(ref)) root.scrollIntoView({ behavior: 'smooth', block: 'center' }); });
+  });
+</script>
+<style is:global>
+  .schv { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); overflow: hidden; }
+  .schv-top { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; justify-content: space-between; padding: .7rem .9rem; border-bottom: 1px solid var(--line); background: var(--bg-2); }
+  .schv-tabs { display: flex; flex-wrap: wrap; gap: .35rem; }
+  .schv-tabs [aria-selected="true"] { background: var(--blue-soft); color: var(--blue-ink); border-color: var(--blue); }
+  .schv-search { display: flex; gap: .4rem; }
+  .schv-search input { padding: .35rem .6rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; font-size: .88rem; width: 220px; }
+  .schv-body { display: grid; grid-template-columns: minmax(0, 1fr) 300px; }
+  @media (max-width: 900px) { .schv-body { grid-template-columns: 1fr; } }
+  .schv-view { position: relative; overflow: hidden; background: #fff; min-height: 320px; cursor: grab; touch-action: none; }
+  .schv-view.dragging { cursor: grabbing; }
+  .schv-stage { position: relative; width: 100%; transform-origin: 0 0; }
+  .schv-stage img { width: 100%; height: 100%; display: block; user-select: none; -webkit-user-drag: none; }
+  .schv-pin { position: absolute; transform: translate(-50%, -50%); width: 24px; height: 24px; border-radius: 50%; background: var(--blue); color: #fff; border: 2px solid #fff; font-family: var(--font-mono); font-weight: 700; font-size: .75rem; box-shadow: 0 2px 8px rgba(0,0,0,.35); cursor: pointer; padding: 0; z-index: 2; }
+  .schv-pin.hot { transform: translate(-50%, -50%) scale(1.3); background: var(--accent); color: #1a1200; }
+  .schv-flash { position: absolute; transform: translate(-50%, -50%); width: 46px; height: 46px; border-radius: 50%; border: 3px solid var(--accent); color: var(--accent-ink); font: 700 .7rem var(--font-mono); display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 25%, transparent); z-index: 3; pointer-events: none; }
+  .schv-flash.pulse { animation: schpulse 1.6s ease-out 3; }
+  @keyframes schpulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 60%, transparent); } 100% { box-shadow: 0 0 0 28px transparent; } }
+  .schv-ctl { position: absolute; right: .6rem; bottom: .6rem; display: flex; gap: .3rem; z-index: 4; }
+  .schv-ctl button, .schv-ctl a { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: 1.1rem; cursor: pointer; display: grid; place-items: center; text-decoration: none; }
+  .schv-ctl a { width: auto; padding: 0 .6rem; font-size: .8rem; }
+  .schv-side { border-left: 1px solid var(--line); padding: 1rem; max-height: 560px; overflow: auto; }
+  @media (max-width: 900px) { .schv-side { border-left: 0; border-top: 1px solid var(--line); max-height: none; } }
+  .schv-side h4 { margin: 0 0 .3rem; }
+  .schv-legend { list-style: none; padding: 0; margin: 0; display: grid; gap: .35rem; }
+  .schv-legend li { display: flex; gap: .6rem; align-items: flex-start; padding: .45rem .5rem; border-radius: 10px; border: 1px solid transparent; }
+  .schv-legend li.hot { background: var(--bg-2); border-color: var(--line); }
+  .schv-legend li p { margin: .15rem 0 0; }
+</style>

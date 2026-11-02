@@ -1,0 +1,47 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import SubNav from '../../components/SubNav.astro';
+import Figure from '../../components/Figure.astro';
+import { Image } from 'astro:assets';
+import { fig, photo } from '../../lib/assets';
+import { href, HARDWARE_NAV, reportUrl, repoDir } from '../../lib/site';
+const board = fig('hw/board_annotated');
+const render = fig('misc/hero_render');
+const pod = photo('20261011_101108');
+---
+<Base title="Hardware" description="The hardware stream of the Boost Brigade power shuffler: the Version 0 PCB and the 3D-printed enclosure.">
+  <Section eyebrow="Hardware" title="One board, two shufflers, three panels" lede="The hardware stream, led by Son Nguyen, took the shuffler from a topology comparison in QSPICE to a six-layer board that was assembled, commissioned and tested on the bench and on real panels. It lives in two parts: the PCB and the enclosure that houses it with the Raspberry Pi pod." narrow>
+    <SubNav items={HARDWARE_NAV} />
+  </Section>
+  <Section tight>
+    <div class="grid grid-2">
+      <a class="card card-link hw" href={href('/hardware/pcb/')}>
+        {board && <Image src={board} alt="Annotated top view of the assembled board" width={900} style="border-radius:10px;margin-bottom:1rem" />}
+        <h3>PCB design</h3>
+        <p class="muted">Requirements and ratings, the QSPICE design models, the KiCad schematic and six-layer layout you can explore, the bill of materials, manufacturing, the bench and solar set-ups, and the limitations found in testing.</p>
+      </a>
+      <a class="card card-link hw" href={href('/hardware/enclosure/')}>
+        {render && <Image src={render} alt="Render of the enclosure" width={900} style="border-radius:10px;margin-bottom:1rem" />}
+        <h3>Enclosure design</h3>
+        <p class="muted">The Fusion 360 assembly exploded in 3D with numbered parts, the enclosure bill of materials, drawing specifications, and the holes and threads that came out wrong.</p>
+      </a>
+    </div>
+    <div class="row" style="margin-top:1.5rem">
+      <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report (PDF)</a>
+      <a class="btn ext" href={repoDir('5_Kicad/Version 0 project')} target="_blank" rel="noopener">KiCad project</a>
+      <a class="btn ext" href={repoDir('9_Mechanical_Enclosure_CAD')} target="_blank" rel="noopener">Enclosure CAD</a>
+      <a class="btn ext" href={repoDir('1_Datasheets')} target="_blank" rel="noopener">Datasheets</a>
+    </div>
+  </Section>
+  <Section alt tight>
+    <div class="two-col">
+      <div>
+        <h3>The hardware stream's research question</h3>
+        <blockquote>How can a scalable, non-isolated bidirectional DC–DC power shuffler be designed, simulated and validated to mitigate partial shading losses in a PV string, and which topology and component choices best balance efficiency, cost and compatibility with commercially available modules?</blockquote>
+        <p class="muted">Five objectives followed: a datasheet-based PV model, a topology comparison on inductor ripple and switch stress, a recoverable-power estimate with ideal and then realistic devices, a PCB prototype for a three-module string, and bench validation against the simulations.</p>
+      </div>
+      {pod && <Figure src={pod} alt="The enclosure with the Raspberry Pi pod, LCD and IR receiver" caption="11 Oct 2026: the enclosure and pod before the first bench runs." />}
+    </div>
+  </Section>
+</Base>

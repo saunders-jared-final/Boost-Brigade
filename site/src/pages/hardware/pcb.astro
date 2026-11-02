@@ -1,0 +1,241 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import SubNav from '../../components/SubNav.astro';
+import Figure from '../../components/Figure.astro';
+import Callout from '../../components/Callout.astro';
+import Carousel from '../../components/Carousel.astro';
+import Exploded from '../../components/Exploded';
+import SchematicViewer from '../../components/SchematicViewer.astro';
+import LayerViewer from '../../components/LayerViewer.astro';
+import { Image } from 'astro:assets';
+import { BOARD_PARTS } from '../../data/parts';
+import { BOM, BOM_TOTAL, BOM_NOTES } from '../../data/bom';
+import { SHEETS } from '../../data/schematic';
+import { fig, photo } from '../../lib/assets';
+import { href, HARDWARE_NAV, repoUrl, repoDir, rawUrl, reportUrl } from '../../lib/site';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+
+const hasBoard = existsSync(path.resolve(process.cwd(), 'public/models/board.glb'));
+const thumbs = import.meta.glob<{ default: ImageMetadata }>('../../assets/datasheets/*.webp', { eager: true });
+const thumbUrl = (key?: string) => { if (!key) return undefined; const hit = Object.entries(thumbs).find(([p]) => p.endsWith(`/${key}.webp`)); return hit?.[1].default.src; };
+const parts = BOARD_PARTS.map((p) => ({ ...p, thumb: thumbUrl(p.thumbKey) }));
+const bench = [photo('20261016_143219'), photo('20261016_143227'), photo('20261012_192754')].filter(Boolean);
+const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('20261020_132056')].filter(Boolean);
+---
+<Base title="PCB design" description="The Version 0 shuffler board: requirements, QSPICE design models, KiCad schematics and layers, bill of materials, manufacturing, test set-ups and limitations.">
+  <Section eyebrow="Hardware · PCB" title="The Version 0 board, from topology to bench" lede="Everything about the printed circuit board: why the interleaved buck-boost was chosen, how the board was rated, the schematic and the six copper layers you can explore, what it cost, how it was made and tested, and what went wrong." narrow>
+    <SubNav items={HARDWARE_NAV} />
+    <div class="row">
+      <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report (PDF)</a>
+      <a class="btn ext" href={repoDir('5_Kicad/Version 0 project')} target="_blank" rel="noopener">KiCad project</a>
+      <a class="btn ext" href={rawUrl('0_Documentation/schematic_ordered_vo.pdf')} target="_blank" rel="noopener">Schematic PDF</a>
+      <a class="btn ext" href={repoDir('5_Kicad/Version 0 project/Gerber Output')} target="_blank" rel="noopener">Gerbers</a>
+    </div>
+  </Section>
+
+  <Section tight>
+    <h3 style="margin-bottom:.4rem">The board in 3D</h3>
+    <p class="muted small">Exported from the KiCad project. Drag to orbit, slide to explode, click a part or a chip to see its role, package and datasheet, then jump to it on the schematic and the layers below.</p>
+    {hasBoard ? (
+      <Exploded client:visible src={href('/models/board.glb')} parts={parts} up="y" camera={[0.7, 0.9, 1.0]} />
+    ) : (
+      <Callout kind="info" title="3D board model pending">Run <code>site/scripts/prep_models.sh</code> (needs KiCad 10 on Windows).</Callout>
+    )}
+  </Section>
+
+  <Section alt eyebrow="Requirements" title="Rated for the biggest panel on the market, tested well below it">
+    <div class="two-col">
+      <div class="prose">
+        <p>The board was rated for the Aiko A540-MCE60Mw, one of the highest-output modules available (45.6 V open circuit, 14.84 A short circuit), even though every test was planned at lower voltage. That margin is what absorbed the shorts, the reversed polarity and the mis-wired inductor that happened on the bench.</p>
+        <ul>
+          <li><strong>Switch voltage.</strong> Each half-bridge spans two modules, so every MOSFET blocks up to 91.2 V. 100 V parts were chosen.</li>
+          <li><strong>Switch current.</strong> At least 25 A, about 1.7× the module short-circuit current, so wiring or assembly faults do not destroy the switches. 45 A parts were chosen.</li>
+          <li><strong>Efficiency.</strong> Low on-resistance and low gate charge, to allow high switching frequencies.</li>
+          <li><strong>Safe testing.</strong> Everything below 120 V DC, the limit above which a licensed electrician is required.</li>
+          <li><strong>Testability.</strong> A controller that can be swapped in minutes, and a clear separation between power and logic.</li>
+        </ul>
+        <p>How many shufflers per board was decided by three things: the string voltage against the 120 V limit, the complexity of a first revision where one fault can disable the whole board, and how many PWM timers and pins an STM32 can offer. The first architecture (five inputs, four shufflers, an on-board microcontroller) failed all three and was dropped after the initial schematic. The as-built board carries two shufflers for three modules, the smallest arrangement that still shows two shufflers interacting.</p>
+      </div>
+      <div class="stack">
+        {fig('hw/arch_initial') && <Figure src={fig('hw/arch_initial')!} alt="The initial five-input, four-shuffler architecture" caption="The architecture that was abandoned: five PV inputs and four shufflers. A five-module string of the reference panel reaches 228 V." evidence={{ label: 'Hardware report §4.4', href: reportUrl('hardware', 15) }} />}
+        <div class="card hw">
+          <h4>The solar panels</h4>
+          <p class="small"><strong>Reference for the ratings:</strong> Aiko A540-MCE60Mw, 540 W class, 45.6 V / 14.84 A at standard test conditions; its datasheet curves were digitised and fitted to the explicit Karmalkar–Haneefa model for QSPICE.</p>
+          <p class="small"><strong>Used in the tests:</strong> three KickAss KAUSSP80, 80 W, 25.07 V open circuit, 4.35 A short circuit, 635 × 795 × 5.9 mm, mono PERC. String open-circuit about 75 V, so everything stays under the 120 V limit. <a class="ext" href={rawUrl('1_Datasheets/solar_panel_80.pdf')} target="_blank" rel="noopener">Panel datasheet</a></p>
+          <p class="small muted" style="margin:0">On the bench the three panels were emulated by the three channels of an R&amp;S NGE103 supply at 25 V with different current limits: shading mainly lowers a module's current, not its voltage.</p>
+        </div>
+      </div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Design simulations (QSPICE)" title="Three topologies, two levels of realism, one parasitic model" lede="The hardware stream's design work was simulation first. QSPICE was chosen because it is free, fast on switching circuits, reads LTspice models, and runs C++ blocks, which is what later let the control stream drop the real firmware into it.">
+    <div class="grid grid-2">
+      {fig('hw/topology_ripple') && <Figure src={fig('hw/topology_ripple')!} alt="Inductor current of the three candidate topologies under identical conditions" caption="Topology comparison on inductor ripple: half-bridge buck-boost (blue) and Ćuk (green) peak near 15.5 A; each leg of the interleaved buck-boost (brown) near 9.5 A, and the two legs' ripples cancel at the output." evidence={{ label: 'Hardware report §4.1', href: reportUrl('hardware', 12) }} />}
+      {fig('hw/topology_selected') && <Figure src={fig('hw/topology_selected')!} alt="The selected interleaved buck-boost shuffler in QSPICE" caption="The winner: two half-bridge legs switched 180° apart, two 4.1 µH inductors (later one coupled pair), bulk capacitors across each module." evidence={{ label: 'Hardware report fig. 3', href: reportUrl('hardware', 13) }} />}
+      {fig('hw/recovery_ideal') && <Figure src={fig('hw/recovery_ideal')!} alt="Ideal shuffler string against the bypass-diode reference as one module is shaded" caption="Recoverable power, ideal switches: one of four modules ramps from 1000 to 200 W/m². The shuffled string (top) degrades gently; the reference string (middle) drops when its bypass diode conducts. Peak recovery about 545 W on a 2.1 kW string." evidence={{ label: 'Hardware report §4.2', href: reportUrl('hardware', 13) }} />}
+      {fig('hw/recovery_semireal') && <Figure src={fig('hw/recovery_semireal')!} alt="Semi-realistic shuffler string against the reference" caption="With datasheet MOSFET models, behavioural gate drivers and dead time: peak recovery about 515 W, but at the terminal shading the losses exceed the gain by about 60 W. Lesson: disable the shuffler under extreme mismatch, and make the dead time adaptive." evidence={{ label: 'Hardware report §4.2', href: reportUrl('hardware', 14) }} />}
+    </div>
+    <h3 style="margin-top:2rem">The parasitic-aware board model</h3>
+    <div class="two-col">
+      <div class="prose">
+        <p>After the board was sent for manufacture, a board-level model reproduced the power stage with the parasitics estimated from the layout and datasheets: about 1.5 nH in each drain path and 3 nH in each source path, 2.4 nH between the bulk capacitors, 15 nH of ESL per bulk capacitor, 0.85 nH and 13 mΩ per ceramic, 750 nH and 6.95 mΩ per module lead, and a behavioural 1ED3140 with 10 Ω / 4.7 Ω drive and a 70 ns delay. It was used to choose the HF decoupling capacitors and RC snubbers whose footprints had been left as placeholders.</p>
+        <p>Without HF decoupling the rails rang at about 56 MHz. With the ceramics fitted, two resonances remained: a fast ring of the switching loop at about 57 MHz when hard-switched, and a slower 1.9 MHz ring between the ceramic bank and the bulk-capacitor ESL. The two respond to different measures:</p>
+        <div class="table-wrap small">
+          <table>
+            <thead><tr><th>Configuration</th><th>Rail ring (pk-pk)</th><th>Overshoot above rail</th><th>MOSFET loss</th></tr></thead>
+            <tbody>
+              <tr><td>2 × 100 nF HF decoupling per converter, 470 pF + 4.7 Ω snubber per MOSFET, 4.7 Ω turn-off (as installed)</td><td>3.6 V</td><td>15.2 V</td><td>4.1 W</td></tr>
+              <tr><td>+ one more 100 nF decoupling capacitor</td><td>1.8 V</td><td>14.5 V</td><td>4.1 W</td></tr>
+              <tr><td>Rail RC snubber 1 µF + 0.33 Ω</td><td>1.5 V</td><td>14.7 V</td><td>4.1 W</td></tr>
+              <tr><td>+ 470 pF snubber capacitance per MOSFET</td><td>3.4 V</td><td>10.4 V</td><td>4.4 W</td></tr>
+              <tr><td>Turn-on resistor 10 Ω → 22 Ω</td><td>3.6 V</td><td>6.9 V</td><td>4.5 W</td></tr>
+              <tr><td>Turn-off resistor 4.7 Ω → 22 Ω</td><td>3.6 V</td><td>16.0 V</td><td>6.3 W</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="small muted">On the bench the rail ring appeared at 3.2 MHz rather than 1.9 MHz, which suggests the model over-estimated the loop inductance. No hard switching was seen, so the 22 Ω turn-on resistors were never fitted.</p>
+      </div>
+      <div class="stack">
+        {fig('hw/qspice_parasitic') && <Figure src={fig('hw/qspice_parasitic')!} alt="The parasitic-aware QSPICE model of the board" caption="The parasitic-aware model: loop inductances, capacitor ESL, lead inductance and the behavioural gate drivers." evidence={{ label: 'Hardware report fig. 21', href: reportUrl('hardware', 31) }} />}
+        {fig('hw/qspice_semireal') && <Figure src={fig('hw/qspice_semireal')!} alt="The semi-realistic shuffler model in QSPICE" caption="The semi-realistic model with datasheet MOSFETs and behavioural drivers it grew from." evidence={{ label: 'Hardware report fig. 20', href: reportUrl('hardware', 31) }} />}
+      </div>
+    </div>
+    <details class="fold"><summary>The first-semester candidate schematics (half-bridge, Ćuk, ideal four-module string)</summary>
+      <Carousel>
+        {fig('hw/qspice_halfbridge') && <Figure src={fig('hw/qspice_halfbridge')!} alt="Half-bridge buck-boost candidate in QSPICE" caption="Half-bridge buck-boost candidate." />}
+        {fig('hw/qspice_cuk') && <Figure src={fig('hw/qspice_cuk')!} alt="Ćuk converter candidate in QSPICE" caption="Ćuk converter candidate." />}
+        {fig('hw/qspice_ideal_string') && <Figure src={fig('hw/qspice_ideal_string')!} alt="Ideal interleaved shuffler in a four-module string" caption="Ideal interleaved shuffler in a four-module string with the bypass-diode reference string." />}
+      </Carousel>
+    </details>
+    <div class="row" style="margin-top:1rem">
+      <a class="btn ext" href={repoDir('2_Qspice')} target="_blank" rel="noopener">2_Qspice folder</a>
+      <a class="btn ext" href={repoUrl('2_Qspice/Buck Boost Full Bridge - v3.qsch')} target="_blank" rel="noopener">Buck Boost Full Bridge v3.qsch</a>
+      <a class="btn btn-ghost ext" href="https://www.qorvo.com/design-hub/design-tools/interactive/qspice" target="_blank" rel="noopener">Get QSPICE (free)</a>
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Schematic" title="The KiCad schematic, sheet by sheet" lede="Exported straight from the project. Pick a sheet, drag and scroll to zoom, hover the numbers for what each block does, or type a reference designator to jump to it.">
+    <SchematicViewer sheets={SHEETS} />
+    <div class="grid grid-3" style="margin-top:1.5rem">
+      <div class="card"><h4>Power and logic kept apart</h4><p class="small muted">Input connectors, MOSFETs, inductors and bulk capacitors on one side; voltage sensors and the controller on the other. Parts that must bridge the two, the isolated gate drivers and the digital isolator, sit on an isolation boundary down the board.</p></div>
+      <div class="card"><h4>Floating supplies</h4><p class="small muted">The PV voltages are too high for the drivers, so each shuffler has a wide-input buck module making 12 V, and an LDO making 3.3 V for the logic. Shuffler 1's 3.3 V floats so its string-potential voltage sensor and isolator can be powered.</p></div>
+      <div class="card"><h4>Two safety switches</h4><p class="small muted">A DP3T selects the 3.3 V source (Nucleo or LDO) with a grounded middle position that shuts every digital IC down; an SPDT cuts the gate drivers' 3.3 V so switching stops instantly.</p></div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Layout" title="Six copper layers, explored" lede="Toggle layers like a layout editor. ADC and digital traces are routed on the bottom, away from the switching loops on the top; layer changes happen through vias as close to the ICs as possible.">
+    <LayerViewer />
+    <div class="grid grid-2" style="margin-top:1.5rem;align-items:start">
+      {fig('slides/img-018-026') && <Figure src={fig('slides/img-018-026')!} alt="Controller signal routing highlighted on the board: PWM, SPI, chip selects and ADC" caption="The controller's signals on the board, from the delivery report: PWM (red), SPI (blue), chip selects (yellow), ADC (orange). The ADC traces take the most direct path on the bottom layer; the SPI forms a bus up and down the board." evidence={{ label: 'Delivery report, appendix E.2', href: reportUrl('control', 45) }} />}
+      <div class="stack">
+        <div class="card"><h4>Placement and review</h4><p class="small muted">Component placement was done by a student experienced in PCB design, the traces and copper zones were routed by Son with input from Jared on the controller interface, and the layout was reviewed by the supervisor and the experienced student. Disagreements were settled by discussion and every direct change was communicated back.</p></div>
+        <div class="card"><h4>Stack-up</h4><p class="small muted">Front, four inner layers, back. Inner 1 and 3 are power and signal, inner 2 and 4 ground. Six layers were chosen so the high-current paths and the sensing could live on different layers with solid returns under the switching loops.</p></div>
+        <div class="card"><h4>Known layout issues</h4><p class="small muted">The Nucleo ground pads have no net (a bodge wire fixes it); the ISO7762 for the string-potential sensor is wired backwards; the two shufflers cannot be separated under load; and boards cannot be stacked.</p></div>
+      </div>
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Sensors" title="What is measured, and with what" lede="Four winding currents and three module voltages. How the firmware samples them, and why it averages over whole switching periods, is on the Control page.">
+    <div class="grid grid-3">
+      <div class="card hw"><h4>TMCS1126 hall-effect current sensors (×4)</h4><p class="small">Galvanically isolated (5 kV), in series with each winding: 100 mV/A about a 1.65 V reference, ±15.5 A linear on 3.3 V, 500 kHz bandwidth, no shunt resistors. Sum and difference of a shuffler's two readings give the circulating and shuffled currents.</p><a class="small ext" href={rawUrl('1_Datasheets/tmcs1126-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
+      <div class="card hw"><h4>INA239 bus-voltage monitors (×3)</h4><p class="small">0–85 V input, 16-bit ADC, 3.125 mV per step, 10 MHz SPI; chosen because the higher-resolution INA229 was out of stock. Shunt inputs tied off; die temperature is read too. One sits at string potential behind an isolator and does not work on Version 0.</p><a class="small ext" href={rawUrl('1_Datasheets/ina239-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
+      <div class="card hw"><h4>What is not measured</h4><p class="small">The string current (reconstructed from the winding currents and duties, or read from the electronic load), inductor temperature (estimated by touch), and irradiance. The hardware report's PV results used a hall current probe on the oscilloscope for the string current.</p><a class="small" href={href('/control/#sampling')}>Sampling scheme on the Control page</a></div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Bill of materials" title="What is on the board and what it cost" lede="The 19 September component order: 179 positions, AUD 413.23 gross including spares.">
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Item</th><th>Part number</th><th>Designators</th><th>Qty</th><th>Cost (AUD)</th></tr></thead>
+        <tbody>
+          {BOM.map((b) => <tr><td>{b.item}</td><td class="mono small">{b.part}</td><td class="small muted">{b.refs}</td><td class="mono">{b.qty}</td><td class="mono">{b.cost?.toFixed(2) ?? '–'}</td></tr>)}
+          <tr><td><strong>Total</strong></td><td></td><td></td><td class="mono"><strong>{BOM_TOTAL.qty}</strong></td><td class="mono"><strong>{BOM_TOTAL.cost.toFixed(2)}</strong></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted" style="margin-top:.8rem">{BOM_NOTES} <a class="ext" href={repoUrl('5_Kicad/BOM.xlsx')} target="_blank" rel="noopener">BOM.xlsx</a> · <a class="ext" href={reportUrl('hardware', 32)} target="_blank" rel="noopener">Hardware report, appendix 4</a></p>
+  </Section>
+
+  <Section alt eyebrow="Manufacturing" title="From gerbers to a populated board">
+    <div class="two-col">
+      <div class="prose">
+        <p>The six-layer board was fabricated by PCBWay with a stencil; it arrived on 25 September. Assembly was done in-house in the first week of October: the board and stencil were fixed in position with spare boards taped around them as a jig and cleaned with isopropyl alcohol; solder paste was spread through the stencil, the components placed, and the board reflowed in the oven, then inspected and reworked where needed. Benjamin Harvey helped with the manufacturing and assembly.</p>
+        <p>Rework found during bring-up: the ISO7762 wiring error (isolator removed, sensor wired directly), the coupled-inductor arrangement, a bodge wire for the Nucleo ground, and the HF decoupling and snubber parts that had been ordered separately as 250 V types once the parasitic model was done.</p>
+      </div>
+      {fig('hw/assembly_stencil') && <Figure src={fig('hw/assembly_stencil')!} alt="Stencil assembly with an improvised jig, and the reflow oven" caption="(a) The stencil held by a jig of spare boards; (b) the reflow oven." evidence={{ label: 'Hardware report fig. 1', href: reportUrl('hardware', 11) }} />}
+    </div>
+    <Carousel>
+      {[photo('20261004_140505'), photo('20261004_141445'), photo('20261004_162533'), photo('20261005_173910'), photo('20261014_212624')].filter(Boolean).map((p) => <Figure src={p!} alt="Assembly photograph" />)}
+    </Carousel>
+  </Section>
+
+  <Section eyebrow="Bench test set-up" title="Three supply channels pretending to be panels" lede="Testing was incremental: each shuffler alone with no load first, waveforms on the oscilloscope, then the string.">
+    <div class="two-col">
+      <div class="prose">
+        <ul>
+          <li><strong>Modules:</strong> R&amp;S NGE103B three-channel supply, channels in series at 25 V (23.3 V on the day) with current limits of 1.3 / 0.5 / 1.3 A: the middle channel plays the shaded module. Without the shuffler the 0.5 A channel sets the string current.</li>
+          <li><strong>Load:</strong> Rigol DL3021 electronic load in constant-voltage mode at 70 V (steps 60–125 V in the control tests), driven over USB by the Pi.</li>
+          <li><strong>Instruments:</strong> R&amp;S RTB2004 oscilloscope on the switch nodes and the hall outputs; telemetry through the Nucleo and the Pi into Grafana.</li>
+          <li><strong>Sweep:</strong> 100 to 400 kHz switching with a fixed 200 ns dead time, 50 % duty open loop; then the closed-loop runs of the control stream at 200, 300 and 400 kHz.</li>
+        </ul>
+      </div>
+      <Carousel>{bench.map((p) => <Figure src={p!} alt="Bench set-up photograph" />)}</Carousel>
+    </div>
+    <div class="grid grid-2" style="margin-top:1.5rem">
+      {fig('hw/bench_waveforms') && <Figure src={fig('hw/bench_waveforms')!} alt="Open-loop bench waveforms at 100, 200 and 300 kHz and the ripple comparison" caption="Open-loop waveforms at 50 % duty: (a) one switch node at 100 kHz; (b, c) both switch nodes and the hall outputs at 200 and 300 kHz, 180° apart with antiphase triangles; (d) measured winding ripple within about 25 % of the coupled-inductor model V/(4·L_eff·f) with L_eff = 13.75 µH." evidence={{ label: 'Hardware report §4.6', href: reportUrl('hardware', 19) }} />}
+      {fig('hw/bench_power') && <Figure src={fig('hw/bench_power')!} alt="Open-loop bench results: power with and without the shuffler, and output against switching frequency" caption="(a) At 200 kHz the string went from 34.8 W (limited by the 0.5 A channel) to 67.9 W, 93.8 % of the 72.5 W supplied. (b) Output peaked at 300 kHz; the module-voltage spread grew from 0.2 V to 1.1 V at 400 kHz as the fixed dead time took a larger share of the period." evidence={{ label: 'Hardware report fig. 9', href: reportUrl('hardware', 19) }} />}
+      {fig('hw/bench_leg_currents') && <Figure src={fig('hw/bench_leg_currents')!} alt="Average leg currents from the telemetry at 200 and 300 kHz" caption="Average leg currents: at 200 kHz one leg read 3.3 A until the sensor gain mismatch (25 vs 100 mV/A) was corrected; at 300 kHz the legs share the shuffled current with no circulating component." evidence={{ label: 'Hardware report fig. 10', href: reportUrl('hardware', 20) }} />}
+      {fig('hw/ringing_400k') && <Figure src={fig('hw/ringing_400k')!} alt="Ringing on the string output at 400 kHz" caption="At 400 kHz each pair of edges excites a ring on the string output that takes about 1 µs to settle while the edge pairs arrive every 1.25 µs: the practical ceiling for these MOSFETs as driven." evidence={{ label: 'Hardware report fig. 11', href: reportUrl('hardware', 21) }} />}
+    </div>
+    <div class="table-wrap small" style="margin-top:1rem">
+      <table>
+        <thead><tr><th>Frequency</th><th>Switch-node swing</th><th>Overshoot</th><th>Undershoot</th><th>String output ring (pk-pk)</th></tr></thead>
+        <tbody>
+          <tr><td>100 kHz</td><td>49 V</td><td>4.0 V (8 %)</td><td>2.5 V (5 %)</td><td>1.5 V</td></tr>
+          <tr><td>200 kHz</td><td>49 V</td><td>2.9 V (6 %)</td><td>2.0 V (4 %)</td><td>1.6 V</td></tr>
+          <tr><td>300 kHz</td><td>47 V</td><td>2.5 V (5 %)</td><td>1.4 V (3 %)</td><td>1.7 V</td></tr>
+          <tr><td>400 kHz</td><td>47 V</td><td>3.0 V (6 %)</td><td>–</td><td>2.0 V</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="small muted">Peak drain voltage about 53 V: almost 50 % margin against the 100 V rating. Rail ring 2.6 V peak to peak at about 3.3 MHz, under 3 % of the 70 V output. Gate-drive loss roughly doubles from 0.7 W at 200 kHz to 1.4 W at 400 kHz.</p>
+  </Section>
+
+  <Section alt eyebrow="Solar test set-up" title="Three 80 W panels in the carpark" lede="One outdoor session on 20 October, cut short by the weather. The hardware stream ran open loop at 200 kHz with a cloth over one corner of the top panel; the control stream then closed the loop (see Results).">
+    <div class="two-col">
+      <div class="prose">
+        <ul>
+          <li><strong>String:</strong> three KickAss KAUSSP80 panels in series without bypass diodes, about 195 W under uniform irradiance in full sun. Panel 1, the one at the highest potential, was shaded with a cloth.</li>
+          <li><strong>Load:</strong> the DL3021 held the string at a fixed 60 V (61 V for the closed-loop runs) because no MPPT was available and the string exceeded the load's 200 W rating in the brightest periods, so the operating point was imposed rather than tracked.</li>
+          <li><strong>Power for the gear:</strong> battery and inverter for the Pi, the load and the laptop.</li>
+          <li><strong>Instruments:</strong> telemetry and the e-load log; a Keysight DSOX2004A with a hall current probe for the string current, too slow for waveform captures.</li>
+        </ul>
+        <p>Run 1, in full sun with the cloth over about 80 % of the panel width: 40 W to 176 W when the shufflers were enabled. Runs 2 and 3, under heavier cloud with the cloth across the full width: 9 W to 112 W with the module voltages held at 19.9, 20.3 and 20.8 V, and 93.6 % of the 106.4 W the panels produced reaching the load. Through passing cloud the module voltages stayed within 0.9 V of each other with no control action at all.</p>
+      </div>
+      <Carousel>{solarPhotos.map((p) => <Figure src={p!} alt="Carpark set-up photograph" />)}</Carousel>
+    </div>
+    <div class="grid grid-2" style="margin-top:1.5rem">
+      {fig('hw/pv_runs') && <Figure src={fig('hw/pv_runs')!} alt="String output power with the shufflers off and on in the three PV runs" caption="The three PV runs: shuffler off against shuffler on at a fixed 60 V. The runs are not directly comparable (different cloud and cloth coverage)." evidence={{ label: 'Hardware report fig. 14', href: reportUrl('hardware', 23) }} />}
+      {fig('hw/pv_run2') && <Figure src={fig('hw/pv_run2')!} alt="Run 2: string power and module voltages as the shufflers are switched on" caption="Run 2: about 9 W with the shufflers off, about 112 W on, with the three module voltages held near 20 V." evidence={{ label: 'Hardware report fig. 13', href: reportUrl('hardware', 22) }} />}
+      {fig('hw/pv_run3') && <Figure src={fig('hw/pv_run3')!} alt="Run 3: string power, module voltages and leg currents through passing cloud" caption="Run 3: passing cloud takes the string from about 95 W to 35 W; the module voltages stay within 0.9 V. One leg of shuffler 1 reads about −2 A with noise while the other reads near zero: a sensing problem that was not resolved." evidence={{ label: 'Hardware report fig. 15', href: reportUrl('hardware', 24) }} />}
+      {fig('hw/outdoor_setup') && <Figure src={fig('hw/outdoor_setup')!} alt="The outdoor test set-up on a table in the carpark" caption="The carpark set-up: load, scope, laptop and the pod on a folding table." evidence={{ label: 'Hardware report fig. 12', href: reportUrl('hardware', 22) }} />}
+    </div>
+  </Section>
+
+  <Section eyebrow="Limitations" title="What went wrong, and what it means" lede="Honest accounting from the hardware report, so the next revision does not repeat it.">
+    <div class="grid grid-2">
+      <Callout kind="warn" title="U10 does not work">The string-potential INA239 sits behind an ISO7762 that was wired backwards. Removing the isolator did not revive the sensor, so the top module voltage comes from the electronic load through the Pi. This also limited testing to lower-output modules. <a href={href('/handover/')}>Handover</a> has the workaround.</Callout>
+      <Callout kind="warn" title="Heatsink shenanigans">The heatsink is clamped under the board by printed keepers with thermal paste; the first fit needed trimming and the paste was reapplied after the rework. Inductor temperature was only ever estimated by touch. The INA239 die temperatures stayed in the 30–50 °C range on both test days.</Callout>
+      <Callout kind="warn" title="Coupled inductor, second-guessed">The winding arrangement was reworked during bring-up. The control model only agrees with the hardware for the final arrangement (circulating mode sees L+M), so any inductor change must be checked with an open-loop probe before closing the loop.</Callout>
+      <Callout kind="warn" title="Current telemetry">The ADC gain was set for 100 mV/A while one fitted sensor output 25 mV/A, and in the PV test one leg of shuffler 1 read wrongly for a reason never found. Verify every channel against a direct measurement.</Callout>
+      <Callout kind="info" title="Fixed string voltage, no MPPT">Every comparison was made at a fixed 60–70 V. The true gain over a tracked string was never measured, and fixed losses (ripple, gate drive, dead time) dominate at light load: 93.8 % of the supply reached the load, but the shuffler's own efficiency on the 15 W it processed was about 70 %.</Callout>
+      <Callout kind="info" title="Fixed dead time">Two 200 ns dead times are 8 % of the period at 200 kHz and 16 % at 400 kHz, which distorts the effective duty: module-voltage spread 0.2 V to 1.1 V, output down. Adaptive dead time is first on the list.</Callout>
+    </div>
+    <div class="row" style="margin-top:1rem">
+      <a class="btn" href={href('/handover/')}>Known issues and future work for the hardware</a>
+      <a class="btn btn-ghost ext" href={reportUrl('hardware', 24)} target="_blank" rel="noopener">Hardware report §4.8</a>
+    </div>
+  </Section>
+</Base>

@@ -9,7 +9,6 @@ interface Props {
   /** Force a theme for this page ('dark' for the landing page). */
   theme?: 'light' | 'dark' | 'auto';
   ogImage?: string;
-  wide?: boolean;
 }
 const { title, description = SITE.description, theme = 'auto', ogImage } = Astro.props;
 const pageTitle = title ? `${title} · ${SITE.shortTitle}` : SITE.title;
@@ -75,7 +74,7 @@ const og = ogImage ?? href('/og.jpg');
           <ul>
             <li><a href={SITE.repo} target="_blank" rel="noopener">GitHub repository</a></li>
             <li><a href={href('/handover/')}>Handover for the next team</a></li>
-            <li><a href={href('/about/')}>Team and downloads</a></li>
+            <li><a href={href('/about/')}>Team, acknowledgements, downloads</a></li>
           </ul>
         </div>
         <div>
@@ -84,6 +83,7 @@ const og = ogImage ?? href('/og.jpg');
             <li><a href={SITE.qspice} target="_blank" rel="noopener">QSPICE (free download)</a></li>
             <li><a href={SITE.kicad} target="_blank" rel="noopener">KiCad 10</a></li>
             <li><a href="https://www.mathworks.com/products/simulink.html" target="_blank" rel="noopener">MATLAB / Simulink</a></li>
+            <li><a href="https://www.autodesk.com/products/fusion-360" target="_blank" rel="noopener">Fusion 360</a></li>
             <li><a href="https://grafana.com/" target="_blank" rel="noopener">Grafana + InfluxDB</a></li>
           </ul>
         </div>
@@ -95,13 +95,15 @@ const og = ogImage ?? href('/og.jpg');
         </div>
         <div>
           <h4>About</h4>
-          <p class="small">QUT EGH490 Research Project, 2026. Control stream by Jared Saunders, hardware stream by Son Nguyen, supervised by Assoc Prof Geoff Walker.</p>
-          <p class="small">Every number on this site links to the figure, table or file it comes from.</p>
+          <p class="small">Boost Brigade: QUT EGH490 Research Project, 2026. Power electronics by Son Nguyen, control systems by Jared Saunders, supervised by Assoc Prof Geoff Walker.</p>
+          <p class="small">This site is the project's knowledge hub: every page links back to the reports, figures and files it draws on.</p>
         </div>
       </div>
     </footer>
 
     <script>
+      import PhotoSwipeLightbox from 'photoswipe/lightbox';
+      import 'photoswipe/style.css';
       const btn = document.getElementById('theme-btn');
       btn?.addEventListener('click', () => {
         const root = document.documentElement;
@@ -128,6 +130,20 @@ const og = ogImage ?? href('/og.jpg');
           try { await navigator.clipboard.writeText(pre.innerText); b.textContent = 'Copied'; setTimeout(() => (b.textContent = 'Copy'), 1200); } catch {}
         });
       });
+      // lightbox for every zoomable figure on the page
+      if (document.querySelector('a.zoomable')) {
+        const lb = new PhotoSwipeLightbox({ gallery: 'body', children: 'a.zoomable', pswpModule: () => import('photoswipe'), bgOpacity: .92, padding: { top: 24, bottom: 24, left: 16, right: 16 } });
+        lb.on('uiRegister', () => {
+          lb.pswp?.ui?.registerElement({ name: 'caption', order: 9, isButton: false, appendTo: 'root', onInit: (el, pswp) => {
+            pswp.on('change', () => { const cap = pswp.currSlide?.data.element?.closest('figure')?.querySelector('figcaption'); el.innerHTML = cap ? cap.innerHTML : ''; });
+          } });
+        });
+        lb.init();
+      }
     </script>
+    <style is:global>
+      .pswp [class*="caption"] { position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%); background: rgba(0,0,0,.65); color: #fff; padding: .4rem .8rem; border-radius: 8px; font-size: .9rem; max-width: 90%; text-align: center; }
+      .pswp [class*="caption"] a { color: #ffd27a; }
+    </style>
   </body>
 </html>

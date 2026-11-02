@@ -1,0 +1,118 @@
+---
+/**
+ * The six-layer board, one SVG per layer (scripts/prep_kicad.sh), stacked and toggled like a
+ * mini layout editor. Layer SVGs are injected inline so their colour follows CSS; a part can
+ * be located on the board via the silkscreen index (bb:highlight events or the search box).
+ */
+import { href } from '../lib/site';
+import index from '../data/kicad_index.json';
+interface Props { id?: string; }
+const { id = 'layers' } = Astro.props;
+const board = (index as any).board as { viewBox: number[]; refs: Record<string, [number, number]> };
+const LAYERS = [
+  { id: 'F.Cu', label: 'Top copper', colour: '#c83434', on: true, group: 'copper' },
+  { id: 'In1.Cu', label: 'Inner 1 (power)', colour: '#c2a200', on: false, group: 'copper' },
+  { id: 'In2.Cu', label: 'Inner 2 (ground)', colour: '#4d8f2f', on: false, group: 'copper' },
+  { id: 'In3.Cu', label: 'Inner 3 (signal)', colour: '#2f6fb3', on: false, group: 'copper' },
+  { id: 'In4.Cu', label: 'Inner 4 (ground)', colour: '#8a4db3', on: false, group: 'copper' },
+  { id: 'B.Cu', label: 'Bottom copper', colour: '#1f8fa0', on: true, group: 'copper' },
+  { id: 'F.SilkS', label: 'Top silkscreen', colour: '#f0f0f0', on: true, group: 'other' },
+  { id: 'B.SilkS', label: 'Bottom silkscreen', colour: '#d8d8d8', on: false, group: 'other' },
+  { id: 'Edge.Cuts', label: 'Board outline', colour: '#f5a300', on: true, group: 'other' },
+];
+const refs: Record<string, { x: number; y: number }> = {};
+for (const [r, p] of Object.entries(board.refs)) refs[r] = { x: (p[0] / board.viewBox[2]) * 100, y: (p[1] / board.viewBox[3]) * 100 };
+const ratio = board.viewBox[2] / board.viewBox[3];
+---
+<div class="lyv" id={id} data-refs={JSON.stringify(refs)} data-base={href('/kicad/pcb/')}>
+  <div class="lyv-top">
+    <div class="lyv-layers">
+      {LAYERS.map((l) => (
+        <label class="lyv-l"><input type="checkbox" data-layer={l.id} checked={l.on} /><i style={`background:${l.colour}`}></i>{l.label}</label>
+      ))}
+    </div>
+    <div class="row" style="gap:.4rem">
+      <label class="chip"><input type="checkbox" id={`${id}-flip`} /> view from below</label>
+      <form class="lyv-search" role="search"><input type="search" placeholder="locate a part, e.g. U10" aria-label="Locate a reference designator" list={`${id}-refs`} /><datalist id={`${id}-refs`}>{Object.keys(refs).sort().map((r) => <option value={r} />)}</datalist><button class="btn btn-sm" type="submit">Go</button></form>
+    </div>
+  </div>
+  <div class="lyv-view" tabindex="0" aria-label="Board layers; drag to pan, scroll to zoom">
+    <div class="lyv-stage" style={`aspect-ratio:${ratio}`}>
+      {LAYERS.map((l) => <div class="lyv-layer" data-layer={l.id} style={`color:${l.colour}`} hidden={!l.on}></div>)}
+      <span class="lyv-flash" hidden></span>
+    </div>
+    <div class="lyv-ctl"><button type="button" data-z="in" aria-label="Zoom in">+</button><button type="button" data-z="out" aria-label="Zoom out">−</button><button type="button" data-z="fit" aria-label="Fit">⤢</button></div>
+    <p class="lyv-status small muted" hidden>loading layer…</p>
+  </div>
+  <p class="small muted" style="margin:.6rem 0 0">Six copper layers: the top and bottom carry the switching loops and the sensing; inner layers are power and ground planes. Exported straight from the KiCad project, so what you see is what was fabricated.</p>
+</div>
+<script>
+  document.querySelectorAll<HTMLElement>('.lyv').forEach((root) => {
+    const base = root.dataset.base!;
+    const refs = JSON.parse(root.dataset.refs || '{}') as Record<string, { x: number; y: number }>;
+    const view = root.querySelector<HTMLElement>('.lyv-view')!, stage = root.querySelector<HTMLElement>('.lyv-stage')!, status = root.querySelector<HTMLElement>('.lyv-status')!;
+    const loaded = new Set<string>();
+    const load = async (layer: string) => {
+      if (loaded.has(layer)) return; loaded.add(layer);
+      status.hidden = false;
+      try {
+        const txt = await (await fetch(`${base}${layer}.svg`)).text();
+        const doc = new DOMParser().parseFromString(txt, 'image/svg+xml');
+        const svg = doc.documentElement; svg.removeAttribute('width'); svg.removeAttribute('height');
+        root.querySelector<HTMLElement>(`.lyv-layer[data-layer="${layer}"]`)!.appendChild(document.importNode(svg, true));
+      } catch { status.textContent = `could not load ${layer}`; return; }
+      status.hidden = true;
+    };
+    root.querySelectorAll<HTMLInputElement>('input[data-layer]').forEach((cb) => {
+      const el = root.querySelector<HTMLElement>(`.lyv-layer[data-layer="${cb.dataset.layer}"]`)!;
+      if (cb.checked) load(cb.dataset.layer!);
+      cb.addEventListener('change', () => { el.hidden = !cb.checked; if (cb.checked) load(cb.dataset.layer!); });
+    });
+    let scale = 1, tx = 0, ty = 0, flip = false;
+    const apply = () => { stage.style.transform = `translate(${tx}px,${ty}px) scale(${flip ? -scale : scale}, ${scale})`; };
+    const fit = () => { scale = 1; tx = 0; ty = 0; apply(); };
+    const zoomAt = (f: number, cx: number, cy: number) => { const ns = Math.min(10, Math.max(1, scale * f)); const r = view.getBoundingClientRect(); const px = cx - r.left, py = cy - r.top; tx = px - (px - tx) * (ns / scale); ty = py - (py - ty) * (ns / scale); scale = ns; if (scale === 1) { tx = 0; ty = 0; } apply(); };
+    view.addEventListener('wheel', (e) => { e.preventDefault(); zoomAt(e.deltaY < 0 ? 1.2 : 1 / 1.2, e.clientX, e.clientY); }, { passive: false });
+    let drag: { x: number; y: number; tx: number; ty: number } | null = null;
+    view.addEventListener('pointerdown', (e) => { if ((e.target as HTMLElement).closest('button')) return; drag = { x: e.clientX, y: e.clientY, tx, ty }; view.setPointerCapture(e.pointerId); });
+    view.addEventListener('pointermove', (e) => { if (!drag) return; tx = drag.tx + (e.clientX - drag.x); ty = drag.ty + (e.clientY - drag.y); apply(); });
+    view.addEventListener('pointerup', () => (drag = null)); view.addEventListener('pointercancel', () => (drag = null));
+    root.querySelectorAll<HTMLButtonElement>('.lyv-ctl [data-z]').forEach((b) => b.addEventListener('click', () => { const r = view.getBoundingClientRect(); if (b.dataset.z === 'fit') fit(); else zoomAt(b.dataset.z === 'in' ? 1.5 : 1 / 1.5, r.left + r.width / 2, r.top + r.height / 2); }));
+    const flipBox = root.querySelector<HTMLInputElement>('input[id$="-flip"]')!;
+    flipBox.addEventListener('change', () => { flip = flipBox.checked; stage.style.transformOrigin = flip ? '50% 0' : '0 0'; tx = 0; ty = 0; scale = 1; apply(); });
+    const locate = (ref: string) => {
+      const r = refs[ref.toUpperCase()]; if (!r) return false;
+      const flash = root.querySelector<HTMLElement>('.lyv-flash')!; flash.style.left = `${r.x}%`; flash.style.top = `${r.y}%`; flash.hidden = false; flash.textContent = ref.toUpperCase();
+      flash.classList.remove('pulse'); void flash.offsetWidth; flash.classList.add('pulse');
+      if (flip) { flipBox.checked = false; flipBox.dispatchEvent(new Event('change')); }
+      const vr = view.getBoundingClientRect(); scale = 2.5; tx = vr.width / 2 - (r.x / 100) * vr.width * scale; ty = vr.height / 2 - (r.y / 100) * stage.getBoundingClientRect().height * scale; apply();
+      return true;
+    };
+    const form = root.querySelector<HTMLFormElement>('.lyv-search')!;
+    form.addEventListener('submit', (e) => { e.preventDefault(); const i = form.querySelector('input')!; i.setCustomValidity(locate(i.value.trim()) ? '' : 'not on the silkscreen'); i.reportValidity(); });
+    form.querySelector('input')!.addEventListener('input', (e) => (e.target as HTMLInputElement).setCustomValidity(''));
+    document.addEventListener('bb:highlight', (e) => { const ref = (e as CustomEvent).detail?.ref; if (ref) locate(ref); });
+  });
+</script>
+<style is:global>
+  .lyv { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: .8rem .9rem; }
+  .lyv-top { display: flex; flex-wrap: wrap; gap: .8rem; justify-content: space-between; align-items: center; margin-bottom: .6rem; }
+  .lyv-layers { display: flex; flex-wrap: wrap; gap: .3rem .8rem; }
+  .lyv-l { display: inline-flex; align-items: center; gap: .35rem; font-size: .85rem; cursor: pointer; }
+  .lyv-l i { width: 14px; height: 14px; border-radius: 3px; border: 1px solid rgba(0,0,0,.2); }
+  .lyv-l input { accent-color: var(--accent); }
+  .lyv-search { display: flex; gap: .4rem; }
+  .lyv-search input { padding: .3rem .6rem; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font: inherit; font-size: .85rem; width: 190px; }
+  .lyv-view { position: relative; overflow: hidden; background: #0d1b14; border-radius: 10px; cursor: grab; touch-action: none; }
+  .lyv-stage { position: relative; width: 100%; transform-origin: 0 0; --hole: #0d1b14; }
+  .lyv-layer { position: absolute; inset: 0; }
+  .lyv-layer svg { width: 100%; height: 100%; display: block; }
+  .lyv-layer[data-layer^="In"] { opacity: .75; }
+  .lyv-layer[data-layer="F.SilkS"], .lyv-layer[data-layer="B.SilkS"] { opacity: .9; }
+  .lyv-flash { position: absolute; transform: translate(-50%, -50%); width: 40px; height: 40px; border-radius: 50%; border: 3px solid var(--accent); color: #fff; font: 700 .65rem var(--font-mono); display: grid; place-items: center; background: color-mix(in srgb, var(--accent) 35%, transparent); z-index: 3; pointer-events: none; }
+  .lyv-flash.pulse { animation: lyvpulse 1.6s ease-out 3; }
+  @keyframes lyvpulse { 0% { box-shadow: 0 0 0 0 color-mix(in srgb, var(--accent) 70%, transparent); } 100% { box-shadow: 0 0 0 28px transparent; } }
+  .lyv-ctl { position: absolute; right: .6rem; bottom: .6rem; display: flex; gap: .3rem; z-index: 4; }
+  .lyv-ctl button { width: 34px; height: 34px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); font-size: 1.1rem; cursor: pointer; }
+  .lyv-status { position: absolute; left: .8rem; bottom: .6rem; color: #fff; margin: 0; }
+</style>

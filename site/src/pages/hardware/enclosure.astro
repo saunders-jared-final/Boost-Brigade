@@ -1,0 +1,90 @@
+---
+import Base from '../../layouts/Base.astro';
+import Section from '../../components/Section.astro';
+import SubNav from '../../components/SubNav.astro';
+import Figure from '../../components/Figure.astro';
+import Callout from '../../components/Callout.astro';
+import Carousel from '../../components/Carousel.astro';
+import Exploded from '../../components/Exploded';
+import { ENCLOSURE_PARTS } from '../../data/parts';
+import { ENCLOSURE_BOM } from '../../data/bom';
+import { fig, photo } from '../../lib/assets';
+import { href, HARDWARE_NAV, repoDir, rawUrl } from '../../lib/site';
+import { existsSync } from 'node:fs';
+import path from 'node:path';
+const hasEnclosure = existsSync(path.resolve(process.cwd(), 'public/models/enclosure.glb'));
+const photos = [photo('20261007_081025'), photo('20261006_102236'), photo('20261011_101101'), photo('20261011_101141'), photo('20261014_100557'), photo('20261014_103908'), photo('20261020_112310'), photo('20261020_112730')].filter(Boolean);
+const dims = [
+  ['Overall (with the pod)', '210 × 217 × 117 mm'],
+  ['Main bay (lid outline)', '205 × 172 mm'],
+  ['Wall height', '111 mm'],
+  ['Lid thickness', '3 mm'],
+  ['UI pod bay', '45 mm deep along the side wall'],
+  ['Board', '175 × 160 × 1.5 mm, six layers'],
+  ['Heatsink', 'Altronics H0582, 128 × 100 × 36 mm'],
+  ['Board-to-lid clearance', 'set by the coupled inductors and the Nucleo on stacking headers'],
+  ['Fasteners', 'M3 × 6 (12), M3 × 10 (12), M2.5 × 12 (4), M3 washers (24), Pi spacers (4)'],
+];
+---
+<Base title="Enclosure design" description="The 3D-printed enclosure of the Boost Brigade power shuffler: exploded Fusion 360 assembly, bill of materials, dimensions and what went wrong.">
+  <Section eyebrow="Hardware · Enclosure" title="A printed box for a board that gets opened a lot" lede="The Fusion 360 assembly holds the board, a heatsink under it, the Nucleo on headers and a side pod for the Raspberry Pi, LCD, IR receiver and status LED. Explore it exploded, then the parts list, the dimensions and the lessons." narrow>
+    <SubNav items={HARDWARE_NAV} />
+    <div class="row">
+      <a class="btn ext" href={rawUrl('9_Mechanical_Enclosure_CAD/shuffler_assembly.f3z')} target="_blank" rel="noopener">Fusion 360 archive (.f3z, 38 MB)</a>
+      <a class="btn ext" href={rawUrl('9_Mechanical_Enclosure_CAD/shuffler_assembly.step')} target="_blank" rel="noopener">STEP (57 MB)</a>
+      <a class="btn ext" href={repoDir('9_Mechanical_Enclosure_CAD')} target="_blank" rel="noopener">CAD folder</a>
+    </div>
+  </Section>
+
+  <Section tight>
+    <h3 style="margin-bottom:.4rem">The assembly, exploded</h3>
+    <p class="muted small">Converted from the STEP export of the Fusion assembly. Slide to explode; the numbers match the bill of materials below. Click a part or a chip for its description.</p>
+    {hasEnclosure ? (
+      <Exploded client:visible src={href('/models/enclosure.glb')} parts={ENCLOSURE_PARTS} up="y" viewers={false} defaultExplode={0.35} camera={[1.25, 0.9, 1.55]} />
+    ) : (
+      <Callout kind="info" title="Enclosure model pending">Run <code>site/scripts/prep_models.sh</code> (needs cadquery) to convert the STEP assembly.</Callout>
+    )}
+  </Section>
+
+  <Section alt eyebrow="Bill of materials" title="Enclosure parts, numbered as in the model">
+    <div class="two-col">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>#</th><th>Part</th><th>What</th><th>Qty</th><th>Source</th></tr></thead>
+          <tbody>{ENCLOSURE_BOM.map((l) => <tr><td><span class="num green">{l.n}</span></td><td><strong>{l.item}</strong></td><td class="small">{l.what}</td><td class="mono">{l.qty}</td><td class="small muted">{l.source}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <div class="stack">
+        {fig('misc/fusion_iso') && <Figure src={fig('misc/fusion_iso')!} alt="Fusion 360 view of the assembly" caption="The assembly in Fusion 360: board, Nucleo, XT60 connectors, inductors and heatsink inside the printed walls." />}
+        {fig('misc/hero_render') && <Figure src={fig('misc/hero_render')!} alt="Render of the finished enclosure" caption="The render used on the reports' title pages." />}
+      </div>
+    </div>
+  </Section>
+
+  <Section eyebrow="Drawing specifications" title="Dimensions and print notes">
+    <div class="two-col">
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Feature</th><th>Value</th></tr></thead>
+          <tbody>{dims.map(([k, v]) => <tr><td>{k}</td><td class="mono small">{v}</td></tr>)}</tbody>
+        </table>
+      </div>
+      <div class="stack">
+        <div class="card hw"><h4>Design intent</h4><p class="small muted">Open bay with the lid on top so the board can be probed; the heatsink clamped from below by printed keepers rather than screwed through the board; the pod on the side so the LCD and LED face the operator and the Pi's USB and Ethernet are reachable; the Nucleo's USB connector at an end panel so the Pi (or a laptop) can flash and talk to it without opening anything.</p></div>
+        <div class="card hw"><h4>Printing</h4><p class="small muted">Printed in PLA in sections (walls, end panels, belly pan, lid, pod) that are screwed together with heat-set inserts. Dimensions above are taken from the STEP model; the drawings are the Fusion sketches in the archive.</p></div>
+        <Callout kind="warn" title="Threads and holes came out the wrong size">Several holes printed undersize for their inserts or with the wrong thread, and had to be drilled or tapped by hand during assembly. Before the next print, check every hole against the actual inserts and screws (M3 and M2.5) and add clearance for the printer's shrinkage.</Callout>
+      </div>
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Build photos" title="From print to pod">
+    <Carousel>{photos.map((p) => <Figure src={p!} alt="Enclosure build photograph" />)}</Carousel>
+    <div class="row" style="margin-top:1rem"><a class="btn" href={href('/media/')}>All photos</a><a class="btn btn-ghost" href={href('/handover/')}>Mechanical future work</a></div>
+  </Section>
+  <Section tight>
+    <div class="grid grid-2">
+      {fig('misc/fusion_side') && <Figure src={fig('misc/fusion_side')!} alt="Fusion 360 side view of the assembly" caption="Side view in Fusion 360: the heatsink depth below the board and the Nucleo above it set the wall height." />}
+      {fig('misc/fusion_side2') && <Figure src={fig('misc/fusion_side2')!} alt="Fusion 360 end view of the assembly" caption="End view: XT60 connectors and inductors against the lid line." />}
+    </div>
+  </Section>
+</Base>

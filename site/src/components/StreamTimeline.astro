@@ -1,0 +1,104 @@
+---
+/**
+ * Two-stream timeline: control entries on the left rail, hardware on the right rail,
+ * and joint entries in the middle where the rails converge. The rails are drawn by a script
+ * that measures the dots after layout (so the curves follow the real card heights).
+ */
+import { Image } from 'astro:assets';
+import type { StreamEntry } from '../data/timeline';
+import { photo } from '../lib/assets';
+interface Props { entries: StreamEntry[]; }
+const { entries } = Astro.props;
+const side = (e: StreamEntry) => (e.stream === 'ctrl' ? 'left' : e.stream === 'hw' ? 'right' : 'mid');
+const fmt = (d: string) => { const [y, m, day] = d.split('-'); const dt = new Date(+y, +m - 1, day ? +day : 1); return day ? dt.toLocaleDateString('en-AU', { day: 'numeric', month: 'short' }) : dt.toLocaleDateString('en-AU', { month: 'long' }); };
+---
+<div class="st" id="stream-timeline">
+  <svg class="st-rails" aria-hidden="true"></svg>
+  <div class="st-head">
+    <div class="st-col-head ctrl"><span class="chip chip-ctrl">control stream</span><strong>Jared</strong></div>
+    <div class="st-col-head hw"><span class="chip chip-hw">hardware stream</span><strong>Son</strong></div>
+  </div>
+  {entries.map((e) => (
+    <article class:list={['st-item', side(e), e.stream]} data-stream={e.stream}>
+      <span class="st-dot" data-stream={e.stream}></span>
+      <div class="st-card reveal">
+        <div class="row" style="gap:.5rem;margin-bottom:.35rem">
+          <time class="mono small">{fmt(e.date)}</time>
+          {e.tag && <span class:list={['chip', e.stream === 'ctrl' ? 'chip-ctrl' : e.stream === 'hw' ? 'chip-hw' : 'chip-accent']}>{e.tag}</span>}
+        </div>
+        <h3>{e.title}</h3>
+        <p>{e.detail}</p>
+        {e.plan && <p class="small st-plan"><strong>The plan said:</strong> {e.plan}</p>}
+        {e.photo && photo(e.photo) && <Image src={photo(e.photo)!} alt={e.title} width={720} class="st-photo" />}
+        {e.link && <a class="mono small ext" href={e.link.href} target="_blank" rel="noopener">{e.link.label}</a>}
+      </div>
+    </article>
+  ))}
+</div>
+<script>
+  const root = document.getElementById('stream-timeline');
+  if (root) {
+    const svg = root.querySelector<SVGSVGElement>('.st-rails')!;
+    const draw = () => {
+      const R = root.getBoundingClientRect();
+      const items = Array.from(root.querySelectorAll<HTMLElement>('.st-item'));
+      const pts = items.map((it) => { const d = it.querySelector<HTMLElement>('.st-dot')!.getBoundingClientRect(); return { s: it.dataset.stream!, x: d.left + d.width / 2 - R.left, y: d.top + d.height / 2 - R.top }; });
+      const heads = root.querySelectorAll<HTMLElement>('.st-col-head');
+      const hx = Array.from(heads).map((h) => { const d = h.getBoundingClientRect(); return { x: d.left + d.width / 2 - R.left, y: d.bottom - R.top }; });
+      svg.setAttribute('viewBox', `0 0 ${R.width} ${R.height}`);
+      svg.setAttribute('width', String(R.width)); svg.setAttribute('height', String(R.height));
+      const path = (stream: 'ctrl' | 'hw') => {
+        const start = stream === 'ctrl' ? hx[0] : hx[1];
+        let d = `M${start.x},${start.y}`; let last = { x: start.x, y: start.y };
+        for (const p of pts) {
+          if (p.s !== stream && p.s !== 'both') continue;
+          if (Math.abs(p.x - last.x) < 2) d += ` L${p.x},${p.y}`;
+          else { const my = (last.y + p.y) / 2; d += ` C${last.x},${my} ${p.x},${my} ${p.x},${p.y}`; }
+          last = p;
+        }
+        if (last.y < R.height - 4) d += ` L${last.x},${R.height}`;
+        return d;
+      };
+      svg.innerHTML = `<path d="${path('ctrl')}" class="rail ctrl"/><path d="${path('hw')}" class="rail hw"/>`;
+    };
+    draw();
+    new ResizeObserver(() => draw()).observe(root);
+    document.fonts?.ready.then(draw);
+    window.addEventListener('load', draw);
+  }
+</script>
+<style is:global>
+  .st { position: relative; display: grid; gap: 1.6rem; padding-top: .5rem; }
+  .st-rails { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  .st-rails .rail { fill: none; stroke-width: 4; stroke-linecap: round; opacity: .9; }
+  .st-rails .rail.ctrl { stroke: var(--blue); }
+  .st-rails .rail.hw { stroke: var(--green); }
+  .st-head { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; position: relative; z-index: 1; margin-bottom: .5rem; }
+  .st-col-head { display: flex; flex-direction: column; align-items: center; gap: .3rem; padding: .6rem; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); width: min(100%, 320px); justify-self: center; }
+  .st-item { position: relative; z-index: 1; display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+  .st-item.left .st-card { grid-column: 1; }
+  .st-item.right .st-card { grid-column: 2; }
+  .st-item.mid .st-card { grid-column: 1 / -1; width: min(100%, 760px); justify-self: center; border-color: var(--accent); }
+  .st-dot { position: absolute; top: 1.1rem; width: 18px; height: 18px; border-radius: 50%; border: 3px solid var(--surface); box-shadow: 0 0 0 2px var(--line); z-index: 2; }
+  .st-item.left .st-dot { left: 25%; transform: translateX(-50%); background: var(--blue); }
+  .st-item.right .st-dot { left: 75%; transform: translateX(-50%); background: var(--green); }
+  .st-item.mid .st-dot { left: 50%; transform: translateX(-50%); background: var(--accent); }
+  .st-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); margin-top: 2.2rem; }
+  .st-item.left .st-card { border-left: 4px solid var(--blue); }
+  .st-item.right .st-card { border-left: 4px solid var(--green); }
+  .st-item.mid .st-card { border-left: 4px solid var(--accent); }
+  .st-card h3 { font-size: 1.1rem; margin-bottom: .4rem; }
+  .st-card p { margin-bottom: .5rem; }
+  .st-plan { color: var(--muted); border-top: 1px dashed var(--line); padding-top: .5rem; }
+  .st-photo { border-radius: 10px; border: 1px solid var(--line); margin: .6rem 0; }
+  .st-card time { color: var(--accent-ink); }
+  @media (max-width: 760px) {
+    .st-head { grid-template-columns: 1fr; }
+    .st-item { grid-template-columns: 1fr; }
+    .st-item.left .st-card, .st-item.right .st-card, .st-item.mid .st-card { grid-column: 1; width: 100%; }
+    .st-item .st-dot { left: 12px !important; transform: none !important; }
+    .st-rails { display: none; }
+    .st-item::before { content: ""; position: absolute; left: 20px; top: 0; bottom: -1.6rem; width: 3px; background: var(--line); }
+    .st-card { margin-left: 40px; margin-top: 0; }
+  }
+</style>

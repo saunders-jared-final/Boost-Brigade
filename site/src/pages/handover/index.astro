@@ -3,33 +3,36 @@ import Base from '../../layouts/Base.astro';
 import Section from '../../components/Section.astro';
 import Cmd from '../../components/Cmd.astro';
 import Callout from '../../components/Callout.astro';
-import { GOTCHAS } from '../../data/gotchas';
-import { FUTURE } from '../../data/future';
-import { repoUrl, repoDir, SITE } from '../../lib/site';
+import { GOTCHAS, FUTURE } from '../../data/handover';
+import { repoUrl, repoDir, SITE, href, reportUrl } from '../../lib/site';
 
-const tags = Array.from(new Set(GOTCHAS.map((g) => g.tag)));
+const hwG = GOTCHAS.filter((g) => g.stream === 'hw');
+const ctrlG = GOTCHAS.filter((g) => g.stream === 'ctrl');
+const tags = (list: typeof GOTCHAS) => Array.from(new Set(list.map((g) => g.tag)));
 const repoMap = [
-  { f: '0_Documentation', w: 'Proposals, progress reports, telemetry contract (telemetry.md), experiment checklist, plan, photos and videos, the LaTeX report' },
+  { f: '0_Documentation', w: 'Both final reports, proposals, the telemetry contract (telemetry.md), experiment checklist, bench-day log, photos and videos, the LaTeX source of the delivery report' },
   { f: '1_Datasheets', w: 'INA239, TMCS1126, 1ED3140, coupled inductor, DL3021, NGE100, Nucleo schematic, 80 W panel' },
-  { f: '2_Qspice', w: 'Switching-level models; Power_Shuffler_Integrated (generated hierarchy); ctrl_dll; the scripted PCB baseline stage ladder' },
+  { f: '2_Qspice', w: 'Switching-level models; the hand-drawn v3 power stage; Power_Shuffler_Integrated (generated hierarchy); ctrl_dll; the scripted PCB baseline stage ladder' },
   { f: '3_Analytical', w: 'Notebooks, nstring.py / nswitch.py, DESIGN_LOG.md, early MATLAB control design' },
   { f: '4_Simulink', w: '1_MIL (4 modules, validate suite), 2_SIL (C Callers + host tests), 3_Carpark_3mod (twin + identification)' },
-  { f: '5_Kicad', w: 'Version 0 project (schematic, 6-layer PCB, gerbers) and all part libraries' },
+  { f: '5_Kicad', w: 'Version 0 project (schematic, six-layer PCB, gerbers), BOM.xlsx and all part libraries' },
   { f: '6_RTOS', w: 'STM32G474 firmware (CubeMX + CMake) and ctrl_core, the single copy of the control C; params/ holds the gain JSON and generators' },
   { f: '7_Pi', w: 'Pod: InfluxDB + Grafana compose, serial bridge, e-load service, web page, IR/LCD/LED, deploy scripts, staged firmware' },
   { f: '8_Results', w: 'Raw bench/solar captures, TestCases CSV exports, analysis pipeline (make all → REPORT.md)' },
-  { f: '9_Mechanical_Enclosure_CAD', w: 'Fusion 360 assembly (.f3z) and STEP of the enclosure' },
+  { f: '9_Mechanical_Enclosure_CAD', w: 'Fusion 360 archive (.f3z) and STEP of the enclosure assembly' },
   { f: 'site', w: 'This website (Astro). Asset prep scripts in site/scripts' },
 ];
 ---
-<Base title="Handover" description="Handover for the next team: quick starts, gotchas, known issues, future work and a map of the repository.">
-  <Section eyebrow="Handover" title="Start here if you are picking this up" lede="Everything you need to build, flash and run the system, the mistakes we already made for you, and the backlog. Clone the repository first; every link below points into it." narrow>
+<Base title="Handover" description="Handover for the next team: quick starts, known issues and future work for the hardware and control streams, and a map of the repository.">
+  <Section eyebrow="Handover" title="Start here if you are picking this up" lede="Everything you need to build, flash and run the system, the mistakes we already made for you, and the backlog, split by stream. Clone the repository first; every link below points into it." narrow>
     <div class="row">
-      <a class="btn btn-primary" href={SITE.repo} target="_blank" rel="noopener">Clone the repository ↗</a>
-      <a class="btn" href={repoUrl('README.md')} target="_blank" rel="noopener">Root README ↗</a>
-      <a class="btn" href={repoUrl('0_Documentation/experiment_checklist.md')} target="_blank" rel="noopener">Experiment checklist ↗</a>
+      <a class="btn btn-primary ext" href={SITE.repo} target="_blank" rel="noopener">Clone the repository</a>
+      <a class="btn ext" href={repoUrl('README.md')} target="_blank" rel="noopener">Root README</a>
+      <a class="btn ext" href={repoUrl('0_Documentation/experiment_checklist.md')} target="_blank" rel="noopener">Experiment checklist</a>
+      <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report</a>
+      <a class="btn ext" href={reportUrl('control')} target="_blank" rel="noopener">Delivery report</a>
     </div>
-    <Callout kind="warn" title="Read the facts from the checklist, not the root README">The root README still describes the earlier plan (150 W panels, EcoFlow load, 100 kHz). The campaign that produced the results used three 80 W KAUSSP80 panels, a Rigol DL3021 e-load at about 61 V constant voltage, and 200 / 300 / 400 kHz switching with firmware fw-0.4.1.</Callout>
+    <Callout kind="warn" title="Read the facts from the checklist, not the root README">The root README still describes the earlier plan (150 W panels, EcoFlow load, 100 kHz). The campaign that produced the results used three 80 W KAUSSP80 panels, a Rigol DL3021 e-load at 60–70 V constant voltage, and 200 / 300 / 400 kHz switching with firmware fw-0.4.1.</Callout>
   </Section>
 
   <Section alt eyebrow="Quick starts" title="Build, test, flash, run">
@@ -47,79 +50,101 @@ const repoMap = [
       </div>
       <div>
         <h3>4. Deploy the Pi pod</h3>
-        <p class="muted small">Only 7_Pi goes on the Pi. Installs docker, the venv, OpenOCD, overlays and the services. Log out/in once afterwards.</p>
+        <p class="muted small">Only 7_Pi goes on the Pi. Installs docker, the venv, OpenOCD, overlays and the services. Log out and in once afterwards.</p>
         <Cmd code={`bash 7_Pi/deploy/stage_firmware.sh          # optional: refresh 7_Pi/firmware/shuffler.bin\nbash 7_Pi/deploy/sync.sh <user>@<pi-address>\n# on the Pi:\nbash ~/Boost-Brigade/7_Pi/deploy/setup.sh`} />
         <h3>5. Flash from the Pi and drive it</h3>
         <Cmd code={`~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh --probe\n~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,TEST,0          # IC init check\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,MODE,OL C,EN,1  # both shufflers, open loop\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py E,SET,CV,61 E,INPUT,1`} />
         <h3>6. Rebuild every result figure</h3>
         <Cmd code={`cd 8_Results/analysis\nmake all          # hw → events → metrics → ripple → sims → compare → report\nmake pull-cases   # re-export the 21 windows (needs the Pi's InfluxDB)`} />
+        <h3>7. Open the hardware</h3>
+        <p class="muted small">KiCad 10 for <code>5_Kicad/Version 0 project</code> (libraries are project-relative in <code>5_Kicad/libs</code>); Fusion 360 for the <code>.f3z</code>; QSPICE (free) for every <code>.qsch</code>.</p>
       </div>
     </div>
     <p class="small muted">Grafana runs on the Pi at :3000 (anonymous viewer), the parameter page at :8080. Set the admin credentials in your own <code>.env</code>; do not reuse the lab defaults.</p>
   </Section>
 
-  <Section eyebrow="Gotchas" title="Things that cost us a day each" lede="Filter by area. Each card says what happened, why, and what to do instead.">
-    <div class="row" id="gotcha-filter">
-      <button class="chip chip-accent" data-tag="" type="button" aria-pressed="true">all ({GOTCHAS.length})</button>
-      {tags.map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({GOTCHAS.filter((g) => g.tag === t).length})</button>)}
+  <Section eyebrow="Known issues · hardware stream" title="Things that cost a day each on the board and enclosure" lede="Filter by area. Each card says what happened, why, and what to do instead.">
+    <div class="row gfilter" data-for="hw-gotchas">
+      <button class="chip chip-hw" data-tag="" type="button" aria-pressed="true">all ({hwG.length})</button>
+      {tags(hwG).map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({hwG.filter((g) => g.tag === t).length})</button>)}
     </div>
-    <div class="grid grid-3" id="gotchas" style="margin-top:1.2rem">
-      {GOTCHAS.map((g) => (
-        <article class="card gotcha" data-tag={g.tag}>
-          <span class="chip">{g.tag}</span>
+    <div class="grid grid-3" id="hw-gotchas" style="margin-top:1.2rem">
+      {hwG.map((g) => (
+        <article class="card gotcha hw" data-tag={g.tag}>
+          <span class="chip chip-hw">{g.tag}</span>
           <h3 style="margin-top:.6rem;font-size:1.1rem">{g.title}</h3>
           <p class="small">{g.body}</p>
           {g.fix && <p class="small"><strong>Do instead:</strong> {g.fix}</p>}
-          {g.link && <a class="mono small" href={g.link.href} target="_blank" rel="noopener">{g.link.label} ↗</a>}
+          {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
         </article>
       ))}
     </div>
   </Section>
 
-  <Section alt eyebrow="Backlog" title="Known issues and future work" lede="From the report’s conclusion and the design log. Size is a rough effort estimate.">
-    <div class="board">
-      {Object.entries(FUTURE).map(([col, items]) => (
-        <div class="col">
-          <h3>{col}</h3>
-          {items.map((it) => (
-            <div class="card ticket"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>
-          ))}
-        </div>
+  <Section alt eyebrow="Known issues · control stream" title="Firmware, simulation and operations gotchas">
+    <div class="row gfilter" data-for="ctrl-gotchas">
+      <button class="chip chip-ctrl" data-tag="" type="button" aria-pressed="true">all ({ctrlG.length})</button>
+      {tags(ctrlG).map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({ctrlG.filter((g) => g.tag === t).length})</button>)}
+    </div>
+    <div class="grid grid-3" id="ctrl-gotchas" style="margin-top:1.2rem">
+      {ctrlG.map((g) => (
+        <article class="card gotcha ctrl" data-tag={g.tag}>
+          <span class="chip chip-ctrl">{g.tag}</span>
+          <h3 style="margin-top:.6rem;font-size:1.1rem">{g.title}</h3>
+          <p class="small">{g.body}</p>
+          {g.fix && <p class="small"><strong>Do instead:</strong> {g.fix}</p>}
+          {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
+        </article>
       ))}
     </div>
   </Section>
 
-  <Section eyebrow="Repository map" title="Where everything lives">
+  <Section eyebrow="Future work" title="The backlog, by stream" lede="From both reports' conclusions and the design log. Size is a rough effort estimate.">
+    <div class="grid grid-2">
+      <div>
+        <h3><span class="chip chip-hw">hardware</span></h3>
+        {Object.entries(FUTURE.hw).map(([col, items]) => (
+          <div class="col"><h4>{col}</h4>{items.map((it) => <div class="card ticket hw"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>)}</div>
+        ))}
+      </div>
+      <div>
+        <h3><span class="chip chip-ctrl">control</span></h3>
+        {Object.entries(FUTURE.ctrl).map(([col, items]) => (
+          <div class="col"><h4>{col}</h4>{items.map((it) => <div class="card ticket ctrl"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>)}</div>
+        ))}
+      </div>
+    </div>
+  </Section>
+
+  <Section alt eyebrow="Repository map" title="Where everything lives">
     <div class="table-wrap">
       <table>
         <thead><tr><th>Folder</th><th>What is in it</th></tr></thead>
-        <tbody>{repoMap.map((r) => <tr><td><a class="mono" href={repoDir(r.f)} target="_blank" rel="noopener">{r.f}</a></td><td>{r.w}</td></tr>)}</tbody>
+        <tbody>{repoMap.map((r) => <tr><td><a class="mono ext" href={repoDir(r.f)} target="_blank" rel="noopener">{r.f}</a></td><td>{r.w}</td></tr>)}</tbody>
       </table>
     </div>
     <div class="grid grid-3" style="margin-top:1.5rem">
       <a class="card card-link" href={repoUrl('0_Documentation/telemetry.md')} target="_blank" rel="noopener"><h3>telemetry.md</h3><p class="muted small">The Nucleo ↔ Pi contract: frames, commands, run-time parameters, fault bits. The only place the format is defined.</p></a>
-      <a class="card card-link" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener"><h3>DESIGN_LOG.md</h3><p class="muted small">Every design decision with the alternatives and the evidence. Read Part 2 first.</p></a>
+      <a class="card card-link" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener"><h3>DESIGN_LOG.md</h3><p class="muted small">Every control design decision with the alternatives and the evidence. Read part 2 first.</p></a>
       <a class="card card-link" href={repoUrl('8_Results/analysis/README.md')} target="_blank" rel="noopener"><h3>8_Results/analysis</h3><p class="muted small">How the pipeline turns InfluxDB exports and simulation runs into REPORT.md and 264 figures.</p></a>
     </div>
   </Section>
-
-  <Section alt narrow eyebrow="Ask the project" title="Questions the documents can answer">
-    <p class="muted">A NotebookLM notebook loaded with the READMEs, REPORT.md, DESIGN_LOG.md, telemetry.md and the final report is the lowest-maintenance way to ask “why did you…?” questions. The link appears here once it is created.</p>
-    <a class="btn" aria-disabled="true" href="#">Ask the project (coming soon)</a>
-  </Section>
 </Base>
 <script>
-  const btns = document.querySelectorAll<HTMLButtonElement>('#gotcha-filter button');
-  btns.forEach((b) => b.addEventListener('click', () => {
-    btns.forEach((x) => { x.setAttribute('aria-pressed', 'false'); x.classList.remove('chip-accent'); });
-    b.setAttribute('aria-pressed', 'true'); b.classList.add('chip-accent');
-    const tag = b.dataset.tag || '';
-    document.querySelectorAll<HTMLElement>('#gotchas .gotcha').forEach((it) => { it.hidden = !!tag && it.dataset.tag !== tag; });
-  }));
+  document.querySelectorAll<HTMLElement>('.gfilter').forEach((bar) => {
+    const btns = bar.querySelectorAll<HTMLButtonElement>('button');
+    const grid = document.getElementById(bar.dataset.for!)!;
+    const active = bar.querySelector('button')!.className.includes('chip-hw') ? 'chip-hw' : 'chip-ctrl';
+    btns.forEach((b) => b.addEventListener('click', () => {
+      btns.forEach((x) => { x.setAttribute('aria-pressed', 'false'); x.classList.remove(active); });
+      b.setAttribute('aria-pressed', 'true'); b.classList.add(active);
+      const tag = b.dataset.tag || '';
+      grid.querySelectorAll<HTMLElement>('.gotcha').forEach((it) => { it.hidden = !!tag && it.dataset.tag !== tag; });
+    }));
+  });
 </script>
 <style>
   .gotcha[hidden] { display: none; }
-  .board { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 240px), 1fr)); gap: 1rem; }
-  .col h3 { font-size: 1rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); }
+  .col h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 1rem 0 .5rem; }
   .ticket { padding: 1rem; margin-bottom: .8rem; }
 </style>

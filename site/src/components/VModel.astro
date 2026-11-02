@@ -1,0 +1,50 @@
+---
+/** The project's V-model with both streams: definition down the left arm, verification up the right. */
+const steps = [
+  { n: 0, v: 'Concept of operations', ctrl: 'Problem framing, proposal, literature on DPP and MPPT control', hw: 'Problem framing, proposal, literature on shuffler topologies', both: true },
+  { n: 1, v: 'System requirements', ctrl: 'Analytical model: N-module averaged plant, DC gain G(N)', hw: 'Datasheet PV model (Karmalkar–Haneefa), rating for the Aiko module' },
+  { n: 2, v: 'High-level design', ctrl: 'Simulink model-in-the-loop: 4 modules, 7-test validation suite', hw: 'QSPICE topology comparison; ideal and semi-realistic shuffler models' },
+  { n: 3, v: 'Detailed design', ctrl: 'Sensor, MCU and Pi selection; sampling and peripheral plan', hw: 'KiCad Version 0 schematic and six-layer layout; parasitic-aware model' },
+  { n: 4, v: 'Development', ctrl: 'Firmware (C), control core, Raspberry Pi pod', hw: 'PCB fabrication, stencil assembly, reflow, enclosure' },
+  { n: 5, v: 'Unit verification', ctrl: 'Software-in-the-loop: C Callers, golden replay, host tests', hw: 'Bring-up: each shuffler alone, switch-node waveforms' },
+  { n: 6, v: 'Subsystem verification', ctrl: 'QSPICE with the firmware control DLL: dead time, R_sw, gains', hw: 'Open-loop string on the bench: ripple vs model, snubber ring' },
+  { n: 7, v: 'System verification', ctrl: 'Bench test 16 Oct: closed loop at 200–400 kHz', hw: 'Bench test 16 Oct: 93.8 % of supplied power to the load', both: true },
+  { n: 8, v: 'System validation', ctrl: 'Solar test 20 Oct: loop closed k = 0.1–0.8, 99 W returned', hw: 'Solar test 20 Oct: 40 W to 176 W with one panel shaded', both: true },
+  { n: 9, v: 'Acceptance', ctrl: 'Results pipeline, delivery report', hw: 'Final report, presentation', both: true },
+];
+// positions along the V (boxes are 170 wide)
+const XY: [number, number][] = [[20, 30], [120, 120], [220, 210], [320, 300], [280, 420], [550, 420], [510, 300], [610, 210], [710, 120], [810, 30]];
+const pos = (i: number) => ({ x: XY[i][0], y: XY[i][1] });
+const KEY = ['proposal', 'models', 'simulation', 'design', 'build', 'unit tests', 'integration', 'bench', 'sun', 'reports'];
+---
+<figure class="figure flush vmodel">
+  <svg viewBox="0 0 1000 560" role="img" aria-label="V-model of the project with both streams" font-family="var(--font-body)">
+    <path d="M105,60 L400,440 L600,440 L895,60" fill="none" stroke="var(--bg-2)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="60" y="250" transform="rotate(52 60 250)" fill="var(--muted)" font-size="12" font-weight="600" letter-spacing="2">DEFINITION AND DECOMPOSITION</text>
+    <text x="700" y="330" transform="rotate(-52 700 330)" fill="var(--muted)" font-size="12" font-weight="600" letter-spacing="2">INTEGRATION AND VERIFICATION</text>
+    {[[0, 9], [1, 8], [2, 7], [3, 6]].map(([a, b]) => { const pa = pos(a), pb = pos(b); return <line x1={pa.x + 170} y1={pa.y + 30} x2={pb.x} y2={pb.y + 30} stroke="var(--line)" stroke-dasharray="5 4" />; })}
+    {steps.map((s, i) => { const p = pos(i); return (
+      <g transform={`translate(${p.x},${p.y})`}>
+        <rect width="170" height="62" rx="10" fill="var(--surface)" stroke={s.both ? 'var(--accent)' : 'var(--line)'} stroke-width={s.both ? 2 : 1} />
+        <circle cx="16" cy="16" r="10" fill={s.both ? 'var(--accent)' : i <= 4 ? 'var(--blue)' : 'var(--green)'} />
+        <text x="16" y="20" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="var(--font-mono)">{s.n}</text>
+        <text x="32" y="20" fill="var(--text)" font-size="12" font-weight="600">{s.v}</text>
+        <g><rect x="8" y="30" width="6" height="26" rx="2" fill="var(--blue)" /><rect x="156" y="30" width="6" height="26" rx="2" fill="var(--green)" />
+          <title>{`Control: ${s.ctrl}\nHardware: ${s.hw}`}</title>
+          <text x="85" y="48" text-anchor="middle" fill="var(--muted)" font-size="11">{KEY[i]}</text>
+        </g>
+      </g>
+    ); })}
+  </svg>
+  <figcaption>The V-model both streams followed. Each level produces a pass/fail artefact the next level consumes; the dashed lines are the verification pairs. Blue = control stream, green = hardware stream, amber = joint. Hover a box for what each stream did at that level; the table below has the same in full.</figcaption>
+  <div class="vmodel-table table-wrap" style="margin-top:1rem">
+    <table>
+      <thead><tr><th>#</th><th>V-model level</th><th>Control stream</th><th>Hardware stream</th></tr></thead>
+      <tbody>{steps.map((s) => <tr><td class="mono">{s.n}</td><td>{s.v}</td><td>{s.ctrl}</td><td>{s.hw}</td></tr>)}</tbody>
+    </table>
+  </div>
+</figure>
+<style>
+  .vmodel svg { width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  .vmodel-table { font-size: .92rem; }
+</style>

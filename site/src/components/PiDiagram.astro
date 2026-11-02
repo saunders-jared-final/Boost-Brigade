@@ -1,0 +1,76 @@
+---
+/** What the Raspberry Pi does: user interface, logger and flasher; never in the control loop. Pure SVG. */
+---
+<figure class="figure flush pi">
+  <svg viewBox="0 0 980 470" role="img" aria-label="Data flow between the user, the Raspberry Pi, the Nucleo microcontroller, the shuffler board and the electronic load" font-family="var(--font-body)" font-size="12">
+    <defs>
+      <marker id="pa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)"/></marker>
+      <marker id="pa-blue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--blue)"/></marker>
+      <marker id="pa-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+    </defs>
+    <!-- user column -->
+    <g>
+      <rect x="20" y="40" width="190" height="390" rx="14" fill="var(--bg-2)" stroke="var(--line)"/>
+      <text x="115" y="64" text-anchor="middle" font-weight="700" fill="var(--text)">You (the operator)</text>
+      {[
+        ['Grafana dashboard', 'http://pi:3000 — 16 live panels', 84],
+        ['Parameter web page', 'http://pi:8080 — set and apply params', 150],
+        ['IR remote', 'digit + PLAY presets, POWER = E-stop', 216],
+        ['SSH / podctl.py', 'send any C,… command', 282],
+        ['LCD + RGB LED', 'state, mode, voltages; colour = state', 348],
+      ].map(([t, s, y]) => (
+        <g transform={`translate(32,${y})`}><rect width="166" height="52" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="12" y="21" font-weight="600" fill="var(--text)">{t}</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">{s}</text></g>
+      ))}
+    </g>
+    <!-- Pi -->
+    <g>
+      <rect x="290" y="40" width="250" height="390" rx="14" fill="var(--blue-soft)" stroke="var(--blue)" stroke-width="1.5"/>
+      <text x="415" y="64" text-anchor="middle" font-weight="700" fill="var(--blue-ink)">Raspberry Pi 4B (the pod)</text>
+      <text x="415" y="80" text-anchor="middle" font-size="10.5" fill="var(--blue-ink)">Docker: InfluxDB :8086 + Grafana :3000</text>
+      {[
+        ['pod.py', 'serial bridge 921600 baud → InfluxDB; LCD, LED, IR', 96],
+        ['eload.py', 'DL3021 over USB-TMC, 5 Hz; forwards V_string at 2 Hz', 160],
+        ['params_web.py', ':8080, allow-listed commands, params.yaml', 224],
+        ['flash_nucleo.sh', 'OpenOCD + ST-LINK: stop pod → flash .bin → restart', 288],
+        ['never in the loop', 'the Nucleo closes the loop on its own', 352],
+      ].map(([t, s, y], i) => (
+        <g transform={`translate(302,${y})`}><rect width="226" height="52" rx="10" fill={i === 4 ? 'var(--accent-soft)' : 'var(--surface)'} stroke={i === 4 ? 'var(--accent)' : 'var(--line)'}/><text x="12" y="21" font-weight="600" fill="var(--text)" font-family={i === 4 ? 'var(--font-body)' : 'var(--font-mono)'} font-size={i === 4 ? 12 : 11.5}>{t}</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">{s}</text></g>
+      ))}
+    </g>
+    <!-- Nucleo + board -->
+    <g>
+      <rect x="620" y="40" width="340" height="250" rx="14" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/>
+      <text x="790" y="64" text-anchor="middle" font-weight="700" fill="var(--green-ink)">NUCLEO-G474RE on the shuffler board</text>
+      <g transform="translate(632,80)"><rect width="316" height="60" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="12" y="21" font-weight="600" fill="var(--text)">10 kHz control interrupt</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">reads 4 hall currents (ADC) + 3 module voltages (SPI),</text><text x="12" y="52" fill="var(--muted)" font-size="10.5">runs the MIMO PI, writes 8 PWM duties (HRTIM)</text></g>
+      <g transform="translate(632,150)"><rect width="150" height="52" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="12" y="21" font-weight="600" fill="var(--text)">Telemetry out</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">T frame 50 Hz, S, F, A, P lines</text></g>
+      <g transform="translate(798,150)"><rect width="150" height="52" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="12" y="21" font-weight="600" fill="var(--text)">Commands in</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">C,MODE · C,EN · C,SET · C,APPLY…</text></g>
+      <g transform="translate(632,212)"><rect width="316" height="64" rx="10" fill="var(--surface)" stroke="var(--line)"/><text x="12" y="21" font-weight="600" fill="var(--text)">Safety that never waits for the Pi</text><text x="12" y="39" fill="var(--muted)" font-size="10.5">over-current latch in the ISR, E-stop interrupt, 0.3 s watchdog,</text><text x="12" y="52" fill="var(--muted)" font-size="10.5">OV/UV/over-temperature envelopes, comms watchdog (5 s)</text></g>
+    </g>
+    <!-- e-load -->
+    <g>
+      <rect x="620" y="320" width="340" height="110" rx="14" fill="var(--surface)" stroke="var(--line)"/>
+      <text x="790" y="344" text-anchor="middle" font-weight="700" fill="var(--text)">Rigol DL3021 electronic load</text>
+      <text x="790" y="364" text-anchor="middle" fill="var(--muted)" font-size="11">constant voltage: 70 V on the bench, 61 V in the sun</text>
+      <text x="790" y="382" text-anchor="middle" fill="var(--muted)" font-size="11">plays the role of the string MPPT in this campaign</text>
+      <text x="790" y="408" text-anchor="middle" fill="var(--muted)" font-size="11">USB-TMC (SCPI) from the Pi: set-points, readback at 5 Hz</text>
+    </g>
+    <!-- links -->
+    <path d="M210,110 L290,110" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/><text x="250" y="102" text-anchor="middle" font-size="10" fill="var(--muted)">Wi-Fi / Ethernet</text>
+    <path d="M290,176 L210,176" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/>
+    <path d="M210,242 L290,242" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/><text x="250" y="234" text-anchor="middle" font-size="10" fill="var(--muted)">gpio-ir</text>
+    <path d="M210,308 L290,308" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/>
+    <path d="M290,374 L210,374" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/><text x="250" y="366" text-anchor="middle" font-size="10" fill="var(--muted)">I²C, GPIO</text>
+    <path d="M540,122 L620,122" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#pa-blue)"/>
+    <path d="M620,176 L540,176" stroke="var(--blue)" stroke-width="2.5" marker-end="url(#pa-blue)"/>
+    <text x="580" y="150" text-anchor="middle" font-size="10.5" fill="var(--blue-ink)" font-weight="600">UART 921600 8N1</text>
+    <text x="580" y="163" text-anchor="middle" font-size="10" fill="var(--blue-ink)">over the ST-LINK USB</text>
+    <path d="M540,314 L580,314 L580,240 L620,240" fill="none" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#pa-amber)"/>
+    <text x="560" y="332" font-size="10.5" fill="var(--accent-ink)" font-weight="600">SWD flash</text>
+    <path d="M540,186 L600,186 L600,375 L620,375" fill="none" stroke="var(--muted)" stroke-width="2" marker-end="url(#pa)"/>
+    <text x="606" y="300" font-size="10" fill="var(--muted)" transform="rotate(90 606 300)">USB-TMC</text>
+    <text x="490" y="455" text-anchor="middle" font-size="11" fill="var(--muted)">All services run locally on the Pi, with no cloud connection. The laptop never has to be plugged into the system.</text>
+  </svg>
+</figure>
+<style>
+  .pi svg { width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+</style>

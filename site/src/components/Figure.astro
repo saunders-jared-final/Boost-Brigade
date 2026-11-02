@@ -1,16 +1,33 @@
 ---
-import { Image } from 'astro:assets';
+/** A figure with an optional caption and source link. Click to open full size (zoom=true by default). */
+import { Image, getImage } from 'astro:assets';
 import type { ImageMetadata } from 'astro';
-interface Props { src: ImageMetadata | string; alt: string; caption?: string; evidence?: { label: string; href: string }; width?: number; class?: string; loading?: 'lazy' | 'eager'; }
-const { src, alt, caption, evidence, width, class: cls = '', loading = 'lazy' } = Astro.props;
+interface Props { src: ImageMetadata | string; alt: string; caption?: string; evidence?: { label: string; href: string }; width?: number; class?: string; loading?: 'lazy' | 'eager'; zoom?: boolean; }
+const { src, alt, caption, evidence, width, class: cls = '', loading = 'lazy', zoom = true } = Astro.props;
 const isMeta = typeof src !== 'string';
+let full: { src: string; w: number; h: number } | null = null;
+if (zoom && isMeta) {
+  const m = src as ImageMetadata;
+  const big = await getImage({ src: m, width: Math.min(2400, m.width), format: 'webp' });
+  full = { src: big.src, w: big.attributes.width ?? m.width, h: big.attributes.height ?? m.height };
+}
 ---
 <figure class:list={['figure', cls]}>
-  {isMeta ? <Image src={src as ImageMetadata} alt={alt} width={width ?? Math.min(1600, (src as ImageMetadata).width)} loading={loading} /> : <img src={src as string} alt={alt} loading={loading} />}
+  {isMeta ? (
+    full ? (
+      <a class="zoomable" href={full.src} data-pswp-width={full.w} data-pswp-height={full.h} target="_blank" rel="noopener" aria-label={`Open full size: ${alt}`}>
+        <Image src={src as ImageMetadata} alt={alt} width={width ?? Math.min(1600, (src as ImageMetadata).width)} loading={loading} />
+      </a>
+    ) : (
+      <Image src={src as ImageMetadata} alt={alt} width={width ?? Math.min(1600, (src as ImageMetadata).width)} loading={loading} />
+    )
+  ) : (
+    <img src={src as string} alt={alt} loading={loading} />
+  )}
   {(caption || evidence) && (
     <figcaption>
       {caption}
-      {evidence && <> <a href={evidence.href} target="_blank" rel="noopener">{evidence.label}</a></>}
+      {evidence && <> <a class="ext" href={evidence.href} target="_blank" rel="noopener">{evidence.label}</a></>}
     </figcaption>
   )}
 </figure>

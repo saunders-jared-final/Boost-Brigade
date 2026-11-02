@@ -1,0 +1,86 @@
+---
+/** Why one shaded panel starves a series string, and what a shuffler does about it. Pure SVG. */
+const PANELS = [[0, 48], [1, 124], [2, 200]] as const;
+const NAMES = ['panel 1', 'panel 2 (shaded)', 'panel 3'];
+const CLOUD = [
+  ['M78,118 q10,-10 25,-6 q12,-12 25,-4 q14,-4 16,10 q10,2 4,12 l-68,0 q-10,-4 -2,-12z', '#9aa8bd', '.9'],
+  ['M68,122 q8,-6 20,-2 q10,-10 22,-2 q12,-4 14,8 q8,2 4,10 l-60,0 q-8,-4 0,-14z', '#c7d0dd', '.95'],
+];
+---
+<div class="shade grid grid-2">
+  <figure class="figure flush">
+    <svg viewBox="0 0 520 330" role="img" aria-label="A series string with one shaded panel: the string current is set by the weakest panel and its bypass diode discards the panel's power">
+      <defs>
+        <linearGradient id="pv" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1f3b7a"/><stop offset="1" stop-color="#0f2452"/></linearGradient>
+        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+        <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker>
+      </defs>
+      <text x="16" y="24" font-size="13" font-weight="700" fill="var(--text)">Without a shuffler</text>
+      {PANELS.map(([i, y]) => (
+        <g transform={`translate(30,${y})`}>
+          <rect width="110" height="56" rx="6" fill="url(#pv)" stroke="var(--line)"/>
+          {[0,1,2].map((r) => [0,1,2,3].map((c) => <rect x={6 + c * 26} y={5 + r * 16} width="22" height="13" rx="2" fill="#2d57a8" opacity=".9"/>))}
+          <text x="55" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">{NAMES[i]}</text>
+        </g>
+      ))}
+      <g transform="translate(0,22)">{CLOUD.map(([d, f, o]) => <path d={d} fill={f} opacity={o}/>)}</g>
+      <!-- string bus, load -->
+      <path d="M140,76 L180,76 L180,228 L140,228 M140,152 L180,152" fill="none" stroke="var(--text)" stroke-width="2"/>
+      <path d="M180,76 L400,76 L400,110 M180,228 L400,228 L400,194" fill="none" stroke="var(--text)" stroke-width="2"/>
+      <path d="M180,96 L180,206" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#arr)"/>
+      <rect x="400" y="110" width="105" height="84" rx="10" fill="var(--surface)" stroke="var(--line)"/>
+      <text x="452" y="138" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">to the load</text>
+      <text x="452" y="160" text-anchor="middle" font-size="22" font-weight="700" fill="var(--red)">2 of 3</text>
+      <text x="452" y="178" text-anchor="middle" font-size="10.5" fill="var(--muted)">panels' power, at best</text>
+      <!-- bypass diode across panel 2 -->
+      <path d="M140,130 L158,130 L158,138 M158,168 L158,176 L140,176" fill="none" stroke="var(--red)" stroke-width="2"/>
+      <path d="M151,140 L165,140 L158,152 z M151,154 L165,154" fill="var(--red)" stroke="var(--red)" stroke-width="1.5"/>
+      <path d="M158,154 L158,168" stroke="var(--red)" stroke-width="2"/>
+      <text x="192" y="98" font-size="10.5" fill="var(--red)" font-weight="600">bypass diode conducts:</text>
+      <text x="192" y="111" font-size="10.5" fill="var(--red)">panel 2's power is thrown away</text>
+      <text x="192" y="164" font-size="11.5" fill="var(--accent-ink)" font-weight="700">string current</text>
+      <text x="192" y="178" font-size="10.5" fill="var(--muted)">= the weakest panel's current</text>
+      <text x="16" y="300" font-size="11" fill="var(--muted)">Panels in series must all carry the same current. Shade one and it either</text>
+      <text x="16" y="314" font-size="11" fill="var(--muted)">limits the whole string or gets bypassed, and its power is lost either way.</text>
+    </svg>
+  </figure>
+  <figure class="figure flush">
+    <svg viewBox="0 0 520 330" role="img" aria-label="With shufflers between neighbouring panels, the difference current is moved around the shaded panel so every panel works at its own maximum">
+      <text x="16" y="24" font-size="13" font-weight="700" fill="var(--text)">With shufflers</text>
+      {PANELS.map(([i, y]) => (
+        <g transform={`translate(30,${y})`}>
+          <rect width="110" height="56" rx="6" fill="url(#pv)" stroke="var(--line)"/>
+          {[0,1,2].map((r) => [0,1,2,3].map((c) => <rect x={6 + c * 26} y={5 + r * 16} width="22" height="13" rx="2" fill="#2d57a8" opacity=".9"/>))}
+          <text x="55" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">{NAMES[i]}</text>
+        </g>
+      ))}
+      <g transform="translate(0,22)">{CLOUD.map(([d, f, o]) => <path d={d} fill={f} opacity={o}/>)}</g>
+      <path d="M140,76 L180,76 L180,228 L140,228 M140,152 L180,152" fill="none" stroke="var(--text)" stroke-width="2"/>
+      <path d="M180,76 L400,76 L400,110 M180,228 L400,228 L400,194" fill="none" stroke="var(--text)" stroke-width="2"/>
+      <path d="M180,96 L180,206" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#arr)"/>
+      <!-- shufflers between the nodes -->
+      <path d="M180,86 L230,86 L230,100 M180,152 L230,152 L230,134 M230,152 L230,166 M180,218 L230,218 L230,200" fill="none" stroke="var(--green)" stroke-width="1.5"/>
+      <g transform="translate(232,100)"><rect width="72" height="34" rx="8" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/><text x="36" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--green-ink)">shuffler 1</text><text x="36" y="27" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 1 and 2</text></g>
+      <g transform="translate(232,166)"><rect width="72" height="34" rx="8" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/><text x="36" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--green-ink)">shuffler 2</text><text x="36" y="27" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 2 and 3</text></g>
+      <!-- the moved current: around the shaded panel -->
+      <path class="flow" d="M304,112 C340,112 340,152 318,152" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#arr-g)"/>
+      <path class="flow" d="M304,188 C340,188 340,152 318,152" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#arr-g)"/>
+      <text x="334" y="140" font-size="10" fill="var(--green-ink)" font-weight="600">only the</text>
+      <text x="334" y="152" font-size="10" fill="var(--green-ink)" font-weight="600">difference</text>
+      <text x="334" y="164" font-size="10" fill="var(--green-ink)">current moves</text>
+      <rect x="400" y="110" width="105" height="84" rx="10" fill="var(--surface)" stroke="var(--line)"/>
+      <text x="452" y="138" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">to the load</text>
+      <text x="452" y="160" text-anchor="middle" font-size="18" font-weight="700" fill="var(--green)">every panel</text>
+      <text x="452" y="178" text-anchor="middle" font-size="10.5" fill="var(--muted)">at its own maximum</text>
+      <text x="16" y="300" font-size="11" fill="var(--muted)">A shuffler sits between two neighbours and moves only their current difference,</text>
+      <text x="16" y="314" font-size="11" fill="var(--muted)">so the string no longer waits for its weakest panel. The losses scale with the shade.</text>
+    </svg>
+  </figure>
+</div>
+<style>
+  .shade svg { width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
+  @media (prefers-reduced-motion: no-preference) {
+    .flow { animation: dash 1.2s linear infinite; }
+    @keyframes dash { to { stroke-dashoffset: -18; } }
+  }
+</style>

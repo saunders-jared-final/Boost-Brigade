@@ -1,0 +1,68 @@
+---
+/**
+ * Data-driven SVG Gantt on a calendar axis (Feb–Oct 2026) with the semester bands.
+ * Tasks: { label, start, end, stream: 'ctrl'|'hw'|'both', kind?: 'planned'|'actual', milestone?: string, note?: string }
+ * Dates are ISO strings or project-week numbers (week 1 = 23 Feb 2026, from the proposal).
+ */
+import type { GanttTask } from '../data/gantt';
+import { toDate, SEMESTERS, AXIS } from '../data/gantt';
+interface Props { tasks: GanttTask[]; title?: string; compact?: boolean; legend?: boolean; links?: { from: number; to: number; label?: string }[]; }
+const { tasks, title, compact = false, legend = true, links = [] } = Astro.props;
+
+const W = 1000, LABEL = 330, ROW = compact ? 22 : 26, TOP = 46, BOTTOM = 10, RIGHT = 70;
+const H = TOP + tasks.length * ROW + BOTTOM;
+const t0 = toDate(AXIS.start).getTime(), t1 = toDate(AXIS.end).getTime();
+const x = (d: string | number) => LABEL + ((toDate(d).getTime() - t0) / (t1 - t0)) * (W - LABEL - RIGHT);
+const colour = (s: string) => (s === 'ctrl' ? 'var(--blue)' : s === 'hw' ? 'var(--green)' : 'var(--accent)');
+const months = ['2026-03-01', '2026-04-01', '2026-05-01', '2026-06-01', '2026-07-01', '2026-08-01', '2026-09-01', '2026-10-01'];
+const monthName = (iso: string) => new Date(iso).toLocaleString('en-AU', { month: 'short' });
+const rows = tasks.map((t, i) => ({ ...t, y: TOP + i * ROW, x0: x(t.start), x1: Math.max(x(t.start) + 4, x(t.end)) }));
+---
+<figure class="gantt figure flush">
+  {title && <div class="gantt-title">{title}</div>}
+  <svg viewBox={`0 0 ${W} ${H}`} role="img" aria-label={title ?? 'Gantt chart'} font-family="var(--font-body)" font-size="12">
+    {SEMESTERS.map((s) => (
+      <g>
+        <rect x={x(s.start)} y={TOP - 30} width={x(s.end) - x(s.start)} height={H - TOP + 30 - BOTTOM} fill={s.band ? 'var(--bg-2)' : 'transparent'} opacity=".8" />
+        <text x={(x(s.start) + x(s.end)) / 2} y={TOP - 34} text-anchor="middle" fill="var(--muted)" font-size="11" font-family="var(--font-mono)">{s.label}</text>
+      </g>
+    ))}
+    {months.map((m) => (
+      <g>
+        <line x1={x(m)} x2={x(m)} y1={TOP - 16} y2={H - BOTTOM} stroke="var(--line)" stroke-width="1" />
+        <text x={x(m) + 3} y={TOP - 18} fill="var(--muted)" font-size="11">{monthName(m)}</text>
+      </g>
+    ))}
+    {rows.map((r) => (
+      <g class="gantt-row">
+        <text x={LABEL - 8} y={r.y + ROW / 2 + 4} text-anchor="end" fill="var(--text)" font-size={compact ? 11 : 12}>{r.label}</text>
+        <rect x={r.x0} y={r.y + 4} width={r.x1 - r.x0} height={ROW - 8} rx="4" fill={colour(r.stream)} opacity={r.kind === 'planned' ? 0.38 : 0.95} stroke={r.kind === 'planned' ? colour(r.stream) : 'none'} stroke-dasharray={r.kind === 'planned' ? '3 2' : undefined}>
+          <title>{r.label}: {toDate(r.start).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })} – {toDate(r.end).toLocaleDateString('en-AU', { day: 'numeric', month: 'short' })}{r.note ? ` · ${r.note}` : ''}</title>
+        </rect>
+        {r.milestone && <g><path d={`M${r.x1 + 7},${r.y + ROW / 2 - 6} l6,6 l-6,6 l-6,-6 z`} fill="var(--text)" /><text x={r.x1 + 17} y={r.y + ROW / 2 + 4} fill="var(--muted)" font-size="10" font-family="var(--font-mono)">{r.milestone}</text></g>}
+      </g>
+    ))}
+    {links.map((l) => { const a = rows[l.from], b = rows[l.to]; if (!a || !b) return null; const ax = a.x1, ay = a.y + ROW / 2, bx = b.x0, by = b.y + ROW / 2; return (
+      <g class="gantt-link"><path d={`M${ax},${ay} C${ax + 24},${ay} ${bx - 24},${by} ${bx},${by}`} fill="none" stroke="var(--accent-ink)" stroke-width="1.6" stroke-dasharray="4 3" marker-end="url(#gantt-arrow)" opacity=".9" /><title>{l.label}</title></g>
+    ); })}
+    <defs><marker id="gantt-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent-ink)" /></marker></defs>
+  </svg>
+  {legend && (
+    <div class="gantt-legend small muted">
+      <span><i style="background:var(--blue)"></i> control stream</span>
+      <span><i style="background:var(--green)"></i> hardware stream</span>
+      <span><i style="background:var(--accent)"></i> both</span>
+      <span><i class="planned"></i> planned (proposal)</span>
+      <span><i class="solid"></i> as it happened</span>
+    </div>
+  )}
+</figure>
+<style>
+  .gantt { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1rem 1rem .6rem; overflow-x: auto; }
+  .gantt svg { width: 100%; min-width: 640px; height: auto; }
+  .gantt-title { font-family: var(--font-display); font-weight: 600; margin: 0 0 .4rem; }
+  .gantt-legend { display: flex; flex-wrap: wrap; gap: 1rem; margin-top: .5rem; }
+  .gantt-legend i { display: inline-block; width: 18px; height: 10px; border-radius: 3px; margin-right: .35rem; vertical-align: middle; }
+  .gantt-legend i.planned { background: transparent; border: 1px dashed var(--muted); }
+  .gantt-legend i.solid { background: var(--muted); }
+</style>

@@ -1,0 +1,21 @@
+/** Variables used on the Control page, in the order they appear. */
+export const SYMBOLS = [
+  { sym: 'd_A,\\ d_B', name: 'Leg duties', what: 'Fraction of the switching period each leg’s top switch is on (0–1). At 0.5 the midpoint sits halfway between the rails.' },
+  { sym: 'u_c', name: 'Common-mode duty', what: 'd_A + d_B − 1. Moves both legs together: this is what shuffles current between the panels.', value: 'range about ±0.9' },
+  { sym: 'u_d', name: 'Differential duty', what: 'd_A − d_B. Moves the legs apart: this only drives the circulating current.' },
+  { sym: 'i_A,\\ i_B', name: 'Winding currents', what: 'The two currents the hall sensors measure, one per winding.' },
+  { sym: 'i_m', name: 'Shuffled current', what: 'i_A + i_B: the useful current moved between the two panels.' },
+  { sym: 'i_c', name: 'Circulating current', what: 'i_A − i_B: loops between the two legs, pure loss. Regulated to zero.' },
+  { sym: 'v_d', name: 'Voltage difference', what: 'Voltage of the upper module minus the lower module of a shuffler. Regulated to the reference (0 V = equal panels).' },
+  { sym: '\\bar V', name: 'Module voltage', what: 'The mean module voltage, about 20 V on the test panels; sets the plant gain.' },
+  { sym: 'L,\\ M', name: 'Self and mutual inductance', what: 'Of the coupled inductor. L+M = 13.75 µH is seen by the circulating mode; the 2.05 µH leakage (L−M) by the shuffled mode.' },
+  { sym: 'C', name: 'Module capacitance', what: '130 µF per module node (260 µF where two shufflers meet).' },
+  { sym: 'R,\\ R_{sw}', name: 'Winding and switching resistance', what: 'Copper/on-resistance plus the effective resistance from dead-time commutation, which grows with the cube of the switching frequency.', value: 'R_sw ≈ 0.29 / 0.80 / 1.70 Ω at 200 / 300 / 400 kHz' },
+  { sym: 'C_p', name: 'MOSFET output capacitance', what: 'About 2.2 nF per switch; the source of R_sw.' },
+  { sym: 'f_{sw}', name: 'Switching frequency', what: '200, 300 or 400 kHz; one gain set per frequency.' },
+  { sym: 'G', name: 'DC gain matrix', what: '4×4 for two shufflers: how much each duty input moves each output, measured by step tests.' },
+  { sym: 'M', name: 'Decoupling gain matrix', what: 'G⁻¹ · diag(k_I): the controller gain that cancels the couplings between the shufflers.' },
+  { sym: 'k_I,\\ k', name: 'Integral gain and gain scale', what: 'k_I sets the design bandwidth; k (kscale, 0–1) scales the whole gain set at run time.', value: 'kscale boot value 0.3' },
+  { sym: '\\tau', name: 'Closed-loop time constant', what: 'Design value 1 / (k · 2π · 150 Hz).' },
+  { sym: 'T_s', name: 'Control period', what: '100 µs (10 kHz control interrupt).' },
+];

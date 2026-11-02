@@ -1,53 +1,63 @@
 ---
 import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
-import StatTile from '../components/StatTile.astro';
+import Claim from '../components/Claim.astro';
 import Figure from '../components/Figure.astro';
 import Diagram from '../components/Diagram.astro';
 import YouTube from '../components/YouTube.astro';
+import ShadingExplainer from '../components/ShadingExplainer.astro';
+import ShufflerFlow from '../components/ShufflerFlow.astro';
+import Annotated from '../components/Annotated.astro';
 import { Image } from 'astro:assets';
-import { STATS } from '../data/stats';
+import { CLAIMS } from '../data/claims';
 import { fig, photo } from '../lib/assets';
-import { href, SITE, repoUrl } from '../lib/site';
+import { href, SITE, rawUrl, reportUrl } from '../lib/site';
 
-const hero = fig('misc/hero_render') ?? fig('slides/page-01');
-const board = photo('20261004_162523');
-const carpark = photo('20261020_132132');
+const hero = fig('misc/hero_render');
+const board = photo('20261004_162523')!;
+const team = photo('20261012_165157');
 const sun = photo('20261020_131809');
-const solar = fig('analysis/S02_shade_power') ?? fig('results/solar_S02');
-const paths = [
-  { title: 'I’m hiring', body: 'The short version: problem, approach, what was built, what it measured, and how the work was run.', href: href('/story/'), cta: 'Read the story' },
-  { title: 'I’m the next team', body: 'Build, flash, run, and every gotcha we hit, with links into the repository.', href: href('/handover/'), cta: 'Open the handover' },
-  { title: 'I’m curious', body: 'Spin the hardware in 3D, scrub the design evolution, watch it run in the sun.', href: href('/hardware/'), cta: 'Explore the hardware' },
+const boardMarkers = [
+  { n: 1, x: 10, y: 24, w: 33, h: 38, label: 'NUCLEO-G474RE controller', body: 'STM32G474 on stacking headers: eight PWM outputs, four ADC channels, SPI to the voltage monitors, UART to the Pi.', colour: 'var(--blue)' },
+  { n: 2, x: 50, y: 12.5, w: 30.5, h: 27.5, label: 'Shuffler 1', body: 'Two half-bridge legs (four MOSFETs), four isolated gate drivers, the coupled inductor and the HF decoupling bank.', colour: 'var(--green)' },
+  { n: 3, x: 50, y: 46.5, w: 30.5, h: 26, label: 'Shuffler 2', body: 'Identical to shuffler 1; the two share the middle panel, which is what couples their dynamics.', colour: 'var(--green)' },
+  { n: 4, x: 86, y: 40, label: 'XT60 panel connectors', body: 'Three panel inputs and the string output along the board edge.' },
+  { n: 5, x: 84, y: 57, label: 'Bulk capacitors', body: 'TDK 130 µF 80 V hybrid polymer, one across each module node.' },
+  { n: 6, x: 72, y: 27, label: 'Coupled inductor (TDK ERUC23)', body: 'Two windings on one core; the tallest part on the board.' },
+  { n: 7, x: 51, y: 13, label: 'Voltage sensing', body: 'INA239 monitors; U10 behind the ISO7762 isolator sits at string potential.' },
+  { n: 8, x: 76.5, y: 37.5, label: 'Hall current sensors', body: 'TMCS1126, one in series with each winding.' },
+  { n: 9, x: 68, y: 42.5, label: 'Floating supplies', body: 'Würth buck module (12 V for the drivers) and LDO (3.3 V for the logic), one set per shuffler.' },
+  { n: 10, x: 34, y: 16, label: 'Safety switches', body: 'Logic-rail selector with a grounded kill position (top) and the gate-driver supply switch (bottom).' },
 ];
 ---
 <Base theme="auto" ogImage={hero?.src}>
   <section class="hero dark-scope">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">QUT EGH490 capstone · 2026 · control stream</p>
-        <h1>A string of solar panels is only as strong as its weakest module.<br /><span class="accent">We built a converter that moves the difference.</span></h1>
-        <p class="lede">The Power Shuffler is a differential power processor: a bidirectional interleaved buck-boost converter between neighbouring panels that shuttles only the mismatch current, so a shaded panel stops starving the string. This site is the showcase, the knowledge base and the handover.</p>
+        <p class="eyebrow">Boost Brigade · QUT EGH490 capstone 2026 · power electronics + control</p>
+        <h1>A solar string is only as strong as its weakest panel.<br /><span class="accent">We built the converter that fixes that.</span></h1>
+        <p class="lede">The Power Shuffler sits between neighbouring panels and moves only the difference in their current, so a shaded panel stops dragging the whole string down. This site is the project's knowledge hub: the hardware, the control system, the simulations, the test results and the handover, with every claim linked to the report, figure or file behind it.</p>
         <div class="row" style="margin-top:1.4rem">
-          <a class="btn btn-primary" href={href('/story/')}>Start with the story</a>
-          <a class="btn btn-ghost" href={href('/hardware/')}>Hardware in 3D</a>
-          <a class="btn btn-ghost" href={SITE.repo} target="_blank" rel="noopener">GitHub ↗</a>
+          <a class="btn btn-primary" href={href('/story/')}>Read the story</a>
+          <a class="btn btn-ghost" href={href('/hardware/pcb/')}>PCB design</a>
+          <a class="btn btn-ghost" href={href('/control/')}>Control design</a>
+          <a class="btn btn-ghost ext" href={SITE.repo} target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
       <div class="hero-media">
-        {hero && <Image src={hero} alt="Render of the shuffler board inside its 3D-printed enclosure with the Raspberry Pi pod" width={1400} loading="eager" class="hero-img" />}
+        {hero && <Image src={hero} alt="Render of the shuffler board inside its 3D-printed enclosure with the Raspberry Pi pod" width={1200} densities={[1, 1.5]} loading="eager" class="hero-img" />}
       </div>
     </div>
   </section>
 
   <Section tight>
-    <div class="grid grid-4">
-      {STATS.map((s) => <StatTile value={s.value} label={s.label} evidence={s.evidence} href={s.href} />)}
+    <div class="grid grid-claims">
+      {CLAIMS.map((c) => <Claim big={c.big} what={c.what} how={c.how} href={c.href} colour={c.colour as any} />)}
     </div>
   </Section>
 
-  <Section eyebrow="60-second introduction" title="Watch it first" lede="A short walkthrough of the problem, the board and the carpark test. Longer tool tours live under Media." narrow>
-    <YouTube title="Boost Brigade: the Power Shuffler in 60 seconds" note="Intro video: recorded by the team; this slot becomes the embed once the clip is uploaded (unlisted)." />
+  <Section eyebrow="Watch it first" title="The bench test, with a short introduction" lede="A brief introduction to the team and the device, then the recording of the bench test. Longer tool walkthroughs live under Media." narrow>
+    <YouTube title="Boost Brigade: the Power Shuffler on the bench" mp4={rawUrl('0_Documentation/Photos/20261016_153339.mp4')} poster={photo('20261016_153331')} note="Stand-in clip from the 16 Oct bench day, streamed from the repository. The edited introduction replaces it once it is uploaded (set the YouTube id in src/pages/index.astro)." />
   </Section>
 
   <Section alt eyebrow="The story in five beats" title="From a shaded panel to 99 watts back">
@@ -56,85 +66,99 @@ const paths = [
         <span class="beat-n">01</span>
         <div>
           <h3>The problem: one shaded panel limits the whole string</h3>
-          <p>Panels in series must carry the same current. Shade one and its bypass diode discards that panel’s power; the string’s P–V curve grows several peaks and ordinary MPPT can lock onto the wrong one.</p>
-          {fig('misc/pv_mismatch_1000_200') && <Figure src={fig('misc/pv_mismatch_1000_200')!} alt="P–V curves of a string with one module at 200 W/m² and the rest at 1000 W/m²" caption="Mismatch: the string curve with one module at 200 W/m² develops a second peak." evidence={{ label: 'MIL PV figures', href: repoUrl('4_Simulink/1_MIL_Model_In_The_Loop/PV_figures') }} />}
+          <p>Panels in series must all carry the same current, so the shaded one sets the pace for everyone. Its bypass diode protects it from damage, but discards its power, and the string's power curve grows a second peak that a tracker can lock onto by mistake.</p>
+          <ShadingExplainer />
+          {fig('ctrl/pv_curves') && <Figure src={fig('ctrl/pv_curves')!} alt="Power against voltage for a four-module string under five shading patterns, showing the extra local maxima" caption="What the string's power curve looks like under shade: every extra shading level adds a peak. From the delivery report, figure 1 (four full-size modules, single-diode model)." evidence={{ label: 'Delivery report, p. 2', href: reportUrl('control', 9) }} width={1100} />}
         </div>
       </article>
       <article class="beat reveal">
         <span class="beat-n">02</span>
         <div>
           <h3>The idea: move the difference, not the power</h3>
-          <p>A shuffler sits between two neighbouring panels. Its coupled inductor and two half-bridges push the current difference up or down the string so module voltages stay equal and every panel works at its own maximum power point. It only processes the mismatch, so losses scale with the shade, not the string.</p>
-          <Diagram name="shuffler_circuit" alt="Circuit of one interleaved buck-boost shuffler between two PV modules" caption="One shuffler: two half-bridges, a coupled inductor, decoupling capacitors between neighbouring modules." />
+          <p>A shuffler is a small bidirectional converter between two neighbouring panels: two switch legs and a coupled inductor joined at the midpoint between them. It moves the current difference up or down the string so the two panel voltages stay equal and every panel works at its own maximum. It only ever handles the mismatch, so its losses scale with the shade, not with the string.</p>
+          <ShufflerFlow static id="home-shuffler" />
+          <a class="btn" href={href('/control/')}>How the shuffler is controlled</a>
         </div>
       </article>
       <article class="beat reveal">
         <span class="beat-n">03</span>
         <div>
-          <h3>The control: a MIMO plant tamed by inverting its DC gain</h3>
-          <p>Shufflers share panels, so their dynamics are coupled. The N-module averaged model splits each shuffler into a shuffled mode and a circulating mode with closed-form gains, and a decoupling integral controller <em>M = G⁻¹·diag(k<sub>I</sub>)</em> cancels the couplings by construction. A 1 kHz feasibility governor protects the current rating.</p>
-          <Diagram name="control_loop" alt="Block diagram of the decoupling PI controller and supervisor around the string plant" caption="Control architecture: decoupling PI on [v_d, i_c], supervisor on top, 10 kHz tick." />
-          <a class="btn" href={href('/control/')}>Control deep dive</a>
+          <h3>The build: one board, two shufflers, three panels</h3>
+          <p>A six-layer board designed and assembled in-house: two interleaved buck-boost shufflers rated for a 540 W module, hall-effect current sensors on every winding, voltage monitors on every module, and an STM32 Nucleo on headers so a controller damaged by a test fault can be swapped in minutes. A Raspberry Pi pod streams telemetry and takes commands.</p>
+          <Annotated src={board} alt="Top view of the assembled Version 0 shuffler board with the Nucleo on headers" markers={boardMarkers} caption="4 Oct 2026, the assembled Version 0 board. Hover a number to see what lives where." />
+          <div class="row" style="margin-top:1rem"><a class="btn" href={href('/hardware/pcb/')}>PCB design</a><a class="btn" href={href('/hardware/enclosure/')}>Enclosure design</a></div>
         </div>
       </article>
       <article class="beat reveal">
         <span class="beat-n">04</span>
         <div>
-          <h3>The build: one board, two shufflers, one C core everywhere</h3>
-          <p>A six-layer Version 0 board with hall current sensors and INA239 voltage monitors, driven by an STM32G474 Nucleo, with a Raspberry Pi pod streaming telemetry to Grafana. The same C control core runs in Simulink (SIL), inside QSPICE (as a DLL) and in the firmware, with gains generated from one JSON file.</p>
-          {board && <Figure src={board} alt="Assembled Version 0 shuffler board with the Nucleo-G474RE, two coupled inductors and XT60 connectors" caption="4 Oct 2026: the assembled board." />}
-          <a class="btn" href={href('/hardware/')}>Explore the hardware</a>
+          <h3>The control: two shufflers that share a panel, controlled together</h3>
+          <p>Because neighbouring shufflers share a panel, moving one moves the other. The controller treats the string as one coupled system: measure how much every duty input moves every output, invert that matrix, and wrap integral action around the result so the couplings cancel by construction. A slower supervisor keeps the current inside the hardware rating.</p>
+          <Diagram name="control_loop" alt="Block diagram of the decoupling PI controller and supervisor around the string plant" caption="The deployed control architecture: measurements in, decoupled PI, duties out, with the 1 kHz supervisor on top." />
+          <a class="btn" href={href('/control/')}>Control deep dive</a>
         </div>
       </article>
       <article class="beat reveal">
         <span class="beat-n">05</span>
         <div>
           <h3>The field: it works in the sun</h3>
-          <p>20 Oct 2026, three 80 W panels in the carpark into a 61 V constant-voltage load. With the top panel shaded to almost zero current, the shufflers kept the other two delivering: up to 99 W during the shading event and 10.6 Wh over 36 minutes. The loop closed from k = 0.1 to 0.8 without a fault.</p>
-          {solar && <Figure src={solar} alt="String power during the S02 shading event with the shufflers running" caption="Run S02: string power through the shade event." evidence={{ label: 'REPORT §4', href: repoUrl('8_Results/analysis/REPORT.md') }} />}
+          <p>20 Oct 2026, three 80 W panels in the carpark into a 61 V constant-voltage load. With the top panel shaded to almost zero current, a plain series string would have delivered nothing. With the shufflers running it delivered up to 99 W during the shading event and 10.6 Wh over 36 minutes, and the loop closed at every gain from 0.1 to 0.8 without a fault.</p>
+          {fig('analysis/S02_shade_power') && <Figure src={fig('analysis/S02_shade_power')!} alt="String power during the carpark shading event with the shufflers running" caption="Run S02: string power through the shade event. The shaded band is the shirt over the top panel." evidence={{ label: 'Results', href: href('/results/') }} width={1100} />}
           <a class="btn" href={href('/results/')}>See the results</a>
         </div>
       </article>
     </div>
   </Section>
 
-  <Section eyebrow="Pick your path" title="Three ways in">
-    <div class="grid grid-3">
-      {paths.map((p) => (
-        <a class="card card-link reveal" href={p.href}>
-          <h3>{p.title}</h3>
-          <p class="muted">{p.body}</p>
-          <span class="mono small" style="color:var(--accent-ink)">{p.cta} →</span>
-        </a>
-      ))}
+  <Section eyebrow="Go deeper" title="Where do you want to go?">
+    <div class="grid grid-2">
+      <a class="card card-link hw reveal" href={href('/hardware/pcb/')}>
+        <span class="chip chip-hw">hardware stream</span>
+        <h3 style="margin-top:.6rem">The PCB design process</h3>
+        <p class="muted">Topology comparison in QSPICE, the parasitic-aware board model, the KiCad schematics and layers you can explore, the bill of materials, manufacturing, the bench and solar set-ups and what went wrong.</p>
+        <span class="mono small" style="color:var(--green-ink)">Open the PCB page</span>
+      </a>
+      <a class="card card-link ctrl reveal" href={href('/control/')}>
+        <span class="chip chip-ctrl">control stream</span>
+        <h3 style="margin-top:.6rem">The control design</h3>
+        <p class="muted">How the shuffler is modelled, the decoupling controller, the switching resistance nobody expected, the microcontroller's peripherals, what the Raspberry Pi does and how the remote controls work.</p>
+        <span class="mono small" style="color:var(--blue-ink)">Open the control page</span>
+      </a>
+    </div>
+    <div class="grid grid-4" style="margin-top:1.25rem">
+      <a class="card card-link reveal" href={href('/hardware/enclosure/')}><h4>Enclosure design</h4><p class="muted small">Exploded Fusion 360 assembly, bill of materials, what the printer got wrong.</p></a>
+      <a class="card card-link reveal" href={href('/simulation/')}><h4>Simulation</h4><p class="muted small">Analytical notebooks, Simulink, QSPICE with the firmware inside.</p></a>
+      <a class="card card-link reveal" href={href('/results/')}><h4>Results</h4><p class="muted small">Bench and carpark, 21 windows, every figure regenerable.</p></a>
+      <a class="card card-link reveal" href={href('/handover/')}><h4>Handover</h4><p class="muted small">Build, flash, run; gotchas and future work for each stream.</p></a>
     </div>
   </Section>
 
   <Section alt tight>
     <div class="grid grid-2" style="align-items:center">
       <div>
-        <p class="eyebrow">Honest by design</p>
-        <h3>Every number links to its evidence</h3>
-        <p class="muted">Stat tiles, figures and claims on this site point at the report section, CSV window or source file they come from. Where a measurement is a bound rather than a value (the 44 Hz telemetry cannot resolve a 10 ms loop), the caveat is printed next to it.</p>
-        <a class="btn" href={href('/results/#caveats')}>Read the caveats</a>
+        <p class="eyebrow">Team Boost Brigade</p>
+        <h3>Two streams, one board</h3>
+        <p class="muted">Son Nguyen designed and built the power electronics; Jared Saunders designed and built the control system. Supervised by Assoc Prof Geoff Walker, with Benjamin Harvey's help getting the board made.</p>
+        <a class="btn" href={href('/about/')}>About the team and acknowledgements</a>
       </div>
-      {sun && <Image src={sun} alt="The shuffler board running in the sun at the carpark test" width={900} style="border-radius:14px;border:1px solid var(--line)" />}
+      {team && <Image src={team} alt="The Boost Brigade team in the lab" width={900} style="border-radius:14px;border:1px solid var(--line)" />}
     </div>
   </Section>
 </Base>
 
 <style>
-  .hero { padding: clamp(3rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5rem); position: relative; overflow: hidden; }
-  .hero::before { content: ""; position: absolute; inset: -20% -10% auto; height: 70%; background: radial-gradient(60% 60% at 70% 30%, rgba(255,180,0,.18), transparent 70%); pointer-events: none; }
+  .hero { padding: clamp(3rem, 8vw, 6.5rem) 0 clamp(3rem, 6vw, 5rem); position: relative; overflow: hidden; background: linear-gradient(135deg, #0b1734 0%, #142a5e 55%, #1c3f8a 100%); }
+  .hero::before { content: ""; position: absolute; inset: -30% -10% auto; height: 90%; background: radial-gradient(50% 50% at 75% 35%, rgba(255,181,43,.28), transparent 70%); pointer-events: none; }
+  .hero::after { content: ""; position: absolute; inset: auto -10% -40% -10%; height: 70%; background: radial-gradient(50% 50% at 20% 60%, rgba(95,224,168,.16), transparent 70%); pointer-events: none; }
   .hero-grid { display: grid; gap: 2.5rem; grid-template-columns: 1.05fr .95fr; align-items: center; position: relative; }
-  .hero h1 { font-size: clamp(2rem, 4.2vw, 3.4rem); }
+  .hero h1 { font-size: clamp(2rem, 4.2vw, 3.3rem); }
   .accent { color: var(--accent); }
-  .hero-media :global(img) { border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); border: 1px solid var(--line); }
+  .hero-media :global(img) { width: 100%; border-radius: 18px; box-shadow: 0 30px 80px rgba(0,0,0,.45); border: 1px solid var(--line); max-width: 600px; margin-inline: auto; }
   @media (max-width: 900px) { .hero-grid { grid-template-columns: 1fr; } }
-  .beats { display: grid; gap: 2.5rem; }
-  .beat { display: grid; grid-template-columns: 64px 1fr; gap: 1rem; align-items: start; max-width: 860px; }
+  .beats { display: grid; gap: 3rem; }
+  .beat { display: grid; grid-template-columns: 64px 1fr; gap: 1rem; align-items: start; }
   .beat-n { font-family: var(--font-mono); color: var(--accent-ink); font-size: 1.1rem; padding-top: .3rem; }
   .beat h3 { margin-top: 0; }
-  .beat :global(.figure) { max-width: 760px; }
+  .beat p { max-width: 78ch; }
   @media (max-width: 640px) { .beat { grid-template-columns: 1fr; } }
 </style>
