@@ -50,8 +50,8 @@ const dims = [
     <div class="two-col">
       <div class="table-wrap">
         <table>
-          <thead><tr><th>#</th><th>Part</th><th>What</th><th>Qty</th><th>Source</th></tr></thead>
-          <tbody>{ENCLOSURE_BOM.map((l) => <tr><td><span class="num green">{l.n}</span></td><td><strong>{l.item}</strong></td><td class="small">{l.what}</td><td class="mono">{l.qty}</td><td class="small muted">{l.source}</td></tr>)}</tbody>
+          <thead><tr><th>#</th><th>Part</th><th>What</th><th>Qty</th><th>Datasheet</th></tr></thead>
+          <tbody>{ENCLOSURE_BOM.map((l) => <tr><td><span class="num green">{l.n}</span></td><td><strong>{l.item}</strong></td><td class="small">{l.what}</td><td class="mono small">{l.qty}</td><td class="small">{l.ds ? <a class="ext" href={l.ds} target="_blank" rel="noopener">PDF</a> : <span class="muted">–</span>}</td></tr>)}</tbody>
         </table>
       </div>
       <div class="stack">

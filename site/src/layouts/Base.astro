@@ -68,37 +68,23 @@ const og = ogImage ?? href('/og.jpg');
     </main>
 
     <footer class="footer">
-      <div class="wrap footer-grid">
-        <div>
-          <h4>Project</h4>
-          <ul>
+      <div class="wrap">
+        <div class="footer-top">
+          <div class="footer-id">
+            <a class="brand" href={href('/')}><span class="dot" aria-hidden="true"></span>Boost Brigade</a>
+            <p>QUT EGH490 Research Project, 2026. Power electronics by Son Nguyen, control systems by Jared Saunders, supervised by Assoc Prof Geoff Walker.</p>
+          </div>
+          <ul class="footer-links">
             <li><a href={SITE.repo} target="_blank" rel="noopener">GitHub repository</a></li>
-            <li><a href={href('/handover/')}>Handover for the next team</a></li>
-            <li><a href={href('/about/')}>Team, acknowledgements, downloads</a></li>
+            <li><a href={href('/handover/#downloads')}>Reports and downloads</a></li>
+            <li><a href={`${SITE.repo}/blob/main/SAFETY.md`} target="_blank" rel="noopener">Ratings and safety notes</a></li>
+            <li><a href={`${SITE.repo}/blob/main/LICENSE.md`} target="_blank" rel="noopener">Licence</a></li>
           </ul>
         </div>
-        <div>
-          <h4>Tools used</h4>
-          <ul>
-            <li><a href={SITE.qspice} target="_blank" rel="noopener">QSPICE (free download)</a></li>
-            <li><a href={SITE.kicad} target="_blank" rel="noopener">KiCad 10</a></li>
-            <li><a href="https://www.mathworks.com/products/simulink.html" target="_blank" rel="noopener">MATLAB / Simulink</a></li>
-            <li><a href="https://www.autodesk.com/products/fusion-360" target="_blank" rel="noopener">Fusion 360</a></li>
-            <li><a href="https://grafana.com/" target="_blank" rel="noopener">Grafana + InfluxDB</a></li>
-          </ul>
-        </div>
-        <div>
-          <h4>Explore</h4>
-          <ul>
-            {NAV.slice(1).map((n) => <li><a href={href(n.href)}>{n.label}</a></li>)}
-          </ul>
-        </div>
-        <div>
-          <h4>About</h4>
-          <p class="small">Boost Brigade: QUT EGH490 Research Project, 2026. Power electronics by Son Nguyen, control systems by Jared Saunders, supervised by Assoc Prof Geoff Walker.</p>
-          <p class="small">This site is the project's knowledge hub: every page links back to the reports, figures and files it draws on.</p>
-          <p class="small">PCB © Son Nguyen and enclosure © Jared Saunders, under <a href="https://ohwr.org/cern_ohl_s_v2.txt" target="_blank" rel="noopener license">CERN-OHL-S-2.0</a>. Analytical work, controller structure and documentation © Jared Saunders, under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener license">CC BY 4.0</a>. Code under MIT. <a href={`${SITE.repo}/blob/main/LICENSE.md`} target="_blank" rel="noopener">Full licence details</a>.</p>
-          <p class="small"><strong>Safety:</strong> the board is an unverified student prototype that operates at hazardous DC voltages. Everything here is provided as is, without warranty or liability. <a href={`${SITE.repo}/blob/main/SAFETY.md`} target="_blank" rel="noopener">Ratings and safety notes</a>.</p>
+        <p class="footer-safety"><strong>Safety:</strong> the board is an unverified student prototype that operates at hazardous DC voltages. Everything here is provided as is, without warranty or liability.</p>
+        <div class="footer-base">
+          <p><span class="fb-h">Built with</span> <a href={SITE.qspice} target="_blank" rel="noopener">QSPICE</a> · <a href={SITE.kicad} target="_blank" rel="noopener">KiCad 10</a> · <a href="https://www.mathworks.com/products/simulink.html" target="_blank" rel="noopener">MATLAB / Simulink</a> · <a href="https://www.autodesk.com/products/fusion-360" target="_blank" rel="noopener">Fusion 360</a> · <a href="https://grafana.com/" target="_blank" rel="noopener">Grafana + InfluxDB</a></p>
+          <p>PCB © Son Nguyen and enclosure © Jared Saunders, under <a href="https://ohwr.org/cern_ohl_s_v2.txt" target="_blank" rel="noopener license">CERN-OHL-S-2.0</a>. Analytical work, controller structure and documentation © Jared Saunders, under <a href="https://creativecommons.org/licenses/by/4.0/" target="_blank" rel="noopener license">CC BY 4.0</a>. Code under MIT.</p>
         </div>
       </div>
     </footer>

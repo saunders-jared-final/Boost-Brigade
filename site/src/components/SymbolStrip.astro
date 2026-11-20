@@ -1,0 +1,37 @@
+---
+/**
+ * The few symbols a section introduces, shown just before the text that uses them (collapsible).
+ * `keys` pick entries from SYMBOLS by their `sym` string, in the order given.
+ */
+import Math from './Math.astro';
+import { SYMBOLS } from '../data/symbols';
+interface Props { keys: string[]; open?: boolean; }
+const { keys, open = true } = Astro.props;
+const items = keys.map((k) => SYMBOLS.find((s) => s.sym === k)).filter(Boolean) as typeof SYMBOLS;
+---
+<details class="symstrip" open={open}>
+  <summary>Symbols in this section <span class="muted">({items.length})</span></summary>
+  <dl>
+    {items.map((s) => (
+      <div>
+        <dt><Math tex={s.sym} /> <span>{s.name}</span></dt>
+        <dd>{s.what}{s.value && <span class="val">{s.value}</span>}</dd>
+      </div>
+    ))}
+  </dl>
+</details>
+<style>
+  .symstrip { margin: 1.2rem 0 1.4rem; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); padding: .55rem .9rem .7rem; }
+  .symstrip summary { cursor: pointer; font-size: .85rem; font-weight: 600; color: var(--text); padding: .15rem 0; }
+  .symstrip summary::marker { color: var(--blue); }
+  .symstrip dl { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 215px), 1fr)); gap: .5rem 1.1rem; margin: .6rem 0 0; }
+  .symstrip dl > div { border-top: 1px solid var(--line); padding-top: .45rem; }
+  .symstrip dt { font-size: .88rem; font-weight: 600; display: flex; gap: .45rem; align-items: baseline; flex-wrap: wrap; }
+  .symstrip dt :global(.katex) { font-size: 1.05em; color: var(--blue-ink); }
+  .symstrip dd { margin: .15rem 0 0; font-size: .82rem; line-height: 1.45; color: var(--muted); }
+  .symstrip .val { display: block; margin-top: .2rem; font-family: var(--font-mono); font-size: .76rem; color: var(--accent-ink); }
+</style>
+<script>
+  // On a phone the strips start folded so the derivation is not pushed off-screen.
+  if (matchMedia('(max-width: 640px)').matches) document.querySelectorAll<HTMLDetailsElement>('.symstrip').forEach((d) => (d.open = false));
+</script>

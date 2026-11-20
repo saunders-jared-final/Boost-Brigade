@@ -9,6 +9,25 @@ import { repoUrl, repoDir, SITE, href, reportUrl } from '../../lib/site';
 const hwG = GOTCHAS.filter((g) => g.stream === 'hw');
 const ctrlG = GOTCHAS.filter((g) => g.stream === 'ctrl');
 const tags = (list: typeof GOTCHAS) => Array.from(new Set(list.map((g) => g.tag)));
+const pin = (title: string) => GOTCHAS.find((g) => g.title === title)!;
+const WEEK = [
+  { day: 'Day 1', title: 'Safety, and the real facts', body: 'Read SAFETY.md and the experiment checklist before touching the board. The checklist, not the root README, has the configuration the results came from.', qs: [], pins: ['The root README describes an older plan', '1ED3140 drivers add no dead time and have no fault pins'] },
+  { day: 'Day 1–2', title: 'Run the control core on your laptop', body: 'Build the C control core with its host tests and regenerate the gain header. No hardware, no MATLAB.', qs: [1, 2], pins: ['A gain set travels with its plant and switching frequency'] },
+  { day: 'Day 2–3', title: 'Flash it and run open loop on the bench', body: 'Flash the Nucleo, deploy the Pi pod, run the IC init check, then both shufflers open loop on bench supplies with the electronic load in constant voltage.', qs: [3, 4, 5], pins: ['Soft start is not optional', 'U10 (top INA239) sits behind a reversed ISO7762', 'B-phase hall sensors are mounted reversed'] },
+  { day: 'Day 4', title: 'Close the loop', body: 'Closed loop at gain scale 0.1, then step it up. Watch Grafana; every trip on the bench day followed a gain change made while the loop was running.', qs: [5], pins: ['Never C,APPLY a new gain set while the loop is running', 'E,LOCAL in closed loop trips the stale-VM1 fault after 2 s'] },
+  { day: 'Day 5', title: 'Rebuild the results', body: 'Regenerate every figure and REPORT.md from the recorded windows, so you know the pipeline works before you add your own runs.', qs: [6], pins: ['Three naming schemes look alike'] },
+];
+const downloads = [
+  { label: 'Control stream: project delivery report', meta: 'PDF, 4 MB', href: reportUrl('control') },
+  { label: 'Hardware stream: final report', meta: 'PDF, 2 MB', href: reportUrl('hardware') },
+  { label: 'Project proposal', meta: 'PDF', href: reportUrl('proposal') },
+  { label: 'Hardware stream: proposal', meta: 'PDF', href: reportUrl('hwProposal') },
+  { label: 'Hardware stream: progress report', meta: 'PDF', href: reportUrl('hwProgress') },
+  { label: 'Version 0 schematic', meta: 'PDF', href: reportUrl('schematic') },
+  { label: 'Enclosure STEP and Fusion 360 archive', meta: 'repository', href: repoDir('9_Mechanical_Enclosure_CAD') },
+  { label: 'Delivery report LaTeX source', meta: 'repository', href: repoUrl('0_Documentation/jared-assessment/CapstoneDelivery_latex') },
+  { label: 'Results pipeline report (REPORT.md)', meta: 'repository', href: repoUrl('8_Results/analysis/REPORT.md') },
+];
 const repoMap = [
   { f: '0_Documentation', w: 'Both final reports, proposals, the telemetry contract (telemetry.md), experiment checklist, bench-day log, photos and videos, the LaTeX source of the delivery report' },
   { f: '1_Datasheets', w: 'INA239, TMCS1126, 1ED3140, coupled inductor, DL3021, NGE100, Nucleo schematic, 80 W panel' },
@@ -24,100 +43,126 @@ const repoMap = [
 ];
 ---
 <Base title="Handover" description="Handover for the next team: quick starts, known issues and future work for the hardware and control streams, and a map of the repository.">
-  <Section eyebrow="Handover" title="Start here if you are picking this up" lede="Everything you need to build, flash and run the system, the mistakes we already made for you, and the backlog, split by stream. Clone the repository first; every link below points into it." narrow>
+  <Section title="Start here if you are picking this up" lede="A first week that gets you from a fresh clone to a closed loop, the mistakes we already made for you, and the backlog for each stream." narrow>
     <div class="row">
       <a class="btn btn-primary ext" href={SITE.repo} target="_blank" rel="noopener">Clone the repository</a>
-      <a class="btn ext" href={repoUrl('README.md')} target="_blank" rel="noopener">Root README</a>
       <a class="btn ext" href={repoUrl('0_Documentation/experiment_checklist.md')} target="_blank" rel="noopener">Experiment checklist</a>
-      <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report</a>
-      <a class="btn ext" href={reportUrl('control')} target="_blank" rel="noopener">Delivery report</a>
+      <a class="btn" href="#downloads">Reports and downloads</a>
     </div>
     <Callout kind="warn" title="Safety first: this is an unverified student prototype">The Version 0 board runs at hazardous DC voltages and is not certified to any standard. Design maximums: <strong>120 V DC string</strong>, <strong>≤ 40 V per module</strong> in a three-module string (45.6 V absolute), <strong>14.84 A per module</strong>, <strong>10 A per shuffler winding</strong> (22.5 A saturation), 540 W-class modules. It was only ever tested at about 75 V and ≤ 200 W. Dead time and over-current protection exist only in firmware, and the firmware trip limits are set for the 80 W test panels. <strong>Do not run it from bench power supplies</strong> unless you know their ratings: supplies cannot sink the current a shuffler pushes back into a node (the NGE103 is 32 V / 3 A / 33.6 W per channel; the DL3021 load is 150 V / 40 A / 200 W). Read <a class="ext" href={repoUrl('SAFETY.md')} target="_blank" rel="noopener">SAFETY.md</a> before you connect anything.</Callout>
-    <Callout kind="warn" title="Read the facts from the checklist, not the root README">The root README still describes the earlier plan (150 W panels, EcoFlow load, 100 kHz). The campaign that produced the results used three 80 W KAUSSP80 panels, a Rigol DL3021 e-load at 60–70 V constant voltage, and 200 / 300 / 400 kHz switching with firmware fw-0.4.1.</Callout>
   </Section>
 
-  <Section alt eyebrow="Quick starts" title="Build, test, flash, run">
+  <Section alt id="first-week" title="Your first week" lede="Five steps, in order. Each one names the quick-start commands it needs and the known issues that will bite at that step.">
+    <ol class="week">
+      {WEEK.map((w, i) => (
+        <li class="week-step">
+          <span class="week-n" aria-hidden="true">{i + 1}</span>
+          <div>
+            <p class="week-day">{w.day}</p>
+            <h3>{w.title}</h3>
+            <p class="muted">{w.body}</p>
+            {w.qs.length > 0 && <p class="small">Commands: {w.qs.map((q, k) => <>{k > 0 && ', '}<a href={`#qs${q}`}>quick start {q}</a></>)}</p>}
+            {w.pins.length > 0 && (
+              <ul class="week-pins">
+                {w.pins.map((t) => { const g = pin(t); return <li><a href={`#g-${GOTCHAS.indexOf(g)}`}><span class:list={['dot', g.stream]} aria-hidden="true"></span>{g.title}</a></li>; })}
+              </ul>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </Section>
+
+  <Section id="quick-starts" title="Quick starts: build, test, flash, run">
     <div class="grid grid-2">
       <div>
-        <h3>1. Host tests of the control core</h3>
+        <h3 id="qs1">1. Host tests of the control core</h3>
         <p class="muted small">No hardware, no MATLAB. Compiles ctrl_core with the SIL harness and runs the unit tests and golden replay.</p>
         <Cmd code={`cd 4_Simulink/2_SIL_Software_In_The_Loop/firmware\ncmake -B build && cmake --build build\nctest --test-dir build --output-on-failure`} />
-        <h3>2. Regenerate gains</h3>
+        <h3 id="qs2">2. Regenerate gains</h3>
         <p class="muted small">After an identification wrote <code>shuffler_params.json</code>. Rebuild and flash afterwards; the banner and every T frame carry PARAMS_VERSION.</p>
         <Cmd code={`python3 6_RTOS/ctrl_core/params/gen_params.py\n# or in MATLAB: export_params`} />
-        <h3>3. Build and flash the firmware</h3>
+        <h3 id="qs3">3. Build and flash the firmware</h3>
         <p class="muted small">Windows ST bundle, callable from WSL (paths in 6_RTOS/.vscode/tasks.json). Or copy a .bin to the NODE_G474RE USB drive.</p>
         <Cmd code={`cd 6_RTOS\ncmake.exe --preset Debug && cmake.exe --build --preset Debug\nSTM32_Programmer_CLI.exe -c port=SWD -w build/Debug/Shuffler_1_Open_Loop.elf -rst`} />
       </div>
       <div>
-        <h3>4. Deploy the Pi pod</h3>
+        <h3 id="qs4">4. Deploy the Pi pod</h3>
         <p class="muted small">Only 7_Pi goes on the Pi. Installs docker, the venv, OpenOCD, overlays and the services. Log out and in once afterwards.</p>
         <Cmd code={`bash 7_Pi/deploy/stage_firmware.sh          # optional: refresh 7_Pi/firmware/shuffler.bin\nbash 7_Pi/deploy/sync.sh <user>@<pi-address>\n# on the Pi:\nbash ~/Boost-Brigade/7_Pi/deploy/setup.sh`} />
-        <h3>5. Flash from the Pi and drive it</h3>
+        <h3 id="qs5">5. Flash from the Pi and drive it</h3>
         <Cmd code={`~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh --probe\n~/Boost-Brigade/7_Pi/tools/flash_nucleo.sh\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,TEST,0          # IC init check\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py C,MODE,OL C,EN,1  # both shufflers, open loop\npython3 ~/Boost-Brigade/7_Pi/tools/podctl.py E,SET,CV,61 E,INPUT,1`} />
-        <h3>6. Rebuild every result figure</h3>
+        <h3 id="qs6">6. Rebuild every result figure</h3>
         <Cmd code={`cd 8_Results/analysis\nmake all          # hw → events → metrics → ripple → sims → compare → report\nmake pull-cases   # re-export the 21 windows (needs the Pi's InfluxDB)`} />
-        <h3>7. Open the hardware</h3>
+        <h3 id="qs7">7. Open the hardware</h3>
         <p class="muted small">KiCad 10 for <code>5_Kicad/Version 0 project</code> (libraries are project-relative in <code>5_Kicad/libs</code>); Fusion 360 for the <code>.f3z</code>; QSPICE (free) for every <code>.qsch</code>.</p>
       </div>
     </div>
     <p class="small muted">Grafana runs on the Pi at :3000 (anonymous viewer), the parameter page at :8080. Set the admin credentials in your own <code>.env</code>; do not reuse the lab defaults.</p>
   </Section>
 
-  <Section eyebrow="Known issues · hardware stream" title="Things that cost a day each on the board and enclosure" lede="Filter by area. Each card says what happened, why, and what to do instead.">
+  <Section alt title="Known issues: hardware" lede="Each one cost the team about a day. Open one for what happened and what to do instead; filter by area.">
     <div class="row gfilter" data-for="hw-gotchas">
       <button class="chip chip-hw" data-tag="" type="button" aria-pressed="true">all ({hwG.length})</button>
       {tags(hwG).map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({hwG.filter((g) => g.tag === t).length})</button>)}
     </div>
-    <div class="grid grid-3" id="hw-gotchas" style="margin-top:1.2rem">
+    <div class="gotchas" id="hw-gotchas">
       {hwG.map((g) => (
-        <article class="card gotcha hw" data-tag={g.tag}>
-          <span class="chip chip-hw">{g.tag}</span>
-          <h3 style="margin-top:.6rem;font-size:1.1rem">{g.title}</h3>
-          <p class="small">{g.body}</p>
-          {g.fix && <p class="small"><strong>Do instead:</strong> {g.fix}</p>}
-          {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
-        </article>
+        <details class="gotcha hw" data-tag={g.tag} id={`g-${GOTCHAS.indexOf(g)}`}>
+          <summary><span class="chip">{g.tag}</span><span class="g-title">{g.title}</span></summary>
+          <div class="g-body">
+            <p class="small">{g.body}</p>
+            {g.fix && <p class="small g-fix"><strong>Do instead:</strong> {g.fix}</p>}
+            {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
+          </div>
+        </details>
       ))}
     </div>
   </Section>
 
-  <Section alt eyebrow="Known issues · control stream" title="Firmware, simulation and operations gotchas">
+  <Section title="Known issues: control" lede="Firmware, simulation and operations. Same format.">
     <div class="row gfilter" data-for="ctrl-gotchas">
       <button class="chip chip-ctrl" data-tag="" type="button" aria-pressed="true">all ({ctrlG.length})</button>
       {tags(ctrlG).map((t) => <button class="chip" data-tag={t} type="button" aria-pressed="false">{t} ({ctrlG.filter((g) => g.tag === t).length})</button>)}
     </div>
-    <div class="grid grid-3" id="ctrl-gotchas" style="margin-top:1.2rem">
+    <div class="gotchas" id="ctrl-gotchas">
       {ctrlG.map((g) => (
-        <article class="card gotcha ctrl" data-tag={g.tag}>
-          <span class="chip chip-ctrl">{g.tag}</span>
-          <h3 style="margin-top:.6rem;font-size:1.1rem">{g.title}</h3>
-          <p class="small">{g.body}</p>
-          {g.fix && <p class="small"><strong>Do instead:</strong> {g.fix}</p>}
-          {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
-        </article>
+        <details class="gotcha ctrl" data-tag={g.tag} id={`g-${GOTCHAS.indexOf(g)}`}>
+          <summary><span class="chip">{g.tag}</span><span class="g-title">{g.title}</span></summary>
+          <div class="g-body">
+            <p class="small">{g.body}</p>
+            {g.fix && <p class="small g-fix"><strong>Do instead:</strong> {g.fix}</p>}
+            {g.link && <a class="mono small ext" href={g.link.href} target="_blank" rel="noopener">{g.link.label}</a>}
+          </div>
+        </details>
       ))}
     </div>
   </Section>
 
-  <Section eyebrow="Future work" title="The backlog, by stream" lede="From both reports' conclusions and the design log. Size is a rough effort estimate.">
+  <Section alt title="The backlog, by stream" lede="From both reports' conclusions and the design log. S, M and L are rough effort estimates.">
     <div class="grid grid-2">
       <div>
-        <h3><span class="chip chip-hw">hardware</span></h3>
+        <h3 class="stream-h hw">Hardware</h3>
         {Object.entries(FUTURE.hw).map(([col, items]) => (
-          <div class="col"><h4>{col}</h4>{items.map((it) => <div class="card ticket hw"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>)}</div>
+          <div class="col"><h4>{col}</h4><ul class="tickets">{items.map((it) => <li><span class="size">{it.size}</span><div><strong>{it.title}</strong><p class="small muted">{it.body}</p></div></li>)}</ul></div>
         ))}
       </div>
       <div>
-        <h3><span class="chip chip-ctrl">control</span></h3>
+        <h3 class="stream-h ctrl">Control</h3>
         {Object.entries(FUTURE.ctrl).map(([col, items]) => (
-          <div class="col"><h4>{col}</h4>{items.map((it) => <div class="card ticket ctrl"><div class="row" style="justify-content:space-between"><strong>{it.title}</strong><span class="chip">{it.size}</span></div><p class="small muted" style="margin:.4rem 0 0">{it.body}</p></div>)}</div>
+          <div class="col"><h4>{col}</h4><ul class="tickets">{items.map((it) => <li><span class="size">{it.size}</span><div><strong>{it.title}</strong><p class="small muted">{it.body}</p></div></li>)}</ul></div>
         ))}
       </div>
     </div>
   </Section>
 
-  <Section alt eyebrow="Repository map" title="Where everything lives">
+  <Section id="downloads" title="Reports and downloads" narrow>
+    <ul class="downloads">
+      {downloads.map((d) => <li><a class="ext" href={d.href} target="_blank" rel="noopener">{d.label}</a><span class="small muted">{d.meta}</span></li>)}
+    </ul>
+  </Section>
+
+  <Section alt title="Where everything lives">
     <div class="table-wrap">
       <table>
         <thead><tr><th>Folder</th><th>What is in it</th></tr></thead>
@@ -143,9 +188,44 @@ const repoMap = [
       grid.querySelectorAll<HTMLElement>('.gotcha').forEach((it) => { it.hidden = !!tag && it.dataset.tag !== tag; });
     }));
   });
+  // a pinned link opens its known issue
+  const openHash = () => { const el = location.hash && document.querySelector<HTMLDetailsElement>(location.hash); if (el?.tagName === 'DETAILS') el.open = true; };
+  window.addEventListener('hashchange', openHash); openHash();
 </script>
 <style>
+  .week { list-style: none; padding: 0; margin: 0; display: grid; gap: 1.6rem; counter-reset: none; position: relative; }
+  .week::before { content: ""; position: absolute; left: 1.05rem; top: 1.2rem; bottom: 1.2rem; width: 3px; border-radius: 2px; background: color-mix(in srgb, var(--accent) 55%, var(--line)); }
+  .week-step { display: grid; grid-template-columns: 2.2rem 1fr; gap: 1rem; position: relative; }
+  .week-n { display: grid; place-items: center; width: 2.2rem; height: 2.2rem; border-radius: 50%; background: var(--accent); color: var(--on-accent); font: 700 1rem var(--font-display); box-shadow: 0 0 0 5px var(--bg-2); }
+  .week-day { margin: .3rem 0 .1rem; font-size: .88rem; font-weight: 600; color: var(--accent-ink); }
+  .week-step h3 { margin-bottom: .3rem; }
+  .week-step p { max-width: 70ch; }
+  .week-pins { list-style: none; padding: 0; margin: .4rem 0 0; display: flex; flex-wrap: wrap; gap: .4rem; }
+  .week-pins a { display: inline-flex; align-items: center; gap: .45rem; padding: .3rem .7rem; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); font-size: .85rem; text-decoration: none; }
+  .week-pins a:hover { border-color: var(--accent); }
+  .dot { width: .55rem; height: .55rem; border-radius: 50%; background: var(--accent); flex: none; }
+  .dot.hw { background: var(--green); } .dot.ctrl { background: var(--blue); }
+  .gotchas { display: grid; gap: .5rem; margin-top: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(min(100%, 460px), 1fr)); align-items: start; }
+  .gotcha { --c: var(--green); border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+  .gotcha.ctrl { --c: var(--blue); }
   .gotcha[hidden] { display: none; }
-  .col h4 { font-size: .8rem; text-transform: uppercase; letter-spacing: .08em; color: var(--muted); margin: 1rem 0 .5rem; }
-  .ticket { padding: 1rem; margin-bottom: .8rem; }
+  .gotcha[open] { border-color: color-mix(in srgb, var(--c) 50%, var(--line)); }
+  .gotcha summary { cursor: pointer; display: flex; gap: .6rem; align-items: baseline; padding: .7rem .9rem; list-style: none; }
+  .gotcha summary::-webkit-details-marker { display: none; }
+  .gotcha summary::after { content: "+"; margin-left: auto; color: var(--muted); font-weight: 600; }
+  .gotcha[open] summary::after { content: "–"; }
+  .gotcha .chip { flex: none; }
+  .g-title { font-weight: 600; }
+  .g-body { padding: 0 .9rem .8rem; }
+  .g-fix { border-top: 1px dashed var(--line); padding-top: .5rem; }
+  .stream-h { display: flex; align-items: center; gap: .5rem; }
+  .stream-h::before { content: ""; width: .75rem; height: .75rem; border-radius: 50%; background: var(--green); }
+  .stream-h.ctrl::before { background: var(--blue); }
+  .col h4 { font-size: .95rem; color: var(--text); margin: 1.2rem 0 .5rem; }
+  .tickets { list-style: none; padding: 0; margin: 0; display: grid; gap: .1rem; }
+  .tickets li { display: grid; grid-template-columns: 1.8rem 1fr; gap: .6rem; padding: .55rem 0; border-top: 1px solid var(--line); }
+  .tickets p { margin: .15rem 0 0; }
+  .size { font: 600 .75rem var(--font-mono); color: var(--muted); border: 1px solid var(--line); border-radius: 6px; text-align: center; height: 1.4rem; line-height: 1.3rem; }
+  .downloads { list-style: none; padding: 0; margin: 0; display: grid; }
+  .downloads li { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--line); }
 </style>

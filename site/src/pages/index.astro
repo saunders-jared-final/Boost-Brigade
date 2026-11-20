@@ -21,28 +21,43 @@ const boardMarkers = [
   { n: 1, x: 10, y: 24, w: 33, h: 38, label: 'NUCLEO-G474RE controller', body: 'STM32G474 on stacking headers: eight PWM outputs, four ADC channels, SPI to the voltage monitors, UART to the Pi.', colour: 'var(--blue)' },
   { n: 2, x: 50, y: 12.5, w: 30.5, h: 27.5, label: 'Shuffler 1', body: 'Two half-bridge legs (four MOSFETs), four isolated gate drivers, the coupled inductor and the HF decoupling bank.', colour: 'var(--green)' },
   { n: 3, x: 50, y: 46.5, w: 30.5, h: 26, label: 'Shuffler 2', body: 'Identical to shuffler 1; the two share the middle panel, which is what couples their dynamics.', colour: 'var(--green)' },
-  { n: 4, x: 86, y: 40, label: 'XT60 panel connectors', body: 'Three panel inputs and the string output along the board edge.' },
-  { n: 5, x: 84, y: 57, label: 'Bulk capacitors', body: 'TDK 130 µF 80 V hybrid polymer, one across each module node.' },
+  { n: 4, x: 86.5, y: 32.5, label: 'XT60 panel connectors', body: 'Three panel inputs and the string output along the board edge.' },
+  { n: 5, x: 87.5, y: 55.5, label: 'Bulk capacitors', body: 'TDK 130 µF 80 V hybrid polymer, one across each module node.' },
   { n: 6, x: 72, y: 27, label: 'Coupled inductor (TDK ERUC23)', body: 'Two windings on one core; the tallest part on the board.' },
-  { n: 7, x: 51, y: 13, label: 'Voltage sensing', body: 'INA239 monitors; U10 behind the ISO7762 isolator sits at string potential.' },
+  { n: 7, x: 46.5, y: 45, label: 'Voltage sensing', body: 'INA239 monitors, one per module node (this is U11 in the centre); U10, top edge, sits at string potential behind the ISO7762 isolator.' },
   { n: 8, x: 76.5, y: 37.5, label: 'Hall current sensors', body: 'TMCS1126, one in series with each winding.' },
   { n: 9, x: 68, y: 42.5, label: 'Floating supplies', body: 'Würth buck module (12 V for the drivers) and LDO (3.3 V for the logic), one set per shuffler.' },
-  { n: 10, x: 34, y: 16, label: 'Safety switches', body: 'Logic-rail selector with a grounded kill position (top) and the gate-driver supply switch (bottom).' },
+  { n: 10, x: 34, y: 16, also: [[34, 73]], label: 'Safety switches', body: 'Logic-rail selector with a grounded kill position (top) and the gate-driver supply switch (bottom).' },
+];
+const THREADS = [
+  { k: 'ctrl', name: 'Control stream', pages: [
+    { href: '/control/', title: 'Control design', what: 'The plant, the decoupling controller, the switching resistance, the peripherals, the Pi and the remotes.' },
+    { href: '/simulation/', title: 'Simulation', what: 'Analytical notebooks, Simulink MIL and SIL, QSPICE with the firmware inside.' },
+  ] },
+  { k: 'both', name: 'Both streams', pages: [
+    { href: '/story/', title: 'The story', what: 'The plan, the two journeys side by side, where they met, and the lessons.' },
+    { href: '/results/', title: 'Results', what: 'What the bench and the carpark measured, and how sure we are.' },
+    { href: '/handover/', title: 'Handover', what: 'Your first week: build, flash, run, and the gotchas for each stream.' },
+  ] },
+  { k: 'hw', name: 'Hardware stream', pages: [
+    { href: '/hardware/pcb/', title: 'PCB design', what: 'Topology in QSPICE, the schematic and layers you can explore, the BOM, bench and solar set-ups.' },
+    { href: '/hardware/enclosure/', title: 'Enclosure design', what: 'The exploded assembly, its bill of materials and what the printer got wrong.' },
+  ] },
 ];
 ---
 <Base theme="auto" ogImage={hero?.src}>
   <section class="hero dark-scope">
     <div class="wrap hero-grid">
       <div class="hero-copy">
-        <p class="eyebrow">Boost Brigade · QUT EGH490 capstone 2026 · power electronics + control</p>
         <h1>A solar string is only as strong as its weakest panel.<br /><span class="accent">We built the converter that fixes that.</span></h1>
-        <p class="lede">The Power Shuffler sits between neighbouring panels and moves only the difference in their current, so a shaded panel stops dragging the whole string down. This site is the project's knowledge hub: the hardware, the control system, the simulations, the test results and the handover, with every claim linked to the report, figure or file behind it.</p>
+        <p class="lede">The Power Shuffler sits between neighbouring panels and moves only the difference in their current, so a shaded panel stops dragging the whole string down. This is the project's knowledge hub, with every claim linked to the report, figure or file behind it.</p>
         <div class="row" style="margin-top:1.4rem">
           <a class="btn btn-primary" href={href('/story/')}>Read the story</a>
           <a class="btn btn-ghost" href={href('/hardware/pcb/')}>PCB design</a>
           <a class="btn btn-ghost" href={href('/control/')}>Control design</a>
           <a class="btn btn-ghost ext" href={SITE.repo} target="_blank" rel="noopener">GitHub</a>
         </div>
+        <p class="hero-meta">QUT EGH490 capstone, 2026 · power electronics and control</p>
       </div>
       <div class="hero-media">
         {hero && <Image src={hero} alt="Render of the shuffler board inside its 3D-printed enclosure with the Raspberry Pi pod" width={1200} densities={[1, 1.5]} loading="eager" class="hero-img" />}
@@ -57,7 +72,7 @@ const boardMarkers = [
   </Section>
 
   <Section eyebrow="Watch it first" title="The bench test, with a short introduction" lede="A brief introduction to the team and the device, then the recording of the bench test. Longer tool walkthroughs live under Media." narrow>
-    <YouTube title="Boost Brigade: the Power Shuffler on the bench" mp4={rawUrl('0_Documentation/Photos/20261016_153339.mp4')} poster={photo('20261016_153331')} note="Stand-in clip from the 16 Oct bench day, streamed from the repository. The edited introduction replaces it once it is uploaded (set the YouTube id in src/pages/index.astro)." />
+    <YouTube title="Boost Brigade: the Power Shuffler on the bench" mp4={rawUrl('0_Documentation/Photos/20261016_153339.mp4')} poster={photo('20261016_153331')} note="A clip from the 16 Oct bench day: the live Grafana dashboard while the loop runs. The edited introduction video will replace it." />
   </Section>
 
   <Section alt eyebrow="The story in five beats" title="From a shaded panel to 99 watts back">
@@ -68,7 +83,7 @@ const boardMarkers = [
           <h3>The problem: one shaded panel limits the whole string</h3>
           <p>Panels in series must all carry the same current, so the shaded one sets the pace for everyone. Its bypass diode protects it from damage, but discards its power, and the string's power curve grows a second peak that a tracker can lock onto by mistake.</p>
           <ShadingExplainer />
-          {fig('ctrl/pv_curves') && <Figure src={fig('ctrl/pv_curves')!} alt="Power against voltage for a four-module string under five shading patterns, showing the extra local maxima" caption="What the string's power curve looks like under shade: every extra shading level adds a peak. From the delivery report, figure 1 (four full-size modules, single-diode model)." evidence={{ label: 'Delivery report, p. 2', href: reportUrl('control', 9) }} width={1100} />}
+          {fig('ctrl/pv_curves') && <Figure src={fig('ctrl/pv_curves')!} alt="Power against voltage for a four-module string under five shading patterns, showing the extra local maxima" caption="What the string's power curve looks like under shade: every extra shading level adds a peak. From the delivery report, figure 1 (four full-size modules, single-diode model)." evidence={{ label: 'Delivery report, fig. 1', href: reportUrl('control', 9) }} width={1100} />}
         </div>
       </article>
       <article class="beat reveal">
@@ -85,7 +100,7 @@ const boardMarkers = [
         <div>
           <h3>The build: one board, two shufflers, three panels</h3>
           <p>A six-layer board designed and assembled in-house: two interleaved buck-boost shufflers rated for a 540 W module, hall-effect current sensors on every winding, voltage monitors on every module, and an STM32 Nucleo on headers so a controller damaged by a test fault can be swapped in minutes. A Raspberry Pi pod streams telemetry and takes commands.</p>
-          <Annotated src={board} alt="Top view of the assembled Version 0 shuffler board with the Nucleo on headers" markers={boardMarkers} caption="4 Oct 2026, the assembled Version 0 board. Hover a number to see what lives where." />
+          <Annotated src={board} alt="Top view of the assembled Version 0 shuffler board with the Nucleo on headers" markers={boardMarkers} legendSide="below" caption="4 Oct 2026, the assembled Version 0 board. Hover or tap a number to see what lives where; the enclosure and the Pi pod are on the enclosure page." />
           <div class="row" style="margin-top:1rem"><a class="btn" href={href('/hardware/pcb/')}>PCB design</a><a class="btn" href={href('/hardware/enclosure/')}>Enclosure design</a></div>
         </div>
       </article>
@@ -110,38 +125,27 @@ const boardMarkers = [
     </div>
   </Section>
 
-  <Section eyebrow="Go deeper" title="Where do you want to go?">
-    <div class="grid grid-2">
-      <a class="card card-link hw reveal" href={href('/hardware/pcb/')}>
-        <span class="chip chip-hw">hardware stream</span>
-        <h3 style="margin-top:.6rem">The PCB design process</h3>
-        <p class="muted">Topology comparison in QSPICE, the parasitic-aware board model, the KiCad schematics and layers you can explore, the bill of materials, manufacturing, the bench and solar set-ups and what went wrong.</p>
-        <span class="mono small" style="color:var(--green-ink)">Open the PCB page</span>
-      </a>
-      <a class="card card-link ctrl reveal" href={href('/control/')}>
-        <span class="chip chip-ctrl">control stream</span>
-        <h3 style="margin-top:.6rem">The control design</h3>
-        <p class="muted">How the shuffler is modelled, the decoupling controller, the switching resistance nobody expected, the microcontroller's peripherals, what the Raspberry Pi does and how the remote controls work.</p>
-        <span class="mono small" style="color:var(--blue-ink)">Open the control page</span>
-      </a>
-    </div>
-    <div class="grid grid-4" style="margin-top:1.25rem">
-      <a class="card card-link reveal" href={href('/hardware/enclosure/')}><h4>Enclosure design</h4><p class="muted small">Exploded Fusion 360 assembly, bill of materials, what the printer got wrong.</p></a>
-      <a class="card card-link reveal" href={href('/simulation/')}><h4>Simulation</h4><p class="muted small">Analytical notebooks, Simulink, QSPICE with the firmware inside.</p></a>
-      <a class="card card-link reveal" href={href('/results/')}><h4>Results</h4><p class="muted small">Bench and carpark, 21 windows, every figure regenerable.</p></a>
-      <a class="card card-link reveal" href={href('/handover/')}><h4>Handover</h4><p class="muted small">Build, flash, run; gotchas and future work for each stream.</p></a>
-    </div>
+  <Section title="Pick a thread" lede="Two streams of work met on one board. Follow either one, or the pages they share in the middle.">
+    <nav class="threads" aria-label="Site map by stream">
+      {THREADS.map((t) => (
+        <div class:list={['thread', t.k]}>
+          <h3 class="thread-h">{t.name}</h3>
+          <ol>
+            {t.pages.map((p) => <li><a href={href(p.href)}><strong>{p.title}</strong><span>{p.what}</span></a></li>)}
+          </ol>
+        </div>
+      ))}
+    </nav>
   </Section>
 
   <Section alt tight>
     <div class="grid grid-2" style="align-items:center">
       <div>
-        <p class="eyebrow">Team Boost Brigade</p>
-        <h3>Two streams, one board</h3>
+        <h3>Team Boost Brigade: two streams, one board</h3>
         <p class="muted">Son Nguyen designed and built the power electronics; Jared Saunders designed and built the control system. Supervised by Assoc Prof Geoff Walker, with Benjamin Harvey's help getting the board made.</p>
         <a class="btn" href={href('/about/')}>About the team and acknowledgements</a>
       </div>
-      {team && <Image src={team} alt="The Boost Brigade team in the lab" width={900} style="border-radius:14px;border:1px solid var(--line)" />}
+      {team && <Image src={team} alt="The Boost Brigade team in the lab" width={900} class="team-photo" />}
     </div>
   </Section>
 </Base>
@@ -161,4 +165,23 @@ const boardMarkers = [
   .beat h3 { margin-top: 0; }
   .beat p { max-width: 78ch; }
   @media (max-width: 640px) { .beat { grid-template-columns: 1fr; } }
+  .hero-meta { margin: 1.3rem 0 0; font-size: .9rem; color: var(--muted); }
+  :global(.team-photo) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; object-position: 50% 72%; border-radius: 14px; border: 1px solid var(--line); }
+  /* two-stream map: three rails, pages as stops */
+  .threads { display: grid; grid-template-columns: 1fr 1.15fr 1fr; gap: clamp(1rem, 3vw, 2.5rem); }
+  @media (max-width: 860px) { .threads { grid-template-columns: 1fr; } }
+  .thread { --c: var(--accent); }
+  .thread.ctrl { --c: var(--blue); }
+  .thread.hw { --c: var(--green); }
+  .thread-h { font-size: 1rem; display: flex; align-items: center; gap: .55rem; margin-bottom: 1rem; color: var(--text); }
+  .thread-h::before { content: ""; width: .8rem; height: .8rem; border-radius: 50%; background: var(--c); }
+  .thread ol { list-style: none; margin: 0; padding: 0 0 0 1.4rem; position: relative; display: grid; gap: .3rem; }
+  .thread ol::before { content: ""; position: absolute; left: .34rem; top: .6rem; bottom: .6rem; width: 4px; border-radius: 2px; background: var(--c); opacity: .85; }
+  .thread li { position: relative; }
+  .thread li::before { content: ""; position: absolute; left: -1.35rem; top: 1.05rem; width: .9rem; height: .9rem; border-radius: 50%; background: var(--surface); border: 3px solid var(--c); box-sizing: border-box; }
+  .thread a { display: grid; gap: .2rem; padding: .7rem .9rem; border-radius: 12px; text-decoration: none; color: inherit; transition: background .2s, transform .2s; }
+  .thread a:hover { background: color-mix(in srgb, var(--c) 10%, var(--surface)); transform: translateX(3px); }
+  .thread a strong { font-family: var(--font-display); font-size: 1.15rem; }
+  .thread a span { color: var(--muted); font-size: .92rem; }
+  .thread.both a strong { font-size: 1.25rem; }
 </style>

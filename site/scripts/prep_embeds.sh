@@ -5,7 +5,6 @@ SITE="$(cd "$(dirname "$0")/.." && pwd)"
 REPO="$(dirname "$SITE")"
 mkdir -p "$SITE/public/embeds" "$SITE/src/data"
 
-cp -u "$REPO/2_Qspice/Claude's outputs/PCB_Baseline/build_book.html" "$SITE/public/embeds/build_book.html"
 cp -u "$REPO/0_Documentation/UI Pod Wiring.html"                      "$SITE/public/embeds/ui-pod-wiring.html"
 cp -u "$REPO/7_Pi/grafana/dashboards/shuffler.json"                    "$SITE/src/data/grafana_shuffler.json"
 

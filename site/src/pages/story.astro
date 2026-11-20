@@ -8,7 +8,12 @@ import Figure from '../components/Figure.astro';
 import { STREAMS, LESSONS } from '../data/timeline';
 import { PLANNED, CTRL_ACTUAL, HW_ACTUAL, COMBINED, COMBINED_LINKS } from '../data/gantt';
 import { fig } from '../lib/assets';
-import { repoUrl, reportUrl } from '../lib/site';
+import { href, repoUrl, reportUrl } from '../lib/site';
+const GROUPS = [
+  { k: 'both', name: 'For anyone running a project like this' },
+  { k: 'ctrl', name: 'Control stream' },
+  { k: 'hw', name: 'Hardware stream' },
+];
 ---
 <Base title="Story" description="How the Boost Brigade power shuffler came to be: the plan, the two streams of work, where they converged, and what the process taught.">
   <Section eyebrow="The story" title="Two streams that converged on one board" lede="A report tells you what was built. This page tells you how it went: the plan from the proposal, what each stream actually did, where the two met, and the lessons. Blue is the control stream, green is the hardware stream, amber is both." narrow />
@@ -22,25 +27,37 @@ import { repoUrl, reportUrl } from '../lib/site';
     </div>
     <div data-tab="combined"><Gantt tasks={COMBINED} links={COMBINED_LINKS} title="Both streams on one axis, with the hand-over points" /></div>
     <div data-tab="planned" hidden><Gantt tasks={PLANNED} title="The proposal's team Gantt: 34 weeks, V1 to V3 boards plus an MPPT" /><p class="small muted" style="margin-top:.6rem">From the project proposal, appendix B. Planned bars are dashed. <a class="ext" href={reportUrl('proposal')} target="_blank" rel="noopener">Proposal (PDF)</a></p></div>
-    <div data-tab="ctrl" hidden><Gantt tasks={CTRL_ACTUAL} title="Control stream: teaching weeks with the milestone week of each phase" /><p class="small muted" style="margin-top:.6rem">From the delivery report, appendix A. <a class="ext" href={reportUrl('control', 33)} target="_blank" rel="noopener">Delivery report, p. 26</a></p></div>
+    <div data-tab="ctrl" hidden><Gantt tasks={CTRL_ACTUAL} title="Control stream: teaching weeks with the milestone week of each phase" /><p class="small muted" style="margin-top:.6rem">From the delivery report, appendix A. <a class="ext" href={reportUrl('control', 34)} target="_blank" rel="noopener">Delivery report, fig. 18</a></p></div>
     <div data-tab="hw" hidden><Gantt tasks={HW_ACTUAL} title="Hardware stream: planned versus actual milestones" />{fig('hw/gantt') && <Figure src={fig('hw/gantt')!} alt="Gantt chart of the planned and actual hardware schedule" caption="The hardware report's own Gantt: planned (grey) against actual (orange). The first schematic slipped into the mid-year break because of the inductor change and the late controller interface; the buffer weeks absorbed it." evidence={{ label: 'Hardware report, appendix 1', href: reportUrl('hardware', 29) }} width={1100} />}</div>
     <div class="callout" style="margin-top:1.5rem"><strong>What changed from the plan.</strong> The three-revision ladder (V1, V2 pair, V3 string) collapsed into a single Version 0 board that carried the whole feature set from day one, which cost the planned revision cycles. The MPPT stage was dropped from scope: the electronic load performs the string MPPT in every test. And the topology took longer to settle than planned, which held the control model until late in semester 1.</div>
   </Section>
 
-  <Section eyebrow="How the work was run" title="The V-model, for both streams" lede="Each level produced a pass/fail artefact the next level consumed, so a fault could be isolated at the level where it was introduced. The control stream followed it explicitly; the hardware stream's simulation-first approach maps onto the same shape.">
+  <Section id="vmodel" title="The V-model, for both streams" lede="Each level produced a pass/fail artefact the next level consumed, so a fault could be isolated at the level where it was introduced. The control stream followed it explicitly; the hardware stream's simulation-first approach maps onto the same shape.">
     <VModel />
   </Section>
 
   <Section alt eyebrow="Divergence and convergence" title="The journey, side by side" lede="Control on the left, hardware on the right. The rails meet where the streams integrated: first at the hand-over of the QSPICE schematic and sensor set, then for good on reflow day.">
-    <StreamTimeline entries={STREAMS} />
+    <StreamTimeline entries={STREAMS}>
+      <aside class="your-turn dark-scope" aria-labelledby="your-turn-h">
+        <p class="yt-lead">The shuffler needs</p>
+        <h2 id="your-turn-h" class="yt-big">You</h2>
+        <p class="yt-body">Two streams got one board to hand 99 W back in the carpark. Adaptive dead time, a hardware over-current trip, GaN switches and a proper MPPT stage are still on the list. Now it is up to you to continue the crusade.</p>
+        <a class="btn btn-primary" href={href('/handover/')}>Pick it up: start with the handover</a>
+      </aside>
+    </StreamTimeline>
   </Section>
 
   <Section eyebrow="Lessons" title="What the process taught" lede="Reflective, not a complaints list: each of these changed how the next step was done.">
-    <div class="grid grid-2">
-      {LESSONS.map((l) => (
-        <blockquote class:list={['lesson', l.stream]}><span class:list={['chip', l.stream === 'ctrl' ? 'chip-ctrl' : l.stream === 'hw' ? 'chip-hw' : 'chip-accent']}>{l.stream === 'ctrl' ? 'control' : l.stream === 'hw' ? 'hardware' : 'both'}</span><strong>{l.title}</strong> <span class="body">{l.body}</span></blockquote>
-      ))}
-    </div>
+    {GROUPS.map((g) => (
+      <div class="lesson-group">
+        <h3 class:list={['lesson-h', g.k]}>{g.name}</h3>
+        <div class="grid grid-2">
+          {LESSONS.filter((l) => l.stream === g.k).map((l) => (
+            <blockquote class:list={['lesson', l.stream]}><strong>{l.title}</strong> <span class="body">{l.body}</span></blockquote>
+          ))}
+        </div>
+      </div>
+    ))}
     <p class="small muted">Control lessons from <a class="ext" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener">DESIGN_LOG.md</a>, part 2; hardware lessons from the hardware report, §4.8 and §5.</p>
   </Section>
 </Base>
@@ -54,10 +71,19 @@ import { repoUrl, reportUrl } from '../lib/site';
 </script>
 <style>
   .tabs { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: 1rem; }
-  .lesson { margin: 0; display: grid; gap: .4rem; font-size: 1rem; font-family: var(--font-body); background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--accent); border-radius: 12px; padding: 1rem 1.1rem; }
-  .lesson.ctrl { border-left-color: var(--blue); }
-  .lesson.hw { border-left-color: var(--green); }
-  .lesson strong { font-family: var(--font-display); font-size: 1.1rem; }
+  .lesson-group + .lesson-group { margin-top: 2.2rem; }
+  .lesson-h { font-size: 1.05rem; display: flex; align-items: center; gap: .55rem; margin-bottom: .9rem; }
+  .lesson-h::before { content: ""; width: .7rem; height: .7rem; border-radius: 50%; background: var(--accent); }
+  .lesson-h.ctrl::before { background: var(--blue); }
+  .lesson-h.hw::before { background: var(--green); }
+  .lesson { --c: var(--accent); margin: 0; display: grid; gap: .4rem; align-content: start; font-size: 1rem; font-family: var(--font-body); background: color-mix(in srgb, var(--c) 6%, var(--surface)); border: 1px solid color-mix(in srgb, var(--c) 35%, var(--line)); border-radius: 12px; padding: 1rem 1.1rem; }
+  .lesson.ctrl { --c: var(--blue); }
+  .lesson.hw { --c: var(--green); }
+  .lesson strong { font-family: var(--font-display); font-size: 1.1rem; text-wrap: balance; }
   .lesson .body { color: var(--muted); }
-  .lesson .chip { justify-self: start; }
+  .your-turn { position: relative; z-index: 1; margin: 3rem auto 0; width: min(100%, 760px); text-align: center; border-radius: 18px; padding: clamp(2rem, 5vw, 3.2rem) clamp(1.2rem, 4vw, 3rem); border: 2px solid var(--accent); box-shadow: 0 18px 50px rgba(8, 14, 30, .35); background: radial-gradient(120% 90% at 50% 0%, #1d3270 0%, var(--bg) 70%); }
+  .your-turn::before { content: ""; position: absolute; left: 50%; top: -14px; transform: translateX(-50%); border: 12px solid transparent; border-top: 14px solid var(--accent); }
+  .yt-lead { font-family: var(--font-display); font-weight: 700; font-size: clamp(1.2rem, 3vw, 1.7rem); letter-spacing: .02em; margin: 0; color: var(--text); }
+  .yt-big { font-family: var(--font-display); font-weight: 700; font-size: clamp(4.5rem, 16vw, 8.5rem); line-height: .9; letter-spacing: -0.035em; margin: .1em 0 .2em; color: var(--accent); text-shadow: 0 6px 0 rgba(0, 0, 0, .25); }
+  .yt-body { max-width: 52ch; margin: 0 auto 1.4rem; color: var(--muted); text-wrap: pretty; }
 </style>

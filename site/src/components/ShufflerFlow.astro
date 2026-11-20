@@ -12,13 +12,29 @@ const states = [
   { k: 'AdBu', name: 'Leg A low, leg B high', sw: [0, 1, 1, 0], when: 'second half of the period at 50 % duty', text: 'The mirror of the first state. Over a whole period the two windings’ ripples cancel at the midpoint, which is why the interleaved topology was chosen: far less ripple current in the capacitors.' },
   { k: 'AdBd', name: 'Both legs low', sw: [0, 1, 0, 1], when: 'only when the duty is below 50 %', text: 'Both windings see the bottom rail and pull charge out of the midpoint: the midpoint voltage rises and current moves from panel B to panel A.' },
 ];
+/**
+ * Conduction paths per state, drawn on the conductors themselves. Nodes: midpoint (300,230),
+ * winding A to switch node A (520,230), winding B to switch node B (680,230), top rail y=70,
+ * bottom rail y=390, capacitors on x=180. Only switches that are ON carry current.
+ *  shuffled  i_m = i_A + i_B: both windings out to the rail(s) their legs connect to, back through the capacitor(s).
+ *  circulating i_c = i_A − i_B: out through winding A, its leg, the rail(s), leg B, back up winding B.
+ */
+const WA = 'M300,230 V195 H520 V230', WB = 'M300,230 V265 H680 V230';
+const leg = (x: number, up: boolean) => `V${up ? 70 : 390}`;
+const back = (up: boolean) => `H180 V230 H296`;
+const PATHS = [[1, 0], [1, 1], [0, 1], [0, 0]].map(([a, b]) => ({
+  shuffled: [`${WA} ${leg(520, !!a)} ${back(!!a)}`, `${WB} ${leg(680, !!b)} ${back(!!b)}`],
+  circ: [a === b
+    ? `${WA} V${a ? 70 : 390} H680 V265 H304`
+    : `${WA} V${a ? 70 : 390} H180 V${a ? 390 : 70} H680 V265 H304`],
+}));
 ---
 <div class="sflow" id={id} data-static={isStatic ? '1' : undefined}>
   <figure class="figure flush">
     <svg viewBox="0 0 860 460" role="img" aria-label="One power shuffler between two panels with its two switch legs and coupled inductor" font-family="var(--font-body)" font-size="12">
       <defs>
-        <marker id="sf-amber" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
-        <marker id="sf-red" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--red)"/></marker>
+        <marker id="sf-amber" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+        <marker id="sf-red" viewBox="0 0 10 10" refX="8" refY="5" markerUnits="userSpaceOnUse" markerWidth="14" markerHeight="14" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--red)"/></marker>
         <linearGradient id="sf-pv" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1f3b7a"/><stop offset="1" stop-color="#0f2452"/></linearGradient>
       </defs>
       <!-- rails -->
@@ -46,12 +62,19 @@ const states = [
       <text x="370" y="300" text-anchor="middle" font-size="11" fill="var(--muted)">winding B</text>
       <text x="370" y="325" text-anchor="middle" font-size="11" font-weight="600" fill="var(--text)">coupled inductor (one core)</text>
       <path d="M410,195 L520,195 L520,230 M410,265 L680,265 L680,230" stroke="var(--text)" stroke-width="2" fill="none"/>
+      <!-- current overlays: one set per switching state, drawn under the switches -->
+      {PATHS.map((st, i) => (
+        <g data-st={i} display={i === 0 ? undefined : 'none'}>
+          {st.shuffled.map((d) => <path class="flow cur shuffled" d={d} stroke="var(--accent)" marker-end="url(#sf-amber)"/>)}
+          {st.circ.map((d) => <path class="flow cur circ" d={d} stroke="var(--red)" marker-end="url(#sf-red)"/>)}
+        </g>
+      ))}
       <!-- legs -->
       {[['A', 520], ['B', 680]].map(([leg, x]) => (
         <g>
           <path d={`M${x},70 L${x},100 M${x},150 L${x},310 M${x},360 L${x},390`} stroke="var(--text)" stroke-width="2"/>
-          <g class="sw" data-sw={`${leg}top`} transform={`translate(${Number(x) - 22},100)`}><rect width="44" height="50" rx="8" fill="var(--bg-2)" stroke="var(--line)" stroke-width="1.5"/><path class="lever" d="M22,4 L22,24 M22,24 L34,42" stroke="var(--text)" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="46" r="3" fill="var(--text)"/><text class="state" x="22" y="-6" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">off</text></g>
-          <g class="sw" data-sw={`${leg}bot`} transform={`translate(${Number(x) - 22},310)`}><rect width="44" height="50" rx="8" fill="var(--bg-2)" stroke="var(--line)" stroke-width="1.5"/><path class="lever" d="M22,4 L22,24 M22,24 L34,42" stroke="var(--text)" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="46" r="3" fill="var(--text)"/><text class="state" x="22" y="68" text-anchor="middle" font-size="10" font-weight="600" fill="var(--muted)">off</text></g>
+          <g class="sw" data-sw={`${leg}top`} transform={`translate(${Number(x) - 22},100)`}><rect width="44" height="50" rx="8" fill="var(--bg-2)" stroke="var(--line)" stroke-width="1.5"/><path class="lever" d="M22,4 L22,24 M22,24 L34,42" stroke="var(--text)" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="46" r="3" fill="var(--text)"/><text class="state" x="50" y="29" font-size="10" font-weight="600" fill="var(--muted)">off</text></g>
+          <g class="sw" data-sw={`${leg}bot`} transform={`translate(${Number(x) - 22},310)`}><rect width="44" height="50" rx="8" fill="var(--bg-2)" stroke="var(--line)" stroke-width="1.5"/><path class="lever" d="M22,4 L22,24 M22,24 L34,42" stroke="var(--text)" stroke-width="3" stroke-linecap="round"/><circle cx="22" cy="46" r="3" fill="var(--text)"/><text class="state" x="50" y="29" font-size="10" font-weight="600" fill="var(--muted)">off</text></g>
           <circle cx={x} cy="230" r="4" fill="var(--text)"/>
           <text x={Number(x) + 10} y="234" font-size="11" fill="var(--muted)">switch node {leg}</text>
           <text x={x} y="40" text-anchor="middle" font-weight="700" fill="var(--text)">leg {leg}</text>
@@ -59,19 +82,13 @@ const states = [
         </g>
       ))}
       <text x="600" y="430" text-anchor="middle" font-size="11" fill="var(--muted)">the two legs switch 180° apart; each switch node is either at the top or the bottom rail</text>
-      <!-- current overlays -->
-      <g class="cur shuffled">
-        <path class="flow" d="M110,78 L512,78 L512,230 L512,265 L410,265" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="8 7" marker-end="url(#sf-amber)" opacity=".95"/>
-        <path class="flow" d="M520,187 L410,187" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="8 7" opacity=".95"/>
-        <path class="flow" d="M300,210 L300,236 L120,236 L120,300" fill="none" stroke="var(--accent)" stroke-width="4" stroke-dasharray="8 7" marker-end="url(#sf-amber)" opacity=".95"/>
+      <g class="cur-label shuffled">
         <rect x="226" y="100" width="240" height="54" rx="8" fill="var(--accent-soft)" stroke="var(--accent)"/>
         <text x="346" y="117" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--accent-ink)">shuffled current i_m = i_A + i_B</text>
         <text x="346" y="132" text-anchor="middle" font-size="10.5" fill="var(--accent-ink)">both windings in the same direction:</text>
         <text x="346" y="146" text-anchor="middle" font-size="10.5" fill="var(--accent-ink)">moves charge between the panels</text>
       </g>
-      <g class="cur circ">
-        <path class="flow" d="M688,230 L688,273 L410,273 L410,187 L512,187 L512,230" fill="none" stroke="var(--red)" stroke-width="4" stroke-dasharray="8 7" opacity=".95"/>
-        <path class="flow" d="M512,230 L512,62 L688,62 L688,230" fill="none" stroke="var(--red)" stroke-width="4" stroke-dasharray="8 7" marker-end="url(#sf-red)" opacity=".95"/>
+      <g class="cur-label circ">
         <rect x="226" y="100" width="240" height="54" rx="8" fill="var(--red-soft)" stroke="var(--red)"/>
         <text x="346" y="117" text-anchor="middle" font-size="11.5" font-weight="700" fill="var(--red)">circulating current i_c = i_A − i_B</text>
         <text x="346" y="132" text-anchor="middle" font-size="10.5" fill="var(--red)">up one winding, down the other:</text>
@@ -109,16 +126,19 @@ const states = [
       });
       root.querySelectorAll<HTMLElement>('.sflow-states [data-state]').forEach((b) => b.setAttribute('aria-selected', String(+b.dataset.state! === i)));
       root.querySelectorAll<HTMLElement>('.sflow-text [data-state]').forEach((d) => (d.hidden = +d.dataset.state! !== i));
+      root.querySelectorAll<SVGGElement>('svg [data-st]').forEach((g) => (+g.dataset.st! === i ? g.removeAttribute('display') : g.setAttribute('display', 'none')));
     };
-    let cur = 0, auto = !root.dataset.static, timer: number | undefined;
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let cur = 0, auto = !root.dataset.static && !still, timer: number | undefined;
     const tick = () => { if (!auto) return; cur = (cur + 1) % 4; setState(cur); };
     const start = () => { if (timer) clearInterval(timer); timer = window.setInterval(tick, 1800); };
     setState(0);
     root.querySelectorAll<HTMLElement>('.sflow-states [data-state]').forEach((b) => b.addEventListener('click', () => { cur = +b.dataset.state!; setState(cur); auto = false; root.querySelector('[id$="-auto"]')?.setAttribute('aria-pressed', 'false'); }));
     root.querySelector<HTMLElement>('[id$="-auto"]')?.addEventListener('click', (e) => { auto = !auto; (e.currentTarget as HTMLElement).setAttribute('aria-pressed', String(auto)); if (auto) start(); });
     root.querySelectorAll<HTMLInputElement>('input[type=radio]').forEach((r) => r.addEventListener('change', () => { root.dataset.cur = r.value; }));
-    root.dataset.cur = root.dataset.static ? 'shuffled' : 'shuffled';
-    if (!root.dataset.static) start();
+    root.dataset.cur = 'shuffled';
+    root.querySelector('[id$="-auto"]')?.setAttribute('aria-pressed', String(auto));
+    if (auto) start();
   });
 </script>
 <style is:global>
@@ -128,8 +148,9 @@ const states = [
   .sflow .sw .lever { transition: d .2s; }
   .sflow .sw.on .lever { d: path("M22,4 L22,24 M22,24 L22,42"); }
   .sflow .sw.on .state { fill: var(--green-ink); font-weight: 700; }
-  .sflow .cur { display: none; }
-  .sflow[data-cur="shuffled"] .cur.shuffled, .sflow[data-cur="circ"] .cur.circ { display: block; }
+  .sflow .cur { fill: none; stroke-width: 6; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 10 8; opacity: .85; display: none; }
+  .sflow .cur-label { display: none; }
+  .sflow[data-cur="shuffled"] .shuffled, .sflow[data-cur="circ"] .circ { display: inline; }
   @media (prefers-reduced-motion: no-preference) {
     .sflow .flow { animation: sfdash 1s linear infinite; }
     @keyframes sfdash { to { stroke-dashoffset: -30; } }

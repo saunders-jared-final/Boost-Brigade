@@ -10,7 +10,7 @@ export const SYMBOLS = [
   { sym: '\\bar V', name: 'Module voltage', what: 'The mean module voltage, about 20 V on the test panels; sets the plant gain.' },
   { sym: 'L,\\ M', name: 'Self and mutual inductance', what: 'Of the coupled inductor. L+M = 13.75 µH is seen by the circulating mode; the 2.05 µH leakage (L−M) by the shuffled mode.' },
   { sym: 'C', name: 'Module capacitance', what: '130 µF per module node (260 µF where two shufflers meet).' },
-  { sym: 'R,\\ R_{sw}', name: 'Winding and switching resistance', what: 'Copper/on-resistance plus the effective resistance from dead-time commutation, which grows with the cube of the switching frequency.', value: 'R_sw ≈ 0.29 / 0.80 / 1.70 Ω at 200 / 300 / 400 kHz' },
+  { sym: 'R,\\ R_{sw}', name: 'Winding and switching resistance', what: 'Copper/on-resistance plus the effective resistance from dead-time commutation, which grows with the cube of the switching frequency.', value: 'R_sw ≈ 0.27 / 0.79 / 1.66 Ω identified at 200 / 300 / 400 kHz (formula: 0.21 / 0.72 / 1.70)' },
   { sym: 'C_p', name: 'MOSFET output capacitance', what: 'About 2.2 nF per switch; the source of R_sw.' },
   { sym: 'f_{sw}', name: 'Switching frequency', what: '200, 300 or 400 kHz; one gain set per frequency.' },
   { sym: 'G', name: 'DC gain matrix', what: '4×4 for two shufflers: how much each duty input moves each output, measured by step tests.' },

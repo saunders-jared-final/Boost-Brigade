@@ -29,7 +29,7 @@ const nice = (k: string) => k.split('/').pop()!.replace(/^\d+_/, '').replace(/_s
 ---
 <Base title="Simulation" description="The simulation ladder of the power shuffler: analytical notebooks, Simulink model-in-the-loop and software-in-the-loop, and QSPICE with the firmware's control DLL.">
   <Section eyebrow="Simulation" title="Each rung retires one class of risk" lede="The same seven-test suite and the same C control core travel down the ladder: notebooks, Simulink model-in-the-loop, software-in-the-loop with C Callers, QSPICE with the firmware DLL, then the bench and the sun. Processor-in-the-loop and hardware-in-the-loop were planned and are marked as not done. How this maps onto the project's V-model is on the Story page." narrow>
-    <a class="btn" href={href('/story/#')}>The V-model on the Story page</a>
+    <a class="btn" href={href('/story/#vmodel')}>The V-model on the Story page</a>
   </Section>
 
   <Section tight>
@@ -47,8 +47,8 @@ const nice = (k: string) => k.split('/').pop()!.replace(/^\d+_/, '').replace(/_s
 
   <Section alt eyebrow="Rung 1 · Analytical" title="Notebooks" lede="Four Jupyter notebooks derive the model, the modes, the controllability and the N-module closed form. The plots are extracted here, one carousel per notebook; open the notebook on GitHub for the derivation.">
     <div class="grid grid-2">
-      {fig('ctrl/derivation_n3') && <Figure src={fig('ctrl/derivation_n3')!} alt="Derivation drawing of the three-module string with two shufflers" caption="The derivation drawing: N = 3 modules, N − 1 = 2 interleaved shufflers, with the variables of the model." evidence={{ label: 'Delivery report, appendix C', href: reportUrl('control', 40) }} />}
-      {fig('ctrl/root_locus') && <Figure src={fig('ctrl/root_locus')!} alt="Closed-loop poles of the analytical model as the gain scale is swept" caption="Closed-loop poles of the N = 3 model as the gain scale k sweeps from 0.05 to 2 with the deployed M: the voltage-loop poles stay real up to k ≈ 1 on the 200 kHz plant." evidence={{ label: 'Delivery report, appendix C', href: reportUrl('control', 41) }} />}
+      {fig('ctrl/derivation_n3') && <Figure src={fig('ctrl/derivation_n3')!} alt="Derivation drawing of the three-module string with two shufflers" caption="The derivation drawing: N = 3 modules, N − 1 = 2 interleaved shufflers, with the variables of the model." evidence={{ label: 'Delivery report, fig. 21', href: reportUrl('control', 40) }} />}
+      {fig('ctrl/root_locus') && <Figure src={fig('ctrl/root_locus')!} alt="Closed-loop poles of the analytical model as the gain scale is swept" caption="Closed-loop poles of the N = 3 model as the gain scale k sweeps from 0.05 to 2 with the deployed M: the voltage-loop poles stay real up to k ≈ 1 on the 200 kHz plant." evidence={{ label: 'Delivery report, fig. 23', href: reportUrl('control', 42) }} />}
     </div>
     {Object.entries(nbByBook).map(([book, imgs]) => (
       <div class="nb">
@@ -111,17 +111,15 @@ const nice = (k: string) => k.split('/').pop()!.replace(/^\d+_/, '').replace(/_s
 
   <Section eyebrow="Rung 4 · QSPICE" title="The switching-level model with the firmware inside" lede="Power_Shuffler_Integrated.qsch is a generated hierarchical sheet: the string, two shufflers, the controller, the PWM modulator and the half-bridge drivers. The controller block is the same C control core compiled as a DLL that models the firmware's sampling (INA 1 kHz hold, 12-bit hall ADC, 10 kHz tick). This is where the switching resistance and the fivefold gain error were found.">
     <Carousel>
-      {fig('ctrl/qspice_top') && <Figure src={fig('ctrl/qspice_top')!} alt="QSPICE integrated model, top sheet" caption="The top sheet: PV string, two shuffler blocks, the controller block and the measurements." evidence={{ label: 'Delivery report, appendix H', href: reportUrl('control', 51) }} />}
+      {fig('ctrl/qspice_top') && <Figure src={fig('ctrl/qspice_top')!} alt="QSPICE integrated model, top sheet" caption="The top sheet: PV string, two shuffler blocks, the controller block and the measurements." evidence={{ label: 'Delivery report, fig. 31', href: reportUrl('control', 52) }} />}
       {fig('slides/img-021-043') && <Figure src={fig('slides/img-021-043')!} alt="QSPICE shuffler sheet: the hand-drawn v3 power stage" caption="A shuffler block opened: the hand-drawn v3 power stage with the hall sensors and their 500 kHz output pole." />}
-      {fig('ctrl/qspice_controller') && <Figure src={fig('ctrl/qspice_controller')!} alt="QSPICE integrated model, controller sheet" caption="The controller sheet: the firmware DLL wrapped as a component, driving HRTIM-style comparators." evidence={{ label: 'Delivery report, appendix H', href: reportUrl('control', 52) }} />}
-      {fig('ctrl/qspice_k03') && <Figure src={fig('ctrl/qspice_k03')!} alt="QSPICE closed-loop run with the firmware DLL on the solar plant at 30 % gain" caption="A closed-loop run with the firmware DLL on the solar plant at 30 % gain: loop close, a +1 V reference step, then module 3 shaded to two thirds." evidence={{ label: 'Delivery report fig. 14', href: reportUrl('control', 24) }} />}
+      {fig('ctrl/qspice_controller') && <Figure src={fig('ctrl/qspice_controller')!} alt="QSPICE integrated model, controller sheet" caption="The controller sheet: the firmware DLL wrapped as a component, driving HRTIM-style comparators." evidence={{ label: 'Delivery report, fig. 33', href: reportUrl('control', 53) }} />}
+      {fig('ctrl/qspice_k03') && <Figure src={fig('ctrl/qspice_k03')!} alt="QSPICE closed-loop run with the firmware DLL on the solar plant at 30 % gain" caption="A closed-loop run with the firmware DLL on the solar plant at 30 % gain: loop close, a +1 V reference step, then module 3 shaded to two thirds." evidence={{ label: 'Delivery report, fig. 13', href: reportUrl('control', 24) }} />}
     </Carousel>
     <div class="two-col" style="margin-top:1.5rem">
       <div>
-        <h3>Build book: the PCB baseline, one effect at a time</h3>
-        <p class="muted small">A scripted stage ladder S1 → S11 that builds the board model up from an ideal string, adding one physical effect per stage (switching, drivers, dead time, parasitics, sensors, the controller) with a check at each stage.</p>
-        <iframe src={href('/embeds/build_book.html')} title="QSPICE shuffler build book" loading="lazy" style="width:100%;height:560px;border:1px solid var(--line);border-radius:12px;background:#fff"></iframe>
-        <p class="small muted"><a class="ext" href={href('/embeds/build_book.html')} target="_blank" rel="noopener">Open full page</a></p>
+        <h3>The PCB baseline, one effect at a time</h3>
+        <p class="muted">A scripted stage ladder, S1 → S11, builds the board model up from an ideal string. Each stage adds one physical effect (switching, drivers, dead time, parasitics, sensors, then the controller) and is checked before the next one goes on, so a regression points at the effect that caused it. The plots alongside are the stage checks.</p>
       </div>
       <div>
         <h3>Stage results</h3>
@@ -145,5 +143,5 @@ const nice = (k: string) => k.split('/').pop()!.replace(/^\d+_/, '').replace(/_s
 </Base>
 <style>
   .nb { border: 1px solid var(--line); border-radius: 14px; background: var(--surface); padding: 1rem 1.1rem; margin-top: 1rem; }
-  .svg-fig img { background: #fff; border-radius: 10px; border: 1px solid var(--line); padding: .4rem; width: 100%; }
+  .svg-fig img { background: var(--paper); filter: var(--paper-filter, none); border-radius: 10px; border: 1px solid var(--line); padding: .4rem; width: 100%; }
 </style>

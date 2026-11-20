@@ -19,15 +19,21 @@ const KEY = ['proposal', 'models', 'simulation', 'design', 'build', 'unit tests'
 ---
 <figure class="figure flush vmodel">
   <svg viewBox="0 0 1000 560" role="img" aria-label="V-model of the project with both streams" font-family="var(--font-body)">
+    <defs><marker id="vm-arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--muted)" /></marker></defs>
     <path d="M105,60 L400,440 L600,440 L895,60" fill="none" stroke="var(--bg-2)" stroke-width="64" stroke-linecap="round" stroke-linejoin="round" />
-    <text x="60" y="250" transform="rotate(52 60 250)" fill="var(--muted)" font-size="12" font-weight="600" letter-spacing="2">DEFINITION AND DECOMPOSITION</text>
-    <text x="700" y="330" transform="rotate(-52 700 330)" fill="var(--muted)" font-size="12" font-weight="600" letter-spacing="2">INTEGRATION AND VERIFICATION</text>
+    <!-- arm labels sit outside the V, under the outer boxes, with the direction of travel -->
+    <path d="M30,500 L30,536" stroke="var(--muted)" stroke-width="2" marker-end="url(#vm-arr)" />
+    <text x="44" y="514" fill="var(--text)" font-size="13" font-weight="600">Definition and decomposition</text>
+    <text x="44" y="531" fill="var(--muted)" font-size="11.5">down the left arm: what to build</text>
+    <path d="M970,536 L970,500" stroke="var(--muted)" stroke-width="2" marker-end="url(#vm-arr)" />
+    <text x="956" y="514" text-anchor="end" fill="var(--text)" font-size="13" font-weight="600">Integration and verification</text>
+    <text x="956" y="531" text-anchor="end" fill="var(--muted)" font-size="11.5">up the right arm: proving it works</text>
     {[[0, 9], [1, 8], [2, 7], [3, 6]].map(([a, b]) => { const pa = pos(a), pb = pos(b); return <line x1={pa.x + 170} y1={pa.y + 30} x2={pb.x} y2={pb.y + 30} stroke="var(--line)" stroke-dasharray="5 4" />; })}
     {steps.map((s, i) => { const p = pos(i); return (
       <g transform={`translate(${p.x},${p.y})`}>
         <rect width="170" height="62" rx="10" fill="var(--surface)" stroke={s.both ? 'var(--accent)' : 'var(--line)'} stroke-width={s.both ? 2 : 1} />
-        <circle cx="16" cy="16" r="10" fill={s.both ? 'var(--accent)' : i <= 4 ? 'var(--blue)' : 'var(--green)'} />
-        <text x="16" y="20" text-anchor="middle" fill="#fff" font-size="11" font-weight="700" font-family="var(--font-mono)">{s.n}</text>
+        <circle cx="16" cy="16" r="10" fill={s.both ? 'var(--accent)' : 'var(--bg-2)'} stroke={s.both ? 'none' : 'var(--line)'} />
+        <text x="16" y="20" text-anchor="middle" fill={s.both ? 'var(--on-accent)' : 'var(--text)'} font-size="11" font-weight="700" font-family="var(--font-mono)">{s.n}</text>
         <text x="32" y="20" fill="var(--text)" font-size="12" font-weight="600">{s.v}</text>
         <g><rect x="8" y="30" width="6" height="26" rx="2" fill="var(--blue)" /><rect x="156" y="30" width="6" height="26" rx="2" fill="var(--green)" />
           <title>{`Control: ${s.ctrl}\nHardware: ${s.hw}`}</title>
@@ -36,7 +42,7 @@ const KEY = ['proposal', 'models', 'simulation', 'design', 'build', 'unit tests'
       </g>
     ); })}
   </svg>
-  <figcaption>The V-model both streams followed. Each level produces a pass/fail artefact the next level consumes; the dashed lines are the verification pairs. Blue = control stream, green = hardware stream, amber = joint. Hover a box for what each stream did at that level; the table below has the same in full.</figcaption>
+  <figcaption>The V-model both streams followed. Each level produces a pass/fail artefact the next level consumes; the dashed lines pair each design level with the test that verifies it. In every box the blue bar is the control stream's work and the green bar the hardware stream's; amber boxes were done jointly. The table has what each stream did at every level.</figcaption>
   <div class="vmodel-table table-wrap" style="margin-top:1rem">
     <table>
       <thead><tr><th>#</th><th>V-model level</th><th>Control stream</th><th>Hardware stream</th></tr></thead>
@@ -47,4 +53,5 @@ const KEY = ['proposal', 'models', 'simulation', 'design', 'build', 'unit tests'
 <style>
   .vmodel svg { width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
   .vmodel-table { font-size: .92rem; }
+  @media (max-width: 640px) { .vmodel svg { display: none; } }
 </style>

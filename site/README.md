@@ -27,7 +27,7 @@ If one of those files moves, the build fails on purpose so the handover cannot s
 | `/hardware/pcb/` | 3D board (exploded, part cards with datasheets), requirements, QSPICE design models, schematic viewer (all sheets, callouts, refdes search), layer viewer, sensors, BOM, manufacturing, bench and solar set-ups, limitations |
 | `/hardware/enclosure/` | Exploded Fusion assembly with numbered parts, enclosure BOM, dimensions, print notes, build photos |
 | `/control/` | Animated switching states and currents, plant/modes/gains with a symbol table, R_sw, controller, supervisor, gain pipeline, sampling, peripherals (PWM/ADC/SPI/UART), C core, state machine, Raspberry Pi roles and flashing, remote controls |
-| `/simulation/` | Rungs, notebook carousels, Simulink MIL/SIL, QSPICE integrated model and build book |
+| `/simulation/` | Rungs, notebook carousels, Simulink MIL/SIL, QSPICE integrated model and stage ladder |
 | `/results/` | Carpark and bench results, 21-window inventory, cross-phase comparison, findings and caveats from REPORT.md |
 | `/handover/` | Quick starts, known issues per stream, future work per stream, repository map |
 | `/media/`, `/about/` | Photos/videos/slides; team, acknowledgements, downloads |
@@ -43,6 +43,7 @@ run the scripts and commit what they write under `src/assets/`, `src/data/` and 
 | `scripts/prep_photos.py` | `src/assets/photos/*.webp` (+ thumbs), `src/data/photos.json` | |
 | `scripts/prep_figures.py` | `src/assets/figures/<group>/…` from the curated `FIGURES` dict | |
 | `scripts/prep_notebooks.py` | `src/assets/notebooks/<nb>/NN.webp`, `src/data/notebooks.json` | nbformat |
+| `scripts/prep_pdfs.sh` | `public/reports/*.pdf` (V2 delivery report, hardware report, proposals, schematic) and `public/datasheets/*.pdf`, recompressed with Ghostscript so they open in the browser at `#page=N` instead of downloading from GitHub | ghostscript |
 | `scripts/prep_reports.py` | `src/assets/figures/hw/*` (hardware report figures), `figures/ctrl/*` (delivery report figures), `src/assets/datasheets/*` (first pages), `figures/misc/hero_render.webp` | `pip install --user pymupdf` |
 | `scripts/prep_tikz.sh` | `src/assets/diagrams/*.svg` from the LaTeX TikZ sources | TeX Live, dvisvgm |
 | `scripts/prep_kicad.sh` | `public/kicad/sch/*.svg` (every schematic sheet), `public/kicad/pcb/*.svg` (every layer, recoloured to `currentColor`), then `kicad_index.py` → `src/data/kicad_index.json` (refdes → sheet + position, board position) | KiCad 10 (Windows) |

@@ -11,11 +11,18 @@ export const SITE = {
   kicad: 'https://www.kicad.org/download/',
 };
 
-/** The two final reports (PDF) in the repository. */
+/**
+ * The reports, served by the site itself (copied and recompressed by scripts/prep_pdfs.sh) so they
+ * open in the browser's PDF viewer at the linked page instead of downloading from GitHub.
+ * The control report is V2 (the 12 Nov 2026 links amendment); page numbers below refer to V2.
+ */
 export const REPORTS = {
-  control: '0_Documentation/n11034459_ProjectDeliveryReport_V1.pdf',
-  hardware: '0_Documentation/son_report.pdf',
-  proposal: '0_Documentation/jared-assessment/CapstoneProjectProposal.pdf',
+  control: '/reports/delivery-report.pdf',
+  hardware: '/reports/hardware-report.pdf',
+  proposal: '/reports/control-proposal.pdf',
+  hwProposal: '/reports/hardware-proposal.pdf',
+  hwProgress: '/reports/hardware-progress-report.pdf',
+  schematic: '/reports/schematic-v0.pdf',
 };
 
 export const NAV = [
@@ -64,7 +71,12 @@ export function rawUrl(relPath: string): string {
   return `${SITE.repo}/raw/${SITE.branch}/${enc(relPath)}`;
 }
 
-/** Link to a page of one of the reports. */
+/** Link to (a PDF page of) one of the reports; open it with target="_blank". */
 export function reportUrl(which: keyof typeof REPORTS, page?: number): string {
-  return rawUrl(REPORTS[which]) + (page ? `#page=${page}` : '');
+  return href(REPORTS[which]) + (page ? `#page=${page}` : '');
+}
+
+/** A datasheet from 1_Datasheets/, served by the site (see scripts/prep_pdfs.sh). */
+export function datasheetUrl(file: string): string {
+  return href(`/datasheets/${file}`);
 }

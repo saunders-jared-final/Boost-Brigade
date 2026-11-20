@@ -35,12 +35,15 @@ export const STREAMS: StreamEntry[] = [
 ];
 
 export const LESSONS = [
-  { title: 'Measure, don’t derive.', body: 'Every controller that worked was designed on an identified plant; every one that failed was designed on the derivation.', stream: 'ctrl' },
-  { title: 'Negative results steered the architecture.', body: 'Triggered sampling, decentralised string control and proportional decoupling were each rejected on evidence, and each redirection was load-bearing.', stream: 'ctrl' },
-  { title: 'Model fidelity is selective.', body: 'Averaging is fine for control design but silently deletes damping. Know what an abstraction throws away before trusting it.', stream: 'ctrl' },
+  { title: 'Measure twice, cut once.', body: 'A heatsink came off the board that never needed to move. Check the drawing, the model and the board before reaching for the tools: undoing a change costs far more than confirming it.', stream: 'both' },
+  { title: 'Expect the unexpected.', body: 'Order more parts than the BOM asks for, put in more test points than seem reasonable, and build the safety features in from the start. They cost little, and they buy time when something goes wrong.', stream: 'both' },
+  { title: 'You are your own project manager.', body: 'Supervisors, technicians and teammates advise; everybody else is a stakeholder. Plan, chase and decide as if nobody will do it for you.', stream: 'both' },
+  { title: 'Safety and resources set the scope.', body: 'Lab rules, equipment, budget and lead times will cut scope, and they are outside your control. Spend the effort on what you can control, and shape the project so it survives the cuts.', stream: 'both' },
+  { title: 'Lean on the university.', body: 'The S9 store and the labs lend electrical equipment and test gear. Ask early: borrowing beats buying, and beats waiting for an order.', stream: 'both' },
+  { title: 'Infrastructure is leverage.', body: 'Scripted identification and validation plus a single parameter source turned every later question into a 15-minute experiment.', stream: 'both' },
+  { title: 'There is always a sim-to-real gap. Close it on purpose.', body: 'The averaged model was right about the structure and wrong about the numbers: it missed the switching resistance and over-stated the current-loop gain fivefold. We bridged the gap after the fact, by identifying the plant in QSPICE with the real firmware and checking the DC gains on the bench. Design on the derivation; tune on the measurement.', stream: 'ctrl' },
   { title: 'After a clean identification, suspect plumbing before gains.', body: 'Sign and routing errors mimic instability; one open-loop probe tells them apart.', stream: 'ctrl' },
   { title: 'Rate for the worst case, test well below it.', body: 'Sizing switches for the highest-output module left margin for the shorts, reversed polarity and mis-wired inductors that happened during testing; the 120 V limit kept every test safe.', stream: 'hw' },
   { title: 'Fixed losses dominate at light load.', body: '93.8 % of the supplied power reached the load, yet the shuffler’s own efficiency on the 15 W it processed was about 70 %: ripple, gate drive and dead time do not scale down.', stream: 'hw' },
   { title: 'A fixed dead time distorts the duty.', body: 'At 400 kHz the two 200 ns dead times are 16 % of the period; the module-voltage spread grew from 0.2 V to 1.1 V. Adaptive dead time is first on the hardware list.', stream: 'hw' },
-  { title: 'Infrastructure is leverage.', body: 'Scripted identification and validation plus a single parameter source turned every later question into a 15-minute experiment.', stream: 'both' },
 ];

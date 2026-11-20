@@ -34,6 +34,7 @@ const fmt = (d: string) => { const [y, m, day] = d.split('-'); const dt = new Da
       </div>
     </article>
   ))}
+  <slot />
 </div>
 <script>
   const root = document.getElementById('stream-timeline');
@@ -84,9 +85,9 @@ const fmt = (d: string) => { const [y, m, day] = d.split('-'); const dt = new Da
   .st-item.right .st-dot { left: 75%; transform: translateX(-50%); background: var(--green); }
   .st-item.mid .st-dot { left: 50%; transform: translateX(-50%); background: var(--accent); }
   .st-card { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 1.1rem 1.2rem; box-shadow: var(--shadow); margin-top: 2.2rem; }
-  .st-item.left .st-card { border-left: 4px solid var(--blue); }
-  .st-item.right .st-card { border-left: 4px solid var(--green); }
-  .st-item.mid .st-card { border-left: 4px solid var(--accent); }
+  .st-item.left .st-card { border-color: color-mix(in srgb, var(--blue) 45%, var(--line)); }
+  .st-item.right .st-card { border-color: color-mix(in srgb, var(--green) 45%, var(--line)); }
+  .st-item.mid .st-card { border-color: var(--accent); background: color-mix(in srgb, var(--accent) 5%, var(--surface)); }
   .st-card h3 { font-size: 1.1rem; margin-bottom: .4rem; }
   .st-card p { margin-bottom: .5rem; }
   .st-plan { color: var(--muted); border-top: 1px dashed var(--line); padding-top: .5rem; }
@@ -95,7 +96,7 @@ const fmt = (d: string) => { const [y, m, day] = d.split('-'); const dt = new Da
   @media (max-width: 760px) {
     .st-head { grid-template-columns: 1fr; }
     .st-item { grid-template-columns: 1fr; }
-    .st-item.left .st-card, .st-item.right .st-card, .st-item.mid .st-card { grid-column: 1; width: 100%; }
+    .st-item.left .st-card, .st-item.right .st-card, .st-item.mid .st-card { grid-column: 1; width: auto; justify-self: stretch; }
     .st-item .st-dot { left: 12px !important; transform: none !important; }
     .st-rails { display: none; }
     .st-item::before { content: ""; position: absolute; left: 20px; top: 0; bottom: -1.6rem; width: 3px; background: var(--line); }

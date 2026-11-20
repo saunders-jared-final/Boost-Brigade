@@ -3,23 +3,14 @@ import Base from '../layouts/Base.astro';
 import Section from '../components/Section.astro';
 import { Image } from 'astro:assets';
 import { photo } from '../lib/assets';
-import { SITE, repoUrl, rawUrl, reportUrl } from '../lib/site';
+import { SITE, href, repoUrl, reportUrl } from '../lib/site';
 const teamPhoto = photo('20261012_165157');
 const jared = photo('20261020_131809');
 const son = photo('20261004_162616');
-const downloads = [
-  { label: 'Control stream: project delivery report (PDF, 16 MB)', href: reportUrl('control') },
-  { label: 'Hardware stream: final report (PDF, 7 MB)', href: reportUrl('hardware') },
-  { label: 'Project proposal (PDF)', href: reportUrl('proposal') },
-  { label: 'Hardware stream: proposal (PDF)', href: rawUrl("0_Documentation/Son's Project Proposal.pdf") },
-  { label: 'Hardware stream: progress report (PDF)', href: rawUrl("0_Documentation/Son's Project Progress Report.pdf") },
-  { label: 'Delivery report LaTeX source', href: repoUrl('0_Documentation/jared-assessment/CapstoneDelivery_latex') },
-  { label: 'Results pipeline report (REPORT.md)', href: repoUrl('8_Results/analysis/REPORT.md') },
-];
 ---
 <Base title="About" description="Team Boost Brigade, acknowledgements and downloads for the power shuffler capstone.">
   <Section eyebrow="About" title="Team Boost Brigade" lede="EGH490 Research Project, Queensland University of Technology, 2026. Two students, two streams, one board." narrow>
-    {teamPhoto && <figure class="figure"><Image src={teamPhoto} alt="Team Boost Brigade in the lab" width={1400} /><figcaption>Team photo slot: this one is from 12 Oct in the lab. Replace it with the team picture by dropping a new photo into site/src/assets/photos and changing the name in src/pages/about.astro.</figcaption></figure>}
+    {teamPhoto && <figure class="figure"><Image src={teamPhoto} alt="Team Boost Brigade in the lab" width={1400} class="team-photo" /><figcaption>In the lab, 12 Oct 2026.</figcaption></figure>}
     <div class="grid grid-2">
       <article class="card ctrl">
         <p class="eyebrow ctrl">Control stream</p>
@@ -38,7 +29,7 @@ const downloads = [
         <p class="muted">PV model, topology comparison and the ideal, semi-realistic and parasitic-aware QSPICE models; the KiCad Version 0 schematic and six-layer layout; component sourcing, assembly, commissioning, the open-loop bench tests and the PV module tests.</p>
         <div class="row">
           <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report</a>
-          <a class="btn ext" href={rawUrl("0_Documentation/Son's Project Proposal.pdf")} target="_blank" rel="noopener">Proposal</a>
+          <a class="btn ext" href={reportUrl('hwProposal')} target="_blank" rel="noopener">Proposal</a>
         </div>
       </article>
     </div>
@@ -61,15 +52,13 @@ const downloads = [
     </ul>
   </Section>
 
-  <Section alt narrow eyebrow="Downloads" title="Documents">
-    <ul class="dl">
-      {downloads.map((d) => <li><a class="ext" href={d.href} target="_blank" rel="noopener">{d.label}</a></li>)}
-    </ul>
-    <p class="small muted">Vendor datasheets are linked from the PCB page and kept in 1_Datasheets.</p>
+  <Section alt narrow title="Documents">
+    <p>Both final reports, the proposals, the schematic and the CAD are collected under <a href={href('/handover/#downloads')}>Reports and downloads</a> on the handover page.</p>
   </Section>
 </Base>
 <style>
   .dl { list-style: none; padding: 0; display: grid; gap: .5rem; }
   .dl a { display: block; padding: .8rem 1rem; border: 1px solid var(--line); border-radius: 10px; background: var(--surface); text-decoration: none; }
   .dl a:hover { border-color: var(--accent); }
+  :global(.team-photo) { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: 50% 70%; }
 </style>

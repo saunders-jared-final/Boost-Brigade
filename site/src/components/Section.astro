@@ -1,13 +1,16 @@
 ---
 interface Props { id?: string; eyebrow?: string; title?: string; lede?: string; alt?: boolean; tight?: boolean; narrow?: boolean; class?: string; }
 const { id, eyebrow, title, lede, alt = false, tight = false, narrow = false, class: cls = '' } = Astro.props;
+// No kicker above the heading: the heading carries the section. An eyebrow that carries real
+// metadata (a date and place, e.g. "20 Oct 2026 · carpark") is kept as a meta line under it.
+const meta = eyebrow && /\b\d{1,2} [A-Z][a-z]{2} \d{4}\b/.test(eyebrow) ? eyebrow : undefined;
 ---
 <section id={id} class:list={['section', { 'section-alt': alt, 'section-tight': tight }, cls]}>
   <div class={narrow ? 'wrap-narrow' : 'wrap'}>
-    {(eyebrow || title || lede) && (
+    {(title || lede) && (
       <header class="reveal" style="margin-bottom: 2rem;">
-        {eyebrow && <p class="eyebrow">{eyebrow}</p>}
         {title && <h2>{title}</h2>}
+        {meta && <p class="meta">{meta}</p>}
         {lede && <p class="lede">{lede}</p>}
       </header>
     )}

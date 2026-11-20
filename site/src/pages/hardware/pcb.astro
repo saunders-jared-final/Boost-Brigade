@@ -10,10 +10,12 @@ import SchematicViewer from '../../components/SchematicViewer.astro';
 import LayerViewer from '../../components/LayerViewer.astro';
 import { Image } from 'astro:assets';
 import { BOARD_PARTS } from '../../data/parts';
+import KICAD from '../../data/kicad_index.json';
+const refPos = (KICAD as any).board.refs as Record<string, [number, number]>;
 import { BOM, BOM_TOTAL, BOM_NOTES } from '../../data/bom';
 import { SHEETS } from '../../data/schematic';
 import { fig, photo } from '../../lib/assets';
-import { href, HARDWARE_NAV, repoUrl, repoDir, rawUrl, reportUrl } from '../../lib/site';
+import { href, HARDWARE_NAV, repoUrl, repoDir, reportUrl, datasheetUrl } from '../../lib/site';
 import { existsSync } from 'node:fs';
 import path from 'node:path';
 
@@ -30,7 +32,7 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
     <div class="row">
       <a class="btn ext" href={reportUrl('hardware')} target="_blank" rel="noopener">Hardware report (PDF)</a>
       <a class="btn ext" href={repoDir('5_Kicad/Version 0 project')} target="_blank" rel="noopener">KiCad project</a>
-      <a class="btn ext" href={rawUrl('0_Documentation/schematic_ordered_vo.pdf')} target="_blank" rel="noopener">Schematic PDF</a>
+      <a class="btn ext" href={reportUrl('schematic')} target="_blank" rel="noopener">Schematic PDF</a>
       <a class="btn ext" href={repoDir('5_Kicad/Version 0 project/Gerber Output')} target="_blank" rel="noopener">Gerbers</a>
     </div>
   </Section>
@@ -39,7 +41,7 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
     <h3 style="margin-bottom:.4rem">The board in 3D</h3>
     <p class="muted small">Exported from the KiCad project. Drag to orbit, slide to explode, click a part or a chip to see its role, package and datasheet, then jump to it on the schematic and the layers below.</p>
     {hasBoard ? (
-      <Exploded client:visible src={href('/models/board.glb')} parts={parts} up="y" camera={[0.7, 0.9, 1.0]} />
+      <Exploded client:visible src={href('/models/board.glb')} parts={parts} refPos={refPos} up="y" camera={[0.7, 0.9, 1.0]} />
     ) : (
       <Callout kind="info" title="3D board model pending">Run <code>site/scripts/prep_models.sh</code> (needs KiCad 10 on Windows).</Callout>
     )}
@@ -64,7 +66,7 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
         <div class="card hw">
           <h4>The solar panels</h4>
           <p class="small"><strong>Reference for the ratings:</strong> Aiko A540-MCE60Mw, 540 W class, 45.6 V / 14.84 A at standard test conditions; its datasheet curves were digitised and fitted to the explicit Karmalkar–Haneefa model for QSPICE.</p>
-          <p class="small"><strong>Used in the tests:</strong> three KickAss KAUSSP80, 80 W, 25.07 V open circuit, 4.35 A short circuit, 635 × 795 × 5.9 mm, mono PERC. String open-circuit about 75 V, so everything stays under the 120 V limit. <a class="ext" href={rawUrl('1_Datasheets/solar_panel_80.pdf')} target="_blank" rel="noopener">Panel datasheet</a></p>
+          <p class="small"><strong>Used in the tests:</strong> three KickAss KAUSSP80, 80 W, 25.07 V open circuit, 4.35 A short circuit, 635 × 795 × 5.9 mm, mono PERC. String open-circuit about 75 V, so everything stays under the 120 V limit. <a class="ext" href={datasheetUrl('solar_panel_80.pdf')} target="_blank" rel="noopener">Panel datasheet</a></p>
           <p class="small muted" style="margin:0">On the bench the three panels were emulated by the three channels of an R&amp;S NGE103 supply at 25 V with different current limits: shading mainly lowers a module's current, not its voltage.</p>
         </div>
       </div>
@@ -129,7 +131,7 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
   <Section eyebrow="Layout" title="Six copper layers, explored" lede="Toggle layers like a layout editor. ADC and digital traces are routed on the bottom, away from the switching loops on the top; layer changes happen through vias as close to the ICs as possible.">
     <LayerViewer />
     <div class="grid grid-2" style="margin-top:1.5rem;align-items:start">
-      {fig('slides/img-018-026') && <Figure src={fig('slides/img-018-026')!} alt="Controller signal routing highlighted on the board: PWM, SPI, chip selects and ADC" caption="The controller's signals on the board, from the delivery report: PWM (red), SPI (blue), chip selects (yellow), ADC (orange). The ADC traces take the most direct path on the bottom layer; the SPI forms a bus up and down the board." evidence={{ label: 'Delivery report, appendix E.2', href: reportUrl('control', 45) }} />}
+      {fig('slides/img-018-026') && <Figure src={fig('slides/img-018-026')!} alt="Controller signal routing highlighted on the board: PWM, SPI, chip selects and ADC" caption="The controller's signals on the board, from the delivery report: PWM (red), SPI (blue), chip selects (yellow), ADC (orange). The ADC traces take the most direct path on the bottom layer; the SPI forms a bus up and down the board." evidence={{ label: 'Delivery report, fig. 25', href: reportUrl('control', 46) }} />}
       <div class="stack">
         <div class="card"><h4>Placement and review</h4><p class="small muted">Component placement was done by a student experienced in PCB design, the traces and copper zones were routed by Son with input from Jared on the controller interface, and the layout was reviewed by the supervisor and the experienced student. Disagreements were settled by discussion and every direct change was communicated back.</p></div>
         <div class="card"><h4>Stack-up</h4><p class="small muted">Front, four inner layers, back. Inner 1 and 3 are power and signal, inner 2 and 4 ground. Six layers were chosen so the high-current paths and the sensing could live on different layers with solid returns under the switching loops.</p></div>
@@ -140,8 +142,8 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
 
   <Section alt eyebrow="Sensors" title="What is measured, and with what" lede="Four winding currents and three module voltages. How the firmware samples them, and why it averages over whole switching periods, is on the Control page.">
     <div class="grid grid-3">
-      <div class="card hw"><h4>TMCS1126 hall-effect current sensors (×4)</h4><p class="small">Galvanically isolated (5 kV), in series with each winding: 100 mV/A about a 1.65 V reference, ±15.5 A linear on 3.3 V, 500 kHz bandwidth, no shunt resistors. Sum and difference of a shuffler's two readings give the circulating and shuffled currents.</p><a class="small ext" href={rawUrl('1_Datasheets/tmcs1126-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
-      <div class="card hw"><h4>INA239 bus-voltage monitors (×3)</h4><p class="small">0–85 V input, 16-bit ADC, 3.125 mV per step, 10 MHz SPI; chosen because the higher-resolution INA229 was out of stock. Shunt inputs tied off; die temperature is read too. One sits at string potential behind an isolator and does not work on Version 0.</p><a class="small ext" href={rawUrl('1_Datasheets/ina239-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
+      <div class="card hw"><h4>TMCS1126 hall-effect current sensors (×4)</h4><p class="small">Galvanically isolated (5 kV), in series with each winding: 100 mV/A about a 1.65 V reference, ±15.5 A linear on 3.3 V, 500 kHz bandwidth, no shunt resistors. The B-phase sensors are mounted reversed; once the firmware flips that sign, the sum of a shuffler's two readings is the shuffled current and the difference the circulating current.</p><a class="small ext" href={datasheetUrl('tmcs1126-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
+      <div class="card hw"><h4>INA239 bus-voltage monitors (×3)</h4><p class="small">0–85 V input, 16-bit ADC, 3.125 mV per step, 10 MHz SPI; chosen because the higher-resolution INA229 was out of stock. Shunt inputs tied off; die temperature is read too. One sits at string potential behind an isolator and does not work on Version 0.</p><a class="small ext" href={datasheetUrl('ina239-q1.pdf')} target="_blank" rel="noopener">Datasheet</a></div>
       <div class="card hw"><h4>What is not measured</h4><p class="small">The string current (reconstructed from the winding currents and duties, or read from the electronic load), inductor temperature (estimated by touch), and irradiance. The hardware report's PV results used a hall current probe on the oscilloscope for the string current.</p><a class="small" href={href('/control/#sampling')}>Sampling scheme on the Control page</a></div>
     </div>
   </Section>
@@ -149,10 +151,10 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
   <Section eyebrow="Bill of materials" title="What is on the board and what it cost" lede="The 19 September component order: 179 positions, AUD 413.23 gross including spares.">
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Item</th><th>Part number</th><th>Designators</th><th>Qty</th><th>Cost (AUD)</th></tr></thead>
+        <thead><tr><th>Item</th><th>Part number</th><th>Designators</th><th>Qty</th><th>Cost (AUD)</th><th>Datasheet</th></tr></thead>
         <tbody>
-          {BOM.map((b) => <tr><td>{b.item}</td><td class="mono small">{b.part}</td><td class="small muted">{b.refs}</td><td class="mono">{b.qty}</td><td class="mono">{b.cost?.toFixed(2) ?? '–'}</td></tr>)}
-          <tr><td><strong>Total</strong></td><td></td><td></td><td class="mono"><strong>{BOM_TOTAL.qty}</strong></td><td class="mono"><strong>{BOM_TOTAL.cost.toFixed(2)}</strong></td></tr>
+          {BOM.map((b) => <tr><td>{b.item}</td><td class="mono small">{b.part}</td><td class="small muted">{b.refs}</td><td class="mono">{b.qty}</td><td class="mono">{b.cost?.toFixed(2) ?? '–'}</td><td class="small">{b.ds ? <a class="ext" href={b.ds} target="_blank" rel="noopener">{/\.pdf($|#)/.test(b.ds) ? 'PDF' : 'Product page'}</a> : <span class="muted">–</span>}</td></tr>)}
+          <tr><td><strong>Total</strong></td><td></td><td></td><td class="mono"><strong>{BOM_TOTAL.qty}</strong></td><td class="mono"><strong>{BOM_TOTAL.cost.toFixed(2)}</strong></td><td></td></tr>
         </tbody>
       </table>
     </div>
@@ -176,8 +178,8 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
     <div class="two-col">
       <div class="prose">
         <ul>
-          <li><strong>Modules:</strong> R&amp;S NGE103B three-channel supply, channels in series at 25 V (23.3 V on the day) with current limits of 1.3 / 0.5 / 1.3 A: the middle channel plays the shaded module. Without the shuffler the 0.5 A channel sets the string current.</li>
-          <li><strong>Load:</strong> Rigol DL3021 electronic load in constant-voltage mode at 70 V (steps 60–125 V in the control tests), driven over USB by the Pi.</li>
+          <li><strong>Modules:</strong> R&amp;S NGE103B three-channel supply (<a class="ext" href={datasheetUrl('NGE100.pdf')} target="_blank" rel="noopener">datasheet</a>), channels in series at 25 V (23.3 V on the day) with current limits of 1.3 / 0.5 / 1.3 A: the middle channel plays the shaded module. Without the shuffler the 0.5 A channel sets the string current.</li>
+          <li><strong>Load:</strong> Rigol DL3021 electronic load (<a class="ext" href={datasheetUrl('DL3000_DataSheet.pdf')} target="_blank" rel="noopener">datasheet</a>) in constant-voltage mode at 70 V (steps 60–125 V in the control tests), driven over USB by the Pi.</li>
           <li><strong>Instruments:</strong> R&amp;S RTB2004 oscilloscope on the switch nodes and the hall outputs; telemetry through the Nucleo and the Pi into Grafana.</li>
           <li><strong>Sweep:</strong> 100 to 400 kHz switching with a fixed 200 ns dead time, 50 % duty open loop; then the closed-loop runs of the control stream at 200, 300 and 400 kHz.</li>
         </ul>

@@ -7,6 +7,7 @@ import Figure from '../components/Figure.astro';
 import Callout from '../components/Callout.astro';
 import Math from '../components/Math.astro';
 import Symbols from '../components/Symbols.astro';
+import SymbolStrip from '../components/SymbolStrip.astro';
 import ShufflerFlow from '../components/ShufflerFlow.astro';
 import PiDiagram from '../components/PiDiagram.astro';
 import Cmd from '../components/Cmd.astro';
@@ -31,18 +32,18 @@ const remote = photo('20261016_125222');
 const lcd = photo('20261016_143209');
 ---
 <Base title="Control" description="The control design of the power shuffler string: the plant, the decoupling controller, the switching resistance, the microcontroller peripherals, what the Raspberry Pi does and the remote controls.">
-  <Section eyebrow="Control" title="A coupled plant, decoupled by construction" lede="Shufflers share panels, so one cannot be tuned without moving its neighbour. The approach: model the string as coupled modules, measure how much every input moves every output, invert that, and wrap integral action around it. This page is self-contained: every symbol is explained in the side table." narrow>
+  <Section eyebrow="Control" title="A coupled plant, decoupled by construction" lede="Shufflers share panels, so one cannot be tuned without moving its neighbour. The approach: model the string as coupled modules, measure how much every input moves every output, invert that, and wrap integral action around it. This page is self-contained: each section lists the symbols it introduces, and the full list is at the end." narrow>
     <div class="row"><a class="btn ext" href={reportUrl('control')} target="_blank" rel="noopener">Delivery report (PDF)</a><a class="btn ext" href={repoDir('6_RTOS/ctrl_core')} target="_blank" rel="noopener">ctrl_core (C)</a><a class="btn ext" href={repoUrl('3_Analytical/shuffler_notebooks/DESIGN_LOG.md')} target="_blank" rel="noopener">DESIGN_LOG.md</a></div>
   </Section>
 
-  <Section alt eyebrow="1 · What the shuffler does, physically" title="Switching states and the two currents" lede="Watch the four switching states cycle and toggle between the current that does the work and the one that only wastes power. The controller's whole job is to set the first and cancel the second.">
+  <Section alt title="Switching states and the two currents" lede="Watch the four switching states cycle and toggle between the current that does the work and the one that only wastes power. The controller's whole job is to set the first and cancel the second.">
     <ShufflerFlow id="ctrl-shuffler" />
   </Section>
 
-  <Section>
-    <div class="ctrl-layout">
+  <Section narrow>
       <div class="prose">
-        <h2 id="plant">2 · The plant and its modes</h2>
+        <h2 id="plant">The plant and its modes</h2>
+        <SymbolStrip keys={['d_A,\\ d_B', 'u_c', 'u_d', 'i_m', 'i_c', 'v_d', '\\bar V', 'L,\\ M', 'C', 'R,\\ R_{sw}']} />
         <p>Each shuffler has two half-bridge duties, <Math tex={`d_A`} /> and <Math tex={`d_B`} />. Their sum and difference act on two different things:</p>
         <ul>
           <li>the <strong>common-mode duty</strong> <Math tex={`u_c = d_A + d_B - 1`} /> sets the shuffled current and so the voltage difference <Math tex={`v_d`} /> between the two panels,</li>
@@ -53,36 +54,38 @@ const lcd = photo('20261016_143209');
         <p class="small muted">Read: the shuffled current <Math tex={`i_m`} /> is driven by the common duty and by the voltage difference it is trying to remove; the circulating current <Math tex={`i_c`} /> is driven only by the differential duty and dies out through the resistance; the module voltages <Math tex={`v`} /> change as the shufflers move current between the nodes (<Math tex={`S`} />) and as the panels and load inject current (<Math tex={`w`} />).</p>
         <Diagram name="nodal_n3" alt="Nodal model of a three-module string with two shufflers" caption="The three-module string as a ladder: modules as current sources with capacitors, shufflers injecting the shuffled current between the nodes. The middle module belongs to both shufflers." />
 
-        <h2>3 · The DC gains in closed form</h2>
+        <h2>The DC gains in closed form</h2>
         <p>At steady state the model collapses to two simple gains: the voltage block is diagonal to first order and the current block is purely resistive. In words: 1 % of common duty moves the voltage difference by about 1 % of a module voltage, and the circulating current per unit of differential duty is set by nothing but the resistance.</p>
         <Math display tex={`v_d \\approx -\\bar V\\, u_c, \\qquad i_c = \\frac{\\bar V}{R}\\, u_d`} />
         <p>Neighbour coupling is below one per cent for PV modules. On hardware, open-loop duty steps confirmed the <Math tex={`-\\bar V`} /> gain to 1.2 %.</p>
         {fig('results/duty_steps') && <Figure src={fig('results/duty_steps')!} alt="Open-loop duty steps on hardware against the prediction" caption="Run B01s, the only open-loop duty steps: measured voltage differences against the averaged model's −V̄·Δu_c." evidence={{ label: 'Results', href: href('/results/') }} />}
 
-        <h2>4 · The switching resistance nobody expected</h2>
+        <h2>The switching resistance nobody expected</h2>
+        <SymbolStrip keys={['C_p', 'f_{sw}']} />
         <p>The averaged model over-estimated the current-loop gain fivefold (742 A per unit duty against 140 measured in the switching simulation). The cause is the dead time: during every switching edge the MOSFET output capacitance <Math tex={`C_p`} /> has to be charged by the winding current, which takes a time <Math tex={`\\tau_e = \\bar V C_p / i_\\text{edge}`} />. Because the peak and valley edge currents shift in opposite directions with the DC current, the lost volt-seconds are proportional to the current: that is a resistance.</p>
         <Math display tex={`R_{sw} = \\frac{4\\bar V^2 C_p f_{sw}}{\\Delta i^2} = 64\\, C_p\\, f_{sw}^3\\,(L+M)^2`} />
         <p>With <Math tex={`C_p = 2.2`} /> nF this gives 0.21 / 0.72 / 1.70 Ω at 200 / 300 / 400 kHz against 0.27 / 0.79 / 1.66 Ω identified. It does not depend on the module voltage, it explains why a gain set only works at its own switching frequency, and it was caught in QSPICE before any closed-loop hardware ran.</p>
         {fig('analysis/ripple_vs_fsw') && <Figure src={fig('analysis/ripple_vs_fsw')!} alt="Switching ripple against switching frequency: QSPICE against the closed-form law" caption="Circulating ripple Δi_c = V̄ / 2f(L+M): QSPICE against the formula at 200 / 300 / 400 kHz (within 3 %)." evidence={{ label: 'Results', href: href('/results/') }} />}
 
-        <h2 id="controller">5 · The controller</h2>
+        <h2 id="controller">The controller</h2>
+        <SymbolStrip keys={['G', 'M', 'k_I,\\ k', '\\tau', 'T_s']} />
         <p>Identify the <Math tex={`4 \\times 4`} /> DC gain matrix <Math tex={`G`} /> from scripted step tests (two inputs and two outputs per shuffler), check its condition number and signs, then build the decoupling integral controller</p>
         <Math display tex={`M = G^{-1}\\,\\mathrm{diag}(k_I), \\qquad u = k\\,\\big(M \\!\\int\\! e\\,dt \\;+\\; M_p\\, e\\big),`} />
         <p>on the error vector <Math tex={`e = [v_{d,1},\\, v_{d,2},\\; i_{c,1},\\, i_{c,2}]^\\top`} />. <Math tex={`G^{-1}`} /> is a DC decoupler: pushing proportional bandwidth toward the inductor-capacitor resonance near 6 kHz re-couples the loops, so the design is integral-dominant with a small proportional ratio, and one gain scale <Math tex={`k`} /> scales the whole set at run time. The closed-loop time constant follows <Math tex={`\\tau = 1/(k\\cdot 2\\pi\\cdot 150\\,\\mathrm{Hz})`} />.</p>
         <Diagram name="control_loop" alt="Decoupling PI controller and supervisor block diagram" caption="10 kHz control tick: low-pass filter on the measurements, error, decoupled integral plus proportional action, duty clamp and slew limit; the 1 kHz supervisor sets the voltage references." />
         {stepFig && <Figure src={stepFig} alt="Simulated +1 V reference step at 30 % gain across analytical, QSPICE and Simulink" caption="A +1 V reference step on the second shuffler at 30 % gain, 200 kHz, in the analytical model, in QSPICE with the firmware DLL and in the Simulink twin. About 12 ms to settle, no overshoot." evidence={{ label: 'Results', href: href('/results/') }} />}
 
-        <h2>6 · The feasibility governor</h2>
+        <h2>The feasibility governor</h2>
         <p>A 1 kHz supervisor protects the current rating rather than equalising anything, because the inner loop already equalises. Its stress index is <Math tex={`|i_\\text{diff}|/I_\\text{rated}`} />; an integrator with hysteresis relaxes the voltage references just enough to park the stress under 0.90. Protection costs power: 194 W to shed 2.7 A in simulation, which turns a tuning knob into a magnetics-sizing argument for the next board.</p>
         <Callout kind="info" title="What runs where">Control tick 10 kHz (every 20 PWM periods at 200 kHz). Supervisor 1 kHz. INA239 polling 1 kHz. Safety task 100 Hz. Telemetry 50 Hz. String-level MPPT is the electronic load's job in this campaign; the perturb-and-observe MPPT in the control core is validated in simulation and compiled out on hardware.</Callout>
+        <details class="fold"><summary>Every symbol on this page ({SYMBOLS.length})</summary><Symbols items={SYMBOLS} title="Symbols, in order of appearance" /></details>
       </div>
-      <div class="ctrl-side"><div class="sticky"><Symbols items={SYMBOLS} /></div></div>
-    </div>
   </Section>
 
-  <Section alt eyebrow="7 · Gain pipeline" title="One JSON file, three harnesses" lede="Gains are identified in simulation, written to a versioned JSON, rendered to params.h, and compiled unchanged into the Simulink C Callers, the QSPICE control DLL and the firmware. The version string travels in every telemetry frame.">
+  <Section alt title="One JSON file, three harnesses" lede="Gains are identified in simulation, written to a versioned JSON, rendered to params.h, and compiled unchanged into the Simulink C Callers, the QSPICE control DLL and the firmware. The version string travels in every telemetry frame.">
     <Diagram name="gain_pipeline" alt="Gain pipeline from identification to firmware" />
-    <div class="table-wrap" style="margin-top:1rem">
+    <details class="fold" style="margin-top:1rem"><summary>The {gains.length} gain files in the repository</summary>
+    <div class="table-wrap">
       <table>
         <thead><tr><th>File</th><th>Version</th><th>Role</th><th>Ts</th><th>M (first row)</th></tr></thead>
         <tbody>
@@ -98,10 +101,11 @@ const lcd = photo('20261016_143209');
         </tbody>
       </table>
     </div>
+    </details>
     <p class="small muted">Read at build time from <a class="ext" href={repoDir(paramsDir)} target="_blank" rel="noopener">6_RTOS/ctrl_core/params</a>. The Simulink bench set was rejected because the 4-module averaged plant has the opposite u_d → i_c sign to the PCB and a fivefold larger gain; the QSPICE identification became the deployed set.</p>
   </Section>
 
-  <Section id="sampling" eyebrow="8 · Sampling" title="How the currents and voltages are read" lede="The sensors are on the Hardware page; this is how the firmware samples them, and why it averages over whole switching periods.">
+  <Section id="sampling" title="How the currents and voltages are read" lede="The sensors are on the Hardware page; this is how the firmware samples them, and why it averages over whole switching periods.">
     <div class="two-col">
       <Diagram name="adc_timing" alt="ADC sampling timing relative to the PWM period" caption="Hall sampling: four HRTIM-triggered conversions per PWM period at mid-slope of the ripple, 80 samples per channel per 10 kHz tick = the mean over exactly 20 periods. The average is a comb filter with nulls at every multiple of the switching frequency, so the controller sees the average winding current with no ripple." />
       <div class="stack">
@@ -112,7 +116,7 @@ const lcd = photo('20261016_143209');
     </div>
   </Section>
 
-  <Section alt eyebrow="9 · Peripheral configuration" title="PWM, ADC, SPI, UART" lede="The STM32G474RE was chosen for its high-resolution timer (184 ps steps with hardware dead time), its five 12-bit ADCs and its 170 MHz core. STM32CubeMX allocated the peripherals; the settings that matter are below.">
+  <Section alt title="PWM, ADC, SPI, UART" lede="The STM32G474RE was chosen for its high-resolution timer (184 ps steps with hardware dead time), its five 12-bit ADCs and its 170 MHz core. STM32CubeMX allocated the peripherals; the settings that matter are below.">
     <div class="grid grid-2">
       {PERIPHERALS.map((p) => (
         <div class="card ctrl">
@@ -125,7 +129,7 @@ const lcd = photo('20261016_143209');
     <p class="small muted" style="margin-top:.8rem">From the delivery report, appendix E (tables 10 and 11); source in <a class="ext" href={repoDir('6_RTOS')} target="_blank" rel="noopener">6_RTOS</a>: shuffler_hw.c/h, sensors.c, ina2x9.c, comms.c.</p>
   </Section>
 
-  <Section eyebrow="10 · The C core" title="One copy of the control stack, read from the repository">
+  <Section title="One copy of the control stack, read from the repository">
     <p class="muted" style="max-width:70ch">These snippets are pulled from <code>6_RTOS/ctrl_core</code> when the site builds, so they cannot drift from the source. float32 C99, no I/O, no malloc; <code>params.h</code> is generated and marked do-not-edit.</p>
     <Snippet file="6_RTOS/ctrl_core/shuffler_ctrl.c" from={56} to={152} title="shuffler_ctrl.c — ctrl_step(): the decoupling PI" />
     <div class="grid grid-2">
@@ -139,7 +143,7 @@ const lcd = photo('20261016_143209');
     </div>
   </Section>
 
-  <Section id="pi" alt eyebrow="11 · The Raspberry Pi" title="What the pod does, and how it flashes the micro" lede="The Pi is the user interface, the logger and the flasher. It is never in the control loop: the Nucleo closes the loop on its own, and every safety path works without the Pi.">
+  <Section id="pi" alt title="What the pod does, and how it flashes the micro" lede="The Pi is the user interface, the logger and the flasher. It is never in the control loop: the Nucleo closes the loop on its own, and every safety path works without the Pi.">
     <PiDiagram />
     <div class="grid grid-3" style="margin-top:1.5rem">
       <div class="card ctrl">
@@ -159,7 +163,7 @@ const lcd = photo('20261016_143209');
     </div>
   </Section>
 
-  <Section eyebrow="12 · Remote controls" title="Four ways to drive it" lede="Everything an operator needs without plugging a laptop into the system.">
+  <Section title="Four ways to drive it" lede="Everything an operator needs without plugging a laptop into the system.">
     <div class="two-col">
       <div class="grid grid-2">
         <div class="card"><h4>IR remote</h4><p class="small muted">Elegoo NEC remote on GPIO17. Digit then PLAY runs a preset: 0 init check · 1 open loop · 2 closed loop · 3 load on · 4 load off · 5 load remote · 6 load local · 7 gains 30 % · 8 gains 100 % · 9 clear fault. VOL± nudges the gain scale by 0.1, EQ pages the status, FUNC disables, POWER is the E-stop.</p></div>
@@ -177,8 +181,6 @@ const lcd = photo('20261016_143209');
   </Section>
 </Base>
 <style>
-  .ctrl-layout { display: grid; grid-template-columns: minmax(0, 1fr) 300px; gap: 2rem; align-items: start; }
-  @media (max-width: 960px) { .ctrl-layout { grid-template-columns: 1fr; } .ctrl-side .sticky { position: static; } }
   .periph th { text-transform: none; letter-spacing: 0; font-size: .82rem; color: var(--muted); width: 7.5rem; padding: .35rem .4rem .35rem 0; }
   .periph td { padding: .35rem 0; font-size: .85rem; }
   .led { display: inline-block; width: 12px; height: 12px; border-radius: 50%; margin-right: .3rem; vertical-align: middle; box-shadow: 0 0 0 3px rgba(0,0,0,.06); }

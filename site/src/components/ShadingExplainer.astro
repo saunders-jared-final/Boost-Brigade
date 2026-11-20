@@ -1,81 +1,100 @@
 ---
-/** Why one shaded panel starves a series string, and what a shuffler does about it. Pure SVG. */
-const PANELS = [[0, 48], [1, 124], [2, 200]] as const;
+/**
+ * Why one shaded panel starves a series string, and what a shuffler does about it. Pure SVG.
+ * Panels are drawn as a true series ladder: nodes N0 (string +), N1, N2, N3 (string −).
+ * Shuffler 1 is a three-terminal converter on (N0, N1, N2); shuffler 2 on (N1, N2, N3).
+ * Shuffler 1 sits right of the string and shuffler 2 left, so no wire crosses another.
+ */
+const X = 160, W = 100, H = 50, CX = X + W / 2;          // panel column; CX is the chain wire
+const PY = [52, 130, 208];                                // panel tops
+const N1 = 116, N2 = 194, TOP = 40, BOT = 272;            // node rails
+const LX = 461, LOAD = { x: 415, y: 100, w: 92, h: 104 }; // load box
 const NAMES = ['panel 1', 'panel 2 (shaded)', 'panel 3'];
 const CLOUD = [
-  ['M78,118 q10,-10 25,-6 q12,-12 25,-4 q14,-4 16,10 q10,2 4,12 l-68,0 q-10,-4 -2,-12z', '#9aa8bd', '.9'],
-  ['M68,122 q8,-6 20,-2 q10,-10 22,-2 q12,-4 14,8 q8,2 4,10 l-60,0 q-8,-4 0,-14z', '#c7d0dd', '.95'],
+  ['M78,118 q10,-10 25,-6 q12,-12 25,-4 q14,-4 16,10 q10,2 4,12 l-68,0 q-10,-4 -2,-12z', '#9aa8bd', '.95'],
+  ['M68,122 q8,-6 20,-2 q10,-10 22,-2 q12,-4 14,8 q8,2 4,10 l-60,0 q-8,-4 0,-14z', '#d3dae5', '.97'],
 ];
+/** The panel ladder and string rails, shared by both figures. */
+const rails = `M${CX},${PY[0]} V${TOP} H${LX} V${LOAD.y} M${CX},${PY[2] + H} V${BOT} H${LX} V${LOAD.y + LOAD.h} M${CX},${PY[0] + H} V${PY[1]} M${CX},${PY[1] + H} V${PY[2]}`;
 ---
 <div class="shade grid grid-2">
-  <figure class="figure flush">
-    <svg viewBox="0 0 520 330" role="img" aria-label="A series string with one shaded panel: the string current is set by the weakest panel and its bypass diode discards the panel's power">
-      <defs>
-        <linearGradient id="pv" x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1f3b7a"/><stop offset="1" stop-color="#0f2452"/></linearGradient>
-        <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
-        <marker id="arr-g" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker>
-      </defs>
-      <text x="16" y="24" font-size="13" font-weight="700" fill="var(--text)">Without a shuffler</text>
-      {PANELS.map(([i, y]) => (
-        <g transform={`translate(30,${y})`}>
-          <rect width="110" height="56" rx="6" fill="url(#pv)" stroke="var(--line)"/>
-          {[0,1,2].map((r) => [0,1,2,3].map((c) => <rect x={6 + c * 26} y={5 + r * 16} width="22" height="13" rx="2" fill="#2d57a8" opacity=".9"/>))}
-          <text x="55" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">{NAMES[i]}</text>
-        </g>
-      ))}
-      <g transform="translate(0,22)">{CLOUD.map(([d, f, o]) => <path d={d} fill={f} opacity={o}/>)}</g>
-      <!-- string bus, load -->
-      <path d="M140,76 L180,76 L180,228 L140,228 M140,152 L180,152" fill="none" stroke="var(--text)" stroke-width="2"/>
-      <path d="M180,76 L400,76 L400,110 M180,228 L400,228 L400,194" fill="none" stroke="var(--text)" stroke-width="2"/>
-      <path d="M180,96 L180,206" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#arr)"/>
-      <rect x="400" y="110" width="105" height="84" rx="10" fill="var(--surface)" stroke="var(--line)"/>
-      <text x="452" y="138" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">to the load</text>
-      <text x="452" y="160" text-anchor="middle" font-size="22" font-weight="700" fill="var(--red)">2 of 3</text>
-      <text x="452" y="178" text-anchor="middle" font-size="10.5" fill="var(--muted)">panels' power, at best</text>
-      <!-- bypass diode across panel 2 -->
-      <path d="M140,130 L158,130 L158,138 M158,168 L158,176 L140,176" fill="none" stroke="var(--red)" stroke-width="2"/>
-      <path d="M151,140 L165,140 L158,152 z M151,154 L165,154" fill="var(--red)" stroke="var(--red)" stroke-width="1.5"/>
-      <path d="M158,154 L158,168" stroke="var(--red)" stroke-width="2"/>
-      <text x="192" y="98" font-size="10.5" fill="var(--red)" font-weight="600">bypass diode conducts:</text>
-      <text x="192" y="111" font-size="10.5" fill="var(--red)">panel 2's power is thrown away</text>
-      <text x="192" y="164" font-size="11.5" fill="var(--accent-ink)" font-weight="700">string current</text>
-      <text x="192" y="178" font-size="10.5" fill="var(--muted)">= the weakest panel's current</text>
-      <text x="16" y="300" font-size="11" fill="var(--muted)">Panels in series must all carry the same current. Shade one and it either</text>
-      <text x="16" y="314" font-size="11" fill="var(--muted)">limits the whole string or gets bypassed, and its power is lost either way.</text>
-    </svg>
-  </figure>
-  <figure class="figure flush">
-    <svg viewBox="0 0 520 330" role="img" aria-label="With shufflers between neighbouring panels, the difference current is moved around the shaded panel so every panel works at its own maximum">
-      <text x="16" y="24" font-size="13" font-weight="700" fill="var(--text)">With shufflers</text>
-      {PANELS.map(([i, y]) => (
-        <g transform={`translate(30,${y})`}>
-          <rect width="110" height="56" rx="6" fill="url(#pv)" stroke="var(--line)"/>
-          {[0,1,2].map((r) => [0,1,2,3].map((c) => <rect x={6 + c * 26} y={5 + r * 16} width="22" height="13" rx="2" fill="#2d57a8" opacity=".9"/>))}
-          <text x="55" y="70" text-anchor="middle" font-size="11" fill="var(--muted)">{NAMES[i]}</text>
-        </g>
-      ))}
-      <g transform="translate(0,22)">{CLOUD.map(([d, f, o]) => <path d={d} fill={f} opacity={o}/>)}</g>
-      <path d="M140,76 L180,76 L180,228 L140,228 M140,152 L180,152" fill="none" stroke="var(--text)" stroke-width="2"/>
-      <path d="M180,76 L400,76 L400,110 M180,228 L400,228 L400,194" fill="none" stroke="var(--text)" stroke-width="2"/>
-      <path d="M180,96 L180,206" fill="none" stroke="var(--accent)" stroke-width="4" marker-end="url(#arr)"/>
-      <!-- shufflers between the nodes -->
-      <path d="M180,86 L230,86 L230,100 M180,152 L230,152 L230,134 M230,152 L230,166 M180,218 L230,218 L230,200" fill="none" stroke="var(--green)" stroke-width="1.5"/>
-      <g transform="translate(232,100)"><rect width="72" height="34" rx="8" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/><text x="36" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--green-ink)">shuffler 1</text><text x="36" y="27" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 1 and 2</text></g>
-      <g transform="translate(232,166)"><rect width="72" height="34" rx="8" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/><text x="36" y="15" text-anchor="middle" font-size="10.5" font-weight="700" fill="var(--green-ink)">shuffler 2</text><text x="36" y="27" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 2 and 3</text></g>
-      <!-- the moved current: around the shaded panel -->
-      <path class="flow" d="M304,112 C340,112 340,152 318,152" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#arr-g)"/>
-      <path class="flow" d="M304,188 C340,188 340,152 318,152" fill="none" stroke="var(--green)" stroke-width="2.5" stroke-dasharray="5 4" marker-end="url(#arr-g)"/>
-      <text x="334" y="140" font-size="10" fill="var(--green-ink)" font-weight="600">only the</text>
-      <text x="334" y="152" font-size="10" fill="var(--green-ink)" font-weight="600">difference</text>
-      <text x="334" y="164" font-size="10" fill="var(--green-ink)">current moves</text>
-      <rect x="400" y="110" width="105" height="84" rx="10" fill="var(--surface)" stroke="var(--line)"/>
-      <text x="452" y="138" text-anchor="middle" font-size="12" font-weight="600" fill="var(--text)">to the load</text>
-      <text x="452" y="160" text-anchor="middle" font-size="18" font-weight="700" fill="var(--green)">every panel</text>
-      <text x="452" y="178" text-anchor="middle" font-size="10.5" fill="var(--muted)">at its own maximum</text>
-      <text x="16" y="300" font-size="11" fill="var(--muted)">A shuffler sits between two neighbours and moves only their current difference,</text>
-      <text x="16" y="314" font-size="11" fill="var(--muted)">so the string no longer waits for its weakest panel. The losses scale with the shade.</text>
-    </svg>
-  </figure>
+  {[false, true].map((withS) => (
+    <figure class="figure flush">
+      <svg viewBox="0 0 520 330" role="img" aria-label={withS
+        ? 'With shufflers: shuffler 1 connects across panels 1 and 2, shuffler 2 across panels 2 and 3. The difference current goes around the shaded panel, so every panel works at its own maximum.'
+        : 'A series string of three panels with panel 2 shaded: the string current is set by the weakest panel, or panel 2’s bypass diode conducts and its power is thrown away.'}>
+        <defs>
+          <linearGradient id={`pv${+withS}`} x1="0" x2="0" y1="0" y2="1"><stop offset="0" stop-color="#1f3b7a"/><stop offset="1" stop-color="#0f2452"/></linearGradient>
+          <marker id={`arr${+withS}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--accent)"/></marker>
+          <marker id={`arrg${+withS}`} viewBox="0 0 10 10" refX="8" refY="5" markerWidth="5" markerHeight="5" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--green)"/></marker>
+        </defs>
+        <text x="16" y="24" font-size="13" font-weight="700" fill="var(--text)">{withS ? 'With shufflers' : 'Without a shuffler'}</text>
+
+        <!-- panels in series -->
+        {PY.map((y, i) => (
+          <g transform={`translate(${X},${y})`} opacity={i === 1 ? 0.78 : 1}>
+            <rect width={W} height={H} rx="5" fill={`url(#pv${+withS})`} stroke="var(--line)"/>
+            {[0, 1].map((r) => [0, 1, 2, 3].map((c) => <rect x={5 + c * 23.5} y={4 + r * 14} width="20" height="11" rx="1.5" fill="#2d57a8" opacity=".9"/>))}
+            <text x={W / 2} y="44" text-anchor="middle" font-size="10.5" font-weight="600" fill="#eef3fb">{NAMES[i]}</text>
+          </g>
+        ))}
+        <g transform="translate(100,30)">{CLOUD.map(([d, f, o]) => <path d={d} fill={f} opacity={o}/>)}</g>
+
+        <!-- string rails and the load -->
+        <path d={rails} fill="none" stroke="var(--text)" stroke-width="2"/>
+        <rect x={LOAD.x} y={LOAD.y} width={LOAD.w} height={LOAD.h} rx="10" fill="var(--surface)" stroke="var(--line)"/>
+        <text x={LX} y={LOAD.y + 24} text-anchor="middle" font-size="11.5" font-weight="600" fill="var(--text)">to the load</text>
+        <text x={LX} y={LOAD.y + 52} text-anchor="middle" font-size="24" font-weight="700" fill={withS ? 'var(--green)' : 'var(--red)'}>{withS ? '3 of 3' : '2 of 3'}</text>
+        <text x={LX} y={LOAD.y + 72} text-anchor="middle" font-size="10" fill="var(--muted)">{withS ? 'panels, each at' : "panels' power,"}</text>
+        <text x={LX} y={LOAD.y + 85} text-anchor="middle" font-size="10" fill="var(--muted)">{withS ? 'its own maximum' : 'at best'}</text>
+
+        <!-- string current -->
+        <path d="M272,54 H318" fill="none" stroke="var(--accent)" stroke-width="3.5" marker-end={`url(#arr${+withS})`}/>
+        <text x="272" y="72" font-size="11" fill="var(--accent-ink)" font-weight="700">string current</text>
+
+        {!withS && (
+          <g>
+            <text x="272" y="86" font-size="10" fill="var(--muted)">set by the weakest panel</text>
+            <!-- bypass diode across panel 2: anode at N2, cathode at N1 -->
+            <path d={`M${CX},${N1} H130 V144 M130,160 V${N2} H${CX}`} fill="none" stroke="var(--red)" stroke-width="2"/>
+            <path d="M122,160 L138,160 L130,146 z" fill="var(--red)"/>
+            <path d="M121,144 H139" stroke="var(--red)" stroke-width="2.5"/>
+            <text x="16" y="142" font-size="10" fill="var(--red)" font-weight="700">bypass diode</text>
+            <text x="16" y="155" font-size="10" fill="var(--red)">conducts: panel 2's</text>
+            <text x="16" y="168" font-size="10" fill="var(--red)">power is thrown away</text>
+            <circle cx={CX} cy={N1} r="3" fill="var(--text)"/><circle cx={CX} cy={N2} r="3" fill="var(--text)"/>
+            <text x="16" y="300" font-size="11" fill="var(--muted)">Panels in series must all carry the same current. Shade one and it either</text>
+            <text x="16" y="314" font-size="11" fill="var(--muted)">limits the whole string or gets bypassed, and its power is lost either way.</text>
+          </g>
+        )}
+
+        {withS && (
+          <g>
+            <!-- shuffler 1 on (N0, N1, N2), right of the string -->
+            <path d={`M327,${TOP} V90 M${CX},${N1} H290 M${CX},${N2} H290`} fill="none" stroke="var(--green)" stroke-width="1.6"/>
+            <rect x="290" y="90" width="75" height="116" rx="9" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/>
+            <text x="327.5" y="144" text-anchor="middle" font-size="11" font-weight="700" fill="var(--green-ink)">shuffler 1</text>
+            <text x="327.5" y="158" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 1 + 2</text>
+            <!-- shuffler 2 on (N1, N2, N3), left of the string -->
+            <path d={`M${CX},${N1} H78 V130 M${CX},${N2} H115 M${CX},${BOT} H78 V250`} fill="none" stroke="var(--green)" stroke-width="1.6"/>
+            <rect x="40" y="130" width="75" height="120" rx="9" fill="var(--green-soft)" stroke="var(--green)" stroke-width="1.5"/>
+            <text x="77.5" y="200" text-anchor="middle" font-size="11" font-weight="700" fill="var(--green-ink)">shuffler 2</text>
+            <text x="77.5" y="214" text-anchor="middle" font-size="9.5" fill="var(--green-ink)">panels 2 + 3</text>
+            <!-- the difference current: out of N2, round the shaded panel, back in at N1 -->
+            <path class="flow" d={`M${CX + 12},${N2 - 7} H284`} fill="none" stroke="var(--green)" stroke-width="2.2" stroke-dasharray="5 4" marker-end={`url(#arrg1)`}/>
+            <path class="flow" d={`M284,${N1 - 7} H${CX + 12}`} fill="none" stroke="var(--green)" stroke-width="2.2" stroke-dasharray="5 4" marker-end={`url(#arrg1)`}/>
+            <path class="flow" d={`M${CX - 12},${N2 - 7} H121`} fill="none" stroke="var(--green)" stroke-width="2.2" stroke-dasharray="5 4" marker-end={`url(#arrg1)`}/>
+            <path class="flow" d={`M88,${N1 + 14} V${N1 + 7} H${CX - 12}`} fill="none" stroke="var(--green)" stroke-width="2.2" stroke-dasharray="5 4" marker-end={`url(#arrg1)`}/>
+            <text x="290" y="230" font-size="10.5" fill="var(--green-ink)" font-weight="700">difference current</text>
+            <text x="290" y="243" font-size="10" fill="var(--green-ink)">goes around panel 2</text>
+            {[[CX, N1], [CX, N2], [327, TOP], [CX, BOT]].map(([x, y]) => <circle cx={x} cy={y} r="3" fill="var(--text)"/>)}
+            <text x="16" y="300" font-size="11" fill="var(--muted)">Each shuffler bridges two neighbouring panels and moves only their current</text>
+            <text x="16" y="314" font-size="11" fill="var(--muted)">difference, so the string no longer waits for its weakest panel.</text>
+          </g>
+        )}
+      </svg>
+    </figure>
+  ))}
 </div>
 <style>
   .shade svg { width: 100%; height: auto; background: var(--surface); border: 1px solid var(--line); border-radius: 14px; }
