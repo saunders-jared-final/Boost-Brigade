@@ -56,6 +56,7 @@ const solarPhotos = [photo('20261020_131748'), photo('20261020_132132'), photo('
           <li><strong>Safe testing.</strong> Everything below 120 V DC, the limit above which a licensed electrician is required.</li>
           <li><strong>Testability.</strong> A controller that can be swapped in minutes, and a clear separation between power and logic.</li>
         </ul>
+        <Callout kind="warn" title="Design ratings, not tested ratings">These are design maximums; the board was only tested at about 75 V string and ≤ 200 W. It has no hardware dead time or over-current protection, and it should not be run from bench supplies without knowing their limits, because a supply cannot sink the current a shuffler pushes back into it. See <a class="ext" href={repoUrl('SAFETY.md')} target="_blank" rel="noopener">SAFETY.md</a>.</Callout>
         <p>How many shufflers per board was decided by three things: the string voltage against the 120 V limit, the complexity of a first revision where one fault can disable the whole board, and how many PWM timers and pins an STM32 can offer. The first architecture (five inputs, four shufflers, an on-board microcontroller) failed all three and was dropped after the initial schematic. The as-built board carries two shufflers for three modules, the smallest arrangement that still shows two shufflers interacting.</p>
       </div>
       <div class="stack">

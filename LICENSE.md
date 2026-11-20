@@ -59,4 +59,5 @@ These files belong to their original owners and keep their own terms:
 
 This is a student research prototype operating at hazardous voltages. All
 material is provided "as is", without warranty of any kind; see the
-disclaimer sections of each licence.
+disclaimer sections of each licence. Electrical ratings, known hazards and
+bench-equipment warnings are in [`SAFETY.md`](SAFETY.md).

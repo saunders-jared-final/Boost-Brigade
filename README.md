@@ -54,6 +54,16 @@ cd 6_RTOS && cmake.exe --preset Debug && cmake.exe --build --preset Debug
 STM32_Programmer_CLI.exe -c port=SWD -w build/Debug/Shuffler_1_Open_Loop.elf -rst
 ```
 
+## ⚠️ Safety
+
+The Version 0 board is an **unverified student prototype** operating at
+hazardous DC voltages. Design maximums: **120 V DC string, ≤ 40 V per module
+in a three-module string (45.6 V absolute), 14.84 A per module, 10 A per
+shuffler winding**. It was only tested at about 75 V and ≤ 200 W. Dead time and
+over-current protection are firmware-only. **Don't run it from bench supplies
+without knowing their ratings**, because they cannot sink current. Read
+[`SAFETY.md`](SAFETY.md) before connecting anything.
+
 ## Licence and credit
 
 Multi-licensed; see [`LICENSE.md`](LICENSE.md) for the full breakdown.
