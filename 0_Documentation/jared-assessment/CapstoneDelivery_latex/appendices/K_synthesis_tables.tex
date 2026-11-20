@@ -12,10 +12,13 @@ Every metric has one definition for every phase (\code{stepmetrics.py}): initial
   \item $I_{M1r}$ / $I_{M2r}$ are recomputed from $I_{LA}$, $I_{LB}$, the duties and the e-load current by the firmware's KCL (\cref{lst:recon}): $I_1 = I_{str} + d_{A1}I_{LA1} - d_{B1}I_{LB1}$, $I_3 = I_{str} - (i_{sh2} - d_{A2}I_{LA2} + d_{B2}I_{LB2})$, $I_2 = I_3 + I_{M2r}$.
   \item $V_{M1}$: where the telemetry $V_{M1}$ disagrees with the 5\,Hz e-load by $>2\V$ (200\,kHz open-loop runs) it is replaced by $V_{eload} - V_{M2} - V_{M3}$; $\vd{}_{,2}$ is the primary hardware voltage signal.
   \item Hardware times shorter than one telemetry frame (23\,ms at 44\,Hz; 70--90\,ms at 11--14\,Hz) are bounds, printed ``$\le$''.
+  \item Windows logged before the re-flash of about 15:45 on 16 Oct (B01, B01s, B02) have their B-phase currents divided by four: the firmware converted those channels at 25\,mV/A, and the fitted TMCS1126B4 parts are 100\,mV/A.
 \end{itemize}
+\FloatBarrier
 
 \subsection{Hardware closed-loop steady state}
 \input{tables/T2_cl_steady}
+\FloatBarrier
 
 \subsection{Cross-phase step metrics}
 \input{tables/T5_S4_vd2}

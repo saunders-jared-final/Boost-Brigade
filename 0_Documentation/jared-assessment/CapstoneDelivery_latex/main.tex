@@ -4,14 +4,14 @@
 %
 %  Open in Overleaf: upload the whole folder (zip), set the compiler to
 %  pdfLaTeX, main document = main.tex.  Bibliography: refs.bib (bibtex,
-%  IEEEtran style; falls back to ieeetr if IEEEtran.bst is missing).
+%  IEEEtran style).
 %
 %  Authoring conventions (see README.md):
 %    talking   environment  -> purple bullets: points to turn into prose
 %    \note{..}              -> orange: a decision for you / something to confirm
 %    \ev{..}                -> plain text (evidence colouring removed)
-%  Put \tpoff in this file to print talking points in black, \tphide to drop
-%  them from the PDF (e.g. for the submitted version).
+%  \tphide (below) drops talking points and notes from the PDF; \tpoff prints
+%  them in black instead.
 % ===========================================================================
 \documentclass[12pt,a4paper]{article}
 \input{preamble}
@@ -43,9 +43,10 @@
 \input{sections/05_methodology}
 \input{sections/06_results}
 \input{sections/07_conclusion}
+\input{sections/08_project_links}
 
 \clearpage
-\IfFileExists{IEEEtran.bst}{\bibliographystyle{IEEEtran}}{\bibliographystyle{ieeetr}}
+\bibliographystyle{IEEEtran}
 \bibliography{refs}
 
 \clearpage

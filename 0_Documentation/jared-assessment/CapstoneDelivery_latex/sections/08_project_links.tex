@@ -1,0 +1,23 @@
+% ---------------------------------------------------------------------------
+% Pointers to the public GitHub repository and the interactive project website.
+% Unnumbered section between the conclusion and the references; the same two
+% links (with QR codes) are on the title page.  URLs: \repourl, \siteurl.
+% ---------------------------------------------------------------------------
+\section*{Project Repository and Website}
+\phantomsection\addcontentsline{toc}{section}{Project Repository and Website}
+\label{sec:links}
+
+The work described in this report is public. The repository holds the design files, source code and test data behind every figure and table in it, and the website presents the same material as an interactive overview of the project's control and hardware streams. Anyone continuing the project should start there.
+
+\vspace{3mm}
+\noindent\colorbox{qutpale}{\begin{minipage}{\dimexpr\linewidth-2\fboxsep\relax}\vspace{3mm}
+\begin{tabular}{@{\hspace{3mm}}c@{\hspace{4mm}}p{\dimexpr\linewidth-31mm\relax}@{}}
+\qrcode[height=20mm,level=M]{https://github.com/saunders-jared-final/Boost-Brigade} &
+{\sffamily\color{qutnavy}\bfseries Project repository}\newline
+\href{\repourl}{\small\texttt{\repourl}}\newline
+{\small The analytical model, QSPICE and Simulink models, the C control core and firmware, the KiCad PCB and enclosure CAD, the Raspberry Pi telemetry stack, every bench and solar test case, and the analysis pipeline that produced the tables and figures in this report.}\\[5mm]
+\qrcode[height=20mm,level=M]{https://saunders-jared-final.github.io/Boost-Brigade/} &
+{\sffamily\color{qutnavy}\bfseries Interactive project website}\newline
+\href{\siteurl}{\small\texttt{\siteurl}}\newline
+{\small The project story, the hardware pages (PCB and enclosure, with the schematic and exploded views), the control, simulation and results pages, media, and the handover guides for both streams.}\\
+\end{tabular}\vspace{3mm}\end{minipage}}

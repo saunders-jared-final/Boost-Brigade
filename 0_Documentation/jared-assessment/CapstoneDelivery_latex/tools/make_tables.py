@@ -109,14 +109,14 @@ def table(rows, header, colspec, caption, label, fname, note=None, font="\\footn
 t1 = pd.read_csv(os.path.join(SRC, "T1_inventory.csv"))
 rows = []
 for _, r in t1.iterrows():
-    slide = "" if pd.isna(r.get("slide")) else f"p{int(r['slide'])}"
     ks = esc(r["kscale_seen"]) if str(r.get("kscale_seen")) not in ("-", "nan", "") else "--"
-    rows.append([esc(r["cid"]), slide, esc(r["setup"]), num(r["f_khz"], 0), esc(r["loop"]), ks,
-                 esc(r["window_local"]), num(r["run_seconds"], 0), num(r["rate_hz"], 0), esc(str(r.get("note", ""))[:60])])
-table(rows, ["Case", "Slide", "Setup", "$f_{sw}$ [kHz]", "Loop", "$k$", "Window (AEST)", "RUN [s]", "Rate [Hz]", "Note"],
-      "l l l r l l l r r p{3.4cm}", "Test-case inventory: the raw-data slide windows re-exported from the pod's InfluxDB (RUN\\_OL / RUN\\_CL rows only).",
+    note = "" if pd.isna(r.get("note")) else esc(r["note"])
+    rows.append([esc(r["cid"]), esc(r["setup"]), num(r["f_khz"], 0), esc(r["loop"]), ks,
+                 esc(r["window_local"]), num(r["run_seconds"], 0), num(r["rate_hz"], 0), note])
+table(rows, ["Case", "Setup", "$f_{sw}$ [kHz]", "Loop", "$k$", "Window (AEST)", "RUN [s]", "Rate [Hz]", "Note"],
+      "l l r l l l r r p{5.6cm}", "Test-case inventory: the test windows re-exported from the pod's InfluxDB (RUN\\_OL / RUN\\_CL rows only).",
       "tab:T1", "T1_inventory.tex", font="\\scriptsize", longtable=True,
-      note="B01s and S09--S11 are not on a slide. B03 ran at $k=0.3$ (telemetry), not the 20\\,\\% written on the slide.")
+      note="B03 ran at $k=0.3$ (telemetry), not the 0.2 recorded in the test log.")
 
 # ---------------------------------------------------------------- T2 steady state
 t2 = pd.read_csv(os.path.join(SRC, "T2_hw_steady_state.csv"))
@@ -142,7 +142,7 @@ for _, r in ol.iterrows():
 table(rows, ["Case", "$f_{sw}$", "$T$ [s]", "$\\bar v_{d1}$", "$\\bar v_{d2}$", "$\\bar i_{c1}$", "$\\bar i_{c2}$", "$\\bar i_{d1}$", "$\\bar i_{d2}$",
              "$V_{M1}$", "$V_{M2}$", "$V_{M3}$", "$P_{load}$ [W]"],
       "l r r r r r r r r r r r r",
-      "Open-loop steady state on hardware (duties 0.5): the residual $v_d = -R_m i_m$ and the circulating current the loop has to remove.",
+      "Open-loop steady state on hardware (duties 0.5): the residual $v_d = -R_m i_m$ and the circulating current the loop has to remove (B01 and B01s B-phase currents rescaled by 1/4, see \\cref{app:synth}).",
       "tab:T2ol", "T2_ol_steady.tex", font="\\scriptsize")
 
 # ---------------------------------------------------------------- T3 events
@@ -232,7 +232,8 @@ rows = []
 for _, r in s3.iterrows():
     rows.append([num(r["kscale"], 1), esc(r["signal"]), num(r["analytical_tau_ms"], 2), num(r["analytical_settle2_ms"], 1),
                  num(r["qspice_tau_ms"], 2), num(r["qspice_settle2_ms"], 1), num(r["qspice_overshoot_pct"], 1),
-                 num(r["simulink_settle2_ms"], 1), num(r["hardware_delta"], 2), num(r["hardware_peak_dev"], 2), esc(str(r["hardware_cases"]))])
+                 num(r["simulink_settle2_ms"], 1), num(r["hardware_delta"], 2), num(r["hardware_peak_dev"], 2),
+                 "--" if pd.isna(r["hardware_cases"]) else esc(r["hardware_cases"])])
 table(rows, ["$k$", "Signal", "$\\tau$ an.", "$t_s$ an.", "$\\tau$ QSP", "$t_s$ QSP", "OS QSP", "$t_s$ Sim", "HW $\\Delta$", "HW peak", "HW cases"],
       "r l r r r r r r r r l",
       "Shade disturbance (S3: module 3 loses 1/3 of its current, PV80 plant): simulated recovery (ms) against the detected hardware shade events of 20 Oct.",
@@ -262,12 +263,12 @@ for _, r in sol.iterrows():
                  num(r["P_returned_W"], 1), num(r["P_returned_max_W"], 1), num(r["I_M1_A"], 2), num(r["I_M2_A"], 2), num(r["I_M3_A"], 2),
                  num(r["E_load_Wh"], 2), num(r["E_returned_Wh"], 2), num(r["efficiency"] * 100, 1)])
 table(rows, ["Case", "Loop", "$k$", "$T$ [s]", "$\\bar P_{load}$", "$\\bar P_{shuf}$", "$\\bar P_{ret}$", "$P_{ret,max}$", "$I_{M1}$", "$I_{M2}$", "$I_{M3}$",
-             "$E_{load}$ [Wh]", "$E_{ret}$ [Wh]", "$\\eta$ [\\%]"],
+             "$E_{load}$ [Wh]", "$E_{ret}$ [Wh]", "\\makecell[r]{$E_{load}/E_{mod}$\\\\{[\\%]}}"],
       "l l r r r r r r r r r r r r",
-      "Solar test (20 Oct 2026, KAUSSP80 string into a 61\\,V CV load): powers in W, module currents in A (KCL reconstruction), energy delivered and energy returned above a weakest-module-limited string.",
+      "Solar test (20 Oct 2026, KAUSSP80 string into a 61\\,V CV load): powers in W, module currents in A (KCL reconstruction), energy delivered and energy returned above a weakest-module-limited string. The last column closes by construction and is not a converter efficiency.",
       "tab:T7solar", "T7_energy_solar.tex", font="\\scriptsize", longtable=True,
       short="Power and energy in the solar test windows (20 Oct 2026)",
-      note="Module 1 carried $\\approx 0$\\,A in every window, so a plain series string would have delivered nothing to a 61\\,V load: $E_{ret} \\approx E_{load}$.")
+      note="Module 1 carried $\\approx 0$\\,A in every window. With the shufflers idle the same string supplied 3--6\\,W at peak sun and 0.4--1.2\\,W in minimal sun (e-load log before each run), so $E_{ret}$ overstates the recovered energy by only those few watts.")
 ben = t7[(t7["scope"] == "case") & (t7["cid"].str.startswith("B"))]
 rows = []
 for _, r in ben.iterrows():
@@ -276,7 +277,7 @@ for _, r in ben.iterrows():
 table(rows, ["Case", "Loop", "$f_{sw}$", "$T$ [s]", "$\\bar P_{load}$ [W]", "$\\bar P_{shuf}$ [W]", "$I_{M1}$", "$I_{M2}$", "$I_{M3}$",
              "$E_{load}$ [Wh]", "$E_{shuf}$ [Wh]", "$\\eta$ [\\%]"],
       "l l r r r r r r r r r r",
-      "Bench (16 Oct 2026, NGE103 three-channel PSU into a 70\\,V CV load): power processed through the shufflers and reconstructed channel currents (indicative before the ADC fix).",
+      "Bench (16 Oct 2026, NGE103 three-channel PSU into a 70\\,V CV load): power processed through the shufflers and reconstructed channel currents (B01, B01s and B02 pre-date the Hall-gain fix; their B-phase currents are rescaled by 1/4).",
       "tab:T7bench", "T7_energy_bench.tex", font="\\scriptsize",
       short="Power and energy in the bench test windows (16 Oct 2026)")
 
@@ -290,7 +291,7 @@ for ln in g:
 G_ROWS = [  # (label in G_compare.md, how it was obtained, plant / switching)
     ("analytical PV80, averaged R 61 mOhm (Simulink)", "Analytical", "Solar string, averaged switches ($R = 61$\\,m$\\Omega$)"),
     ("analytical PV80, switching R 0.29 ohm (200 kHz)", "Analytical", "Solar string, 200\\,kHz ($R_{sw} = 0.29\\,\\Omega$)"),
-    ("analytical PV80, switching R 1.72 ohm (400 kHz)", "Analytical", "Solar string, 400\\,kHz ($R_{sw} = 1.72\\,\\Omega$)"),
+    ("analytical PV80, switching R 1.72 ohm (400 kHz)", "Analytical", "Solar string, 400\\,kHz ($R_{sw} = 1.7\\,\\Omega$)"),
     ("analytical BENCH QSPICE point (all CC), R 0.29 ohm", "Analytical", "Bench supplies in current limit, 200\\,kHz"),
     ("identified sps-params-2.20261015-1754-3mod-simulink-bench", "Simulink step tests", "Bench, averaged switches (rejected)"),
     ("identified sps-params-2.20261015-1950-3mod-qspice200-bench", "QSPICE step tests", "Bench, 200\\,kHz (deployed)"),

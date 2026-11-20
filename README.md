@@ -54,6 +54,17 @@ cd 6_RTOS && cmake.exe --preset Debug && cmake.exe --build --preset Debug
 STM32_Programmer_CLI.exe -c port=SWD -w build/Debug/Shuffler_1_Open_Loop.elf -rst
 ```
 
+## Licence and credit
+
+Multi-licensed; see [`LICENSE.md`](LICENSE.md) for the full breakdown.
+
+- PCB design (`5_Kicad/`): © Son Nguyen, **CERN-OHL-S-2.0**
+- Enclosure (`9_Mechanical_Enclosure_CAD/`): © Jared Saunders, **CERN-OHL-S-2.0**
+- Analytical solution, controller structure, models, docs and results: © Jared Saunders (and Son Nguyen for his reports), **CC BY 4.0**
+- Firmware, Pi software, website code: **MIT**
+
+To cite the project, use GitHub's "Cite this repository" button (`CITATION.cff`).
+
 ## Panel reference (150 W hard-frame, 22 V model)
 
 Pm 150 W ±3 %, Vmp 18.28 V, Imp 8.207 A, Voc 22.407 V, Isc 8.721 A, NOCT 45 ±2 °C,

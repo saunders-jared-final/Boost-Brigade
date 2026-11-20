@@ -1,7 +1,7 @@
 # EGH490-2 Project Delivery Report — LaTeX project
 
 Overleaf-ready source for *Controlling Differential Power Processors in Solar Powered
-Applications* (Jared Saunders, n11034459). Compiler: **pdfLaTeX** + **BibTeX**, main file
+Applications* (Jared Saunders, n11034459). Compiler: **pdfLaTeX** + **BibTeX** (IEEEtran style), main file
 `main.tex`. Zip this folder and upload it to Overleaf (New Project → Upload Project).
 
 ## Layout
@@ -27,8 +27,8 @@ Applications* (Jared Saunders, n11034459). Compiler: **pdfLaTeX** + **BibTeX**, 
 * **Purple `▷` bullets** (`\begin{talking} … \end{talking}`) are talking points to turn into prose.
   `\tpoff` in `main.tex` prints them in black; `\tphide` drops them from the PDF.
 * **Orange `[note]`** (`\note{…}`) marks something to confirm or a decision for you.
-* **Green numbers** (`\ev{…}`) are values taken from the results pipeline tables; the table they come from
-  is referenced next to them.
+* `\ev{…}` once marked numbers taken from the results pipeline tables; it now prints plain text (the
+  user does not want highlighted numbers). `\tphide` in `main.tex` drops talking points and notes from the PDF.
 * Figures from the presentation keep their slide image; the raw-data slides are replaced by the regenerated
   overview figures (RUN rows only, no stale values).
 

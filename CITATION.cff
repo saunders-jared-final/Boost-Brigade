@@ -1,0 +1,28 @@
+cff-version: 1.2.0
+message: >-
+  If you use this work, please cite it as below. Please credit Jared Saunders
+  for the analytical solution and controller structure, and Son Nguyen for the
+  PCB design.
+title: "Boost Brigade: adaptive control of serial partial-power converters (power shufflers) for MPPT under partial shading"
+type: software
+authors:
+  - family-names: Saunders
+    given-names: Jared
+    affiliation: Queensland University of Technology
+  - family-names: Nguyen
+    given-names: Son
+    affiliation: Queensland University of Technology
+repository-code: "https://github.com/saunders-jared-final/Boost-Brigade"
+url: "https://saunders-jared-final.github.io/Boost-Brigade/"
+license:
+  - CERN-OHL-S-2.0
+  - CC-BY-4.0
+  - MIT
+date-released: 2026-11-20
+keywords:
+  - power electronics
+  - partial power processing
+  - differential power processing
+  - MPPT
+  - partial shading
+  - photovoltaic

@@ -1,6 +1,6 @@
 \section{Gain Sets}
 \label{app:gains}
-Every gain set is a JSON file in \code{6\_RTOS/ctrl\_core/params/} (\code{version}, \code{n\_mod}, \code{ctrl}, \code{sup}, \code{mppt}); \code{gen\_params.py} renders it to \code{params.h} ($M$, $M_p$, $M^{-1}$ as float32 literals). All 3-module sets use $T_s = 100\us$, $f_c = 2\kHz$, $d_{min/max} = 0.08/0.92$, $k_{p,v} = 1.58\times10^{-4}$, $k_{p,i} = 1.08\times10^{-4}$. Rows are $[\uc{}_{,1}, \uc{}_{,2}, \ud{}_{,1}, \ud{}_{,2}]$, columns $[e_{vd1}, e_{vd2}, e_{ic1}, e_{ic2}]$.
+Every gain set is a JSON file in \code{6\_RTOS/ctrl\_core/params/} (\code{version}, \code{n\_mod}, \code{ctrl}, \code{sup}, \code{mppt}); \code{gen\_params.py} renders it to \code{params.h} ($M$, $M_p$, $M^{-1}$ as float32 literals). All 3-module sets use $T_s = 100\us$, $f_c = 2\kHz$, $k_{p,v} = 1.58\times10^{-4}$, $k_{p,i} = 1.08\times10^{-4}$ and duty limits $d_{min/max} = 0.08/0.92$; the firmware clamps the legs again to its own per-frequency limits (\cref{tab:fwimages}), and the stricter of the two applies. Rows are $[\uc{}_{,1}, \uc{}_{,2}, \ud{}_{,1}, \ud{}_{,2}]$, columns $[e_{vd1}, e_{vd2}, e_{ic1}, e_{ic2}]$.
 
 \begin{table}[htbp]\centering\scriptsize
 \caption{Base gain matrices $M$ of the deployed and candidate gain sets.}
